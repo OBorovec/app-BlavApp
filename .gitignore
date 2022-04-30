@@ -1,3 +1,6 @@
+# Secrets and keys
+lib/firebase_options.dart
+
 # Miscellaneous
 *.class
 *.log

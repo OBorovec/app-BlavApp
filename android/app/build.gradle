@@ -22,11 +22,15 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+// START: FlutterFire Configuration
+apply plugin: 'com.google.gms.google-services'
+// END: FlutterFire Configuration
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 32
+    // compileSdkVersion flutter.compileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -44,8 +48,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "cz.oborovec.blavapp"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 30
+        // minSdkVersion flutter.minSdkVersion
+        // targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -56,6 +62,13 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "Instantiatable"
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 

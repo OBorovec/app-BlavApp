@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "69597160263",
+    "project_id": "blapka",
+    "storage_bucket": "blapka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69597160263:android:b00729795edaeca1652262",
+        "android_client_info": {
+          "package_name": "cz.oborovec.blavapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69597160263-kebc4ckopntv2ivdi4vafrvp20adqcra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvQoo429P7DYwc_N-SA8xnXc2cSkuP4Z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69597160263-kebc4ckopntv2ivdi4vafrvp20adqcra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
