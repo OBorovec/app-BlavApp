@@ -1,5 +1,8 @@
 import 'package:blavapp/views/event/event_home_page.dart';
 import 'package:blavapp/views/gwint_club/gwint_club.dart';
+import 'package:blavapp/views/profile/profile_page.dart';
+import 'package:blavapp/views/profile/signin_page.dart';
+import 'package:blavapp/views/profile/signup_page.dart';
 import 'package:blavapp/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 
@@ -26,27 +29,35 @@ class RoutePaths {
 }
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(
+    RouteSettings settings,
+    bool isAuthenticated,
+    bool isStaffMember,
+  ) {
     // Getting arguments passed in while calling Navigator.pushNamed
     // final args = settings.arguments;
     switch (settings.name) {
       // User routes
-      // case RoutePaths.profile:
-      //   return MaterialPageRoute(builder: (_) => ProfilePage());
-      // case RoutePaths.registration:
-      //   return MaterialPageRoute(builder: (_) => RegistrationPage());
+      case RoutePaths.profile:
+        if (isAuthenticated) {
+          return MaterialPageRoute(builder: (_) => const UserProfilePage());
+        } else {
+          return MaterialPageRoute(builder: (_) => const SignInPage());
+        }
+      case RoutePaths.registration:
+        return MaterialPageRoute(builder: (_) => const SignUpPage());
       // Static routes
       case RoutePaths.gwint:
-        return MaterialPageRoute(builder: (_) => GwintHomePage());
+        return MaterialPageRoute(builder: (_) => const GwintHomePage());
       // case RoutePaths.events:
       //   return MaterialPageRoute(builder: (_) => EventsPage());
       // case RoutePaths.eventDetail:
       //   return MaterialPageRoute(builder: (_) => EventDetailPage());
       case RoutePaths.settings:
-        return MaterialPageRoute(builder: (_) => SettingsPage());
+        return MaterialPageRoute(builder: (_) => const SettingsPage());
       // Event related route
       case RoutePaths.eventHome:
-        return MaterialPageRoute(builder: (_) => EventHomePage());
+        return MaterialPageRoute(builder: (_) => const EventHomePage());
       // case RoutePaths.programme:
       //   return MaterialPageRoute(builder: (_) => ProgrammePage());
       // case RoutePaths.catering:

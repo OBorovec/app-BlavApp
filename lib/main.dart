@@ -3,7 +3,6 @@ import 'package:blavapp/bloc/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_prems/user_prems_bloc.dart';
-import 'package:blavapp/bloc/user_profile/user_profile_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/prefs_repo.dart';
@@ -13,10 +12,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
-    () => runApp(const BlaviconApp()),
+    () => runApp(const BlavApp()),
     blocObserver: AppBlocObserver(),
   );
 }
@@ -35,18 +36,20 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-class BlaviconApp extends StatefulWidget {
-  const BlaviconApp({Key? key}) : super(key: key);
+class BlavApp extends StatefulWidget {
+  const BlavApp({Key? key}) : super(key: key);
 
   @override
-  State<BlaviconApp> createState() => _BlaviconAppState();
+  State<BlavApp> createState() => _BlavAppState();
 }
 
-class _BlaviconAppState extends State<BlaviconApp> {
+class _BlavAppState extends State<BlavApp> {
   late final Future<List> _future = Future.wait(
     [
       SharedPreferences.getInstance(),
-      Firebase.initializeApp(),
+      Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
     ],
   );
 
@@ -98,11 +101,6 @@ class _BlaviconAppState extends State<BlaviconApp> {
               child: MultiBlocProvider(
                 providers: [
                   BlocProvider(
-                    create: (context) => UserProfileBloc(
-                      authBloc: context.read<AuthBloc>(),
-                    ),
-                  ),
-                  BlocProvider(
                     create: (context) => UserDataBloc(
                       authBloc: context.read<AuthBloc>(),
                     ),
@@ -112,6 +110,11 @@ class _BlaviconAppState extends State<BlaviconApp> {
                       authBloc: context.read<AuthBloc>(),
                     ),
                   ),
+                  BlocProvider(
+                    create: (context) => UserDataBloc(
+                      authBloc: context.read<AuthBloc>(),
+                    ),
+                  )
                 ],
                 child: BlocBuilder<ThemeBloc, ThemeState>(
                   builder: (context, themeState) {
@@ -123,7 +126,7 @@ class _BlaviconAppState extends State<BlaviconApp> {
                               context,
                               themeState,
                               localizationState,
-                              RoutePaths.gwint,
+                              authState,
                             );
                           },
                         );
@@ -145,7 +148,7 @@ class _BlaviconAppState extends State<BlaviconApp> {
     BuildContext context,
     ThemeState themeState,
     LocalizationState localizationState,
-    String initRoute,
+    AuthState authState,
   ) {
     return MaterialApp(
       title: 'BlavApp',
@@ -153,9 +156,11 @@ class _BlaviconAppState extends State<BlaviconApp> {
       locale: localizationState.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: initRoute,
+      initialRoute: RoutePaths.gwint,
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(
         settings,
+        authState is UserAuthenticated,
+        false, // TODO: load from user permissions
       ),
     );
   }
