@@ -1,21 +1,11 @@
 part of 'user_data_bloc.dart';
 
-abstract class UserDataState extends Equatable {
-  const UserDataState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class NoUserData extends UserDataState {}
-
-class ActiveUserData extends UserDataState {
-  final UserData userData;
-
-  const ActiveUserData({
-    required this.userData,
+class UserDataState extends Equatable {
+  final UserData usedData;
+  const UserDataState({
+    required this.usedData,
   });
 
   @override
-  List<Object> get props => [userData];
+  List<Object> get props => [usedData];
 }

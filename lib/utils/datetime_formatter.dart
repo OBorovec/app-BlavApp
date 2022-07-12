@@ -25,10 +25,30 @@ String datetimeToHours(DateTime? dt, BuildContext context) {
   }
 }
 
+String datetimeDayDate(DateTime? dt, BuildContext context) {
+  if (dt != null) {
+    final String locale = Localizations.localeOf(context).languageCode;
+    DateFormat timeFormat = DateFormat('EEE dd/MM', locale);
+    return timeFormat.format(dt);
+  } else {
+    return '---';
+  }
+}
+
 String datetimeToDate(DateTime? dt, BuildContext context) {
   if (dt != null) {
     final String locale = Localizations.localeOf(context).languageCode;
     DateFormat timeFormat = DateFormat.MMMMd(locale);
+    return timeFormat.format(dt);
+  } else {
+    return '---';
+  }
+}
+
+String datetimeToDateShort(DateTime? dt, BuildContext context) {
+  if (dt != null) {
+    final String locale = Localizations.localeOf(context).languageCode;
+    DateFormat timeFormat = DateFormat.MMMd(locale);
     return timeFormat.format(dt);
   } else {
     return '---';

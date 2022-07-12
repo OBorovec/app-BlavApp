@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'prog_entry.g.dart';
@@ -13,7 +12,7 @@ class ProgEntry extends Equatable {
   final ProgEntryType type;
   final Map<String, String>? desc;
   final Map<String, String>? sDesc;
-  final String placeID;
+  final String? placeRef;
   final DateTime timestamp;
   final int duration;
   final bool allDayEntry;
@@ -28,13 +27,13 @@ class ProgEntry extends Equatable {
   final List<String> images;
   final Set<String> tags;
 
-  ProgEntry({
+  const ProgEntry({
     required this.id,
     required this.name,
     required this.type,
     this.desc,
     this.sDesc,
-    required this.placeID,
+    required this.placeRef,
     required this.timestamp,
     required this.duration,
     this.allDayEntry = false,
@@ -51,7 +50,7 @@ class ProgEntry extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, timestamp, placeID];
+  List<Object?> get props => [id, timestamp, placeRef];
 
   factory ProgEntry.fromJson(Map<String, Object?> json) =>
       _$ProgEntryFromJson(json);

@@ -16,7 +16,7 @@ ProgEntry _$ProgEntryFromJson(Map<String, dynamic> json) => ProgEntry(
       sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      placeID: json['placeID'] as String,
+      placeRef: json['placeRef'] as String?,
       timestamp: DateTime.parse(json['timestamp'] as String),
       duration: json['duration'] as int,
       allDayEntry: json['allDayEntry'] as bool? ?? false,
@@ -45,7 +45,7 @@ Map<String, dynamic> _$ProgEntryToJson(ProgEntry instance) => <String, dynamic>{
       'type': _$ProgEntryTypeEnumMap[instance.type],
       'desc': instance.desc,
       'sDesc': instance.sDesc,
-      'placeID': instance.placeID,
+      'placeRef': instance.placeRef,
       'timestamp': instance.timestamp.toIso8601String(),
       'duration': instance.duration,
       'allDayEntry': instance.allDayEntry,

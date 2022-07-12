@@ -9,21 +9,24 @@ class BlavDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, RoutePaths.profile);
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        bool isAuthenticated = state is UserAuthenticated;
+        return InkWell(
+          onTap: () {
+            Navigator.popAndPushNamed(
+              context,
+              isAuthenticated ? RoutePaths.profile : RoutePaths.signIn,
+            );
+          },
+          child: state is UserAuthenticated
+              ? UserAvatar(imageUrl: state.user.photoURL)
+              : const Icon(
+                  Icons.login,
+                  size: 100,
+                ),
+        );
       },
-      child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-        if (state is UserAuthenticated) {
-          return UserAvatar(imageUrl: state.user.photoURL);
-        } else {
-          return const Icon(
-            Icons.login,
-            size: 100,
-          );
-        }
-      }),
     );
   }
 }

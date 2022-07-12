@@ -13,56 +13,65 @@ class DrawerEventItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
+    return Column(
       children: [
         ListTile(
-          title: Text(t(event.name, context)),
+          title: Text(
+            t(event.name, context),
+            textAlign: TextAlign.center,
+          ),
           onTap: () {
             Navigator.pop(context);
             Navigator.pushNamed(context, RoutePaths.eventHome);
           },
         ),
-        if (event.routing.programme)
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.progTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutePaths.programme);
-            },
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              if (event.routing.programme)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.progTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.programme);
+                  },
+                ),
+              if (event.routing.catering)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.caterTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.catering);
+                  },
+                ),
+              if (event.routing.maps)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.mapsTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.maps);
+                  },
+                ),
+              if (event.routing.divisions)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.divsTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.divisions);
+                  },
+                ),
+              if (event.routing.cosplay)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.cospTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.cosplay);
+                  },
+                ),
+            ],
           ),
-        if (event.routing.catering)
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.catTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutePaths.catering);
-            },
-          ),
-        if (event.routing.maps)
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.mapsTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutePaths.maps);
-            },
-          ),
-        if (event.routing.divisions)
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.divsTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutePaths.divisions);
-            },
-          ),
-        if (event.routing.cosplay)
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.cospTitle),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, RoutePaths.cosplay);
-            },
-          ),
+        ),
       ],
     );
   }

@@ -1,5 +1,4 @@
 import 'package:blavapp/components/_pages/appbar_extention.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/drawer/drawer_main.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _RootPageState extends State<RootPage> {
         drawer: const MainDrawer(),
         body: Stack(
           children: [
-            widget.body,
+            Positioned.fill(child: widget.body),
             _addAppBarExtension(context),
           ],
         ),
@@ -62,7 +61,7 @@ class _RootPageState extends State<RootPage> {
       left: 0,
       child: CustomPaint(
         painter: AppBarExtention(
-          color: getAppBarColor(context),
+          context: context,
         ),
       ),
     );

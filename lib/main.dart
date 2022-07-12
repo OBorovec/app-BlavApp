@@ -1,11 +1,14 @@
 import 'package:blavapp/bloc/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
-import 'package:blavapp/bloc/user_prems/user_prems_bloc.dart';
+import 'package:blavapp/bloc/user_perms/user_perms_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
+import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/services/prefs_repo.dart';
+import 'package:blavapp/services/storage_repo.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,6 +76,12 @@ class _BlavAppState extends State<BlavApp> {
               RepositoryProvider(
                 create: (context) => AuthRepo(),
               ),
+              RepositoryProvider(
+                create: (context) => DataRepo(),
+              ),
+              RepositoryProvider(
+                create: (context) => StorageRepo(),
+              ),
             ],
             child: MultiBlocProvider(
               providers: [
@@ -101,20 +110,24 @@ class _BlavAppState extends State<BlavApp> {
               child: MultiBlocProvider(
                 providers: [
                   BlocProvider(
+                    lazy: false,
                     create: (context) => UserDataBloc(
                       authBloc: context.read<AuthBloc>(),
                     ),
                   ),
                   BlocProvider(
-                    create: (context) => UserPremsBloc(
+                    lazy: false,
+                    create: (context) => UserPermsBloc(
                       authBloc: context.read<AuthBloc>(),
                     ),
                   ),
                   BlocProvider(
-                    create: (context) => UserDataBloc(
-                      authBloc: context.read<AuthBloc>(),
-                    ),
-                  )
+                    lazy: false,
+                    create: (context) => EventFocusBloc(
+                      prefs: context.read<PrefsRepo>(),
+                      dataRepo: context.read<DataRepo>(),
+                    )..add(const EventFocusLoad()),
+                  ),
                 ],
                 child: BlocBuilder<ThemeBloc, ThemeState>(
                   builder: (context, themeState) {
@@ -150,17 +163,18 @@ class _BlavAppState extends State<BlavApp> {
     LocalizationState localizationState,
     AuthState authState,
   ) {
+    bool isAuthenticated = authState is UserAuthenticated;
     return MaterialApp(
       title: 'BlavApp',
       theme: themeState.themeData,
       locale: localizationState.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: RoutePaths.gwint,
+      initialRoute: RoutePaths.welcome,
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(
-        settings,
-        authState is UserAuthenticated,
-        false, // TODO: load from user permissions
+        settings: settings,
+        isAuthenticated: isAuthenticated,
+        isStaffMember: false, // TODO: load from user permissions
       ),
     );
   }

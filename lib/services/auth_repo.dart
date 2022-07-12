@@ -6,7 +6,7 @@ class AuthRepo {
   AuthRepo() : _firebaseAuth = FirebaseAuth.instance;
 
   Stream<User?> get user {
-    return _firebaseAuth.userChanges().map((user) {
+    return _firebaseAuth.authStateChanges().map((user) {
       return user;
     });
   }
@@ -45,5 +45,15 @@ class AuthRepo {
   // get current user
   Future<User?> getCurrentUser() async {
     return _firebaseAuth.currentUser;
+  }
+
+  // send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  // delete user
+  Future<void> deleteUser() async {
+    await _firebaseAuth.currentUser!.delete();
   }
 }

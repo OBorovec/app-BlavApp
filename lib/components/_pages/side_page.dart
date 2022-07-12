@@ -1,5 +1,4 @@
 import 'package:blavapp/components/_pages/appbar_extention.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:flutter/material.dart';
 
 class SidePage extends StatefulWidget {
@@ -55,7 +54,7 @@ class _SidePageState extends State<SidePage> {
       left: 0,
       child: CustomPaint(
         painter: AppBarExtention(
-          color: getAppBarColor(context),
+          context: context,
         ),
       ),
     );

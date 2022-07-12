@@ -13,7 +13,6 @@ final ThemeData darkTheme = FlexThemeData.dark(
   tooltipsMatchBackground: true,
   swapColors: false,
   darkIsTrueBlack: false,
-  useSubThemes: true,
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   // To use playground font, add GoogleFonts package and uncomment:
   // fontFamily: GoogleFonts.notoSans().fontFamily,
@@ -24,7 +23,6 @@ final ThemeData darkTheme = FlexThemeData.dark(
     bottomNavigationBarElevation: 0,
     bottomNavigationBarOpacity: 0.95,
     navigationBarOpacity: 0.95,
-    navigationBarMutedUnselectedText: true,
     navigationBarMutedUnselectedIcon: true,
     inputDecoratorIsFilled: true,
     inputDecoratorBorderType: FlexInputBorderType.outline,

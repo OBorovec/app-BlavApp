@@ -2,7 +2,6 @@ import 'package:blavapp/constants/theme/dark.dart';
 import 'package:blavapp/constants/theme/light.dart';
 import 'package:blavapp/constants/theme/pink.dart';
 import 'package:blavapp/services/prefs_repo.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

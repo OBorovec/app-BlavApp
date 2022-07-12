@@ -16,7 +16,7 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
       sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      placeID: json['placeID'] as String,
+      placeRef: json['placeRef'] as String?,
       allergens: (json['allergens'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??
@@ -41,7 +41,7 @@ Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
       'type': _$CaterItemTypeEnumMap[instance.type],
       'desc': instance.desc,
       'sDesc': instance.sDesc,
-      'placeID': instance.placeID,
+      'placeRef': instance.placeRef,
       'allergens': instance.allergens,
       'vegetarian': instance.vegetarian,
       'vegan': instance.vegan,
@@ -56,12 +56,15 @@ const _$CaterItemTypeEnumMap = {
   CaterItemType.soup: 'soup',
   CaterItemType.snack: 'snack',
   CaterItemType.main: 'main',
+  CaterItemType.side: 'side',
   CaterItemType.drink: 'drink',
   CaterItemType.desert: 'desert',
 };
 
 CatVolume _$CatVolumeFromJson(Map<String, dynamic> json) => CatVolume(
-      price: json['price'] as int,
+      price: (json['price'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, (e as num).toDouble()),
+      ),
       desc: Map<String, String>.from(json['desc'] as Map),
     );
 

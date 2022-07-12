@@ -9,6 +9,11 @@ abstract class UserDataEvent extends Equatable {
 
 class EmptyUserData extends UserDataEvent {}
 
+class InitUserData extends UserDataEvent {
+  final User user;
+  const InitUserData({required this.user});
+}
+
 class LoadUserData extends UserDataEvent {
   final String uid;
 
@@ -21,30 +26,22 @@ class LoadUserData extends UserDataEvent {
 }
 
 abstract class ProgrammeUserDataEvent extends UserDataEvent {
-  final String entryID;
+  final String entryId;
 
   const ProgrammeUserDataEvent({
-    required this.entryID,
+    required this.entryId,
   });
 
   @override
-  List<Object> get props => [entryID];
+  List<Object> get props => [entryId];
 }
 
-class AddProgEntryNotification extends ProgrammeUserDataEvent {
-  const AddProgEntryNotification({required String entryID})
-      : super(entryID: entryID);
+class ProgEntryToggleUserData extends ProgrammeUserDataEvent {
+  const ProgEntryToggleUserData({required String entryId})
+      : super(entryId: entryId);
 }
 
-class RemoveProgEntryNotification extends ProgrammeUserDataEvent {
-  const RemoveProgEntryNotification({required String entryID})
-      : super(entryID: entryID);
-}
-
-class AddMyProgEntry extends ProgrammeUserDataEvent {
-  const AddMyProgEntry({required String entryID}) : super(entryID: entryID);
-}
-
-class RemoveMyProgEntry extends ProgrammeUserDataEvent {
-  const RemoveMyProgEntry({required String entryID}) : super(entryID: entryID);
+class ProgNotificationToggleUserData extends ProgrammeUserDataEvent {
+  const ProgNotificationToggleUserData({required String entryId})
+      : super(entryId: entryId);
 }

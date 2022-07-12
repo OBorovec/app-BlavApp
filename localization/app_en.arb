@@ -9,27 +9,115 @@
   "@cosplayPage":"-----------------------------------------------",
   "cospTitle": "Cosplay",
   "@cateringPage":"----------------------------------------------",
-  "catTitle": "Catering",
+  "caterTitle": "Catering",
   "@degustationPage":"-------------------------------------------",
-  "degTitle": "Degustation",
+  "degusTitle": "Degustation",
   "@divisionsPage":"--------------------------------------------",
   "divsTitle": "Divisions",
   "@mapsPage":"--------------------------------------------------",
   "mapsTitle": "Maps",
   "@profilePage":"-----------------------------------------------",
   "profTitle": "Profile",
+  "profEmail": "Email",
+  "profNick": "Nickname",
+  "profBtnProfileRefresh": "Profile refresh",
+  "profBtnResetPsw": "Reset password",
+  "profBtnSignOut": "Sign out",
+  "profBtnDeleteAccount": "Delete account",
+  "profUnknownErrro": "General error: {error}",
+  "@profUnknownErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "profToastingPasswordEmailSent": "Email with password reset link has been sent.",
+  "profToastingPasswordEmailFailedSent": "Failed to send email with password reset link: {error}",
+  "@profToastingPasswordEmailFailedSent": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Unknown error."
+      }
+    }
+  },
+  "profToastingEmailVerificationSent": "Email with verification link has been sent.",
+  "profToastingEmailVerified": "Email has been already verified.",
+  "profToastingEmailVerificationFailed": "Failed to send email with verification link: {error}",
+  "@profToastingEmailVerificationFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Unknown error."
+      }
+    }
+  },
+  "profRedirectTitle": "Account detected",
+  "profRedirectText": "An active account was detected on this device. You need to sign out first.",
+  "@profileDeletePage":"------------------------------------------",
+  "profileDeleteTitle": "Delete account",
+  "profileDeleteText": "Are you sure you want to delete your account?",
+  "profileDeleteBtnConfirm": "Confirm",
   "@signUpPage":"-------------------------------------------------",
-  "signUpTitle": "Login",
+  "signUpTitle": "Registration",
+  "signUpEmail": "Email",
+  "signUpEmailError": "This is not a valid email address.",
+  "signUpPsw": "Password",
+  "signUpPswError": "Must contain lowercase and uppercase letters, numbers and at least 8 characters.",
+  "signUpNick": "Nickname",
+  "signUpNickError": "Must contain only letters, numbers and underscores and at least 6 characters.",
+  "signUpBtnSignUp": "Registar",
+  "signUpBtnLoading": "Loading...",
+  "signUpBtnSuccess": "User created",
+  "signUpBtnFail": "Error creating user",
+  "signUnProviders": "Registar with...",
+  "signUpToastingErrro": "Sign up failed: {error}",
+  "@signUpToastingErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@signInPage":"------------------------------------------",
-  "signInTitle": "Registration",
+  "signInTitle": "Login",
+  "signInEmail": "Email",
+  "signInEmailError": "not a valid email",
+  "signInPsw": "Password",
+  "signInPswError": "not a valid password",
+  "signInForgotten": "Forgotten password?",
+  "signInBtnSignIn": "Sign in",
+  "signInBtnSignUp": "Sign up",
+  "signInProviders": "Sign in with...",
+  "signIpUnknownErrro": "Neznámá chyba",
+  "signInToastingErrro": "Sign in failed: {error}",
+  "@signInToastingErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "signInRedirectTitle": "Sign in necessary",
+  "signInRedirectText": "You need to sign in to access this page.",
   "@programmePage":"---------------------------------------------",
   "progTitle": "Programme",
   "progMyTitle": "My programme",
-  "progAgendTitle": "Agenda",
+  "progAgendTitle": "My agenda",
+  "progSearchHint": "Start typing to search or use a filter ->",
+  "progSearchPredef": "Available filters:",
+  "progSearchAvailableDates": "Event day",
+  "progSearchAvailableCategs": "Event category",
+  "progSearchAvailablePlaces": "Event place",
   "@gwintClubPage":"---------------------------------------------",
   "gwintTitle": "Gwint club",
-  "@eventSwitchPage":"-------------------------------------------",
-  "eventsTitle": "Events",
+  "@gwintEventsPage":"-------------------------------------------",
+  "gwintEventsTitle": "Gwint club: Events",
+  "gwintEventsPastEvents": "--- Past events ---",
   "@settingsPage":"----------------------------------------------",
   "setsTitle": "Settings",
   "setsLang": "Language",
@@ -37,6 +125,19 @@
   "setsLangOptCS": "Čeština 🇨🇿 ",
   "setsLangOptEN": "English 🇬🇧 ",
   "setsTheme": "Dark theme",
+  "@welcomePage":"----------------------------------------------",
+  "welcomeTitle": "Welcome",
+  "welcomeGoToSignInReq": "This application requires you to sign in.",
+  "welcomeUserText": "Welcome {name}",
+  "@welcomeUserText": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "uknown"
+      }
+    }
+  },
+  "welcomeBtnGoToSignIn": "Go to sign in",
   "@components":"----------------------------------",
   "@buttonComps": "------------------------------------------",
   "buttonSignIn": "Sign in",
@@ -44,8 +145,49 @@
   "buttonSignOut": "Sign out",
   "buttonDeleteAcc": "Delete account",
   "@pageComps": "------------------------------------------------",
+  "blocDataLoading": "Loading...",
+  "blocDataFail": "Unable to load data: {error}", 
+  "@blocDataFail": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "uknown"
+      }
+    }
+  },
+  "stateErrorEventFocus": "It is necessary to focus an event first.",
   "toastDoubleTapExit": "Double tap to exit",
   "@about":"-----------------------------------------------------",
   "aboutDevBy": "Developed by Ondřej Borovec",
-  "aboutDevGithub": "https://github.com/OBorovec"
+  "aboutDevGithub": "https://github.com/OBorovec",
+  "@model":"-----------------------------------------------------",
+  "@programme":"-------------------------------------------------",
+  "programmeTypeConcert": "Concert",
+  "programmeTypeStoryline": "Storyline",
+  "programmeTypeWorkshop": "Workshop",
+  "programmeTypeLecture":  "Lecture",
+  "programmeTypeTournament": "Tournament",
+  "programmeTypeOther": "---",
+  "programmeEntryTimestamp": "{date} - {time}",
+  "@programmeEntryTimestamp": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "---"
+      },
+      "time": {
+        "type": "String",
+        "example": "---"
+      }
+    }
+  },
+  "programmeEntryDuration": "{duration} minutes",
+  "@programmeEntryDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "60"
+      }
+    }
+  }
 }

@@ -10,7 +10,7 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl != null || imageUrl!.isNotEmpty) {
+    if (imageUrl != null && imageUrl!.isNotEmpty) {
       return CachedNetworkImage(imageUrl: imageUrl!);
     } else {
       return const Icon(

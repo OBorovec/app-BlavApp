@@ -1,4 +1,6 @@
-import 'package:blavapp/route_generator.dart';
+import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/views/drawer/drawer_event_items.dart';
+import 'package:blavapp/views/drawer/drawer_event_picker.dart';
 import 'package:blavapp/views/drawer/drawer_general_items.dart';
 import 'package:blavapp/views/drawer/drawer_header.dart';
 import 'package:flutter/material.dart';
@@ -14,23 +16,21 @@ class MainDrawer extends StatelessWidget {
         top: true,
         child: Column(
           children: <Widget>[
-            BlavDrawerHeader(),
-            // Expanded(
-            //   child: BlocBuilder<EventFocusBloc, EventFocusState>(
-            //     builder: (context, state) {
-            //       if (state is NoEventFocus) {
-            //         return const DrawerEventPicker();
-            //       } else if (state is EventFocused) {
-            //         return DrawerEventItems(
-            //           event: state.event,
-            //         );
-            //       } else {
-            //         return const Text('error');
-            //       }
-            //     },
-            //   ),
-            // ),
-            // const Divider(),
+            const BlavDrawerHeader(),
+            Expanded(
+              child: BlocBuilder<EventFocusBloc, EventFocusState>(
+                builder: (context, state) {
+                  if (state is EventFocused) {
+                    return DrawerEventItems(
+                      event: state.event,
+                    );
+                  } else {
+                    return const DrawerEventPicker();
+                  }
+                },
+              ),
+            ),
+            const Divider(),
             const DrawerGeneralItems(),
           ],
         ),

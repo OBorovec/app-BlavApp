@@ -9,27 +9,115 @@
   "@cosplayPage":"-----------------------------------------------",
   "cospTitle": "Cosplay",
   "@cateringPage":"----------------------------------------------",
-  "catTitle": "Stravování",
+  "caterTitle": "Občerstvení",
   "@degustationPage":"-------------------------------------------",
-  "degTitle": "Degustace",
+  "degusTitle": "Degustace",
   "@divisionsPage":"--------------------------------------------",
   "divsTitle": "Divize",
   "@mapsPage":"--------------------------------------------------",
   "mapsTitle": "Mapy",
   "@profilePage":"-----------------------------------------------",
   "profTitle": "Profil",
+  "profEmail": "Email",
+  "profNick": "Přezdívka",
+  "profBtnProfileRefresh": "Načíst znovu",
+  "profBtnResetPsw": "Obnovit heslo",
+  "profBtnSignOut": "Odhlásit",
+  "profBtnDeleteAccount": "Smazat účet",
+  "profUnknownErrro": "Obecná chyba: {error}",
+  "@profUnknownErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "profToastingPasswordEmailSent": "Email s instrukcemi na obnovení hesla byl odeslán.",
+  "profToastingPasswordEmailFailedSent": "Nastala chyba při odesílání emailu s instrukcemi na obnovení hesla: {error}",
+  "@profToastingPasswordEmailFailedSent": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Neznámá chyba."
+      }
+    }
+  },
+  "profToastingEmailVerificationSent": "Email s instrukcemi na ověření byl odeslán.",
+  "profToastingEmailVerified": "Email byl již ověřen.",
+  "profToastingEmailVerificationFailed": "Nastala chyba při odesílání emailu s instrukcemi na ověření: {error}",
+  "@profToastingEmailVerificationFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Neznámá chyba."
+      }
+    }
+  },
+  "profRedirectTitle": "Účet detekován",
+  "profRedirectText": "Aktivní účet byl nalezen. Je třeba se nejříve odhlásit.",
+  "@profileDeletePage":"------------------------------------------",
+  "profileDeleteTitle": "Smazání účtu",
+  "profileDeleteText": "Opravdu chcete smazat svůj účet?",
+  "profileDeleteBtnConfirm": "Smazat",
   "@signUpPage":"-------------------------------------------------",
-  "signUpTitle": "Přihlášení",
+  "signUpTitle": "Registrace",
+  "signUpEmail": "Email",
+  "signUpEmailError": "Toto není validní adresa emailu.",
+  "signUpPsw": "Heslo",
+  "signUpPswError": "Musí obsahovat malé a velké písmeno, číslo a mít alešpon 8 znaků.",
+  "signUpNick": "Přezdívka",
+  "signUpNickError": "Přezdívka musí být delší jak 6 znaků.",
+  "signUpBtnSignUp": "Registrace",
+  "signUpBtnLoading": "Zpracovávám...",
+  "signUpBtnSuccess": "Uživatel vytvořen",
+  "signUpBtnFail": "Někde se stala chyba",
+  "signUnProviders": "Registrovat pomocí...",
+  "signUpToastingErrro": "Registrace selhala: {error}",
+  "@signUpToastingErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@signInPage":"------------------------------------------",
-  "signInTitle": "Registrace",
+  "signInTitle": "Přihlášení",
+  "signInEmail": "Email",
+  "signInEmailError": "email není validní",
+  "signInPsw": "Heslo",
+  "signInPswError": "heslo není validní",
+  "signInForgotten": "Zapomenuté heslo?",
+  "signInBtnSignIn": "Příhlásit",
+  "signInBtnSignUp": "Registrovat se",
+  "signInProviders": "Přihlásit pomocí...",
+  "signIpUnknownErrro": "Neznámá chyba",
+  "signInToastingErrro": "Přihlášení selhalo: {error}",
+  "@signInToastingErrro": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "signInRedirectTitle": "Nutné přihlášení",
+  "signInRedirectText": "Musíte se přihlásit, abyste mohli používat tuto funkci.",
   "@programmePage":"---------------------------------------------",
   "progTitle": "Program",
   "progMyTitle": "Můj program",
-  "progAgendTitle": "Agenda",
+  "progAgendTitle": "Moje agenda",
+  "progSearchHint": "Začni psát nebo použít filter ->",
+  "progSearchPredef": "Dostupné filtry:",
+  "progSearchAvailableDates": "Den konání",
+  "progSearchAvailableCategs": "Kategorie událsoti",
+  "progSearchAvailablePlaces": "Místo události",
   "@gwintClubPage":"---------------------------------------------",
   "gwintTitle": "Gwint klub",
-  "@eventSwitchPage":"-------------------------------------------",
-  "eventsTitle": "Události",
+  "@gwintEventsPage":"-------------------------------------------",
+  "gwintEventsTitle": "Události Gwint klubu",
+  "gwintEventsPastEvents": "--- Minulé události ---",
   "@settingsPage":"----------------------------------------------",
   "setsTitle": "Nastavení",
   "setsLang": "Jazyk",
@@ -37,6 +125,19 @@
   "setsLangOptCS": "Čeština 🇨🇿 ",
   "setsLangOptEN": "English 🇬🇧 ",
   "setsTheme": "Tmavý vzhled",
+  "@welcomePage":"----------------------------------------------",
+  "welcomeTitle": "Vítej",
+  "welcomeGoToSignInReq": "Tato aplikace je k dispozici pouze pro přihlášené uživatele. Prosím, přihlašte se...",
+  "welcomeUserText": "Vítej {name}",
+  "@welcomeUserText": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "uknown"
+      }
+    }
+  },
+  "welcomeBtnGoToSignIn": "Přistoupit k přihlášení",
   "@components":"------------------------------------------------",
   "@buttonComps": "----------------------------------------------",
   "buttonSignIn": "Přihlásit",
@@ -44,8 +145,49 @@
   "buttonSignOut": "Odhlásit",
   "buttonDeleteAcc": "Smazat účet",
   "@pageComps": "------------------------------------------------",
+  "blocDataLoading": "Načítám...",
+  "blocDataFail": "Nepodařilo se načíst data: {error}",
+  "@blocDataFail": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "uknown"
+      }
+    }
+  },
+  "stateErrorEventFocus": "Je třeba vybrat událost.",
   "toastDoubleTapExit": "Dvojkliknutím zavřete aplikaci",
   "@about":"-----------------------------------------------------",
   "aboutDevBy": "Vytvořil Ondřej Borovec",
-  "aboutDevGithub": "https://github.com/OBorovec"
+  "aboutDevGithub": "https://github.com/OBorovec",
+  "@model":"-----------------------------------------------------",
+  "@programme":"-------------------------------------------------",
+  "programmeTypeConcert": "Koncert",
+  "programmeTypeStoryline": "Příběh",
+  "programmeTypeWorkshop": "Workshop",
+  "programmeTypeLecture":  "Přednáška",
+  "programmeTypeTournament": "Turnaj",
+  "programmeTypeOther": "---",
+  "programmeEntryTimestamp": "{date} - {time}",
+  "@programmeEntryTimestamp": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "---"
+      },
+      "time": {
+        "type": "String",
+        "example": "---"
+      }
+    }
+  },
+  "programmeEntryDuration": "{duration} minut",
+  "@programmeEntryDuration": {
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "60"
+      }
+    }
+  }
 }

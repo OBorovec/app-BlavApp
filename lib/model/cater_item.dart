@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cater_item.g.dart';
 
-enum CaterItemType { starter, soup, snack, main, drink, desert }
+enum CaterItemType { starter, soup, snack, main, side, drink, desert }
 
 @JsonSerializable()
 class CaterItem extends Equatable {
@@ -12,7 +12,7 @@ class CaterItem extends Equatable {
   final CaterItemType type;
   final Map<String, String>? desc;
   final Map<String, String>? sDesc;
-  final String placeID;
+  final String? placeRef;
   final List<int> allergens;
   final bool vegetarian;
   final bool vegan;
@@ -27,7 +27,7 @@ class CaterItem extends Equatable {
     required this.type,
     this.desc,
     this.sDesc,
-    required this.placeID,
+    required this.placeRef,
     this.allergens = const [],
     this.vegetarian = false,
     this.vegan = false,
@@ -47,7 +47,7 @@ class CaterItem extends Equatable {
 
 @JsonSerializable()
 class CatVolume extends Equatable {
-  final int price;
+  final Map<String, double> price;
   final Map<String, String> desc;
 
   const CatVolume({
