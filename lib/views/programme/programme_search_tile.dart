@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/data_programme/programme_bloc.dart';
+import 'package:blavapp/bloc/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/prog_entry.dart';
 import 'package:blavapp/utils/app_themes.dart';
@@ -6,7 +6,6 @@ import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeSearchTile extends StatelessWidget {
@@ -16,62 +15,40 @@ class ProgrammeSearchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProgrammeBloc, ProgrammeState>(
+    return BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
       builder: (context, state) {
-        if (state is ProgrammeLoaded) {
-          return Column(
-            children: [
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Expanded(child: _buildTextSearchLine(context, state)),
-                    const VerticalDivider(),
-                    IconButton(
-                      icon: const Icon(Icons.manage_search),
-                      onPressed: () => _showAvailableSearchTags(context, state),
-                    ),
-                  ],
-                ),
+        return Column(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(child: _buildTextSearchLine(context, state)),
+                  const VerticalDivider(),
+                  IconButton(
+                    icon: const Icon(Icons.manage_search),
+                    onPressed: () => _showAvailableSearchTags(context, state),
+                  ),
+                ],
               ),
-              const SizedBox(height: 4),
-              _buildActiveSearchTagWrap(state, context),
-            ],
-          );
-        } else if (state is ProgrammeFailState) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.error),
-                Text(AppLocalizations.of(context)!.blocDataFail(state.message)),
-              ],
             ),
-          );
-        } else {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const CircularProgressIndicator(),
-                Text(AppLocalizations.of(context)!.blocDataLoading),
-              ],
-            ),
-          );
-        }
+            const SizedBox(height: 4),
+            _buildActiveSearchTagWrap(state, context),
+          ],
+        );
       },
     );
   }
 
   Widget _buildTextSearchLine(
     BuildContext context,
-    ProgrammeLoaded state,
+    FilterProgrammeState state,
   ) {
     return IntrinsicHeight(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TextField(
           onChanged: (value) {
-            BlocProvider.of<ProgrammeBloc>(context)
+            BlocProvider.of<FilterProgrammeBloc>(context)
                 .add(ProgrammeTextFilter(value));
           },
           decoration: InputDecoration(
@@ -88,13 +65,13 @@ class ProgrammeSearchTile extends StatelessWidget {
 
   Future<dynamic> _showAvailableSearchTags(
     BuildContext context,
-    ProgrammeLoaded state,
+    FilterProgrammeState state,
   ) {
     return showModalBottomSheet(
       context: context,
       builder: (_) {
         return BlocProvider.value(
-          value: BlocProvider.of<ProgrammeBloc>(context),
+          value: BlocProvider.of<FilterProgrammeBloc>(context),
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -164,7 +141,7 @@ class ProgrammeSearchTile extends StatelessWidget {
   }
 
   Widget _buildActiveSearchTagWrap(
-    ProgrammeLoaded state,
+    FilterProgrammeState state,
     BuildContext context,
   ) {
     return Wrap(
@@ -179,7 +156,7 @@ class ProgrammeSearchTile extends StatelessWidget {
 }
 
 abstract class _ProgrammeSearchTag extends StatelessWidget {
-  final ProgrammeEvent onPressedEvent;
+  final FilterProgrammeEvent onPressedEvent;
 
   const _ProgrammeSearchTag({
     Key? key,
@@ -188,7 +165,7 @@ abstract class _ProgrammeSearchTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProgrammeBloc, ProgrammeState>(
+    return BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(4.0),
@@ -207,9 +184,9 @@ abstract class _ProgrammeSearchTag extends StatelessWidget {
                 children: [
                   Text(_getLabelText(context)),
                   AddSwitch(
-                    isOn: _isOn(state as ProgrammeLoaded),
+                    isOn: _isOn(state),
                     onPressed: () {
-                      BlocProvider.of<ProgrammeBloc>(context).add(
+                      BlocProvider.of<FilterProgrammeBloc>(context).add(
                         onPressedEvent,
                       );
                     },
@@ -225,7 +202,7 @@ abstract class _ProgrammeSearchTag extends StatelessWidget {
     );
   }
 
-  bool _isOn(ProgrammeLoaded state);
+  bool _isOn(FilterProgrammeState state);
 
   String _getLabelText(BuildContext context);
 }
@@ -244,7 +221,7 @@ class _ProgrammeDateSearchTag extends _ProgrammeSearchTag {
   }
 
   @override
-  bool _isOn(ProgrammeLoaded state) {
+  bool _isOn(FilterProgrammeState state) {
     return !state.dateFilter.contains(date);
   }
 }
@@ -265,7 +242,7 @@ class ProgrammeTypeSearchTag extends _ProgrammeSearchTag {
   }
 
   @override
-  bool _isOn(ProgrammeLoaded state) {
+  bool _isOn(FilterProgrammeState state) {
     return !state.entryTypeFilter.contains(type);
   }
 }
@@ -283,7 +260,7 @@ class ProgrammePlaceSearchTag extends _ProgrammeSearchTag {
   }
 
   @override
-  bool _isOn(ProgrammeLoaded state) {
+  bool _isOn(FilterProgrammeState state) {
     return !state.entryPlacesFilter.contains(placeRef);
   }
 }

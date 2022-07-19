@@ -164,7 +164,7 @@ class _ProgrammeEntryUserData extends StatelessWidget {
               isOn: state.usedData.myNotifications.contains(entry.id),
               onPressed: () {
                 BlocProvider.of<UserDataBloc>(context).add(
-                  ProgNotificationToggleUserData(
+                  UserDataProgMyNotification(
                     entryId: entry.id,
                   ),
                 );
@@ -174,7 +174,7 @@ class _ProgrammeEntryUserData extends StatelessWidget {
               isOn: state.usedData.myProgramme.contains(entry.id),
               onPressed: () {
                 BlocProvider.of<UserDataBloc>(context).add(
-                  ProgNotificationToggleUserData(
+                  UserDataMyProgramme(
                     entryId: entry.id,
                   ),
                 );

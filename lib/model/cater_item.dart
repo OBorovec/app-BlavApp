@@ -56,8 +56,7 @@ class CatVolume extends Equatable {
   });
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [price, desc];
 
   factory CatVolume.fromJson(Map<String, dynamic> json) =>
       _$CatVolumeFromJson(json);

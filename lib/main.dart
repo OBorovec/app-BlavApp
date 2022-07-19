@@ -1,8 +1,10 @@
 import 'package:blavapp/bloc/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
+import 'package:blavapp/bloc/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_perms/user_perms_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
@@ -113,12 +115,22 @@ class _BlavAppState extends State<BlavApp> {
                     lazy: false,
                     create: (context) => UserDataBloc(
                       authBloc: context.read<AuthBloc>(),
+                      dataRepo: context.read<DataRepo>(),
                     ),
                   ),
                   BlocProvider(
                     lazy: false,
                     create: (context) => UserPermsBloc(
                       authBloc: context.read<AuthBloc>(),
+                    ),
+                  ),
+                  BlocProvider(
+                    lazy: false,
+                    create: (context) => UserLocalPrefsBloc(
+                      prefs: context.read<PrefsRepo>(),
+                      initState: UserLocalPrefsBloc.load(
+                        context.read<PrefsRepo>(),
+                      ),
                     ),
                   ),
                   BlocProvider(
@@ -135,11 +147,37 @@ class _BlavAppState extends State<BlavApp> {
                       builder: (context, localizationState) {
                         return BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, authState) {
-                            return _buildMaterialApp(
-                              context,
-                              themeState,
-                              localizationState,
-                              authState,
+                            return BlocBuilder<EventFocusBloc, EventFocusState>(
+                              builder: (context, eventFocusState) {
+                                if (eventFocusState.status ==
+                                    EventFocusStatus.focused) {
+                                  return MultiBlocProvider(
+                                    providers: [
+                                      if (eventFocusState
+                                          .event!.routing.programme)
+                                        BlocProvider(
+                                          create: (context) => ProgrammeBloc(
+                                            dataRepo: context.read<DataRepo>(),
+                                            eventTag: eventFocusState.eventTag,
+                                          ),
+                                        ),
+                                    ],
+                                    child: _buildMaterialApp(
+                                      context,
+                                      themeState,
+                                      localizationState,
+                                      authState,
+                                    ),
+                                  );
+                                } else {
+                                  return _buildMaterialApp(
+                                    context,
+                                    themeState,
+                                    localizationState,
+                                    authState,
+                                  );
+                                }
+                              },
                             );
                           },
                         );
@@ -163,7 +201,7 @@ class _BlavAppState extends State<BlavApp> {
     LocalizationState localizationState,
     AuthState authState,
   ) {
-    bool isAuthenticated = authState is UserAuthenticated;
+    bool isAuthenticated = authState.status == AuthStatus.authenticated;
     return MaterialApp(
       title: 'BlavApp',
       theme: themeState.themeData,

@@ -11,7 +11,7 @@ class BlavDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        bool isAuthenticated = state is UserAuthenticated;
+        bool isAuthenticated = state.status == AuthStatus.authenticated;
         return InkWell(
           onTap: () {
             Navigator.popAndPushNamed(
@@ -19,8 +19,8 @@ class BlavDrawerHeader extends StatelessWidget {
               isAuthenticated ? RoutePaths.profile : RoutePaths.signIn,
             );
           },
-          child: state is UserAuthenticated
-              ? UserAvatar(imageUrl: state.user.photoURL)
+          child: isAuthenticated
+              ? UserAvatar(imageUrl: state.user!.photoURL)
               : const Icon(
                   Icons.login,
                   size: 100,

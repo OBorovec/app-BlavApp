@@ -21,14 +21,14 @@ class WelcomePage extends StatelessWidget {
             child: Center(
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
-                  if (state is UserAuthenticated) {
+                  if (state.status == AuthStatus.authenticated) {
                     Future.delayed(const Duration(seconds: 1), () {
                       Navigator.popAndPushNamed(context, RoutePaths.gwint);
                     });
                   }
                 },
                 builder: (context, state) {
-                  if (state is UserNotAuthenticated) {
+                  if (state.status == AuthStatus.unauthenticated) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,10 +46,10 @@ class WelcomePage extends StatelessWidget {
                         ),
                       ],
                     );
-                  } else if (state is UserAuthenticated) {
+                  } else if (state.status == AuthStatus.authenticated) {
                     return Text(
                       AppLocalizations.of(context)!
-                          .welcomeUserText(state.user.displayName!),
+                          .welcomeUserText(state.user!.displayName!),
                     );
                   } else {
                     return const CircularProgressIndicator();

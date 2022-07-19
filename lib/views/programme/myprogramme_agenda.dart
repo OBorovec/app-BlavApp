@@ -1,10 +1,12 @@
 import 'package:blavapp/bloc/data_programme/programme_bloc.dart';
+import 'package:blavapp/bloc/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/bloc/localization/localization_bloc.dart';
 import 'package:blavapp/model/prog_entry.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyProgrammeAgenda extends StatelessWidget {
   final DateTime minDate;
@@ -26,30 +28,27 @@ class MyProgrammeAgenda extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProgrammeBloc, ProgrammeState>(
+    return BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
       builder: (context, state) {
-        if (state is ProgrammeLoaded) {
-          return SfCalendar(
-            allowedViews: const [
-              CalendarView.workWeek,
-              CalendarView.schedule,
-            ],
-            view: CalendarView.workWeek,
-            firstDayOfWeek: minDate.weekday,
-            timeSlotViewSettings: TimeSlotViewSettings(
-              startHour: 6,
-              // endHour: 24,
-              nonWorkingDays: nonEventDays,
-            ),
-            minDate: minDate,
-            maxDate: maxDate,
-            dataSource: AgendaDataSource(
-              state.programmeEntriesFiltered,
-              context.watch<LocalizationBloc>().state.appLang,
-            ),
-          );
-        }
-        return const Center(child: CircularProgressIndicator());
+        return SfCalendar(
+          allowedViews: const [
+            CalendarView.workWeek,
+            CalendarView.schedule,
+          ],
+          view: CalendarView.workWeek,
+          firstDayOfWeek: minDate.weekday,
+          timeSlotViewSettings: TimeSlotViewSettings(
+            startHour: 6,
+            // endHour: 24,
+            nonWorkingDays: nonEventDays,
+          ),
+          minDate: minDate,
+          maxDate: maxDate,
+          dataSource: AgendaDataSource(
+            state.programmeEntriesFiltered,
+            context.watch<LocalizationBloc>().state.appLang,
+          ),
+        );
       },
     );
   }

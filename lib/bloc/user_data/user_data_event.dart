@@ -14,21 +14,19 @@ class InitUserData extends UserDataEvent {
   const InitUserData({required this.user});
 }
 
-class LoadUserData extends UserDataEvent {
-  final String uid;
+class SetUserData extends UserDataEvent {
+  final UserData userData;
 
-  const LoadUserData({
-    required this.uid,
-  });
+  const SetUserData(this.userData);
 
   @override
-  List<Object> get props => [uid];
+  List<Object> get props => [userData];
 }
 
-abstract class ProgrammeUserDataEvent extends UserDataEvent {
+abstract class UserDataProgrammeEvent extends UserDataEvent {
   final String entryId;
 
-  const ProgrammeUserDataEvent({
+  const UserDataProgrammeEvent({
     required this.entryId,
   });
 
@@ -36,12 +34,12 @@ abstract class ProgrammeUserDataEvent extends UserDataEvent {
   List<Object> get props => [entryId];
 }
 
-class ProgEntryToggleUserData extends ProgrammeUserDataEvent {
-  const ProgEntryToggleUserData({required String entryId})
+class UserDataMyProgramme extends UserDataProgrammeEvent {
+  const UserDataMyProgramme({required String entryId})
       : super(entryId: entryId);
 }
 
-class ProgNotificationToggleUserData extends ProgrammeUserDataEvent {
-  const ProgNotificationToggleUserData({required String entryId})
+class UserDataProgMyNotification extends UserDataProgrammeEvent {
+  const UserDataProgMyNotification({required String entryId})
       : super(entryId: entryId);
 }

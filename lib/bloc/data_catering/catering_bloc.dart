@@ -16,7 +16,9 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
     required DataRepo dataRepo,
     required String eventTag,
   })  : _dataRepo = dataRepo,
-        super(CateringInitial()) {
+        super(const CateringState(
+          status: CateringStatus.initial,
+        )) {
     _cateringItemsStream = _dataRepo
         .getCaterItemsStream(eventTag)
         .listen((List<CaterItem> cateringItems) => add(
@@ -30,26 +32,42 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
         },
       );
     // Event listeners
-    on<CateringSubscriptionFailed>(_onFailure);
+    on<CateringSubscriptionFailed>(_onCateringSubscriptionFailed);
     on<CateringStreamChanged>(_onCateringItemsChange);
-  }
-
-  Future<void> _onFailure(CateringSubscriptionFailed event, emit) async {
-    emit(
-      CateringFailState(event.message),
-    );
   }
 
   Future<void> _onCateringItemsChange(CateringStreamChanged event, emit) async {
     try {
+      final Set<CaterItemType> availableItemTypes = <CaterItemType>{};
+      final Set<String?> availablePlaces = <String>{};
+      for (final CaterItem item in event.cateringItems) {
+        availableItemTypes.add(item.type);
+        availablePlaces.add(item.placeRef);
+      }
       emit(
-        CateringLoaded(
+        CateringState(
+          status: CateringStatus.loaded,
           cateringItems: event.cateringItems,
         ),
       );
     } on Exception catch (e) {
-      emit(CateringFailState(e.toString()));
+      emit(
+        state.copyWith(
+          status: CateringStatus.failed,
+          message: e.toString(),
+        ),
+      );
     }
+  }
+
+  Future<void> _onCateringSubscriptionFailed(
+      CateringSubscriptionFailed event, emit) async {
+    emit(
+      state.copyWith(
+        status: CateringStatus.failed,
+        message: event.toString(),
+      ),
+    );
   }
 
   @override

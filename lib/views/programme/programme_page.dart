@@ -1,10 +1,12 @@
 import 'package:blavapp/bloc/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/_pages/bottom_navigation.dart';
 import 'package:blavapp/components/_pages/root_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/services/data_repo.dart';
+import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/programme/myprogramme_agenda.dart';
 import 'package:blavapp/views/programme/programme_list.dart';
 import 'package:blavapp/views/programme/programme_search_tile.dart';
@@ -35,21 +37,62 @@ class _ProgrammePageState extends State<ProgrammePage> {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
+                lazy: false,
                 create: (context) => ProgrammeBloc(
                   dataRepo: context.read<DataRepo>(),
                   eventTag: eventFocusState.eventTag,
-                  userDataBloc: BlocProvider.of<UserDataBloc>(context),
                 ),
               ),
             ],
-            child: Builder(builder: (context) {
-              return RootPage(
-                titleText: _pageTitle(),
-                body: _buildContent(eventFocusState),
-                actions: _buildActions(context),
-                bottomNavigationBar: _buildBottomNavigation(context),
-              );
-            }),
+            child: BlocConsumer<ProgrammeBloc, ProgrammeState>(
+              listenWhen: (previous, current) =>
+                  previous.message != current.message,
+              listener: (context, state) {
+                if (state.status == ProgrammeStatus.failed) {
+                  Toasting.notifyToast(context, state.message);
+                }
+              },
+              builder: (context, state) {
+                if (state.status == ProgrammeStatus.loaded) {
+                  return BlocProvider(
+                    lazy: false,
+                    create: (context) => FilterProgrammeBloc(
+                      programmeBloc: context.read<ProgrammeBloc>(),
+                      userDataBloc: context.read<UserDataBloc>(),
+                    ),
+                    child: Builder(builder: (context) {
+                      return RootPage(
+                        titleText: _pageTitle(),
+                        body: _buildContent(eventFocusState),
+                        actions: _buildActions(context),
+                        bottomNavigationBar: _buildBottomNavigation(context),
+                      );
+                    }),
+                  );
+                } else if (state.status == ProgrammeStatus.failed) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Icon(Icons.error),
+                        Text(AppLocalizations.of(context)!
+                            .blocDataFail(state.message)),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const CircularProgressIndicator(),
+                        Text(AppLocalizations.of(context)!.blocDataLoading),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           );
         } else {
           return Center(
@@ -112,7 +155,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
             isOn: !activeSearch,
             onPressed: () {
               setState(() {
-                BlocProvider.of<ProgrammeBloc>(context)
+                BlocProvider.of<FilterProgrammeBloc>(context)
                     .add(const ResetProgrammeFilters());
                 activeSearch = !activeSearch;
               });
@@ -142,7 +185,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
               });
             }
             context
-                .read<ProgrammeBloc>()
+                .read<FilterProgrammeBloc>()
                 .add(const UseMyProgrammeFilter(false));
             break;
           case 1:
@@ -153,7 +196,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
                 titleText = AppLocalizations.of(context)!.progMyTitle;
               });
               context
-                  .read<ProgrammeBloc>()
+                  .read<FilterProgrammeBloc>()
                   .add(const UseMyProgrammeFilter(true));
             }
             break;
@@ -162,7 +205,9 @@ class _ProgrammePageState extends State<ProgrammePage> {
               content = ProgrammePageContent.agenda;
               titleText = AppLocalizations.of(context)!.progAgendTitle;
             });
-            context.read<ProgrammeBloc>().add(const UseMyProgrammeFilter(true));
+            context
+                .read<FilterProgrammeBloc>()
+                .add(const UseMyProgrammeFilter(true));
             break;
           default:
             break;

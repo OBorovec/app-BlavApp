@@ -17,11 +17,13 @@ class DataRepo {
   // User data
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _appUserDataCollectionRef =
-      FirebaseFirestore.instance.collection('users').withConverter<UserData>(
-            fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
-            toFirestore: (entry, _) => entry.toJson(),
-          );
+  final CollectionReference _appUserDataCollectionRef = FirebaseFirestore
+      .instance
+      .collection('user_data')
+      .withConverter<UserData>(
+        fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
 
   void initUserData(String uid, UserData appUser) {
     _appUserDataCollectionRef.doc(uid).set(appUser);
@@ -41,24 +43,6 @@ class DataRepo {
         .map((value) => value.data()! as UserData);
   }
 
-  Future<void> addProgrammeEntryNotification(
-    String userUID,
-    String entryID,
-  ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
-      'myNotifications': FieldValue.arrayUnion([entryID])
-    });
-  }
-
-  Future<void> removeProgrammeEntryNotification(
-    String userUID,
-    String entryID,
-  ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
-      'myNotifications': FieldValue.arrayRemove([entryID])
-    });
-  }
-
   Future<void> addMyProgrammeEntry(
     String userUID,
     String entryID,
@@ -74,6 +58,24 @@ class DataRepo {
   ) {
     return _appUserDataCollectionRef.doc(userUID).update({
       'myProgramme': FieldValue.arrayRemove([entryID])
+    });
+  }
+
+  Future<void> addProgrammeEntryNotification(
+    String userUID,
+    String entryID,
+  ) {
+    return _appUserDataCollectionRef.doc(userUID).update({
+      'myNotifications': FieldValue.arrayUnion([entryID])
+    });
+  }
+
+  Future<void> removeProgrammeEntryNotification(
+    String userUID,
+    String entryID,
+  ) {
+    return _appUserDataCollectionRef.doc(userUID).update({
+      'myNotifications': FieldValue.arrayRemove([entryID])
     });
   }
 

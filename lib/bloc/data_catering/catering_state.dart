@@ -1,33 +1,47 @@
 part of 'catering_bloc.dart';
 
-abstract class CateringState extends Equatable {
-  const CateringState();
-
-  @override
-  List<Object> get props => [];
+enum CateringStatus {
+  initial,
+  loaded,
+  failed,
 }
 
-class CateringInitial extends CateringState {}
-
-class CateringFailState extends CateringState {
+class CateringState extends Equatable {
+  final CateringStatus status;
   final String message;
-  const CateringFailState(this.message);
-}
-
-class CateringLoaded extends CateringState {
   final List<CaterItem> cateringItems;
 
-  const CateringLoaded({
-    required this.cateringItems,
+  const CateringState({
+    required this.status,
+    this.message = '',
+    this.cateringItems = const <CaterItem>[],
   });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+        status,
+        message,
+        cateringItems,
+      ];
 
-  CateringLoaded copyWith({
+  CateringState copyWith({
+    CateringStatus? status,
+    String? message,
     List<CaterItem>? cateringItems,
+    List<CaterItem>? cateringItemsFiltered,
+    Set<CaterItemType>? availableItemTypes,
+    Set<String?>? availablePlaces,
+    Set<CaterItemType>? itemTypeFilter,
+    Set<String>? placesFilter,
+    Set<int>? allergensFilter,
+    bool? onlyVegetarion,
+    bool? onlyVegan,
+    bool? onlyGlutenFree,
+    String? queryString,
   }) {
-    return CateringLoaded(
+    return CateringState(
+      status: status ?? this.status,
+      message: message ?? this.message,
       cateringItems: cateringItems ?? this.cateringItems,
     );
   }

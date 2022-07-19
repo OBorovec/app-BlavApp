@@ -5,6 +5,7 @@ import 'package:blavapp/components/_pages/bottom_navigation.dart';
 import 'package:blavapp/components/_pages/root_page.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/views/catering/catering_list.dart';
+import 'package:blavapp/views/catering/catering_place_list.dart';
 import 'package:blavapp/views/catering/degustation_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,7 @@ class _CateringPageState extends State<CateringPage> {
   final cateringPages = [
     const CateringList(),
     const DegustationList(),
+    const CateringPlaceList(),
   ];
 
   @override
@@ -29,6 +31,7 @@ class _CateringPageState extends State<CateringPage> {
     List<String> titles = [
       AppLocalizations.of(context)!.caterTitle,
       AppLocalizations.of(context)!.degusTitle,
+      AppLocalizations.of(context)!.caterPlaceTitle,
     ];
     return RootPage(
       titleText: titles[navigationIndex],
@@ -53,7 +56,6 @@ class _CateringPageState extends State<CateringPage> {
               child: cateringPages.elementAt(navigationIndex),
             );
           } else {
-            // TODO: add btn to event list
             return Center(
               child: Column(
                 children: [
@@ -69,6 +71,7 @@ class _CateringPageState extends State<CateringPage> {
         items: const [
           Icons.local_restaurant,
           Icons.local_bar,
+          Icons.location_on,
         ],
         onTap: (index) {
           setState(() {

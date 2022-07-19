@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/auth/auth_bloc.dart';
 import 'package:blavapp/model/user_data.dart';
+import 'package:blavapp/services/data_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,37 +12,42 @@ part 'user_data_event.dart';
 part 'user_data_state.dart';
 
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
-  final AuthBloc authBloc;
+  final AuthBloc _authBloc;
+  final DataRepo _dataRepo;
   late final StreamSubscription _authBlocSub;
+  late StreamSubscription<UserData> _userDataSubscription;
 
   UserDataBloc({
-    required this.authBloc,
-  }) : super(UserDataState(usedData: UserData())) {
+    required AuthBloc authBloc,
+    required DataRepo dataRepo,
+  })  : _authBloc = authBloc,
+        _dataRepo = dataRepo,
+        super(UserDataState(
+          dataState: DataState.inactive,
+          usedData: UserData(),
+        )) {
     _authBlocSub = authBloc.stream.listen(_onAuthBlocChange);
-    on<EmptyUserData>(_emptyUserData);
     on<InitUserData>(_initUserData);
-    on<LoadUserData>(_loadUserData);
-    on<ProgEntryToggleUserData>(_progEntryToggleUserData);
-    on<ProgNotificationToggleUserData>(_progNotificationToggleUserData);
+    on<EmptyUserData>(_emptyUserData);
+    on<SetUserData>(_setUserData);
+    on<UserDataMyProgramme>(_progEntryToggleUserData);
+    on<UserDataProgMyNotification>(_progNotificationToggleUserData);
   }
 
   void _onAuthBlocChange(AuthState state) {
-    if (state is UserAuthenticated) {
-      add(
-        LoadUserData(
-          uid: state.user.uid,
-        ),
-      );
+    if (state.status == AuthStatus.authenticated) {
+      _userDataSubscription = _dataRepo
+          .getUserDataStream(state.user!.uid)
+          .listen(_onUserDataChanged);
     } else {
       add(EmptyUserData());
     }
   }
 
-  FutureOr<void> _emptyUserData(
-    EmptyUserData event,
-    Emitter<UserDataState> emit,
-  ) {
-    emit(UserDataState(usedData: UserData()));
+  void _onUserDataChanged(UserData userData) {
+    add(
+      SetUserData(userData),
+    );
   }
 
   FutureOr<void> _initUserData(
@@ -49,24 +55,58 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     Emitter<UserDataState> emit,
   ) {}
 
-  FutureOr<void> _loadUserData(
-    LoadUserData event,
+  FutureOr<void> _emptyUserData(
+    EmptyUserData event,
     Emitter<UserDataState> emit,
-  ) {}
+  ) {
+    emit(UserDataState(
+      dataState: DataState.inactive,
+      usedData: UserData(),
+    ));
+  }
+
+  FutureOr<void> _setUserData(
+    SetUserData event,
+    Emitter<UserDataState> emit,
+  ) {
+    emit(UserDataState(
+      dataState: DataState.active,
+      usedData: event.userData,
+    ));
+  }
 
   FutureOr<void> _progEntryToggleUserData(
-    ProgEntryToggleUserData event,
+    UserDataMyProgramme event,
     Emitter<UserDataState> emit,
-  ) {}
+  ) {
+    if (state.dataState == DataState.active) {
+      final User user = _authBloc.state.user!;
+      if (state.usedData.myProgramme.contains(event.entryId)) {
+        _dataRepo.removeMyProgrammeEntry(user.uid, event.entryId);
+      } else {
+        _dataRepo.addMyProgrammeEntry(user.uid, event.entryId);
+      }
+    }
+  }
 
   FutureOr<void> _progNotificationToggleUserData(
-    ProgNotificationToggleUserData event,
+    UserDataProgMyNotification event,
     Emitter<UserDataState> emit,
-  ) {}
+  ) {
+    if (state.dataState == DataState.active) {
+      final User user = _authBloc.state.user!;
+      if (state.usedData.myNotifications.contains(event.entryId)) {
+        _dataRepo.removeProgrammeEntryNotification(user.uid, event.entryId);
+      } else {
+        _dataRepo.addProgrammeEntryNotification(user.uid, event.entryId);
+      }
+    }
+  }
 
   @override
   Future<void> close() {
     _authBlocSub.cancel();
+    _userDataSubscription.cancel();
     return super.close();
   }
 }

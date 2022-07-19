@@ -1,22 +1,18 @@
 part of 'event_focus_bloc.dart';
 
-abstract class EventFocusState extends Equatable {
-  const EventFocusState();
+enum EventFocusStatus { focused, empty }
+
+class EventFocusState extends Equatable {
+  final EventFocusStatus status;
+  final String eventTag;
+  final Event? event;
+
+  const EventFocusState({
+    required this.status,
+    required this.eventTag,
+    this.event,
+  }) : super();
 
   @override
-  List<Object> get props => [];
-}
-
-class EventFocused extends EventFocusState {
-  final String eventTag;
-  final Event event;
-
-  const EventFocused(
-    this.eventTag,
-    this.event,
-  ) : super();
-}
-
-class NoEventFocus extends EventFocusState {
-  const NoEventFocus() : super();
+  List<Object> get props => [status, eventTag, event ?? ''];
 }

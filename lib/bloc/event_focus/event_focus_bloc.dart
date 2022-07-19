@@ -18,8 +18,12 @@ class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
     required DataRepo dataRepo,
   })  : _prefs = prefs,
         _dataRepo = dataRepo,
-        super(const NoEventFocus()) {
-    on<EventFocusLoad>(_loadEventFocus);
+        super(const EventFocusState(
+          status: EventFocusStatus.empty,
+          eventTag: '',
+          event: null,
+        )) {
+    on<EventFocusLoad>(_initState);
     on<EventFocusChanged>(_eventFocusChange);
     on<EventFocusClear>(_clearEventFocus);
   }
@@ -27,21 +31,26 @@ class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
   Future<void> _eventFocusChange(EventFocusChanged event, emit) async {
     _prefs.saveEventFocus(event.eventID ?? '');
     if (event.eventID == null || event.eventID == '') {
-      emit(const NoEventFocus());
+      emit(const EventFocusState(
+        status: EventFocusStatus.empty,
+        eventTag: '',
+        event: null,
+      ));
     } else {
-      final Event eventInfo = await _dataRepo.getEvent(
+      final Event eventData = await _dataRepo.getEvent(
         event.eventID!,
       );
       emit(
-        EventFocused(
-          event.eventID!,
-          eventInfo,
+        EventFocusState(
+          status: EventFocusStatus.focused,
+          eventTag: event.eventID!,
+          event: eventData,
         ),
       );
     }
   }
 
-  Future<void> _loadEventFocus(EventFocusLoad event, emit) async {
+  Future<void> _initState(EventFocusLoad event, emit) async {
     final String? eventID = _prefs.loadEventFocus();
     add(EventFocusChanged(eventID: eventID));
   }

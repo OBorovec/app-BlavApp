@@ -11,6 +11,17 @@ class AuthRepo {
     });
   }
 
+  // Check signIn
+  bool isSignedIn() {
+    final User? currentUser = _firebaseAuth.currentUser;
+    return currentUser != null;
+  }
+
+  // Get current user
+  User? getCurrentUser() {
+    return _firebaseAuth.currentUser;
+  }
+
   // sign up with email
   Future<User> signUpUserWithEmailPass(String email, String password) async {
     final UserCredential authResult =
@@ -34,17 +45,6 @@ class AuthRepo {
   // sign out
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
-  }
-
-  // check signIn
-  Future<bool> isSignedIn() async {
-    final User? currentUser = _firebaseAuth.currentUser;
-    return currentUser != null;
-  }
-
-  // get current user
-  Future<User?> getCurrentUser() async {
-    return _firebaseAuth.currentUser;
   }
 
   // send password reset email

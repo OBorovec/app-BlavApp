@@ -1,3 +1,4 @@
+import 'package:blavapp/model/cater_item.dart';
 import 'package:blavapp/model/prog_entry.dart';
 
 enum AppHeros { userAvatar }
@@ -7,21 +8,9 @@ final Map<AppHeros, String> appHeros = {
 };
 
 String programmeEntryImgHeroTag(ProgEntry entry) {
-  return 'img-title-${entry.id}';
+  return 'prog-img-title-${entry.id}';
 }
 
-String programmeEntryTitleHeroTag(ProgEntry entry) {
-  return 'prg-title-${entry.id}';
-}
-
-String programmeEntryDateHeroTag(ProgEntry entry) {
-  return 'date-title-${entry.id}';
-}
-
-String programmeEntryPlaceHeroTag(ProgEntry entry) {
-  return 'place-title-${entry.id}';
-}
-
-String programmeEntryDescHeroTag(ProgEntry entry) {
-  return 'desc-title-${entry.id}';
+String caterItemImgHeroTag(CaterItem item) {
+  return 'cater-img-title-${item.id}';
 }

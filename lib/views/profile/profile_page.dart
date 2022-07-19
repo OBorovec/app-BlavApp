@@ -19,7 +19,7 @@ class UserProfilePage extends StatelessWidget {
         titleText: AppLocalizations.of(context)!.profTitle,
         body: BlocProvider(
           create: (context) => UserProfileBloc(
-            user: (context.read<AuthBloc>().state as UserAuthenticated).user,
+            user: (context.read<AuthBloc>()).state.user!,
             authRepo: context.read<AuthRepo>(),
             storageRepo: context.read<StorageRepo>(),
           ),

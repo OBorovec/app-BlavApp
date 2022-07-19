@@ -21,10 +21,10 @@ class UserPermsBloc extends Bloc<UserPermsEvent, UserPermsState> {
   }
 
   void _onAuthBlocChange(AuthState state) {
-    if (state is UserAuthenticated) {
+    if (state.status == AuthStatus.authenticated) {
       add(
         LoadUserPerms(
-          uid: state.user.uid,
+          uid: state.user!.uid,
         ),
       );
     } else {

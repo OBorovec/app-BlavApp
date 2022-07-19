@@ -9,10 +9,26 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/gluten-free.png
+  AssetGenImage get glutenFree =>
+      const AssetGenImage('assets/icons/gluten-free.png');
+
+  /// File path: assets/icons/vegan.png
+  AssetGenImage get vegan => const AssetGenImage('assets/icons/vegan.png');
+
+  /// File path: assets/icons/vegetarian.png
+  AssetGenImage get vegetarian =>
+      const AssetGenImage('assets/icons/vegetarian.png');
+}
+
 class Assets {
   Assets._();
 
   static const AssetGenImage icon = AssetGenImage('assets/icon.png');
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const AssetGenImage launcher = AssetGenImage('assets/launcher.png');
 }
 

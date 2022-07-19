@@ -16,7 +16,14 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
   AuthBloc({
     required AuthRepo authRepo,
   })  : _authRepo = authRepo,
-        super(UserAuthenticationInit()) {
+        super(authRepo.isSignedIn()
+            ? AuthState(
+                status: AuthStatus.authenticated,
+                user: authRepo.getCurrentUser()!)
+            : const AuthState(
+                status: AuthStatus.unauthenticated,
+                user: null,
+              )) {
     _userSubscription = _authRepo.user.listen(_onUserChanged);
     on<UserActive>(_userActive);
     on<UserInactive>(_userInactive);
@@ -36,7 +43,8 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
   // Event functions
   Future<void> _userActive(UserActive event, emit) async {
     emit(
-      UserAuthenticated(
+      AuthState(
+        status: AuthStatus.authenticated,
         user: event.user,
       ),
     );
@@ -47,7 +55,10 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     emit(
-      UserNotAuthenticated(),
+      const AuthState(
+        status: AuthStatus.unauthenticated,
+        user: null,
+      ),
     );
   }
 

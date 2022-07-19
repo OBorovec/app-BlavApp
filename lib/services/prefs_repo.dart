@@ -6,6 +6,7 @@ class PrefsRepo {
   static const String keyLang = 'lang';
   static const String keyTheme = 'theme';
   static const String keyEventFocus = 'eventFocus';
+  static const String keyUserCurrency = 'userCurrency';
 
   PrefsRepo(SharedPreferences prefs) : _prefsInstance = prefs;
 
@@ -31,5 +32,13 @@ class PrefsRepo {
 
   void saveEventFocus(String? value) {
     _prefsInstance.setString(keyEventFocus, value ?? '');
+  }
+
+  String? loadUserCurrency() {
+    return _prefsInstance.getString(keyUserCurrency);
+  }
+
+  void saveUserCurrency(String? value) {
+    _prefsInstance.setString(keyUserCurrency, value ?? '');
   }
 }

@@ -8,8 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'localization_event.dart';
 part 'localization_state.dart';
 
-enum AppLang { auto, cs, en }
-
 class LocalizationBloc extends Bloc<LocalizationEvent, LocalizationState> {
   final PrefsRepo _prefs;
 
