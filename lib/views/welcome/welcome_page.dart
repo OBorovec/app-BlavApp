@@ -1,5 +1,4 @@
-import 'package:blavapp/bloc/auth/auth_bloc.dart';
-import 'package:blavapp/components/_pages/root_static_page.dart';
+import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +9,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RootStaticPage(
-      titleText: '',
+    return Scaffold(
       body: Column(
         children: [
           const Expanded(
@@ -23,7 +21,7 @@ class WelcomePage extends StatelessWidget {
                 listener: (context, state) {
                   if (state.status == AuthStatus.authenticated) {
                     Future.delayed(const Duration(seconds: 1), () {
-                      Navigator.popAndPushNamed(context, RoutePaths.gwint);
+                      Navigator.popAndPushNamed(context, RoutePaths.club);
                     });
                   }
                 },

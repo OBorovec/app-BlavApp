@@ -1,6 +1,6 @@
 import 'package:blavapp/components/_pages/side_page.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/model/prog_entry.dart';
+import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -26,7 +26,7 @@ class ProgrammeDetails extends StatelessWidget {
               tag: programmeEntryImgHeroTag(entry),
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.elliptical(40, 36),
+                  // topLeft: Radius.elliptical(40, 36),
                   bottomRight: Radius.circular(64),
                 ),
                 child: AppNetworkImage(

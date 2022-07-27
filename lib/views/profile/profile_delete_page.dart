@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
 import 'package:blavapp/components/_pages/side_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

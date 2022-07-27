@@ -1,0 +1,132 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'catering.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
+      items: (json['items'] as List<dynamic>)
+          .map((e) => CaterItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      places: (json['places'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, CaterPlace.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      notifications: (json['notifications'] as List<dynamic>?)
+              ?.map(
+                  (e) => CaterNotification.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$CateringToJson(Catering instance) => <String, dynamic>{
+      'items': instance.items,
+      'places': instance.places,
+      'notifications': instance.notifications,
+    };
+
+CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
+      id: json['id'] as String,
+      name: Map<String, String>.from(json['name'] as Map),
+      type: $enumDecode(_$CaterItemTypeEnumMap, json['type']),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      placeRef: json['placeRef'] as String?,
+      allergens: (json['allergens'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          const [],
+      vegetarian: json['vegetarian'] as bool? ?? false,
+      vegan: json['vegan'] as bool? ?? false,
+      glutenFree: json['glutenFree'] as bool? ?? false,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      volumes: (json['volumes'] as List<dynamic>)
+          .map((e) => CaterVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet() ??
+          const {},
+    );
+
+Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'type': _$CaterItemTypeEnumMap[instance.type],
+      'desc': instance.desc,
+      'sDesc': instance.sDesc,
+      'placeRef': instance.placeRef,
+      'allergens': instance.allergens,
+      'vegetarian': instance.vegetarian,
+      'vegan': instance.vegan,
+      'glutenFree': instance.glutenFree,
+      'images': instance.images,
+      'volumes': instance.volumes,
+      'tags': instance.tags.toList(),
+    };
+
+const _$CaterItemTypeEnumMap = {
+  CaterItemType.starter: 'starter',
+  CaterItemType.soup: 'soup',
+  CaterItemType.snack: 'snack',
+  CaterItemType.main: 'main',
+  CaterItemType.side: 'side',
+  CaterItemType.drink: 'drink',
+  CaterItemType.desert: 'desert',
+  CaterItemType.other: 'other',
+};
+
+CaterVolume _$CaterVolumeFromJson(Map<String, dynamic> json) => CaterVolume(
+      price: (json['price'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, (e as num).toDouble()),
+      ),
+      desc: Map<String, String>.from(json['desc'] as Map),
+    );
+
+Map<String, dynamic> _$CaterVolumeToJson(CaterVolume instance) =>
+    <String, dynamic>{
+      'price': instance.price,
+      'desc': instance.desc,
+    };
+
+CaterPlace _$CaterPlaceFromJson(Map<String, dynamic> json) => CaterPlace(
+      name: Map<String, String>.from(json['name'] as Map),
+      loc: json['loc'] as String?,
+      opens: (json['opens'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$CaterPlaceToJson(CaterPlace instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'loc': instance.loc,
+      'opens': instance.opens,
+      'images': instance.images,
+    };
+
+CaterNotification _$CaterNotificationFromJson(Map<String, dynamic> json) =>
+    CaterNotification(
+      parrentId: json['parrentId'] as String?,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+      message: Map<String, String>.from(json['message'] as Map),
+    );
+
+Map<String, dynamic> _$CaterNotificationToJson(CaterNotification instance) =>
+    <String, dynamic>{
+      'parrentId': instance.parrentId,
+      'timestamp': instance.timestamp.toIso8601String(),
+      'message': instance.message,
+    };

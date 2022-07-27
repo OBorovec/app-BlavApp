@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/views/drawer/drawer_event_items.dart';
 import 'package:blavapp/views/drawer/drawer_event_picker.dart';
 import 'package:blavapp/views/drawer/drawer_general_items.dart';
@@ -20,9 +20,9 @@ class MainDrawer extends StatelessWidget {
             Expanded(
               child: BlocBuilder<EventFocusBloc, EventFocusState>(
                 builder: (context, state) {
-                  if (state is EventFocused) {
+                  if (state.status == EventFocusStatus.focused) {
                     return DrawerEventItems(
-                      event: state.event,
+                      event: state.event!,
                     );
                   } else {
                     return const DrawerEventPicker();

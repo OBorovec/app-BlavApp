@@ -16,6 +16,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       timestampStart: DateTime.parse(json['timestampStart'] as String),
       timestampEnd: DateTime.parse(json['timestampEnd'] as String),
       routing: Routing.fromJson(json['routing'] as Map<String, dynamic>),
+      canBeFocused: json['canBeFocused'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -26,6 +27,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'timestampStart': instance.timestampStart.toIso8601String(),
       'timestampEnd': instance.timestampEnd.toIso8601String(),
       'routing': instance.routing,
+      'canBeFocused': instance.canBeFocused,
     };
 
 Routing _$RoutingFromJson(Map<String, dynamic> json) => Routing(

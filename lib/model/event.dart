@@ -12,6 +12,7 @@ class Event extends Equatable {
   final DateTime timestampStart;
   final DateTime timestampEnd;
   final Routing routing;
+  final bool canBeFocused;
 
   const Event({
     required this.id,
@@ -21,6 +22,7 @@ class Event extends Equatable {
     required this.timestampStart,
     required this.timestampEnd,
     required this.routing,
+    this.canBeFocused = false,
   });
 
   @override

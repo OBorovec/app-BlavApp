@@ -11,14 +11,67 @@
   "cospTitle": "Cosplay",
   "@cateringPage":"----------------------------------------------",
   "caterTitle": "Občerstvení",
+  "caterListTitle": "Občerstvení výčet",
+  "caterPlaceTitle": "Seznam míst občerstvení",
+  "caterSearchHint": "Textové vyhledávání...",
+  "caterSearchPredef": "Dostupné filtry:",
+  "caterSearchTypes": "Typ občerstvení",
+  "caterSearchPlaces": "Výdejní místa",
+  "caterSearchAllergens": "Vyřadit alergeny",
+  "caterSearchVegetarian": "Pouze vegetariánská",
+  "caterSearchVegan": "Pouze veganánská",
+  "caterSearchGluttenFree": "Pouze bezlepková",
+  "caterPlaceCardOpensAt": "Otevírá ve {time}",
+  "@caterPlaceCardOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "caterPlaceCardClosesAt": "Zavírá ve {time}",
+  "@caterPlaceCardClosesAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@degustationPage":"-------------------------------------------",
   "degusTitle": "Degustace",
-  "@cateringPlacePage":"-------------------------------------------",
-  "caterPlaceTitle": "Seznam míst občerstvení",
+  "degusHighlightTitle": "Degustace",
+  "degusListTitle": "Degustace - výčet",
+  "degusPlaceTitle": "Degustace - místa",
+  "degusSearchHint": "Textové vyhledávání...",
+  "degusSearchPredef": "Dostupné filtry:",
+  "degusSearchTypes": "Typ alkoholu",
+  "degusSearchOrigin": "Původ alkoholu",
+  "degusSearchPlaces": "Výdejní místa",
+  "degusPlaceCardOpensAt": "Otevírá ve {time}",
+  "@degusPlaceCardOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "degusPlaceCardClosesAt": "Zavírá ve {time}",
+  "@degusPlaceCardClosesAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@divisionsPage":"--------------------------------------------",
   "divsTitle": "Divize",
   "@mapsPage":"--------------------------------------------------",
   "mapsTitle": "Mapy",
+  "mapsReadlWorldHeader": "Další místa v okolý",
   "@profilePage":"-----------------------------------------------",
   "profTitle": "Profil",
   "profEmail": "Email",
@@ -108,6 +161,13 @@
   "signInRedirectTitle": "Nutné přihlášení",
   "signInRedirectText": "Musíte se přihlásit, abyste mohli používat tuto funkci.",
   "@programmePage":"---------------------------------------------",
+  "progHighlight": "Rychlý přehled",
+  "progHighlightOngoing": "Právě probíhá",
+  "progHighlightOngoingEmpty": "Právě neprobíhá žádná akce.",
+  "progHighlightUpcoming": "Zrovna se chystá",
+  "progHighlightUpcomingEmpty": "Pro dnešek se už nic chystá.",
+  "progHighlightMyUpcoming": "Můj nadcházející program",
+  "progHighlightMyUpcomingEmpty": "Nejsou žádné nadcházející události ve vašem programu.",
   "progTitle": "Program",
   "progMyTitle": "Můj program",
   "progAgendTitle": "Moje agenda",
@@ -170,6 +230,12 @@
   "programmeTypeWorkshop": "Workshop",
   "programmeTypeLecture":  "Přednáška",
   "programmeTypeTournament": "Turnaj",
+  "programmeTypeShow": "Představení",
+  "programmeTypeDegustation": "Degustace",
+  "programmeTypeDiscussion": "Diskuze",
+  "programmeTypeGaming": "Hra",
+  "programmeTypePhoto": "Focení",
+  "programmeTypeCosplay": "Cosplay",
   "programmeTypeOther": "---",
   "programmeEntryTimestamp": "{date} - {time}",
   "@programmeEntryTimestamp": {
@@ -192,5 +258,15 @@
         "example": "60"
       }
     }
-  }
+  },
+  "@catering":"--------------------------------------------------",
+  "cateringTypeStarter": "Předkrm",
+  "cateringTypeSoup": "Polévka",
+  "cateringTypeSnack": "Svačina",
+  "cateringTypeMain": "Hlavní jídlo",
+  "cateringTypeSide": "Příloha",
+  "cateringTypeDrink": "Pití",
+  "cateringTypeDesert": "Zákusek",
+  "@degustation":"-----------------------------------------------",
+  "degusAlcoholTypeMead": "Medovina"
 }

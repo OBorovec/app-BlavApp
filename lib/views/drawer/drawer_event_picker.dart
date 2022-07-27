@@ -1,5 +1,5 @@
-import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
-import 'package:blavapp/bloc/event_list/events_bloc.dart';
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/events/event_list/events_bloc.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';

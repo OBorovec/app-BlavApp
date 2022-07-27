@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/event_list/events_bloc.dart';
+import 'package:blavapp/bloc/events/event_list/events_bloc.dart';
 import 'package:blavapp/components/_pages/root_page.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/route_generator.dart';

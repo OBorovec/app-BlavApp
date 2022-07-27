@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,7 +17,7 @@ class DrawerGeneralItems extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.gwintTitle),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, RoutePaths.gwint);
+            Navigator.pushNamed(context, RoutePaths.club);
           },
         ),
         ListTile(

@@ -11,14 +11,67 @@
   "cospTitle": "Cosplay",
   "@cateringPage":"----------------------------------------------",
   "caterTitle": "Catering",
+  "caterListTitle": "Catering list",
+  "caterPlaceTitle": "Catering places",
+  "caterSearchHint": "Text search...",
+  "caterSearchPredef": "Available predefined searches:",
+  "caterSearchTypes": "Type of refreshment",
+  "caterSearchPlaces": "Places",
+  "caterSearchAllergens": "Without allergens",
+  "caterSearchVegetarian": "Vegetarian",
+  "caterSearchVegan": "Vegan",
+  "caterSearchGluttenFree": "Gluten free",
+  "caterPlaceCardOpensAt": "Opens at {time}",
+  "@caterPlaceCardOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "caterPlaceCardClosesAt": "Closes at {time}",
+  "@caterPlaceCardClosesAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@degustationPage":"-------------------------------------------",
   "degusTitle": "Degustation",
-  "@cateringPlacePage":"-------------------------------------------",
-  "caterPlaceTitle": "Catering places",
+  "degusHighlightTitle": "Degustation overview",
+  "degusListTitle": "Degustation samples",
+  "degusPlaceTitle": "Degustation places",
+  "degusSearchHint": "Text search...",
+  "degusSearchPredef": "Available filters:",
+  "degusSearchTypes": "Alcohol type",
+  "degusSearchOrigin": "Alcohol origin",
+  "degusSearchPlaces": "Place",
+  "degusPlaceCardOpensAt": "Otevírá ve {time}",
+  "@degusPlaceCardOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
+  "degusPlaceCardClosesAt": "Zavírá ve {time}",
+  "@degusPlaceCardClosesAt": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "..."
+      }
+    }
+  },
   "@divisionsPage":"--------------------------------------------",
   "divsTitle": "Divisions",
   "@mapsPage":"--------------------------------------------------",
   "mapsTitle": "Maps",
+  "mapsReadlWorldHeader": "More places in near surrounding",
   "@profilePage":"-----------------------------------------------",
   "profTitle": "Profile",
   "profEmail": "Email",
@@ -108,6 +161,13 @@
   "signInRedirectTitle": "Sign in necessary",
   "signInRedirectText": "You need to sign in to access this page.",
   "@programmePage":"---------------------------------------------",
+  "progHighlight": "Highlights",
+  "progHighlightOngoing": "Ongoing events",
+  "progHighlightOngoingEmpty": "Currently there are no ongoing events.",
+  "progHighlightUpcoming": "Upcoming events",
+  "progHighlightUpcomingEmpty": "There is nothing more planned for today.",
+  "progHighlightMyUpcoming": "Upcoming of my programme",
+  "progHighlightMyUpcomingEmpty": "No upcoming entries of your programme.",
   "progTitle": "Programme",
   "progMyTitle": "My programme",
   "progAgendTitle": "My agenda",
@@ -170,6 +230,12 @@
   "programmeTypeWorkshop": "Workshop",
   "programmeTypeLecture":  "Lecture",
   "programmeTypeTournament": "Tournament",
+  "programmeTypeShow": "Show",
+  "programmeTypeDegustation": "Degustation",
+  "programmeTypeDiscussion": "Discussion",
+  "programmeTypeGaming": "Gaming",
+  "programmeTypePhoto": "Photo shooting",
+  "programmeTypeCosplay": "Cosplay",
   "programmeTypeOther": "---",
   "programmeEntryTimestamp": "{date} - {time}",
   "@programmeEntryTimestamp": {
@@ -192,5 +258,15 @@
         "example": "60"
       }
     }
-  }
+  },
+  "@catering":"--------------------------------------------------",
+  "cateringTypeStarter": "Starter",
+  "cateringTypeSoup": "Soup",
+  "cateringTypeSnack": "Snack",
+  "cateringTypeMain": "Main dish",
+  "cateringTypeSide": "Side dish",
+  "cateringTypeDrink": "Drink",
+  "cateringTypeDesert": "Desert",
+  "@degustation":"-----------------------------------------------",
+  "degusAlcoholTypeMead": "Mead"
 }

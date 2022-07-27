@@ -24,12 +24,21 @@ class $AssetsIconsGen {
       const AssetGenImage('assets/icons/vegetarian.png');
 }
 
+class $AssetsMapsGen {
+  const $AssetsMapsGen();
+
+  /// File path: assets/maps/tabor_mlyn.png
+  AssetGenImage get taborMlyn =>
+      const AssetGenImage('assets/maps/tabor_mlyn.png');
+}
+
 class Assets {
   Assets._();
 
   static const AssetGenImage icon = AssetGenImage('assets/icon.png');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const AssetGenImage launcher = AssetGenImage('assets/launcher.png');
+  static const $AssetsMapsGen maps = $AssetsMapsGen();
 }
 
 class AssetGenImage {

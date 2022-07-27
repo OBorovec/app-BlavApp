@@ -45,6 +45,14 @@ class DrawerEventItems extends StatelessWidget {
                     Navigator.pushNamed(context, RoutePaths.catering);
                   },
                 ),
+              if (event.routing.degustation)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.degusTitle),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RoutePaths.degustation);
+                  },
+                ),
               if (event.routing.maps)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.mapsTitle),

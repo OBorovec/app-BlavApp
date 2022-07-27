@@ -1,11 +1,12 @@
-import 'package:blavapp/bloc/auth/auth_bloc.dart';
-import 'package:blavapp/bloc/data_programme/programme_bloc.dart';
-import 'package:blavapp/bloc/event_focus/event_focus_bloc.dart';
-import 'package:blavapp/bloc/localization/localization_bloc.dart';
-import 'package:blavapp/bloc/theme/theme_bloc.dart';
-import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
-import 'package:blavapp/bloc/user_local_prefs/user_local_prefs_bloc.dart';
-import 'package:blavapp/bloc/user_perms/user_perms_bloc.dart';
+import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
+import 'package:blavapp/bloc/app_state/theme/theme_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
+import 'package:blavapp/model/event.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/data_repo.dart';
@@ -149,34 +150,12 @@ class _BlavAppState extends State<BlavApp> {
                           builder: (context, authState) {
                             return BlocBuilder<EventFocusBloc, EventFocusState>(
                               builder: (context, eventFocusState) {
-                                if (eventFocusState.status ==
-                                    EventFocusStatus.focused) {
-                                  return MultiBlocProvider(
-                                    providers: [
-                                      if (eventFocusState
-                                          .event!.routing.programme)
-                                        BlocProvider(
-                                          create: (context) => ProgrammeBloc(
-                                            dataRepo: context.read<DataRepo>(),
-                                            eventTag: eventFocusState.eventTag,
-                                          ),
-                                        ),
-                                    ],
-                                    child: _buildMaterialApp(
-                                      context,
-                                      themeState,
-                                      localizationState,
-                                      authState,
-                                    ),
-                                  );
-                                } else {
-                                  return _buildMaterialApp(
-                                    context,
-                                    themeState,
-                                    localizationState,
-                                    authState,
-                                  );
-                                }
+                                return _buildMaterialApp(
+                                  context,
+                                  themeState,
+                                  localizationState,
+                                  authState,
+                                );
                               },
                             );
                           },
@@ -193,6 +172,21 @@ class _BlavAppState extends State<BlavApp> {
         }
       },
     );
+  }
+
+  List _eventDataProviders(Event? event) {
+    if (event == null) {
+      return [];
+    }
+    return [
+      if (event.routing.programme)
+        BlocProvider(
+          create: (context) => ProgrammeBloc(
+            dataRepo: context.read<DataRepo>(),
+            eventTag: event.id,
+          ),
+        ),
+    ];
   }
 
   Widget _buildMaterialApp(

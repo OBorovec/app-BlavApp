@@ -1,5 +1,5 @@
 import 'package:blavapp/components/_pages/side_page.dart';
-import 'package:blavapp/model/cater_item.dart';
+import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 

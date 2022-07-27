@@ -1,7 +1,8 @@
-import 'package:blavapp/model/cater_item.dart';
-import 'package:blavapp/model/degus_item.dart';
+import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
-import 'package:blavapp/model/prog_entry.dart';
+import 'package:blavapp/model/maps.dart';
+import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -108,88 +109,70 @@ class DataRepo {
   // Catering data
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _cateringDataRef =
-      FirebaseFirestore.instance.collection('data_catering');
+  final CollectionReference _cateringDataRef = FirebaseFirestore.instance
+      .collection('data_catering')
+      .withConverter<Catering>(
+        fromFirestore: (snapshot, _) => Catering.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
 
-  final CollectionReference _degustationDataRef =
-      FirebaseFirestore.instance.collection('data_degustation');
-
-  Future<List<CaterItem>> getCaterItems(String eventID) async {
-    final List<CaterItem> caterItems =
-        await _cateringDataRef.doc(eventID).get().then(
-              (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                      as List<dynamic>)
-                  .map(
-                    (item) => CaterItem.fromJson(item as Map<String, dynamic>),
-                  )
-                  .toList(),
-            );
-    return caterItems;
-  }
-
-  Stream<List<CaterItem>> getCaterItemsStream(String eventTag) {
-    return _cateringDataRef.doc(eventTag).snapshots().map(
-          (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                  as List<dynamic>)
-              .map(
-                (item) => CaterItem.fromJson(item as Map<String, dynamic>),
-              )
-              .toList(),
-        );
-  }
-
-  Future<List<DegusItem>> getDegusItems(String eventID) async {
-    final List<DegusItem> degusItems =
-        await _degustationDataRef.doc(eventID).get().then(
-              (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                      as List<dynamic>)
-                  .map(
-                    (item) => DegusItem.fromJson(item as Map<String, dynamic>),
-                  )
-                  .toList(),
-            );
-    return degusItems;
-  }
-
-  Stream<List<DegusItem>> getDegusItemsStream(String eventTag) {
-    return _degustationDataRef.doc(eventTag).snapshots().map(
-          (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                  as List<dynamic>)
-              .map(
-                (item) => DegusItem.fromJson(item as Map<String, dynamic>),
-              )
-              .toList(),
-        );
+  Stream<Catering> getCateringStream(String eventTag) {
+    return _cateringDataRef
+        .doc(eventTag)
+        .snapshots()
+        .map((snapshot) => ((snapshot.data() as Catering)));
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Catering data
+  // Degustation data
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _programmeDataRef =
-      FirebaseFirestore.instance.collection('data_programme');
+  final CollectionReference _degustationDataRef = FirebaseFirestore.instance
+      .collection('data_degustation')
+      .withConverter<Degustation>(
+        fromFirestore: (snapshot, _) => Degustation.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
 
-  Future<List<ProgEntry>> getProgItems(String eventID) async {
-    final List<ProgEntry> caterItems =
-        await _programmeDataRef.doc(eventID).get().then(
-              (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                      as List<dynamic>)
-                  .map(
-                    (item) => ProgEntry.fromJson(item as Map<String, dynamic>),
-                  )
-                  .toList(),
-            );
-    return caterItems;
+  Stream<Degustation> getDegustationStream(String eventTag) {
+    return _degustationDataRef
+        .doc(eventTag)
+        .snapshots()
+        .map((snapshot) => ((snapshot.data() as Degustation)));
   }
 
-  Stream<List<ProgEntry>> getProgItemsStream(String eventTag) {
-    return _programmeDataRef.doc(eventTag).snapshots().map(
-          (snapshot) => ((snapshot.data() as Map<String, dynamic>)['items']
-                  as List<dynamic>)
-              .map(
-                (item) => ProgEntry.fromJson(item as Map<String, dynamic>),
-              )
-              .toList(),
-        );
+  //////////////////////////////////////////////////////////////////////////////
+  // Programme data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _programmeDataRef = FirebaseFirestore.instance
+      .collection('data_programme')
+      .withConverter<Programme>(
+        fromFirestore: (snapshot, _) => Programme.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Stream<Programme> getProgrammeStream(String eventTag) {
+    return _programmeDataRef
+        .doc(eventTag)
+        .snapshots()
+        .map((snapshot) => ((snapshot.data() as Programme)));
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Maps data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _mapsDataRef =
+      FirebaseFirestore.instance.collection('data_maps').withConverter<Maps>(
+            fromFirestore: (snapshot, _) => Maps.fromJson(snapshot.data()!),
+            toFirestore: (entry, _) => entry.toJson(),
+          );
+
+  Stream<Maps> getMapsStream(String eventTag) {
+    return _mapsDataRef
+        .doc(eventTag)
+        .snapshots()
+        .map((snapshot) => ((snapshot.data() as Maps)));
   }
 }

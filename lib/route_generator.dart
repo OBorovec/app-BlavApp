@@ -1,10 +1,12 @@
 import 'package:blavapp/components/_pages/redirect_page.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
-import 'package:blavapp/views/catering/degustation_details.dart';
+import 'package:blavapp/views/degustation/degustation_details.dart';
+import 'package:blavapp/views/degustation/degustation_page.dart';
 import 'package:blavapp/views/gwint_club/gwint_club_page.dart';
 import 'package:blavapp/views/gwint_events/event_details.dart';
 import 'package:blavapp/views/gwint_events/events_page.dart';
+import 'package:blavapp/views/maps/maps_page.dart';
 import 'package:blavapp/views/profile/profile_delete_page.dart';
 import 'package:blavapp/views/profile/profile_page.dart';
 import 'package:blavapp/views/programme/programe_details.dart';
@@ -25,7 +27,7 @@ class RoutePaths {
   static const String profileDelete = '/profile/delete';
   // Static routes
   static const String welcome = '/welcome';
-  static const String gwint = '/gwintclub';
+  static const String club = '/club';
   static const String events = '/events';
   static const String eventDetail = '/eventDetail';
   static const String settings = '/setting';
@@ -35,6 +37,7 @@ class RoutePaths {
   static const String programmeEntry = '/programme-entry';
   static const String catering = '/catering';
   static const String cateringItem = '/catering-item';
+  static const String degustation = '/degustation';
   static const String degustationItem = '/degustation-item';
   static const String cosplay = '/cosplay';
   static const String divisions = '/divisions';
@@ -84,7 +87,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const WelcomePage(),
         );
-      case RoutePaths.gwint:
+      case RoutePaths.club:
         return authGuard(
             MaterialPageRoute(
               builder: (_) => const GwintHomePage(),
@@ -140,6 +143,13 @@ class RouteGenerator {
           ),
           isAuthenticated,
         );
+      case RoutePaths.degustation:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const DegustationPage(),
+          ),
+          isAuthenticated,
+        );
       case RoutePaths.degustationItem:
         final args = settings.arguments! as DegustationDetailsArguments;
         return authGuard(
@@ -152,8 +162,13 @@ class RouteGenerator {
       //   return authGuard(MaterialPageRoute(builder: (_) => CosplayPage(),), isAuthenticated,);
       // case RoutePaths.divisions:
       //   return authGuard(MaterialPageRoute(builder: (_) => DivisionsPage(),), isAuthenticated,);
-      // case RoutePaths.maps:
-      //   return authGuard(MaterialPageRoute(builder: (_) => MapsPage(),), isAuthenticated,);
+      case RoutePaths.maps:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const MapsPage(),
+          ),
+          isAuthenticated,
+        );
       default:
         return _errorRoute(
           settings.name,

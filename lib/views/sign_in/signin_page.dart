@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/user_signin/user_sign_in_bloc.dart';
+import 'package:blavapp/bloc/user_view/user_signin/user_sign_in_bloc.dart';
 import 'package:blavapp/components/_pages/root_page.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';

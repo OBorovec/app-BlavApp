@@ -1,5 +1,7 @@
-import 'package:blavapp/bloc/localization/localization_bloc.dart';
-import 'package:blavapp/model/prog_entry.dart';
+import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
+import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/degustation.dart';
+import 'package:blavapp/model/programme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +30,49 @@ String tProgEntryType(ProgEntryType type, BuildContext context) {
       return AppLocalizations.of(context)!.programmeTypeLecture;
     case ProgEntryType.tournament:
       return AppLocalizations.of(context)!.programmeTypeTournament;
+    case ProgEntryType.show:
+      return AppLocalizations.of(context)!.programmeTypeShow;
+    case ProgEntryType.degustation:
+      return AppLocalizations.of(context)!.programmeTypeDegustation;
+    case ProgEntryType.discussion:
+      return AppLocalizations.of(context)!.programmeTypeDiscussion;
+    case ProgEntryType.gaming:
+      return AppLocalizations.of(context)!.programmeTypeGaming;
+    case ProgEntryType.photo:
+      return AppLocalizations.of(context)!.programmeTypePhoto;
+    case ProgEntryType.cosplay:
+      return AppLocalizations.of(context)!.programmeTypeCosplay;
     case ProgEntryType.other:
       return AppLocalizations.of(context)!.programmeTypeOther;
+  }
+}
+
+String tCaterItemType(CaterItemType itemType, BuildContext context) {
+  switch (itemType) {
+    case CaterItemType.starter:
+      return AppLocalizations.of(context)!.cateringTypeStarter;
+    case CaterItemType.soup:
+      return AppLocalizations.of(context)!.cateringTypeSoup;
+    case CaterItemType.snack:
+      return AppLocalizations.of(context)!.cateringTypeSnack;
+    case CaterItemType.main:
+      return AppLocalizations.of(context)!.cateringTypeMain;
+    case CaterItemType.side:
+      return AppLocalizations.of(context)!.cateringTypeSide;
+    case CaterItemType.drink:
+      return AppLocalizations.of(context)!.cateringTypeDrink;
+    case CaterItemType.desert:
+      return AppLocalizations.of(context)!.cateringTypeDesert;
+    default:
+      return 'Unknown';
+  }
+}
+
+String tDegusAlcoholType(DegusAlcoholType type, BuildContext context) {
+  switch (type) {
+    case DegusAlcoholType.mead:
+      return AppLocalizations.of(context)!.degusAlcoholTypeMead;
+    default:
+      return 'Unknown';
   }
 }

@@ -15,6 +15,7 @@ String namedDateTime(DateTime dt) {
   return dateTimeWeekDays[dt.weekday] ?? 'Unknown';
 }
 
+// Datetime -> 17:08 // force 24 hour time
 String datetimeToHours(DateTime? dt, BuildContext context) {
   if (dt != null) {
     final String locale = Localizations.localeOf(context).languageCode;
@@ -25,6 +26,7 @@ String datetimeToHours(DateTime? dt, BuildContext context) {
   }
 }
 
+// Datetime -> Mon 21.3.
 String datetimeDayDate(DateTime? dt, BuildContext context) {
   if (dt != null) {
     final String locale = Localizations.localeOf(context).languageCode;
@@ -35,6 +37,7 @@ String datetimeDayDate(DateTime? dt, BuildContext context) {
   }
 }
 
+// Datetime -> July 10, 1996
 String datetimeToDate(DateTime? dt, BuildContext context) {
   if (dt != null) {
     final String locale = Localizations.localeOf(context).languageCode;

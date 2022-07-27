@@ -1,5 +1,6 @@
-import 'package:blavapp/model/cater_item.dart';
-import 'package:blavapp/model/prog_entry.dart';
+import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/degustation.dart';
+import 'package:blavapp/model/programme.dart';
 
 enum AppHeros { userAvatar }
 
@@ -12,5 +13,17 @@ String programmeEntryImgHeroTag(ProgEntry entry) {
 }
 
 String caterItemImgHeroTag(CaterItem item) {
-  return 'cater-img-title-${item.id}';
+  return 'cater-img-item-${item.id}';
+}
+
+String caterItemPlaceHeroTag(CaterPlace place) {
+  return 'cater-img-place-${place.hashCode}';
+}
+
+String degusItemImgHeroTag(DegusItem item) {
+  return 'degus-img-item-${item.id}';
+}
+
+String degusItemPlaceHeroTag(DegusPlace place) {
+  return 'degus-img-place-${place.hashCode}';
 }

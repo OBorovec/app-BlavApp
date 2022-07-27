@@ -1,9 +1,10 @@
-import 'package:blavapp/bloc/filter_programme/filter_programme_bloc.dart';
-import 'package:blavapp/bloc/user_data/user_data_bloc.dart';
-import 'package:blavapp/model/prog_entry.dart';
+import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/views/programme/programe_details.dart';
-import 'package:blavapp/views/programme/programme_entry_card.dart';
+import 'package:blavapp/views/programme/programme_list_card.dart';
+import 'package:blavapp/views/programme/programme_list_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,40 +19,52 @@ class ProgrammeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
       builder: (context, state) {
-        return ImplicitlyAnimatedList<ProgEntry>(
-          items: state.programmeEntriesFiltered,
-          areItemsTheSame: (a, b) => a.id == b.id,
-          updateDuration: const Duration(milliseconds: 200),
-          insertDuration: const Duration(milliseconds: 200),
-          removeDuration: const Duration(milliseconds: 200),
-          itemBuilder: (context, animation, item, index) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(-1, 0),
-                end: Offset.zero,
-              ).animate(animation),
-              child: Slidable(
-                endActionPane: ActionPane(
-                  extentRatio: 2 / 3, // Goes with the current entry card setup
-                  motion: const DrawerMotion(),
-                  children: _buildSlidableActions(
-                    item,
-                    context,
-                  ),
-                ),
-                child: ProgrammeEntryCard(
-                  entry: item,
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    RoutePaths.programmeEntry,
-                    arguments: ProgrammeDetailsArguments(
-                      entry: item,
+        return Column(
+          children: [
+            if (state.searchActive) ...[
+              const SizedBox(height: 8),
+              const ProgrammeSearchTile(),
+              const Divider(),
+            ],
+            Expanded(
+              child: ImplicitlyAnimatedList<ProgEntry>(
+                items: state.programmeEntriesFiltered,
+                areItemsTheSame: (a, b) => a.id == b.id,
+                updateDuration: const Duration(milliseconds: 200),
+                insertDuration: const Duration(milliseconds: 200),
+                removeDuration: const Duration(milliseconds: 200),
+                itemBuilder: (context, animation, item, index) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(-1, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        extentRatio:
+                            2 / 3, // Goes with the current entry card setup
+                        motion: const DrawerMotion(),
+                        children: _buildSlidableActions(
+                          item,
+                          context,
+                        ),
+                      ),
+                      child: ProgrammeEntryCard(
+                        entry: item,
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RoutePaths.programmeEntry,
+                          arguments: ProgrammeDetailsArguments(
+                            entry: item,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+          ],
         );
       },
     );
