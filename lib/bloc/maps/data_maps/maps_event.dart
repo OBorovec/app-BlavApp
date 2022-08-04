@@ -8,7 +8,7 @@ abstract class MapsEvent extends Equatable {
 }
 
 class MapsStreamChanged extends MapsEvent {
-  final List<MapRecord> mapRecords;
+  final Map<String, MapRecord> mapRecords;
   final List<RealWorldRecord> realWorldRecords;
 
   const MapsStreamChanged({

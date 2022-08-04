@@ -99,7 +99,9 @@ Map<String, dynamic> _$CaterVolumeToJson(CaterVolume instance) =>
 
 CaterPlace _$CaterPlaceFromJson(Map<String, dynamic> json) => CaterPlace(
       name: Map<String, String>.from(json['name'] as Map),
-      loc: json['loc'] as String?,
+      loc: json['loc'] == null
+          ? null
+          : CaterPlaceLoc.fromJson(json['loc'] as Map<String, dynamic>),
       opens: (json['opens'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -115,6 +117,18 @@ Map<String, dynamic> _$CaterPlaceToJson(CaterPlace instance) =>
       'loc': instance.loc,
       'opens': instance.opens,
       'images': instance.images,
+    };
+
+CaterPlaceLoc _$CaterPlaceLocFromJson(Map<String, dynamic> json) =>
+    CaterPlaceLoc(
+      mapRef: json['mapRef'] as String,
+      pointRef: json['pointRef'] as String,
+    );
+
+Map<String, dynamic> _$CaterPlaceLocToJson(CaterPlaceLoc instance) =>
+    <String, dynamic>{
+      'mapRef': instance.mapRef,
+      'pointRef': instance.pointRef,
     };
 
 CaterNotification _$CaterNotificationFromJson(Map<String, dynamic> json) =>

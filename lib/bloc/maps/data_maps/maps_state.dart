@@ -9,13 +9,13 @@ enum MapsStatus {
 class MapsState extends Equatable {
   final MapsStatus status;
   final String message;
-  final List<MapRecord> mapRecords;
+  final Map<String, MapRecord> mapRecords;
   final List<RealWorldRecord> realWorldRecords;
 
   const MapsState({
     this.status = MapsStatus.initial,
     this.message = '',
-    this.mapRecords = const [],
+    this.mapRecords = const {},
     this.realWorldRecords = const [],
   });
 
@@ -30,7 +30,7 @@ class MapsState extends Equatable {
   MapsState copyWith({
     MapsStatus? status,
     String? message,
-    List<MapRecord>? mapRecords,
+    Map<String, MapRecord>? mapRecords,
     List<RealWorldRecord>? realWorldRecords,
   }) {
     return MapsState(

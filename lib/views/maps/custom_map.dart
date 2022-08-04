@@ -8,12 +8,14 @@ class CustomMap extends StatefulWidget {
   final double screenHeight;
   final double screenWidth;
   final MapRecord mapRecord;
+  final String? pointRefZoom;
 
   const CustomMap({
     Key? key,
     required this.screenHeight,
     required this.screenWidth,
     required this.mapRecord,
+    this.pointRefZoom,
   }) : super(key: key);
 
   double get initVerticalScale => screenHeight / mapRecord.h;
@@ -41,6 +43,27 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )..addListener(_mapAnimationListener);
+    print(widget.pointRefZoom);
+    if (widget.pointRefZoom != null) {
+      List<MapPoint> points = widget.mapRecord.points
+          .where((MapPoint p) => p.id == widget.pointRefZoom)
+          .toList();
+      if (points.isNotEmpty) {
+        MapPoint point = points.first;
+        final int index = widget.mapRecord.points.indexOf(point);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          // Center
+          _animateMove(point);
+          // Set carousel
+          _carouselController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+          );
+          _carouselIndex = index;
+        });
+      }
+    }
   }
 
   void _mapAnimationListener() {
@@ -84,7 +107,11 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
                     top: p.y.toDouble() - _MapMarker.offset,
                     child: _MapMarker(
                       mapPoint: p,
-                      onTap: () => _carouselController.jumpToPage(index),
+                      onTap: () => _carouselController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                      ),
                       isSelected: _carouselIndex == index,
                     ),
                   );

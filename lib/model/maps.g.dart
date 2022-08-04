@@ -7,10 +7,11 @@ part of 'maps.dart';
 // **************************************************************************
 
 Maps _$MapsFromJson(Map<String, dynamic> json) => Maps(
-      mapRecords: (json['mapRecords'] as List<dynamic>?)
-              ?.map((e) => MapRecord.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      mapRecords: (json['mapRecords'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, MapRecord.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       realWorldRecords: (json['realWorldRecords'] as List<dynamic>?)
               ?.map((e) => RealWorldRecord.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -28,9 +29,10 @@ MapRecord _$MapRecordFromJson(Map<String, dynamic> json) => MapRecord(
       image: json['image'] as String,
       w: json['w'] as int,
       h: json['h'] as int,
-      points: (json['points'] as List<dynamic>)
-          .map((e) => MapPoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      points: (json['points'] as List<dynamic>?)
+              ?.map((e) => MapPoint.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$MapRecordToJson(MapRecord instance) => <String, dynamic>{

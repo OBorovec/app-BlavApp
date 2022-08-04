@@ -3,8 +3,10 @@ import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/model/maps.dart';
+import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/toasting.dart';
+import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -68,13 +70,17 @@ class _MapsMainContent extends StatelessWidget {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                     delegate: SliverChildListDelegate(
-                      state.mapRecords
+                      state.mapRecords.entries
                           .map(
-                            (MapRecord mapRecord) => _MapRecordCard(
-                              mapRecord: mapRecord,
-                              onTap: () {
-                                // TODO: Open a side page with custom map widget
-                              },
+                            (entry) => _MapRecordCard(
+                              mapRecord: entry.value,
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                RoutePaths.mapView,
+                                arguments: MapViewArguments(
+                                  mapRef: entry.key,
+                                ),
+                              ),
                             ),
                           )
                           .toList(),
@@ -112,35 +118,38 @@ class _MapRecordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                mapRecord.image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  t(mapRecord.name, context),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        height: 150,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  mapRecord.image,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    t(mapRecord.name, context),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -157,30 +166,33 @@ class _RealWorldRecordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () {
-              // TODO: open GPS location using map app
-            },
-            icon: const Icon(Icons.location_on),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t(realWorldRecord.name, context),
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              if (realWorldRecord.desc != null)
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                // TODO: open GPS location using map app
+              },
+              icon: const Icon(Icons.location_on),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  t(realWorldRecord.desc!, context),
+                  t(realWorldRecord.name, context),
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
-            ],
-          ),
-        ],
+                if (realWorldRecord.desc != null)
+                  Text(
+                    t(realWorldRecord.desc!, context),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

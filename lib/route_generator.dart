@@ -7,6 +7,7 @@ import 'package:blavapp/views/degustation/degustation_page.dart';
 import 'package:blavapp/views/gwint_club/gwint_club_page.dart';
 import 'package:blavapp/views/gwint_events/event_details.dart';
 import 'package:blavapp/views/gwint_events/events_page.dart';
+import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:blavapp/views/maps/maps_page.dart';
 import 'package:blavapp/views/profile/profile_delete_page.dart';
 import 'package:blavapp/views/profile/profile_page.dart';
@@ -43,6 +44,7 @@ class RoutePaths {
   static const String cosplay = '/cosplay';
   static const String divisions = '/divisions';
   static const String maps = '/maps';
+  static const String mapView = '/map-view';
 }
 
 class RouteGenerator {
@@ -172,6 +174,17 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => const MapsPage(),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.mapView:
+        final args = settings.arguments! as MapViewArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => MapViewPage(
+              mapRef: args.mapRef,
+              pointRefZoom: args.pointRefZoom,
+            ),
           ),
           isAuthenticated,
         );

@@ -110,7 +110,7 @@ class CaterVolume extends Equatable {
 @JsonSerializable()
 class CaterPlace extends Equatable {
   final Map<String, String> name;
-  final String? loc;
+  final CaterPlaceLoc? loc;
   final Map<String, String>? opens;
   final List<String> images;
 
@@ -128,6 +128,25 @@ class CaterPlace extends Equatable {
       _$CaterPlaceFromJson(json);
 
   Map<String, Object?> toJson() => _$CaterPlaceToJson(this);
+}
+
+@JsonSerializable()
+class CaterPlaceLoc extends Equatable {
+  final String mapRef;
+  final String pointRef;
+
+  const CaterPlaceLoc({
+    required this.mapRef,
+    required this.pointRef,
+  });
+
+  @override
+  List<Object?> get props => [mapRef, pointRef];
+
+  factory CaterPlaceLoc.fromJson(Map<String, Object?> json) =>
+      _$CaterPlaceLocFromJson(json);
+
+  Map<String, Object?> toJson() => _$CaterPlaceLocToJson(this);
 }
 
 @JsonSerializable()

@@ -5,16 +5,16 @@ part 'maps.g.dart';
 
 @JsonSerializable()
 class Maps extends Equatable {
-  final List<MapRecord> mapRecords;
+  final Map<String, MapRecord> mapRecords;
   final List<RealWorldRecord> realWorldRecords;
 
   const Maps({
-    this.mapRecords = const [],
+    this.mapRecords = const {},
     this.realWorldRecords = const [],
   });
 
   @override
-  List<Object?> get props => [mapRecords];
+  List<Object?> get props => [mapRecords, realWorldRecords];
 
   factory Maps.fromJson(Map<String, Object?> json) => _$MapsFromJson(json);
   Map<String, Object?> toJson() => _$MapsToJson(this);
@@ -35,7 +35,7 @@ class MapRecord extends Equatable {
     required this.image,
     required this.w,
     required this.h,
-    required this.points,
+    this.points = const [],
   });
 
   @override

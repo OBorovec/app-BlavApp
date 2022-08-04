@@ -3,9 +3,11 @@ import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.da
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/constants/icons.dart';
 import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_implementation.dart';
+import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,10 +26,27 @@ class CateringPlaceCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              t(cateringPlaceInfo.place.name, context),
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline5,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  t(cateringPlaceInfo.place.name, context),
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                if (cateringPlaceInfo.place.loc != null)
+                  IconButton(
+                    icon: const Icon(Icons.location_on),
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      RoutePaths.mapView,
+                      arguments: MapViewArguments(
+                        mapRef: cateringPlaceInfo.place.loc!.mapRef,
+                        pointRefZoom: cateringPlaceInfo.place.loc!.pointRef,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const Divider(),
             Row(
