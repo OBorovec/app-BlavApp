@@ -1,4 +1,4 @@
-import 'package:blavapp/components/_pages/side_page.dart';
+import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/utils/app_heros.dart';

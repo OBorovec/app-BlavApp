@@ -1,4 +1,4 @@
-import 'package:blavapp/components/_pages/appbar_extention.dart';
+import 'package:blavapp/components/page_hierarchy/appbar_extention.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/drawer/drawer_main.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:blavapp/components/_pages/appbar_extention.dart';
+import 'package:blavapp/components/page_hierarchy/appbar_extention.dart';
 import 'package:flutter/material.dart';
 
 class SidePage extends StatefulWidget {

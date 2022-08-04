@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -10,13 +11,29 @@ part 'catering_state.dart';
 
 class CateringBloc extends Bloc<CateringEvent, CateringState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<Catering> _cateringStream;
+  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  StreamSubscription<Catering>? _cateringStream;
 
   CateringBloc({
     required DataRepo dataRepo,
-    required String eventTag,
+    required EventFocusBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const CateringState()) {
+    _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
+        (EventFocusState eventFocusState) =>
+            createDataStream(eventTag: eventFocusState.eventTag));
+    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+      createDataStream(eventTag: eventFocusBloc.state.eventTag);
+    }
+    // Event listeners
+    on<CateringSubscriptionFailed>(_onCateringSubscriptionFailed);
+    on<CateringStreamChanged>(_onCateringItemsChange);
+  }
+
+  void createDataStream({required String eventTag}) {
+    if (_cateringStream != null) {
+      _cateringStream!.cancel();
+    }
     _cateringStream = _dataRepo.getCateringStream(eventTag).listen(
           (Catering catering) => add(
             CateringStreamChanged(
@@ -25,15 +42,18 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
               cateringNotifications: catering.notifications,
             ),
           ),
-          // )..onError(
-          // (error) {
-          //   add(CateringSubscriptionFailed(error.toString()));
-          // },
-        );
-    // Event listeners
-    on<CateringSubscriptionFailed>(_onCateringSubscriptionFailed);
-    on<CateringStreamChanged>(_onCateringItemsChange);
+        )..onError(
+        (error) {
+          if (error is NullDataException) {
+            add(CateringSubscriptionFailed(message: error.message));
+          } else {
+            add(CateringSubscriptionFailed(message: error.toString()));
+          }
+        },
+      );
   }
+
+  // Event listeners implementations
 
   Future<void> _onCateringItemsChange(
     CateringStreamChanged event,
@@ -51,7 +71,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          status: CateringStatus.failed,
+          status: CateringStatus.error,
           message: e.toString(),
         ),
       );
@@ -64,15 +84,16 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
   ) async {
     emit(
       state.copyWith(
-        status: CateringStatus.failed,
-        message: event.toString(),
+        status: CateringStatus.error,
+        message: event.message,
       ),
     );
   }
 
   @override
   Future<void> close() {
-    _cateringStream.cancel();
+    _cateringStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
     return super.close();
   }
 }

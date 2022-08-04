@@ -1,7 +1,6 @@
 import 'package:blavapp/bloc/degustation/place_degustation/place_degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/constants/icons.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';

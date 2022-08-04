@@ -3,7 +3,7 @@ part of 'catering_bloc.dart';
 enum CateringStatus {
   initial,
   loaded,
-  failed,
+  error,
 }
 
 class CateringState extends Equatable {

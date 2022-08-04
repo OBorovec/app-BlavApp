@@ -22,5 +22,5 @@ class CateringStreamChanged extends CateringEvent {
 class CateringSubscriptionFailed extends CateringEvent {
   final String message;
 
-  const CateringSubscriptionFailed(this.message);
+  const CateringSubscriptionFailed({required this.message});
 }

@@ -1,6 +1,4 @@
-import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
-import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';

@@ -4,10 +4,11 @@ import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.da
 import 'package:blavapp/bloc/programme/highlight_programme/highlight_programme_bloc.dart';
 import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agenda_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/_pages/bottom_navigation.dart';
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/programme/programme_highlight.dart';
 import 'package:blavapp/views/programme/programme_agenda.dart';
@@ -50,84 +51,52 @@ class _ProgrammePageState extends State<ProgrammePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventFocusBloc, EventFocusState>(
-      builder: (context, eventFocusState) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              lazy: false,
-              create: (context) => ProgrammeBloc(
-                dataRepo: context.read<DataRepo>(),
-                eventTag: eventFocusState.eventTag,
-              ),
-            ),
-          ],
-          child: BlocConsumer<ProgrammeBloc, ProgrammeState>(
-            listenWhen: (previous, current) =>
-                previous.message != current.message,
-            listener: (context, state) {
-              if (state.status == ProgrammeStatus.failed) {
-                Toasting.notifyToast(context, state.message);
-              }
-            },
-            builder: (context, state) {
-              if (state.status == ProgrammeStatus.loaded) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) => HighlightProgrammeBloc(
-                        programmeBloc: context.read<ProgrammeBloc>(),
-                        userDataBloc: context.read<UserDataBloc>(),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => FilterProgrammeBloc(
-                        programmeBloc: context.read<ProgrammeBloc>(),
-                        userDataBloc: context.read<UserDataBloc>(),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => UserProgrammeAgendaBloc(
-                        programmeBloc: context.read<ProgrammeBloc>(),
-                        userDataBloc: context.read<UserDataBloc>(),
-                        event: eventFocusState.event!,
-                      ),
-                    ),
-                  ],
-                  child: Builder(builder: (context) {
-                    return RootPage(
-                      titleText: _pageTitle(),
-                      body: _buildContent(),
-                      actions: _buildActions(),
-                      bottomNavigationBar: _buildBottomNavigation(context),
-                    );
-                  }),
-                );
-              } else if (state.status == ProgrammeStatus.failed) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(Icons.error),
-                      Text(AppLocalizations.of(context)!
-                          .blocDataFail(state.message)),
-                    ],
+    return BlocConsumer<ProgrammeBloc, ProgrammeState>(
+      listenWhen: (previous, current) => previous.message != current.message,
+      listener: (context, state) {
+        if (state.status == ProgrammeStatus.error) {
+          Toasting.notifyToast(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        switch (state.status) {
+          case ProgrammeStatus.loaded:
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => HighlightProgrammeBloc(
+                    programmeBloc: context.read<ProgrammeBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
                   ),
-                );
-              } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text(AppLocalizations.of(context)!.blocDataLoading),
-                    ],
+                ),
+                BlocProvider(
+                  create: (context) => FilterProgrammeBloc(
+                    programmeBloc: context.read<ProgrammeBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
                   ),
+                ),
+                BlocProvider(
+                  create: (context) => UserProgrammeAgendaBloc(
+                    programmeBloc: context.read<ProgrammeBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
+                    event: context.read<EventFocusBloc>().state.event!,
+                  ),
+                ),
+              ],
+              child: Builder(builder: (context) {
+                return RootPage(
+                  titleText: _pageTitle(),
+                  body: _buildContent(),
+                  actions: _buildActions(),
+                  bottomNavigationBar: _buildBottomNavigation(context),
                 );
-              }
-            },
-          ),
-        );
+              }),
+            );
+          case ProgrammeStatus.error:
+            return BlocErrorPage(message: state.message);
+          case ProgrammeStatus.initial:
+            return const BlocLoadingPage();
+        }
       },
     );
   }

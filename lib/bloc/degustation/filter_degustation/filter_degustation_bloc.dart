@@ -32,7 +32,7 @@ class FilterDegustationBloc
       },
     );
     _userDataBlocSubscription = userDataBloc.stream.listen(
-      (UserDataState state) => null,
+      (UserDataState state) {},
     );
     // Event listeners
     on<UpdateDegusItems>(_updateDegusItems);

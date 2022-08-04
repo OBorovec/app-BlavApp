@@ -3,7 +3,7 @@ part of 'degustation_bloc.dart';
 enum DegustationStatus {
   initial,
   loaded,
-  failed,
+  error,
 }
 
 class DegustationState extends Equatable {

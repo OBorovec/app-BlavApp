@@ -14,7 +14,6 @@ class DegustationPlaceList extends StatelessWidget {
     final double aspectRation = width / height;
     return BlocBuilder<PlaceDegustationBloc, PlaceDegustationState>(
       builder: (context, state) {
-        print(state.places);
         return CarouselSlider(
           items: state.places
               .map((DegustationPlaceInfo info) => DegustationPlaceCard(

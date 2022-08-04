@@ -1,9 +1,7 @@
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/model/maps.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/views/maps/custom_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({Key? key}) : super(key: key);

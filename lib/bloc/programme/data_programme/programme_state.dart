@@ -3,7 +3,7 @@ part of 'programme_bloc.dart';
 enum ProgrammeStatus {
   initial,
   loaded,
-  failed,
+  error,
 }
 
 class ProgrammeState extends Equatable {

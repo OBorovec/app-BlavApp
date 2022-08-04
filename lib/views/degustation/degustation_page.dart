@@ -1,12 +1,12 @@
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/place_degustation/place_degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/_pages/bottom_navigation.dart';
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/degustation/degustation_list.dart';
 import 'package:blavapp/views/degustation/degustation_overview.dart';
@@ -45,84 +45,46 @@ class _DegustationPageState extends State<DegustationPage> {
     }
   }
 
-  // items: const [
-  //         Icons.amp_stories,
-  //         Icons.local_bar,
-  //         Icons.location_on,
-  //       ],
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventFocusBloc, EventFocusState>(
-      builder: (context, eventFocusState) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              lazy: false,
-              create: (context) => DegustationBloc(
-                dataRepo: context.read<DataRepo>(),
-                eventTag: eventFocusState.eventTag,
-              ),
-            ),
-          ],
-          child: BlocConsumer<DegustationBloc, DegustationState>(
-            listenWhen: (previous, current) =>
-                previous.message != current.message,
-            listener: (context, state) {
-              if (state.status == DegustationStatus.failed) {
-                Toasting.notifyToast(context, state.message);
-              }
-            },
-            builder: (context, state) {
-              if (state.status == DegustationStatus.loaded) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) => FilterDegustationBloc(
-                        degustationBloc: context.read<DegustationBloc>(),
-                        userDataBloc: context.read<UserDataBloc>(),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => PlaceDegustationBloc(
-                        degustationBloc: context.read<DegustationBloc>(),
-                      ),
-                    ),
-                  ],
-                  child: Builder(builder: (context) {
-                    return RootPage(
-                      titleText: _pageTitle(),
-                      body: _buildContent(),
-                      actions: _buildActions(),
-                      bottomNavigationBar: _buildBottomNavigation(context),
-                    );
-                  }),
-                );
-              } else if (state.status == DegustationStatus.failed) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(Icons.error),
-                      Text(AppLocalizations.of(context)!
-                          .blocDataFail(state.message)),
-                    ],
+    return BlocConsumer<DegustationBloc, DegustationState>(
+      listenWhen: (previous, current) => previous.message != current.message,
+      listener: (context, state) {
+        if (state.status == DegustationStatus.error) {
+          Toasting.notifyToast(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        switch (state.status) {
+          case DegustationStatus.loaded:
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => FilterDegustationBloc(
+                    degustationBloc: context.read<DegustationBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
                   ),
-                );
-              } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text(AppLocalizations.of(context)!.blocDataLoading),
-                    ],
+                ),
+                BlocProvider(
+                  create: (context) => PlaceDegustationBloc(
+                    degustationBloc: context.read<DegustationBloc>(),
                   ),
+                ),
+              ],
+              child: Builder(builder: (context) {
+                return RootPage(
+                  titleText: _pageTitle(),
+                  body: _buildContent(),
+                  actions: _buildActions(),
+                  bottomNavigationBar: _buildBottomNavigation(context),
                 );
-              }
-            },
-          ),
-        );
+              }),
+            );
+          case DegustationStatus.error:
+            return BlocErrorPage(message: state.message);
+          case DegustationStatus.initial:
+            return const BlocLoadingPage();
+        }
       },
     );
   }

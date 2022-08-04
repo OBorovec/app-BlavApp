@@ -1,12 +1,12 @@
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/bloc/catering/highlight_catering/highlight_catering_bloc.dart';
 import 'package:blavapp/bloc/catering/places_catering/places_catering_bloc.dart';
-import 'package:blavapp/components/_pages/bottom_navigation.dart';
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/catering/catering_list.dart';
 import 'package:blavapp/views/catering/catering_overview.dart';
@@ -47,80 +47,48 @@ class _CateringPageState extends State<CateringPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventFocusBloc, EventFocusState>(
-      builder: (context, eventFocusState) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              lazy: false,
-              create: (context) => CateringBloc(
-                dataRepo: context.read<DataRepo>(),
-                eventTag: eventFocusState.eventTag,
-              ),
-            ),
-          ],
-          child: BlocConsumer<CateringBloc, CateringState>(
-            listenWhen: (previous, current) =>
-                previous.message != current.message,
-            listener: (context, state) {
-              if (state.status == CateringStatus.failed) {
-                Toasting.notifyToast(context, state.message);
-              }
-            },
-            builder: (context, state) {
-              if (state.status == CateringStatus.loaded) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) => HighlightCateringBloc(
-                        cateringBloc: context.read<CateringBloc>(),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => FilterCateringBloc(
-                        cateringBloc: context.read<CateringBloc>(),
-                      ),
-                    ),
-                    BlocProvider(
-                      create: (context) => PlacesCateringBloc(
-                        cateringBloc: context.read<CateringBloc>(),
-                      ),
-                    ),
-                  ],
-                  child: Builder(builder: (context) {
-                    return RootPage(
-                      titleText: _pageTitle(),
-                      body: _buildContent(),
-                      actions: _buildActions(),
-                      bottomNavigationBar: _buildBottomNavigation(context),
-                    );
-                  }),
-                );
-              } else if (state.status == CateringStatus.failed) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(Icons.error),
-                      Text(AppLocalizations.of(context)!
-                          .blocDataFail(state.message)),
-                    ],
+    return BlocConsumer<CateringBloc, CateringState>(
+      listenWhen: (previous, current) => previous.message != current.message,
+      listener: (context, state) {
+        if (state.status == CateringStatus.error) {
+          Toasting.notifyToast(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        switch (state.status) {
+          case CateringStatus.loaded:
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => HighlightCateringBloc(
+                    cateringBloc: context.read<CateringBloc>(),
                   ),
-                );
-              } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text(AppLocalizations.of(context)!.blocDataLoading),
-                    ],
+                ),
+                BlocProvider(
+                  create: (context) => FilterCateringBloc(
+                    cateringBloc: context.read<CateringBloc>(),
                   ),
+                ),
+                BlocProvider(
+                  create: (context) => PlacesCateringBloc(
+                    cateringBloc: context.read<CateringBloc>(),
+                  ),
+                ),
+              ],
+              child: Builder(builder: (context) {
+                return RootPage(
+                  titleText: _pageTitle(),
+                  body: _buildContent(),
+                  actions: _buildActions(),
+                  bottomNavigationBar: _buildBottomNavigation(context),
                 );
-              }
-            },
-          ),
-        );
+              }),
+            );
+          case CateringStatus.error:
+            return BlocErrorPage(message: state.message);
+          case CateringStatus.initial:
+            return const BlocLoadingPage();
+        }
       },
     );
   }

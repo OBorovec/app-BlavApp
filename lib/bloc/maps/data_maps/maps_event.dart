@@ -20,5 +20,5 @@ class MapsStreamChanged extends MapsEvent {
 class MapsSubscriptionFailed extends MapsEvent {
   final String message;
 
-  const MapsSubscriptionFailed(this.message);
+  const MapsSubscriptionFailed({required this.message});
 }

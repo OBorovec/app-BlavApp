@@ -1,6 +1,6 @@
 import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/app_state/theme/theme_bloc.dart';
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

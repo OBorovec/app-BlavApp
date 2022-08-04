@@ -13,6 +13,8 @@ class EventFocusState extends Equatable {
     this.event,
   }) : super();
 
+  bool get isFocused => status == EventFocusStatus.focused;
+
   @override
   List<Object> get props => [status, eventTag, event ?? ''];
 }

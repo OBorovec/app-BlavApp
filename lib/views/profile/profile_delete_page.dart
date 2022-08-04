@@ -1,5 +1,5 @@
 import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
-import 'package:blavapp/components/_pages/side_page.dart';
+import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -9,14 +10,30 @@ part 'degustation_state.dart';
 
 class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<Degustation> _degustationItemsStream;
+  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  StreamSubscription<Degustation>? _degustationStream;
 
   DegustationBloc({
     required DataRepo dataRepo,
-    required String eventTag,
+    required EventFocusBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const DegustationState()) {
-    _degustationItemsStream = _dataRepo.getDegustationStream(eventTag).listen(
+    _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
+        (EventFocusState eventFocusState) =>
+            createDataStream(eventTag: eventFocusState.eventTag));
+    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+      createDataStream(eventTag: eventFocusBloc.state.eventTag);
+    }
+    // Event listeners
+    on<DegustationSubscriptionFailed>(_onDegustationSubscriptionFailed);
+    on<DegustationStreamChanged>(_onDegusItemsChange);
+  }
+
+  void createDataStream({required String eventTag}) {
+    if (_degustationStream != null) {
+      _degustationStream!.cancel();
+    }
+    _degustationStream = _dataRepo.getDegustationStream(eventTag).listen(
           (Degustation degustation) => add(
             DegustationStreamChanged(
               degustationItems: degustation.items,
@@ -24,14 +41,15 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
               degustationNotifications: degustation.notifications,
             ),
           ),
-          // )..onError(
-          // (error) {
-          //   add(DegustationSubscriptionFailed(error.toString()));
-          // },
-        );
-    // Event listeners
-    on<DegustationSubscriptionFailed>(_onDegustationSubscriptionFailed);
-    on<DegustationStreamChanged>(_onDegusItemsChange);
+        )..onError(
+        (error) {
+          if (error is NullDataException) {
+            add(DegustationSubscriptionFailed(message: error.message));
+          } else {
+            add(DegustationSubscriptionFailed(message: error.toString()));
+          }
+        },
+      );
   }
 
   Future<void> _onDegusItemsChange(
@@ -48,7 +66,7 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          status: DegustationStatus.failed,
+          status: DegustationStatus.error,
           message: e.toString(),
         ),
       );
@@ -61,15 +79,16 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
   ) async {
     emit(
       state.copyWith(
-        status: DegustationStatus.failed,
-        message: event.toString(),
+        status: DegustationStatus.error,
+        message: event.message,
       ),
     );
   }
 
   @override
   Future<void> close() {
-    _degustationItemsStream.cancel();
+    _degustationStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
     return super.close();
   }
 }

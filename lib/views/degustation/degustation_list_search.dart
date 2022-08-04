@@ -1,6 +1,5 @@
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_themes.dart';
 import 'package:blavapp/utils/model_localization.dart';

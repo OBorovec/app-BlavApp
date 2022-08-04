@@ -1,10 +1,10 @@
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
-import 'package:blavapp/components/_pages/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
+import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/model/maps.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/model_localization.dart';
-import 'package:blavapp/views/maps/custom_map.dart';
+import 'package:blavapp/utils/toasting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,65 +22,81 @@ class _MapsPageState extends State<MapsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventFocusBloc, EventFocusState>(
-      builder: (context, eventFocusState) {
-        return BlocProvider(
-          create: (context) => MapsBloc(
-            dataRepo: context.read<DataRepo>(),
-            eventTag: eventFocusState.eventTag,
-          ),
-          child: BlocBuilder<MapsBloc, MapsState>(
-            builder: (context, state) {
-              return RootPage(
-                titleText: AppLocalizations.of(context)!.mapsTitle,
-                body: SafeArea(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: CustomScrollView(
-                            slivers: [
-                              SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
-                                delegate: SliverChildListDelegate(
-                                  state.mapRecords
-                                      .map(
-                                        (MapRecord mapRecord) => _MapRecordCard(
-                                          mapRecord: mapRecord,
-                                          onTap: () {
-                                            // TODO: Open a side page with custom map widget
-                                          },
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Divider(),
-                      Text(
-                        AppLocalizations.of(context)!.mapsReadlWorldHeader,
-                        style: Theme.of(context).textTheme.headline5,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      ...state.realWorldRecords.map((e) => _RealWorldRecordCard(
-                            realWorldRecord: e,
-                            onTap: () {},
-                          )),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        );
+    return BlocConsumer<MapsBloc, MapsState>(
+      listenWhen: (previous, current) => previous.message != current.message,
+      listener: (context, state) {
+        if (state.status == MapsStatus.error) {
+          Toasting.notifyToast(context, state.message);
+        }
       },
+      builder: (context, state) {
+        switch (state.status) {
+          case MapsStatus.loaded:
+            return RootPage(
+              titleText: AppLocalizations.of(context)!.mapsTitle,
+              body: _MapsMainContent(state: state),
+            );
+          case MapsStatus.error:
+            return BlocErrorPage(message: state.message);
+          case MapsStatus.initial:
+            return const BlocLoadingPage();
+        }
+      },
+    );
+  }
+}
+
+class _MapsMainContent extends StatelessWidget {
+  final MapsState state;
+  const _MapsMainContent({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CustomScrollView(
+                slivers: [
+                  SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    delegate: SliverChildListDelegate(
+                      state.mapRecords
+                          .map(
+                            (MapRecord mapRecord) => _MapRecordCard(
+                              mapRecord: mapRecord,
+                              onTap: () {
+                                // TODO: Open a side page with custom map widget
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(),
+          Text(
+            AppLocalizations.of(context)!.mapsReadlWorldHeader,
+            style: Theme.of(context).textTheme.headline5,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+          ...state.realWorldRecords.map((e) => _RealWorldRecordCard(
+                realWorldRecord: e,
+                onTap: () {},
+              )),
+        ],
+      ),
     );
   }
 }

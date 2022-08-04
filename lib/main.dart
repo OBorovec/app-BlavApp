@@ -1,4 +1,8 @@
 import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
+import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
+import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
+import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
@@ -6,7 +10,6 @@ import 'package:blavapp/bloc/app_state/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
-import 'package:blavapp/model/event.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/data_repo.dart';
@@ -87,6 +90,7 @@ class _BlavAppState extends State<BlavApp> {
               ),
             ],
             child: MultiBlocProvider(
+              // App state providers
               providers: [
                 BlocProvider(
                   create: (context) => LocalizationBloc(
@@ -112,6 +116,7 @@ class _BlavAppState extends State<BlavApp> {
               ],
               child: MultiBlocProvider(
                 providers: [
+                  // User data providers
                   BlocProvider(
                     lazy: false,
                     create: (context) => UserDataBloc(
@@ -150,11 +155,51 @@ class _BlavAppState extends State<BlavApp> {
                           builder: (context, authState) {
                             return BlocBuilder<EventFocusBloc, EventFocusState>(
                               builder: (context, eventFocusState) {
-                                return _buildMaterialApp(
-                                  context,
-                                  themeState,
-                                  localizationState,
-                                  authState,
+                                return MultiBlocProvider(
+                                  // Event data providers
+                                  providers: [
+                                    BlocProvider(
+                                      create: (context) => CateringBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => CosplayBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => DegustationBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => MapsBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => ProgrammeBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                  ],
+                                  child: _buildMaterialApp(
+                                    context,
+                                    themeState,
+                                    localizationState,
+                                    authState,
+                                  ),
                                 );
                               },
                             );
@@ -172,21 +217,6 @@ class _BlavAppState extends State<BlavApp> {
         }
       },
     );
-  }
-
-  List _eventDataProviders(Event? event) {
-    if (event == null) {
-      return [];
-    }
-    return [
-      if (event.routing.programme)
-        BlocProvider(
-          create: (context) => ProgrammeBloc(
-            dataRepo: context.read<DataRepo>(),
-            eventTag: event.id,
-          ),
-        ),
-    ];
   }
 
   Widget _buildMaterialApp(

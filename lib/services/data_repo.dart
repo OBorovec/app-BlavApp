@@ -1,4 +1,5 @@
 import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/maps.dart';
@@ -117,10 +118,12 @@ class DataRepo {
       );
 
   Stream<Catering> getCateringStream(String eventTag) {
-    return _cateringDataRef
-        .doc(eventTag)
-        .snapshots()
-        .map((snapshot) => ((snapshot.data() as Catering)));
+    return _cateringDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Cosplay');
+      }
+      return ((snapshot.data() as Catering));
+    });
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -135,10 +138,12 @@ class DataRepo {
       );
 
   Stream<Degustation> getDegustationStream(String eventTag) {
-    return _degustationDataRef
-        .doc(eventTag)
-        .snapshots()
-        .map((snapshot) => ((snapshot.data() as Degustation)));
+    return _degustationDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Cosplay');
+      }
+      return ((snapshot.data() as Degustation));
+    });
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -153,10 +158,12 @@ class DataRepo {
       );
 
   Stream<Programme> getProgrammeStream(String eventTag) {
-    return _programmeDataRef
-        .doc(eventTag)
-        .snapshots()
-        .map((snapshot) => ((snapshot.data() as Programme)));
+    return _programmeDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Cosplay');
+      }
+      return ((snapshot.data() as Programme));
+    });
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -170,9 +177,41 @@ class DataRepo {
           );
 
   Stream<Maps> getMapsStream(String eventTag) {
-    return _mapsDataRef
-        .doc(eventTag)
-        .snapshots()
-        .map((snapshot) => ((snapshot.data() as Maps)));
+    return _mapsDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Cosplay');
+      }
+      return ((snapshot.data() as Maps));
+    });
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Cosplay data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _cosplayDataRef = FirebaseFirestore.instance
+      .collection('data_cosplay')
+      .withConverter<Cosplay>(
+        fromFirestore: (snapshot, _) => Cosplay.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Stream<Cosplay> getCosplayStream(String eventTag) {
+    return _cosplayDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Cosplay');
+      }
+      return ((snapshot.data() as Cosplay));
+    });
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Exceptions
+//////////////////////////////////////////////////////////////////////////////
+
+class NullDataException implements Exception {
+  final String message;
+
+  NullDataException(this.message);
 }

@@ -1,19 +1,19 @@
 part of 'maps_bloc.dart';
 
-enum DataStatus {
+enum MapsStatus {
   initial,
   loaded,
-  failed,
+  error,
 }
 
 class MapsState extends Equatable {
-  final DataStatus status;
+  final MapsStatus status;
   final String message;
   final List<MapRecord> mapRecords;
   final List<RealWorldRecord> realWorldRecords;
 
   const MapsState({
-    this.status = DataStatus.initial,
+    this.status = MapsStatus.initial,
     this.message = '',
     this.mapRecords = const [],
     this.realWorldRecords = const [],
@@ -28,7 +28,7 @@ class MapsState extends Equatable {
       ];
 
   MapsState copyWith({
-    DataStatus? status,
+    MapsStatus? status,
     String? message,
     List<MapRecord>? mapRecords,
     List<RealWorldRecord>? realWorldRecords,

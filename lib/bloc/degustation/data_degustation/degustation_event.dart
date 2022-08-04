@@ -22,5 +22,5 @@ class DegustationStreamChanged extends DegustationEvent {
 class DegustationSubscriptionFailed extends DegustationEvent {
   final String message;
 
-  const DegustationSubscriptionFailed(this.message);
+  const DegustationSubscriptionFailed({required this.message});
 }

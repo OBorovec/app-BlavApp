@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:bloc/bloc.dart';
@@ -10,13 +11,29 @@ part 'maps_state.dart';
 
 class MapsBloc extends Bloc<MapsEvent, MapsState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<Maps> _mapsStream;
+  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  StreamSubscription<Maps>? _mapsStream;
 
   MapsBloc({
     required DataRepo dataRepo,
-    required String eventTag,
+    required EventFocusBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const MapsState()) {
+    _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
+        (EventFocusState eventFocusState) =>
+            createDataStream(eventTag: eventFocusState.eventTag));
+    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+      createDataStream(eventTag: eventFocusBloc.state.eventTag);
+    }
+    // Event listeners
+    on<MapsSubscriptionFailed>(_onMapsSubscriptionFailed);
+    on<MapsStreamChanged>(_onMapsChange);
+  }
+
+  void createDataStream({required String eventTag}) {
+    if (_mapsStream != null) {
+      _mapsStream!.cancel();
+    }
     _mapsStream = _dataRepo.getMapsStream(eventTag).listen(
           (Maps maps) => add(
             MapsStreamChanged(
@@ -24,14 +41,15 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
               realWorldRecords: maps.realWorldRecords,
             ),
           ),
-          // )..onError(
-          // (error) {
-          //   add(DegustationSubscriptionFailed(error.toString()));
-          // },
-        );
-    // Event listeners
-    on<MapsSubscriptionFailed>(_onMapsSubscriptionFailed);
-    on<MapsStreamChanged>(_onMapsChange);
+        )..onError(
+        (error) {
+          if (error is NullDataException) {
+            add(MapsSubscriptionFailed(message: error.message));
+          } else {
+            add(MapsSubscriptionFailed(message: error.toString()));
+          }
+        },
+      );
   }
 
   Future<void> _onMapsChange(
@@ -40,14 +58,14 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   ) async {
     try {
       emit(MapsState(
-        status: DataStatus.loaded,
+        status: MapsStatus.loaded,
         mapRecords: event.mapRecords,
         realWorldRecords: event.realWorldRecords,
       ));
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          status: DataStatus.failed,
+          status: MapsStatus.error,
           message: e.toString(),
         ),
       );
@@ -60,15 +78,16 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   ) async {
     emit(
       state.copyWith(
-        status: DataStatus.failed,
-        message: event.toString(),
+        status: MapsStatus.error,
+        message: event.message,
       ),
     );
   }
 
   @override
   Future<void> close() {
-    _mapsStream.cancel();
+    _mapsStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
     return super.close();
   }
 }

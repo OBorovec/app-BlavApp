@@ -1,6 +1,7 @@
-import 'package:blavapp/components/_pages/redirect_page.dart';
+import 'package:blavapp/components/page_hierarchy/redirect_page.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
+import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
 import 'package:blavapp/views/gwint_club/gwint_club_page.dart';
@@ -158,8 +159,13 @@ class RouteGenerator {
           ),
           isAuthenticated,
         );
-      // case RoutePaths.cosplay:
-      //   return authGuard(MaterialPageRoute(builder: (_) => CosplayPage(),), isAuthenticated,);
+      case RoutePaths.cosplay:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const CosplayPage(),
+          ),
+          isAuthenticated,
+        );
       // case RoutePaths.divisions:
       //   return authGuard(MaterialPageRoute(builder: (_) => DivisionsPage(),), isAuthenticated,);
       case RoutePaths.maps:
