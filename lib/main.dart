@@ -1,12 +1,12 @@
-import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
-import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
-import 'package:blavapp/bloc/app_state/theme/theme_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
+import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
@@ -155,8 +155,10 @@ class _BlavAppState extends State<BlavApp> {
                           builder: (context, authState) {
                             return BlocBuilder<EventFocusBloc, EventFocusState>(
                               builder: (context, eventFocusState) {
+                                // bool eventFocused = eventFocusState.status ==
+                                //     EventFocusStatus.focused;
+                                // Event data providers
                                 return MultiBlocProvider(
-                                  // Event data providers
                                   providers: [
                                     BlocProvider(
                                       create: (context) => CateringBloc(

@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/model/user_perms.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

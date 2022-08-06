@@ -7,6 +7,20 @@ abstract class EventFocus extends Equatable {
   List<Object> get props => [];
 }
 
+class EventStreamChanged extends EventFocus {
+  final Event event;
+
+  const EventStreamChanged({
+    required this.event,
+  });
+}
+
+class EventSubscriptionFailed extends EventFocus {
+  final String message;
+
+  const EventSubscriptionFailed({required this.message});
+}
+
 class EventFocusChanged extends EventFocus {
   final String? eventID;
 

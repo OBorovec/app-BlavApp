@@ -1,5 +1,5 @@
-import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
-import 'package:blavapp/bloc/user_view/user_profile/user_profile_bloc.dart';
+import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/profile/user_profile/user_profile_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/components/user/user_avatar.dart';
 import 'package:blavapp/route_generator.dart';
@@ -45,9 +45,10 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         Column(
                           children: const [
-                            _ProfileRefresh(),
+                            // _ProfileRefreshButton(),
+                            // SizedBox(height: 8),
+                            _ShowTicketshButton(),
                             SizedBox(height: 8),
-                            _PasswordResetButton(),
                           ],
                         ),
                       ],
@@ -56,6 +57,9 @@ class UserProfilePage extends StatelessWidget {
                   const Divider(),
                   Column(
                     children: const [
+                      SizedBox(height: 8),
+                      _PasswordResetButton(),
+                      SizedBox(height: 8),
                       _SignOutButton(),
                       SizedBox(height: 8),
                       _DeleteAccountButton(),
@@ -220,8 +224,20 @@ class _ProfileNickName extends StatelessWidget {
   }
 }
 
-class _ProfileRefresh extends StatelessWidget {
-  const _ProfileRefresh({Key? key}) : super(key: key);
+class _ShowTicketshButton extends StatelessWidget {
+  const _ShowTicketshButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => Navigator.pushNamed(context, RoutePaths.myTickets),
+      child: Text(AppLocalizations.of(context)!.profBtnProfileTickets),
+    );
+  }
+}
+
+class _ProfileRefreshButton extends StatelessWidget {
+  const _ProfileRefreshButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

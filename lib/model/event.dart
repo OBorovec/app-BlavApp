@@ -9,8 +9,9 @@ class Event extends Equatable {
   final String location;
   final Map<String, String> name;
   final Map<String, String>? desc;
-  final DateTime timestampStart;
-  final DateTime timestampEnd;
+  final DateTime dayStart;
+  final DateTime dayEnd;
+  final List<String> images;
   final Routing routing;
   final bool canBeFocused;
 
@@ -19,14 +20,25 @@ class Event extends Equatable {
     required this.location,
     required this.name,
     required this.desc,
-    required this.timestampStart,
-    required this.timestampEnd,
+    required this.dayStart,
+    required this.dayEnd,
+    this.images = const [],
     required this.routing,
     this.canBeFocused = false,
   });
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        location,
+        name,
+        desc,
+        dayStart,
+        dayEnd,
+        images,
+        routing,
+        canBeFocused
+      ];
 
   factory Event.fromJson(Map<String, Object?> json) => _$EventFromJson(json);
   Map<String, Object?> toJson() => _$EventToJson(this);
@@ -52,7 +64,14 @@ class Routing extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [
+        catering,
+        cosplay,
+        degustation,
+        divisions,
+        maps,
+        programme,
+      ];
 
   factory Routing.fromJson(Map<String, dynamic> json) =>
       _$RoutingFromJson(json);

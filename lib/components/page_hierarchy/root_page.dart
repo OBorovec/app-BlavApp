@@ -27,14 +27,10 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   DateTime currentBackPressTime = DateTime.now();
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+      onWillPop: () => onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.titleText),
@@ -69,9 +65,6 @@ class _RootPageState extends State<RootPage> {
 
   Future<bool> onWillPop(BuildContext context) {
     final DateTime now = DateTime.now();
-    if (_scaffoldKey.currentState!.isDrawerOpen) {
-      return Future.value(false);
-    }
     if (now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       Toasting.notifyToast(

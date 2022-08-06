@@ -13,8 +13,12 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      timestampStart: DateTime.parse(json['timestampStart'] as String),
-      timestampEnd: DateTime.parse(json['timestampEnd'] as String),
+      dayStart: DateTime.parse(json['dayStart'] as String),
+      dayEnd: DateTime.parse(json['dayEnd'] as String),
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       routing: Routing.fromJson(json['routing'] as Map<String, dynamic>),
       canBeFocused: json['canBeFocused'] as bool? ?? false,
     );
@@ -24,8 +28,9 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'location': instance.location,
       'name': instance.name,
       'desc': instance.desc,
-      'timestampStart': instance.timestampStart.toIso8601String(),
-      'timestampEnd': instance.timestampEnd.toIso8601String(),
+      'dayStart': instance.dayStart.toIso8601String(),
+      'dayEnd': instance.dayEnd.toIso8601String(),
+      'images': instance.images,
       'routing': instance.routing,
       'canBeFocused': instance.canBeFocused,
     };

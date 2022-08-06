@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:bloc/bloc.dart';
@@ -22,7 +22,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     required DataRepo dataRepo,
   })  : _authBloc = authBloc,
         _dataRepo = dataRepo,
-        super(UserDataState(
+        super(const UserDataState(
           dataState: DataState.inactive,
           usedData: UserData(),
         )) {

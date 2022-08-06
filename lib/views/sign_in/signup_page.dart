@@ -1,5 +1,5 @@
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/bloc/user_view/user_signup/user_sign_up_bloc.dart';
+import 'package:blavapp/bloc/profile/user_signup/user_sign_up_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';

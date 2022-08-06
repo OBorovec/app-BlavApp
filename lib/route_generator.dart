@@ -4,13 +4,14 @@ import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
-import 'package:blavapp/views/gwint_club/gwint_club_page.dart';
 import 'package:blavapp/views/gwint_events/event_details.dart';
+import 'package:blavapp/views/gwint_events/event_home_page.dart';
 import 'package:blavapp/views/gwint_events/events_page.dart';
 import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:blavapp/views/maps/maps_page.dart';
 import 'package:blavapp/views/profile/profile_delete_page.dart';
 import 'package:blavapp/views/profile/profile_page.dart';
+import 'package:blavapp/views/profile/profile_tickets.dart';
 import 'package:blavapp/views/programme/programe_details.dart';
 import 'package:blavapp/views/programme/programme_page.dart';
 import 'package:blavapp/views/settings/settings_page.dart';
@@ -26,10 +27,10 @@ class RoutePaths {
   static const String signUp = '/signup';
   // User routes
   static const String profile = '/profile';
+  static const String myTickets = '/my-tickets';
   static const String profileDelete = '/profile/delete';
   // Static routes
   static const String welcome = '/welcome';
-  static const String club = '/club';
   static const String events = '/events';
   static const String eventDetail = '/eventDetail';
   static const String settings = '/setting';
@@ -78,6 +79,13 @@ class RouteGenerator {
           ),
           isAuthenticated,
         );
+      case RoutePaths.myTickets:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const ProfileMyTicketsPage(),
+          ),
+          isAuthenticated,
+        );
       case RoutePaths.profileDelete:
         return authGuard(
           MaterialPageRoute(
@@ -90,12 +98,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const WelcomePage(),
         );
-      case RoutePaths.club:
-        return authGuard(
-            MaterialPageRoute(
-              builder: (_) => const GwintHomePage(),
-            ),
-            isAuthenticated);
+
       case RoutePaths.events:
         return authGuard(
           MaterialPageRoute(
@@ -116,6 +119,13 @@ class RouteGenerator {
           builder: (_) => const SettingsPage(),
         );
       // Event related route
+      case RoutePaths.eventHome:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const EventHomePage(),
+          ),
+          isAuthenticated,
+        );
       case RoutePaths.programme:
         return authGuard(
           MaterialPageRoute(

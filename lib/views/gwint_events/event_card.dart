@@ -26,8 +26,8 @@ class EventCard extends StatelessWidget {
                 title: Text(t(event.name, context)),
                 subtitle: Text(
                   formatTimeRange(
-                    event.timestampStart,
-                    event.timestampEnd,
+                    event.dayStart,
+                    event.dayEnd,
                   ),
                 ),
               ),

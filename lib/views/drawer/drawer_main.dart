@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/views/drawer/drawer_event_items.dart';
 import 'package:blavapp/views/drawer/drawer_event_picker.dart';
 import 'package:blavapp/views/drawer/drawer_general_items.dart';

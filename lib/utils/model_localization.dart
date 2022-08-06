@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
+import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/programme.dart';

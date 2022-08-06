@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -26,8 +26,8 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
     // Event listeners
+    on<CateringStreamChanged>(_onCateringStreamChange);
     on<CateringSubscriptionFailed>(_onCateringSubscriptionFailed);
-    on<CateringStreamChanged>(_onCateringItemsChange);
   }
 
   void createDataStream({required String eventTag}) {
@@ -55,7 +55,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
 
   // Event listeners implementations
 
-  Future<void> _onCateringItemsChange(
+  Future<void> _onCateringStreamChange(
     CateringStreamChanged event,
     emit,
   ) async {

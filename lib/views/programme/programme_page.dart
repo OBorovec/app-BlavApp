@@ -1,5 +1,5 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/bloc/programme/highlight_programme/highlight_programme_bloc.dart';
 import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agenda_bloc.dart';

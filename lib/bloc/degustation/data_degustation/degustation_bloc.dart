@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';

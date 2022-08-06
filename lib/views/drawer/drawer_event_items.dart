@@ -15,6 +15,7 @@ class DrawerEventItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Divider(),
         ListTile(
           title: Text(
             t(event.name, context),
@@ -25,6 +26,7 @@ class DrawerEventItems extends StatelessWidget {
             Navigator.pushNamed(context, RoutePaths.eventHome);
           },
         ),
+        const Divider(),
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -33,48 +35,60 @@ class DrawerEventItems extends StatelessWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.progTitle),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.programme);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.programme,
+                    );
                   },
                 ),
               if (event.routing.catering)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.caterTitle),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.catering);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.catering,
+                    );
                   },
                 ),
               if (event.routing.degustation)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.degusTitle),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.degustation);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.degustation,
+                    );
                   },
                 ),
               if (event.routing.maps)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.mapsTitle),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.maps);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.maps,
+                    );
                   },
                 ),
               if (event.routing.divisions)
                 ListTile(
-                  title: Text(AppLocalizations.of(context)!.divsTitle),
+                  title: Text(
+                    AppLocalizations.of(context)!.divsTitle,
+                  ),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.divisions);
+                    Navigator.pushReplacementNamed(
+                        context, RoutePaths.divisions);
                   },
                 ),
               if (event.routing.cosplay)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.cospTitle),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, RoutePaths.cosplay);
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.cosplay,
+                    );
                   },
                 ),
             ],

@@ -19,10 +19,10 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     try {
       final List<Event> events = await _dataRepo.getEvents();
       final List<Event> upComingEvents = events.where((event) {
-        return event.timestampEnd.isAfter(DateTime.now());
+        return event.dayEnd.isAfter(DateTime.now());
       }).toList();
       final List<Event> pastEvents = events.where((event) {
-        return event.timestampEnd.isBefore(DateTime.now());
+        return event.dayEnd.isBefore(DateTime.now());
       }).toList();
       emit(EventsLoadedState(
         upComingEvents: upComingEvents,

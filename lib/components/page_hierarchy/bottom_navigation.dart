@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/theme/theme_bloc.dart';
+import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/utils/app_themes.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';

@@ -11,7 +11,7 @@ class BlocLoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: finish localization
     return RootPage(
-      titleText: 'Error',
+      titleText: 'Loading...',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

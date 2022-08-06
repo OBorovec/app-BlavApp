@@ -3,7 +3,7 @@ import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
-import 'package:blavapp/utils/pref_implementation.dart';
+import 'package:blavapp/utils/pref_interpreter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

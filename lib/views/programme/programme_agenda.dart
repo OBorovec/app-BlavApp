@@ -1,7 +1,8 @@
 import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
-import 'package:blavapp/bloc/app_state/localization/localization_bloc.dart';
+import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agenda_bloc.dart';
 import 'package:blavapp/model/programme.dart';
+import 'package:blavapp/utils/model_colors.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,8 @@ class ProgrammeAgenda extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserProgrammeAgendaBloc, UserProgrammeAgendaState>(
       builder: (context, state) {
-        final DateTime maxDate = state.event.timestampEnd;
-        final DateTime minDate = state.event.timestampStart;
+        final DateTime maxDate = state.event.dayEnd;
+        final DateTime minDate = state.event.dayStart;
         final Set<int> allDays = List<int>.generate(7, (i) => i).toSet();
         final int dayCount = maxDate.difference(minDate).inDays + 1;
         final Set<int> eventDays = List<int>.generate(
@@ -42,8 +43,9 @@ class ProgrammeAgenda extends StatelessWidget {
               minDate: minDate,
               maxDate: maxDate,
               dataSource: AgendaDataSource(
-                state.programmeEntriesFiltered,
-                context.watch<LocalizationBloc>().state.appLang,
+                programmeEntries: state.programmeEntriesFiltered,
+                lang: context.watch<LocalizationBloc>().state.appLang,
+                context: context,
               ),
             );
           },
@@ -56,8 +58,13 @@ class ProgrammeAgenda extends StatelessWidget {
 class AgendaDataSource extends CalendarDataSource {
   List<ProgEntry> programmeEntries;
   final AppLang lang;
+  final BuildContext context;
 
-  AgendaDataSource(this.programmeEntries, this.lang);
+  AgendaDataSource({
+    required this.programmeEntries,
+    required this.lang,
+    required this.context,
+  });
 
   @override
   List<dynamic> get appointments => programmeEntries;
@@ -79,6 +86,15 @@ class AgendaDataSource extends CalendarDataSource {
     Map<String, String> name = programmeEntries[index].name;
     return name[modelAppLang[lang]] ?? name['@en'] ?? 'Undef.';
   }
+
+  @override
+  Color getColor(int index) => colorProgEntryType(
+        programmeEntries[index].type,
+        context,
+      );
+
+  @override
+  String? getNotes(int index) => 'Notes';
 
   @override
   bool isAllDay(int index) {

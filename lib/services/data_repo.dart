@@ -106,6 +106,15 @@ class DataRepo {
         .then((value) => value.data()! as Event);
   }
 
+  Stream<Event> getEventStream(String eventTag) {
+    return _eventsCollectionRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Event');
+      }
+      return ((snapshot.data() as Event));
+    });
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Catering data
   //////////////////////////////////////////////////////////////////////////////
@@ -120,7 +129,7 @@ class DataRepo {
   Stream<Catering> getCateringStream(String eventTag) {
     return _cateringDataRef.doc(eventTag).snapshots().map((snapshot) {
       if (snapshot.data() == null) {
-        throw NullDataException('$eventTag:Cosplay');
+        throw NullDataException('$eventTag:Catering');
       }
       return ((snapshot.data() as Catering));
     });
@@ -140,7 +149,7 @@ class DataRepo {
   Stream<Degustation> getDegustationStream(String eventTag) {
     return _degustationDataRef.doc(eventTag).snapshots().map((snapshot) {
       if (snapshot.data() == null) {
-        throw NullDataException('$eventTag:Cosplay');
+        throw NullDataException('$eventTag:Degustation');
       }
       return ((snapshot.data() as Degustation));
     });
@@ -160,7 +169,7 @@ class DataRepo {
   Stream<Programme> getProgrammeStream(String eventTag) {
     return _programmeDataRef.doc(eventTag).snapshots().map((snapshot) {
       if (snapshot.data() == null) {
-        throw NullDataException('$eventTag:Cosplay');
+        throw NullDataException('$eventTag:Programme');
       }
       return ((snapshot.data() as Programme));
     });
@@ -179,7 +188,7 @@ class DataRepo {
   Stream<Maps> getMapsStream(String eventTag) {
     return _mapsDataRef.doc(eventTag).snapshots().map((snapshot) {
       if (snapshot.data() == null) {
-        throw NullDataException('$eventTag:Cosplay');
+        throw NullDataException('$eventTag:Maps');
       }
       return ((snapshot.data() as Maps));
     });

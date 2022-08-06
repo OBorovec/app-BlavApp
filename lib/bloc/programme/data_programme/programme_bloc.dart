@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -55,21 +55,12 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
 
   Future<void> _onProgrammeStreamChanged(
       ProgrammeStreamChanged event, emit) async {
-    try {
-      emit(
-        ProgrammeState(
-          status: ProgrammeStatus.loaded,
-          programmeEntries: event.programmeEntries,
-        ),
-      );
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          status: ProgrammeStatus.error,
-          message: e.toString(),
-        ),
-      );
-    }
+    emit(
+      ProgrammeState(
+        status: ProgrammeStatus.loaded,
+        programmeEntries: event.programmeEntries,
+      ),
+    );
   }
 
   Future<void> _onProgrammeSubscriptionFailed(

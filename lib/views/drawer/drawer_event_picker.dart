@@ -1,4 +1,4 @@
-import 'package:blavapp/bloc/app_state/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/events/event_list/events_bloc.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/services/data_repo.dart';
@@ -81,8 +81,8 @@ class DrawerEventCard extends StatelessWidget {
                 title: Text(t(event.name, context)),
                 subtitle: Text(
                   formatTimeRange(
-                    event.timestampStart,
-                    event.timestampEnd,
+                    event.dayStart,
+                    event.dayEnd,
                   ),
                 ),
               ),
