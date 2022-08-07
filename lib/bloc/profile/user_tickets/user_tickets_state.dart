@@ -18,22 +18,18 @@ class TicketData extends Equatable {
 class UserTicketsState extends Equatable {
   final UserTicketsStatus status;
   final List<TicketData> tickets;
+  final List<String> unableToLoad;
 
   const UserTicketsState({
     this.status = UserTicketsStatus.init,
     this.tickets = const [],
+    this.unableToLoad = const [],
   });
 
   @override
-  List<Object> get props => [tickets];
-
-  UserTicketsState copyWith({
-    UserTicketsStatus? status,
-    List<TicketData>? tickets,
-  }) {
-    return UserTicketsState(
-      status: status ?? this.status,
-      tickets: tickets ?? this.tickets,
-    );
-  }
+  List<Object> get props => [
+        status,
+        tickets,
+        unableToLoad,
+      ];
 }

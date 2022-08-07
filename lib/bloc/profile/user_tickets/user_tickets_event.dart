@@ -7,6 +7,6 @@ abstract class UserTicketsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RecalculateData extends UserTicketsEvent {
-  const RecalculateData();
+class RefreshData extends UserTicketsEvent {
+  const RefreshData();
 }

@@ -7,6 +7,7 @@ import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ProfileMyTicketsPage extends StatelessWidget {
   const ProfileMyTicketsPage({Key? key}) : super(key: key);
@@ -36,12 +37,21 @@ class ProfileMyTicketsPage extends StatelessWidget {
                   );
                 } else {
                   return ListView.builder(
-                      itemCount: state.tickets.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _TicketCard(
-                          ticketData: state.tickets[index],
-                        );
-                      });
+                    itemCount: state.tickets.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      TicketData ticketData = state.tickets[index];
+                      return _TicketCard(
+                        ticketData: ticketData,
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) => _buildQRCodeDialog(
+                            ticketData,
+                            context,
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 }
               case UserTicketsStatus.init:
                 return Center(
@@ -59,36 +69,70 @@ class ProfileMyTicketsPage extends StatelessWidget {
       ),
     );
   }
+
+  AlertDialog _buildQRCodeDialog(TicketData ticketData, BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        t(ticketData.event.name, context),
+      ),
+      // content: Text(
+      //   ticketData.ticket.eventRef,
+      // ),
+      content: SizedBox(
+        width: 300,
+        height: 300,
+        child: Center(
+          child: QrImage(
+            data: ticketData.ticket.value,
+            version: QrVersions.auto,
+            backgroundColor: Colors.white,
+            size: 300,
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.dismiss),
+        ),
+      ],
+    );
+  }
 }
 
 class _TicketCard extends StatelessWidget {
   final TicketData ticketData;
+  final Function() onTap;
   const _TicketCard({
     Key? key,
     required this.ticketData,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t(ticketData.event.name, context),
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Text(datetimeToDateShort(
-                  ticketData.event.dayStart,
-                  context,
-                )),
-              ],
-            )
-          ],
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    t(ticketData.event.name, context),
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(datetimeToDateShort(
+                    ticketData.event.dayStart,
+                    context,
+                  )),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

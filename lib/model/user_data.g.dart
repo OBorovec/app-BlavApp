@@ -7,6 +7,10 @@ part of 'user_data.dart';
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
+      tickets: (json['tickets'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       myNotifications: (json['myNotifications'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toSet() ??
@@ -15,24 +19,15 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
               ?.map((e) => e as String)
               .toSet() ??
           const {},
-      tickets: (json['tickets'] as List<dynamic>?)
-              ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      myRatings: (json['myRatings'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, (e as num).toDouble()),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
+      'tickets': instance.tickets,
       'myNotifications': instance.myNotifications.toList(),
       'myProgramme': instance.myProgramme.toList(),
-      'tickets': instance.tickets,
-    };
-
-Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
-      eventRef: json['eventRef'] as String,
-      qrCodeData: json['qrCodeData'] as String,
-    );
-
-Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
-      'eventRef': instance.eventRef,
-      'qrCodeData': instance.qrCodeData,
+      'myRatings': instance.myRatings,
     };

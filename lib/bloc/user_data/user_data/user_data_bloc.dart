@@ -32,6 +32,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<SetUserData>(_setUserData);
     on<UserDataMyProgramme>(_progEntryToggleUserData);
     on<UserDataProgMyNotification>(_progNotificationToggleUserData);
+    on<UserDataRateItem>(_rateItem);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -50,6 +51,13 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     );
   }
 
+  @override
+  Future<void> close() {
+    _authBlocSub.cancel();
+    _userDataSubscription.cancel();
+    return super.close();
+  }
+
   FutureOr<void> _initUserData(
     InitUserData event,
     Emitter<UserDataState> emit,
@@ -59,7 +67,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     EmptyUserData event,
     Emitter<UserDataState> emit,
   ) {
-    emit(UserDataState(
+    emit(const UserDataState(
       dataState: DataState.inactive,
       usedData: UserData(),
     ));
@@ -103,10 +111,22 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    _authBlocSub.cancel();
-    _userDataSubscription.cancel();
-    return super.close();
+  FutureOr<void> _rateItem(
+    UserDataRateItem event,
+    Emitter<UserDataState> emit,
+  ) {
+    final User? user = _authBloc.state.user;
+    if (user != null) {
+      _dataRepo.addRating(
+        userUID: user.uid,
+        itemRef: event.itemRef,
+        rating: event.rating,
+      );
+      _dataRepo.setUserRating(
+        userUID: user.uid,
+        itemRef: event.itemRef,
+        rating: event.rating,
+      );
+    }
   }
 }

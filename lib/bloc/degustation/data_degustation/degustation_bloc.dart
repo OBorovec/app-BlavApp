@@ -25,8 +25,8 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
     // Event listeners
-    on<DegustationSubscriptionFailed>(_onDegustationSubscriptionFailed);
     on<DegustationStreamChanged>(_onDegusItemsChange);
+    on<DegustationSubscriptionFailed>(_onDegustationSubscriptionFailed);
   }
 
   void createDataStream({required String eventTag}) {
@@ -50,6 +50,13 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
           }
         },
       );
+  }
+
+  @override
+  Future<void> close() {
+    _degustationStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
+    return super.close();
   }
 
   Future<void> _onDegusItemsChange(
@@ -83,12 +90,5 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
         message: event.message,
       ),
     );
-  }
-
-  @override
-  Future<void> close() {
-    _degustationStream?.cancel();
-    _eventFocusBlocSubscription.cancel();
-    return super.close();
   }
 }

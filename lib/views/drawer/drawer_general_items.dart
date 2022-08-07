@@ -34,6 +34,15 @@ class DrawerGeneralItems extends StatelessWidget {
           ),
         ),
         ListTile(
+          title: Text(AppLocalizations.of(context)!.adminTitle),
+          onTap: () {
+            Navigator.pushReplacementNamed(
+              context,
+              RoutePaths.admin,
+            );
+          },
+        ),
+        ListTile(
           title: Text(AppLocalizations.of(context)!.setsTitle),
           onTap: () {
             Navigator.pushReplacementNamed(

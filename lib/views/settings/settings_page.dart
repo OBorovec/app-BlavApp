@@ -46,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               IconButton(
                 onPressed: () => launchUrl(
-                  Uri.parse('https://www.seznam.cz/'),
+                  Uri.parse('https://github.com/OBorovec/BlavApp'),
                 ),
                 icon: const Icon(EvaIcons.github),
               ),

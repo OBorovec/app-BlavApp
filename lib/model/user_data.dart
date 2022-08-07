@@ -5,39 +5,28 @@ part 'user_data.g.dart';
 
 @JsonSerializable()
 class UserData extends Equatable {
+  final List<String> tickets;
   final Set<String> myNotifications;
   final Set<String> myProgramme;
-  final List<Ticket> tickets;
+  final Map<String, double> myRatings;
 
   const UserData({
+    this.tickets = const [],
     this.myNotifications = const {},
     this.myProgramme = const {},
-    this.tickets = const [],
+    this.myRatings = const {},
   });
 
   @override
-  List<Object?> get props => [myNotifications, myProgramme, tickets];
+  List<Object?> get props => [
+        tickets,
+        myNotifications,
+        myProgramme,
+        myRatings,
+      ];
 
   factory UserData.fromJson(Map<String, Object?> json) =>
       _$UserDataFromJson(json);
 
   Map<String, Object?> toJson() => _$UserDataToJson(this);
-}
-
-@JsonSerializable()
-class Ticket extends Equatable {
-  final String eventRef;
-  final String qrCodeData;
-
-  const Ticket({
-    required this.eventRef,
-    required this.qrCodeData,
-  });
-
-  @override
-  List<Object?> get props => [eventRef, qrCodeData];
-
-  factory Ticket.fromJson(Map<String, Object?> json) => _$TicketFromJson(json);
-
-  Map<String, Object?> toJson() => _$TicketToJson(this);
 }

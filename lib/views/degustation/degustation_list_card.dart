@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
+import 'package:blavapp/components/views/rating_indicator.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -73,15 +74,8 @@ class _DegusItemInfo extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             if (item.rating != null)
-              RatingBarIndicator(
+              AppRatingIndicator(
                 rating: item.rating!,
-                itemBuilder: (context, index) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                itemCount: 5,
-                itemSize: 16.0,
-                direction: Axis.horizontal,
               ),
             if (item.desc != null) ...[
               const Divider(),

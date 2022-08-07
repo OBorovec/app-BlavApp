@@ -43,3 +43,13 @@ class UserDataProgMyNotification extends UserDataProgrammeEvent {
   const UserDataProgMyNotification({required String entryId})
       : super(entryId: entryId);
 }
+
+class UserDataRateItem extends UserDataEvent {
+  final String itemRef;
+  final double rating;
+
+  const UserDataRateItem({
+    required this.itemRef,
+    required this.rating,
+  });
+}

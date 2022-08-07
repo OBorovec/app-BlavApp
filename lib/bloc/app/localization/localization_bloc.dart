@@ -50,18 +50,21 @@ class LocalizationBloc extends Bloc<LocalizationEvent, LocalizationState> {
   ) {
     switch (event.appLang) {
       case AppLang.cs:
+        _prefs.saveLang(AppLang.cs.toString());
         emit(const LocalizationState(
           appLang: AppLang.cs,
           locale: Locale('cs'),
         ));
         break;
       case AppLang.en:
+        _prefs.saveLang(AppLang.en.toString());
         emit(const LocalizationState(
           appLang: AppLang.en,
           locale: Locale('en'),
         ));
         break;
       default:
+        _prefs.saveLang(null);
         emit(const LocalizationState(
           appLang: AppLang.auto,
           locale: null,

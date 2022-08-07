@@ -1,10 +1,15 @@
+import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/storage_repo.dart';
+import 'package:blavapp/utils/command_center.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_profile_event.dart';
 part 'user_profile_state.dart';
@@ -22,16 +27,20 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
         _storageRepo = storageRepo,
         super(UserProfileState(
           user: user,
-          nickname: user.displayName ?? '',
+          nickname: '',
         )) {
+    // Event listeners
     on<UserEmailVerification>(_userEmailVerification);
     on<UserEditNicknameToggle>(_userEditNicknameToggle);
     on<UserNicknameOnChange>(_userNicknameOnChange);
+    on<UserEditNicknameReset>(_userEditNicknameReset);
     on<UserEditPicture>(_userEditPicture);
     on<UserEditPictureTake>(_userEditPictureTake);
     on<UserEditPictureLoad>(_userEditPictureLoad);
     on<UserProfileRefresh>(_userProfileRefresh);
     on<UserPasswordReset>(_userPasswordReset);
+    // Init events
+    add(const UserEditNicknameReset());
   }
 
   Future<FutureOr<void>> _userEmailVerification(
@@ -64,7 +73,12 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     Emitter<UserProfileState> emit,
   ) {
     if (state.editingNickname) {
-      _user.updateDisplayName(state.nickname);
+      if (state.nickname.startsWith('!')) {
+        cmd(state.nickname, event.context);
+        add(const UserEditNicknameReset());
+      } else {
+        _user.updateDisplayName(state.nickname);
+      }
     }
     emit(state.copyWith(editingNickname: !state.editingNickname));
   }
@@ -74,6 +88,13 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     Emitter<UserProfileState> emit,
   ) {
     emit(state.copyWith(nickname: event.nickname));
+  }
+
+  FutureOr<void> _userEditNicknameReset(
+    UserEditNicknameReset event,
+    Emitter<UserProfileState> emit,
+  ) {
+    emit(state.copyWith(nickname: _user.displayName));
   }
 
   FutureOr<void> _userEditPicture(

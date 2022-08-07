@@ -39,7 +39,7 @@ class DegustationList extends StatelessWidget {
                       item: item,
                       onTap: () => Navigator.pushNamed(
                         context,
-                        RoutePaths.cateringItem,
+                        RoutePaths.degustationItem,
                         arguments: DegustationDetailsArguments(
                           item: item,
                         ),

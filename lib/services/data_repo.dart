@@ -4,6 +4,7 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/model/programme.dart';
+import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,8 +20,7 @@ class DataRepo {
   // User data
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _appUserDataCollectionRef = FirebaseFirestore
-      .instance
+  final CollectionReference _userDataCollectionRef = FirebaseFirestore.instance
       .collection('user_data')
       .withConverter<UserData>(
         fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
@@ -28,18 +28,18 @@ class DataRepo {
       );
 
   void initUserData(String uid, UserData appUser) {
-    _appUserDataCollectionRef.doc(uid).set(appUser);
+    _userDataCollectionRef.doc(uid).set(appUser);
   }
 
   Future<UserData> getUserData(String userUID) {
-    return _appUserDataCollectionRef
+    return _userDataCollectionRef
         .doc(userUID)
         .get()
         .then((value) => value.data()! as UserData);
   }
 
   Stream<UserData> getUserDataStream(String userUID) {
-    return _appUserDataCollectionRef
+    return _userDataCollectionRef
         .doc(userUID)
         .snapshots(includeMetadataChanges: true)
         .map((value) => value.data()! as UserData);
@@ -49,7 +49,7 @@ class DataRepo {
     String userUID,
     String entryID,
   ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
+    return _userDataCollectionRef.doc(userUID).update({
       'myProgramme': FieldValue.arrayUnion([entryID])
     });
   }
@@ -58,7 +58,7 @@ class DataRepo {
     String userUID,
     String entryID,
   ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
+    return _userDataCollectionRef.doc(userUID).update({
       'myProgramme': FieldValue.arrayRemove([entryID])
     });
   }
@@ -67,7 +67,7 @@ class DataRepo {
     String userUID,
     String entryID,
   ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
+    return _userDataCollectionRef.doc(userUID).update({
       'myNotifications': FieldValue.arrayUnion([entryID])
     });
   }
@@ -76,9 +76,19 @@ class DataRepo {
     String userUID,
     String entryID,
   ) {
-    return _appUserDataCollectionRef.doc(userUID).update({
+    return _userDataCollectionRef.doc(userUID).update({
       'myNotifications': FieldValue.arrayRemove([entryID])
     });
+  }
+
+  Future<void> setUserRating({
+    required String userUID,
+    required String itemRef,
+    required double rating,
+  }) {
+    return _userDataCollectionRef
+        .doc(userUID)
+        .update({'myRatings.$itemRef': rating});
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -112,6 +122,25 @@ class DataRepo {
         throw NullDataException('$eventTag:Event');
       }
       return ((snapshot.data() as Event));
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Tickets
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _ticketsCollectionRef =
+      FirebaseFirestore.instance.collection('tickets').withConverter<Ticket>(
+            fromFirestore: (snapshot, _) => Ticket.fromJson(snapshot.data()!),
+            toFirestore: (entry, _) => entry.toJson(),
+          );
+
+  Future<Ticket> getTicket(String ticketId) {
+    return _ticketsCollectionRef.doc(ticketId).get().then((value) {
+      if (value.data() == null) {
+        throw NullDataException('$ticketId:tickets');
+      }
+      return value.data() as Ticket;
     });
   }
 
@@ -212,6 +241,21 @@ class DataRepo {
       }
       return ((snapshot.data() as Cosplay));
     });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Support data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final DocumentReference _ratingsDataRef =
+      FirebaseFirestore.instance.collection('support').doc('ratings');
+
+  Future<void> addRating({
+    required String userUID,
+    required String itemRef,
+    required double rating,
+  }) {
+    return _ratingsDataRef.update({'$itemRef.$userUID': rating});
   }
 }
 

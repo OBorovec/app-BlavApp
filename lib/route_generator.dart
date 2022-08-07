@@ -1,4 +1,6 @@
 import 'package:blavapp/components/page_hierarchy/redirect_page.dart';
+import 'package:blavapp/views/admin/admin_page.dart';
+import 'package:blavapp/views/admin/ticket_validation.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
@@ -33,6 +35,8 @@ class RoutePaths {
   static const String welcome = '/welcome';
   static const String events = '/events';
   static const String eventDetail = '/eventDetail';
+  static const String admin = '/admin';
+  static const String adminTicketValidation = '/admin/ticket-validation';
   static const String settings = '/setting';
   // Event related route
   static const String eventHome = '/';
@@ -113,6 +117,15 @@ class RouteGenerator {
             builder: (_) => EventDetails(event: args.event),
           ),
           isAuthenticated,
+        );
+      // TODO: add admin guard
+      case RoutePaths.admin:
+        return MaterialPageRoute(
+          builder: (_) => const AdminPage(),
+        );
+      case RoutePaths.adminTicketValidation:
+        return MaterialPageRoute(
+          builder: (_) => const TicketValidationPage(),
         );
       case RoutePaths.settings:
         return MaterialPageRoute(

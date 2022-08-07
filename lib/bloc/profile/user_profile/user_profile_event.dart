@@ -20,7 +20,8 @@ class UserPasswordReset extends UserProfileEvent {
 }
 
 class UserEditNicknameToggle extends UserProfileEvent {
-  const UserEditNicknameToggle();
+  final BuildContext context;
+  const UserEditNicknameToggle({required this.context});
 }
 
 class UserNicknameOnChange extends UserProfileEvent {
@@ -32,6 +33,10 @@ class UserNicknameOnChange extends UserProfileEvent {
 
   @override
   List<Object> get props => [nickname];
+}
+
+class UserEditNicknameReset extends UserProfileEvent {
+  const UserEditNicknameReset();
 }
 
 class UserEditPicture extends UserProfileEvent {

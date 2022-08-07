@@ -30,6 +30,8 @@ class UserProfileState extends Equatable {
 
   @override
   List<Object> get props => [
+        user,
+        status,
         editingNickname,
         nickname,
       ];
@@ -39,6 +41,7 @@ class UserProfileState extends Equatable {
     UserEditStatus? status,
     bool? editingNickname,
     String? nickname,
+    String? originalNickname,
     String? errorMessage,
   }) {
     return UserProfileState(

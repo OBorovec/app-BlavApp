@@ -186,41 +186,84 @@ class _ProfileEmail extends StatelessWidget {
   }
 }
 
-class _ProfileNickName extends StatelessWidget {
+class _ProfileNickName extends StatefulWidget {
   const _ProfileNickName({Key? key}) : super(key: key);
 
   @override
+  State<_ProfileNickName> createState() => _ProfileNickNameState();
+}
+
+class _ProfileNickNameState extends State<_ProfileNickName> {
+  final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(_textNickNameChange);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProfileBloc, UserProfileState>(
+    return BlocConsumer<UserProfileBloc, UserProfileState>(
+      listenWhen: (previous, current) => previous.nickname != current.nickname,
+      listener: (context, state) {
+        _textController.text = state.nickname;
+        _textController.selection =
+            TextSelection.collapsed(offset: state.nickname.length);
+      },
       builder: (context, state) {
-        return BlocBuilder<UserProfileBloc, UserProfileState>(
-          builder: (context, editState) {
-            return TextField(
-              readOnly: !editState.editingNickname,
-              controller: TextEditingController(text: editState.nickname),
-              onChanged: (value) =>
-                  context.read<UserProfileBloc>().add(UserNicknameOnChange(
-                        nickname: value,
-                      )),
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.profNick,
-                icon: const Icon(Icons.perm_identity),
-                suffixIcon: IconButton(
+        return TextField(
+          readOnly: !state.editingNickname,
+          autocorrect: false,
+          enableSuggestions: false,
+          controller: _textController,
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.profNick,
+            icon: const Icon(Icons.perm_identity),
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (state.editingNickname)
+                  IconButton(
+                    icon: const Icon(
+                      Icons.cancel,
+                    ),
+                    onPressed: () {
+                      context.read<UserProfileBloc>().add(
+                            const UserEditNicknameReset(),
+                          );
+                    },
+                  ),
+                IconButton(
                   icon: Icon(
-                    editState.editingNickname ? Icons.save : Icons.edit,
+                    state.editingNickname ? Icons.save : Icons.edit,
                   ),
                   onPressed: () {
                     context.read<UserProfileBloc>().add(
-                          const UserEditNicknameToggle(),
+                          UserEditNicknameToggle(context: context),
                         );
                   },
                 ),
-              ),
-            );
-          },
+              ],
+            ),
+          ),
         );
       },
     );
+  }
+
+  void _textNickNameChange() {
+    BlocProvider.of<UserProfileBloc>(context)
+        .add(UserNicknameOnChange(nickname: _textController.text));
+    setState(() {
+      // Just to trigger rebuild of icons
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 }
 
