@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/degustation.dart';
@@ -83,7 +84,7 @@ class DegustationSearchTile extends StatelessWidget {
                   ),
                   Wrap(
                     children: state.availablePlaces
-                        .map((e) => _DegustationPlaceSearchTag(place: e))
+                        .map((e) => _DegustationPlaceSearchTag(placeRef: e))
                         .toList(),
                   ),
                 ],
@@ -125,7 +126,7 @@ class DegustationSearchTile extends StatelessWidget {
           (e) => _DegustationOriginSearchTag(origin: e),
         ),
         ...state.placeFilter.map(
-          (e) => _DegustationPlaceSearchTag(place: e),
+          (e) => _DegustationPlaceSearchTag(placeRef: e),
         ),
       ],
     );
@@ -281,19 +282,21 @@ class _DegustationOriginSearchTag extends _DegustationSearchTag {
 }
 
 class _DegustationPlaceSearchTag extends _DegustationSearchTag {
-  final String place;
+  final String placeRef;
   _DegustationPlaceSearchTag({
     Key? key,
-    required this.place,
-  }) : super(key: key, onPressedEvent: DegusPlaceFilter(place: place));
+    required this.placeRef,
+  }) : super(key: key, onPressedEvent: DegusPlaceFilter(place: placeRef));
 
   @override
   String _getLabelText(BuildContext context) {
-    return place;
+    DegustationState prgState = BlocProvider.of<DegustationBloc>(context).state;
+    DegusPlace? place = prgState.degustationPlaces[placeRef];
+    return place != null ? t(place.name, context) : '?$placeRef';
   }
 
   @override
   bool _isOn(FilterDegustationState state) {
-    return !state.placeFilter.contains(place);
+    return !state.placeFilter.contains(placeRef);
   }
 }

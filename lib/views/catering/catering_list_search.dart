@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/catering.dart';
@@ -266,7 +267,9 @@ class _CateringPlaceSearchTag extends _CateringSearchTag {
 
   @override
   String _getLabelText(BuildContext context) {
-    return placeRef;
+    CateringState prgState = BlocProvider.of<CateringBloc>(context).state;
+    CaterPlace? place = prgState.cateringPlaces[placeRef];
+    return place != null ? t(place.name, context) : '?$placeRef';
   }
 
   @override
