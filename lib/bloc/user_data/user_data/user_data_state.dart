@@ -1,15 +1,15 @@
 part of 'user_data_bloc.dart';
 
-enum DataState { active, inactive }
+enum DataStatus { active, inactive }
 
 class UserDataState extends Equatable {
-  final DataState dataState;
+  final DataStatus dataStatus;
   final UserData userData;
   const UserDataState({
-    required this.dataState,
+    required this.dataStatus,
     required this.userData,
   });
 
   @override
-  List<Object> get props => [dataState, userData];
+  List<Object> get props => [dataStatus, userData];
 }

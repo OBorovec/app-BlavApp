@@ -4,6 +4,7 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/model/programme.dart';
+import 'package:blavapp/model/support.dart';
 import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,6 +108,16 @@ class DataRepo {
     return _userDataCollectionRef.doc(userUID).update({
       'favoriteSamples': FieldValue.arrayRemove([entryID])
     });
+  }
+
+  Future<void> setCosplayVote({
+    required String userUID,
+    required String cosplayRef,
+    required bool? vote,
+  }) {
+    return _userDataCollectionRef
+        .doc(userUID)
+        .update({'myVoting.$cosplayRef': vote});
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -259,6 +270,41 @@ class DataRepo {
       }
       return ((snapshot.data() as Cosplay));
     });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Support data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _cosplayVotesDataRef = FirebaseFirestore.instance
+      .collection('voting')
+      .withConverter<SupportVoting>(
+        fromFirestore: (snapshot, _) =>
+            SupportVoting.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Stream<SupportVoting> getCosplayVoteStream(String votingRef) {
+    return _cosplayVotesDataRef
+        .doc(votingRef)
+        .snapshots(includeMetadataChanges: true)
+        .map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$votingRef:Voting');
+      }
+      return snapshot.data()! as SupportVoting;
+    });
+  }
+
+  Future<void> addVote({
+    required String voteRef,
+    required String cosplayRef,
+    required String userUID,
+    required bool? vote,
+  }) {
+    return _cosplayVotesDataRef
+        .doc(voteRef)
+        .update({'votes.$cosplayRef.$userUID': vote});
   }
 
   //////////////////////////////////////////////////////////////////////////////

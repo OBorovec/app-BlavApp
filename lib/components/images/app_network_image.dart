@@ -26,7 +26,7 @@ class AppNetworkImage extends StatelessWidget {
                 ),
               )
           : null,
-      placeholder: (context, url) => const CircularProgressIndicator(),
+      // placeholder: (context, url) => const CircularProgressIndicator(),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }

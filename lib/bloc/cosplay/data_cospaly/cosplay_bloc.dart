@@ -54,7 +54,21 @@ class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
   FutureOr<void> _onCosplayItemsChange(
     CosplayStreamChanged event,
     Emitter<CosplayState> emit,
-  ) {}
+  ) {
+    try {
+      emit(CosplayState(
+        status: CosplayStatus.loaded,
+        cosplayRecords: event.cosplayRecords,
+      ));
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: CosplayStatus.error,
+          message: e.toString(),
+        ),
+      );
+    }
+  }
 
   FutureOr<void> _onCosplaySubscriptionFailed(
     CosplaySubscriptionFailed event,

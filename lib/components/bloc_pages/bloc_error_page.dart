@@ -1,4 +1,5 @@
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -14,7 +15,7 @@ class BlocErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: finish localization
     // TODO: add a button to report the problem
-    return RootPage(
+    return SidePage(
       titleText: 'Error',
       body: Center(
         child: Column(

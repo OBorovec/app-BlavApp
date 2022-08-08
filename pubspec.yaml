@@ -20,6 +20,7 @@ dependencies:
   firebase_auth: ^3.3.16
   firebase_core: ^1.15.0
   firebase_storage: ^10.2.14
+  flag: ^6.0.0
   flex_color_scheme: ^5.0.0
   flow_builder: ^0.0.9
   flutter:

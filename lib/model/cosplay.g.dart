@@ -21,10 +21,12 @@ CosplayRecord _$CosplayRecordFromJson(Map<String, dynamic> json) =>
     CosplayRecord(
       id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
+      voteRef: json['voteRef'] as String,
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String),
           ) ??
           const {},
+      profileImage: json['profileImage'] as String,
       links: (json['links'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(
                 $enumDecode(_$CosplayRecordLinkEnumMap, k), e as String),
@@ -40,12 +42,16 @@ Map<String, dynamic> _$CosplayRecordToJson(CosplayRecord instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'voteRef': instance.voteRef,
       'desc': instance.desc,
       'links': instance.links
           .map((k, e) => MapEntry(_$CosplayRecordLinkEnumMap[k], e)),
+      'profileImage': instance.profileImage,
       'images': instance.images,
     };
 
 const _$CosplayRecordLinkEnumMap = {
+  CosplayRecordLink.face: 'face',
   CosplayRecordLink.insta: 'insta',
+  CosplayRecordLink.twitter: 'twitter',
 };

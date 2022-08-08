@@ -20,26 +20,31 @@ class Cosplay extends Equatable {
   Map<String, Object?> toJson() => _$CosplayToJson(this);
 }
 
-enum CosplayRecordLink { insta }
+enum CosplayRecordLink { face, insta, twitter }
 
 @JsonSerializable()
 class CosplayRecord extends Equatable {
   final String id;
   final Map<String, String> name;
+  final String voteRef;
   final Map<String, String> desc;
   final Map<CosplayRecordLink, String> links;
+  final String profileImage;
   final List<String> images;
 
   const CosplayRecord({
     required this.id,
     required this.name,
+    required this.voteRef,
     this.desc = const {},
+    required this.profileImage,
     this.links = const {},
     this.images = const [],
   });
 
   @override
-  List<Object?> get props => [id, name, desc, links, images];
+  List<Object?> get props =>
+      [id, name, voteRef, desc, profileImage, links, images];
 
   factory CosplayRecord.fromJson(Map<String, Object?> json) =>
       _$CosplayRecordFromJson(json);

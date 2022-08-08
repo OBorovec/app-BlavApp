@@ -61,3 +61,15 @@ class UserDataDegustationFavorite extends UserDataEvent {
     required this.itemRef,
   });
 }
+
+class UserDataVoteCosplay extends UserDataEvent {
+  final String cosplayRef;
+  final String voteRef;
+  final bool? vote;
+
+  const UserDataVoteCosplay({
+    required this.cosplayRef,
+    required this.voteRef,
+    required this.vote,
+  });
+}

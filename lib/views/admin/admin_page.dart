@@ -1,5 +1,6 @@
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/route_generator.dart';
+import 'package:blavapp/views/admin/cosplay_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -10,16 +11,31 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RootPage(
       titleText: AppLocalizations.of(context)!.adminTitle,
-      body: GridView.count(crossAxisCount: 2, children: [
-        _AdminButtonCard(
-          text: AppLocalizations.of(context)!.adminTicketCheckerTitle,
-          icon: Icons.how_to_vote,
-          onTap: () => Navigator.pushNamed(
-            context,
-            RoutePaths.adminTicketValidation,
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: [
+          _AdminButtonCard(
+            text: AppLocalizations.of(context)!.adminTicketCheckerTitle,
+            icon: Icons.sticky_note_2,
+            onTap: () => Navigator.pushNamed(
+              context,
+              RoutePaths.adminTicketValidation,
+            ),
           ),
-        ),
-      ]),
+          _AdminButtonCard(
+            text: AppLocalizations.of(context)!.adminCosplayResultsTitle,
+            icon: Icons.how_to_vote,
+            onTap: () => Navigator.pushNamed(
+              context,
+              RoutePaths.adminCosplayResults,
+              arguments: CosplayVotingResultsArguments(
+                eventRef: 'test-event',
+                voteRef: 'cosplay-test-event',
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

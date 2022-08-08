@@ -36,14 +36,11 @@ class DegustationDetails extends StatelessWidget {
               child: Column(
                 children: [
                   if (item.desc != null) ...[
-                    const SizedBox(height: 16),
                     _DegustationItemDescription(item: item),
                   ],
-                  const SizedBox(height: 16),
                   _DegustationItemPlaces(item: item),
-                  const SizedBox(height: 16),
                   _DegustationItemRating(item: item),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   const Divider(),
                   const SizedBox(height: 8),
                   _DegustationItemControlBtns(item: item),
@@ -102,6 +99,7 @@ class _DegustationItemDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 16),
         TitleDivider(
           title: AppLocalizations.of(context)!.description,
         ),
@@ -123,6 +121,7 @@ class _DegustationItemPlaces extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 16),
         TitleDivider(
           title: AppLocalizations.of(context)!.degusDetailWhereToBuy,
         ),
@@ -200,6 +199,7 @@ class _DegustationItemRating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 16),
         TitleDivider(
           title: AppLocalizations.of(context)!.degusDetailRating,
         ),

@@ -5,6 +5,7 @@ import 'package:blavapp/components/user/user_avatar.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/storage_repo.dart';
+import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -133,7 +134,10 @@ class _ProfileImage extends StatelessWidget {
           Positioned.fill(
             child: BlocBuilder<UserProfileBloc, UserProfileState>(
               builder: (context, state) {
-                return UserAvatar(imageUrl: state.user.photoURL);
+                return UserAvatar(
+                  imageUrl: state.user.photoURL,
+                  heroTag: appHeros[AppHeros.userAvatar]!,
+                );
               },
             ),
           ),

@@ -1,8 +1,10 @@
 import 'package:blavapp/components/page_hierarchy/redirect_page.dart';
 import 'package:blavapp/views/admin/admin_page.dart';
+import 'package:blavapp/views/admin/cosplay_results.dart';
 import 'package:blavapp/views/admin/ticket_validation.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
+import 'package:blavapp/views/cosplay/cosplay_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
@@ -38,20 +40,22 @@ class RoutePaths {
   static const String eventDetail = '/eventDetail';
   static const String admin = '/admin';
   static const String adminTicketValidation = '/admin/ticket-validation';
+  static const String adminCosplayResults = '/admin/cosplay-results';
   static const String settings = '/setting';
   // Event related route
   static const String eventHome = '/';
   static const String programme = '/programme';
   static const String programmeEntry = '/programme/entry';
   static const String catering = '/catering';
-  static const String cateringItem = '/catering-item';
+  static const String cateringItem = '/catering/item';
   static const String degustation = '/degustation';
   static const String degustationItem = '/degustation/item';
   static const String degustationPlace = '/degustation/place';
   static const String cosplay = '/cosplay';
+  static const String cosplayRecord = '/cosplay/record';
   static const String divisions = '/divisions';
   static const String maps = '/maps';
-  static const String mapView = '/map-view';
+  static const String mapView = '/map/view';
 }
 
 class RouteGenerator {
@@ -129,6 +133,14 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const TicketValidationPage(),
         );
+      case RoutePaths.adminCosplayResults:
+        final args = settings.arguments! as CosplayVotingResultsArguments;
+        return MaterialPageRoute(
+          builder: (_) => CosplayResults(
+            eventRef: args.eventRef,
+            voteRef: args.voteRef,
+          ),
+        );
       case RoutePaths.settings:
         return MaterialPageRoute(
           builder: (_) => const SettingsPage(),
@@ -198,6 +210,14 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => const CosplayPage(),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.cosplayRecord:
+        final args = settings.arguments! as CosplayDetailsArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => CosplayDetails(record: args.record),
           ),
           isAuthenticated,
         );

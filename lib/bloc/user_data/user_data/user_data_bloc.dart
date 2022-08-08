@@ -23,7 +23,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   })  : _authBloc = authBloc,
         _dataRepo = dataRepo,
         super(const UserDataState(
-          dataState: DataState.inactive,
+          dataStatus: DataStatus.inactive,
           userData: UserData(),
         )) {
     _authBlocSub = authBloc.stream.listen(_onAuthBlocChange);
@@ -34,6 +34,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<UserDataProgMyNotification>(_progNotificationToggleUserData);
     on<UserDataRateItem>(_rateItem);
     on<UserDataDegustationFavorite>(_degustationFavoriteToggle);
+    on<UserDataVoteCosplay>(_voteCosplay);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -69,7 +70,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     Emitter<UserDataState> emit,
   ) {
     emit(const UserDataState(
-      dataState: DataState.inactive,
+      dataStatus: DataStatus.inactive,
       userData: UserData(),
     ));
   }
@@ -79,7 +80,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     Emitter<UserDataState> emit,
   ) {
     emit(UserDataState(
-      dataState: DataState.active,
+      dataStatus: DataStatus.active,
       userData: event.userData,
     ));
   }
@@ -88,7 +89,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     UserDataMyProgramme event,
     Emitter<UserDataState> emit,
   ) {
-    if (state.dataState == DataState.active) {
+    if (state.dataStatus == DataStatus.active) {
       final User user = _authBloc.state.user!;
       if (state.userData.myProgramme.contains(event.entryId)) {
         _dataRepo.removeMyProgrammeEntry(user.uid, event.entryId);
@@ -102,7 +103,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     UserDataProgMyNotification event,
     Emitter<UserDataState> emit,
   ) {
-    if (state.dataState == DataState.active) {
+    if (state.dataStatus == DataStatus.active) {
       final User user = _authBloc.state.user!;
       if (state.userData.myNotifications.contains(event.entryId)) {
         _dataRepo.removeProgrammeEntryNotification(user.uid, event.entryId);
@@ -135,7 +136,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     UserDataDegustationFavorite event,
     Emitter<UserDataState> emit,
   ) {
-    if (state.dataState == DataState.active) {
+    if (state.dataStatus == DataStatus.active) {
       final User user = _authBloc.state.user!;
       if (state.userData.favoriteSamples.contains(event.itemRef)) {
         _dataRepo.removeDegustationFavorite(
@@ -148,6 +149,26 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
           event.itemRef,
         );
       }
+    }
+  }
+
+  FutureOr<void> _voteCosplay(
+    UserDataVoteCosplay event,
+    Emitter<UserDataState> emit,
+  ) {
+    final User? user = _authBloc.state.user;
+    if (user != null) {
+      _dataRepo.addVote(
+        voteRef: event.voteRef,
+        userUID: user.uid,
+        cosplayRef: event.cosplayRef,
+        vote: event.vote,
+      );
+      _dataRepo.setCosplayVote(
+        userUID: user.uid,
+        cosplayRef: event.cosplayRef,
+        vote: event.vote,
+      );
     }
   }
 }
