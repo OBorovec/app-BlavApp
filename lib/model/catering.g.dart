@@ -7,9 +7,10 @@ part of 'catering.dart';
 // **************************************************************************
 
 Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => CaterItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      items: (json['items'] as List<dynamic>?)
+              ?.map((e) => CaterItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       places: (json['places'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, CaterPlace.fromJson(e as Map<String, dynamic>)),
@@ -33,9 +34,6 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
       name: Map<String, String>.from(json['name'] as Map),
       type: $enumDecode(_$CaterItemTypeEnumMap, json['type']),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
-      sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
       placeRef: json['placeRef'] as String?,
@@ -62,7 +60,6 @@ Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
       'name': instance.name,
       'type': _$CaterItemTypeEnumMap[instance.type],
       'desc': instance.desc,
-      'sDesc': instance.sDesc,
       'placeRef': instance.placeRef,
       'allergens': instance.allergens,
       'vegetarian': instance.vegetarian,

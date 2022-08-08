@@ -7,9 +7,10 @@ part of 'degustation.dart';
 // **************************************************************************
 
 Degustation _$DegustationFromJson(Map<String, dynamic> json) => Degustation(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => DegusItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      items: (json['items'] as List<dynamic>?)
+              ?.map((e) => DegusItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       places: (json['places'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, DegusPlace.fromJson(e as Map<String, dynamic>)),

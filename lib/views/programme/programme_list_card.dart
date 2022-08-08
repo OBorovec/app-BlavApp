@@ -1,6 +1,5 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/utils/app_heros.dart';
@@ -131,7 +130,7 @@ class _ProgrammeEntryInfo extends StatelessWidget {
     );
   }
 
-  IntrinsicHeight _buildInfoLine(IconData iconData, String text) {
+  Widget _buildInfoLine(IconData iconData, String text) {
     return IntrinsicHeight(
       child: Row(
         children: [

@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/constants/icons.dart';
@@ -20,31 +21,35 @@ class CateringItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      // onTap: onTap,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: _CateringItemInfo(item: item),
-                    ),
-                    if (item.images.isNotEmpty)
-                      Expanded(
-                        flex: 1,
-                        child: _CateringItemHeroImage(item: item),
+        child: Column(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: _CateringItemInfo(item: item),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Stack(children: [
+                      if (item.images.isNotEmpty)
+                        _CateringItemHeroImage(item: item),
+                      Positioned(
+                        top: 2,
+                        right: 2,
+                        child: _CateringAttIcons(item: item),
                       ),
-                  ],
-                ),
+                    ]),
+                  ),
+                ],
               ),
-              const Divider(),
-              _CaterPriceScroll(item: item),
-            ],
-          ),
+            ),
+            const Divider(),
+            _CaterPriceScroll(item: item),
+          ],
         ),
       ),
     );
@@ -61,34 +66,73 @@ class _CateringItemInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                t(item.name, context),
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ),
-            _CateringAttIcons(item: item),
-          ],
-        ),
-        if (item.allergens.isNotEmpty) Text(item.allergens.toString()),
-        const SizedBox(
-          height: 5,
-        ),
-        if (item.desc != null) ...[
-          const Divider(),
+    final Map<String, CaterPlace> places =
+        BlocProvider.of<CateringBloc>(context).state.cateringPlaces;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
-            t(item.desc!, context),
-            maxLines: 3,
+            t(item.name, context),
+            style: Theme.of(context).textTheme.headline6,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
-          )
+          ),
+          const SizedBox(height: 4),
+          Column(
+            children: [
+              _buildInfoLine(
+                Icons.category_outlined,
+                tCaterItemType(
+                  item.type,
+                  context,
+                ),
+              ),
+              _buildInfoLine(
+                Icons.place_outlined,
+                places.containsKey(item.placeRef)
+                    ? t(places[item.placeRef]!.name, context)
+                    : '?${item.placeRef}?',
+              ),
+              if (item.allergens.isNotEmpty)
+                _buildInfoLine(
+                  Icons.warning,
+                  item.allergens.toString(),
+                ),
+            ],
+          ),
+          const Divider(),
+          if (item.desc != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              t(item.desc!, context),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ],
-      ],
+      ),
+    );
+  }
+
+  Widget _buildInfoLine(IconData iconData, String text) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            size: 14,
+          ),
+          const VerticalDivider(),
+          Expanded(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -103,24 +147,29 @@ class _CateringAttIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (item.vegetarian)
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ImageIcon(AppIcons.vegetarian),
-          ),
-        if (item.vegan)
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ImageIcon(AppIcons.vegan),
-          ),
-        if (item.glutenFree)
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: ImageIcon(AppIcons.glutenFree),
-          ),
-      ],
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Row(
+          children: [
+            if (item.vegetarian)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: ImageIcon(AppIcons.vegetarian),
+              ),
+            if (item.vegan)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: ImageIcon(AppIcons.vegan),
+              ),
+            if (item.glutenFree)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: ImageIcon(AppIcons.glutenFree),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
