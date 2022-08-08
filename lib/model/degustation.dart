@@ -31,7 +31,7 @@ enum DegusAlcoholType {
 @JsonSerializable()
 class DegusItem extends Equatable {
   final String id;
-  final String placeRef;
+  final List<String> placeRef;
   final Map<String, String> name;
   final Map<String, String>? desc;
   final double? rating;
@@ -91,7 +91,7 @@ class DegusVolume extends Equatable {
 @JsonSerializable()
 class DegusPlace extends Equatable {
   final Map<String, String> name;
-  final String? loc;
+  final DegusPlaceLoc? loc;
   final Map<String, String>? opens;
   final List<String> images;
 
@@ -109,6 +109,25 @@ class DegusPlace extends Equatable {
       _$DegusPlaceFromJson(json);
 
   Map<String, Object?> toJson() => _$DegusPlaceToJson(this);
+}
+
+@JsonSerializable()
+class DegusPlaceLoc extends Equatable {
+  final String mapRef;
+  final String pointRef;
+
+  const DegusPlaceLoc({
+    required this.mapRef,
+    required this.pointRef,
+  });
+
+  @override
+  List<Object?> get props => [mapRef, pointRef];
+
+  factory DegusPlaceLoc.fromJson(Map<String, Object?> json) =>
+      _$DegusPlaceLocFromJson(json);
+
+  Map<String, Object?> toJson() => _$DegusPlaceLocToJson(this);
 }
 
 @JsonSerializable()

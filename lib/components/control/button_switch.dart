@@ -153,3 +153,23 @@ class AddSwitch extends ButtonSwitch {
           constraints: constraints,
         );
 }
+
+class FavoriteSwitch extends ButtonSwitch {
+  const FavoriteSwitch({
+    Key? key,
+    required bool isOn,
+    required Function() onPressed,
+    double? iconSize,
+    EdgeInsetsGeometry? padding,
+    BoxConstraints? constraints,
+  }) : super(
+          key: key,
+          isOn: isOn,
+          onPressed: onPressed,
+          onIconData: Icons.favorite,
+          offIconData: Icons.favorite_border,
+          iconSize: iconSize,
+          padding: padding,
+          constraints: constraints,
+        );
+}

@@ -21,11 +21,11 @@ class UserProgrammeAgendaBloc
     required Event event,
   }) : super(UserProgrammeAgendaState(
           programmeEntries: programmeBloc.state.programmeEntries,
-          myProgrammeEntryIds: userDataBloc.state.usedData.myProgramme,
+          myProgrammeEntryIds: userDataBloc.state.userData.myProgramme,
           agendaData: programmeBloc.state.programmeEntries
               .where(
                 (ProgEntry entry) =>
-                    userDataBloc.state.usedData.myProgramme.contains(entry.id),
+                    userDataBloc.state.userData.myProgramme.contains(entry.id),
               )
               .toList(),
           event: event,
@@ -42,7 +42,7 @@ class UserProgrammeAgendaBloc
     _userDataBlocSubscription = userDataBloc.stream.listen(
       (UserDataState state) => add(
         UpdateMyProgrammeEntryIds(
-          myProgrammeEntryIds: state.usedData.myProgramme,
+          myProgrammeEntryIds: state.userData.myProgramme,
         ),
       ),
     );

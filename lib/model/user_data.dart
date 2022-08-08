@@ -8,12 +8,14 @@ class UserData extends Equatable {
   final List<String> tickets;
   final Set<String> myNotifications;
   final Set<String> myProgramme;
+  final Set<String> favoriteSamples;
   final Map<String, double> myRatings;
 
   const UserData({
     this.tickets = const [],
     this.myNotifications = const {},
     this.myProgramme = const {},
+    this.favoriteSamples = const {},
     this.myRatings = const {},
   });
 
@@ -22,6 +24,7 @@ class UserData extends Equatable {
         tickets,
         myNotifications,
         myProgramme,
+        favoriteSamples,
         myRatings,
       ];
 

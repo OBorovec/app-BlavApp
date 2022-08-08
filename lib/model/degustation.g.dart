@@ -37,7 +37,8 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
       ),
       rating: (json['rating'] as num?)?.toDouble(),
       alcoholVolume: (json['alcoholVolume'] as num?)?.toDouble(),
-      placeRef: json['placeRef'] as String,
+      placeRef:
+          (json['placeRef'] as List<dynamic>).map((e) => e as String).toList(),
       alcoholType: $enumDecode(_$DegusAlcoholTypeEnumMap, json['alcoholType']),
       subType: json['subType'] as String?,
       dSubType: (json['dSubType'] as Map<String, dynamic>?)?.map(
@@ -95,7 +96,9 @@ Map<String, dynamic> _$DegusVolumeToJson(DegusVolume instance) =>
 
 DegusPlace _$DegusPlaceFromJson(Map<String, dynamic> json) => DegusPlace(
       name: Map<String, String>.from(json['name'] as Map),
-      loc: json['loc'] as String?,
+      loc: json['loc'] == null
+          ? null
+          : DegusPlaceLoc.fromJson(json['loc'] as Map<String, dynamic>),
       opens: (json['opens'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -111,6 +114,18 @@ Map<String, dynamic> _$DegusPlaceToJson(DegusPlace instance) =>
       'loc': instance.loc,
       'opens': instance.opens,
       'images': instance.images,
+    };
+
+DegusPlaceLoc _$DegusPlaceLocFromJson(Map<String, dynamic> json) =>
+    DegusPlaceLoc(
+      mapRef: json['mapRef'] as String,
+      pointRef: json['pointRef'] as String,
+    );
+
+Map<String, dynamic> _$DegusPlaceLocToJson(DegusPlaceLoc instance) =>
+    <String, dynamic>{
+      'mapRef': instance.mapRef,
+      'pointRef': instance.pointRef,
     };
 
 DegusNotification _$DegusNotificationFromJson(Map<String, dynamic> json) =>

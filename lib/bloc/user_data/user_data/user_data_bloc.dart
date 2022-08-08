@@ -24,7 +24,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
         _dataRepo = dataRepo,
         super(const UserDataState(
           dataState: DataState.inactive,
-          usedData: UserData(),
+          userData: UserData(),
         )) {
     _authBlocSub = authBloc.stream.listen(_onAuthBlocChange);
     on<InitUserData>(_initUserData);
@@ -33,6 +33,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<UserDataMyProgramme>(_progEntryToggleUserData);
     on<UserDataProgMyNotification>(_progNotificationToggleUserData);
     on<UserDataRateItem>(_rateItem);
+    on<UserDataDegustationFavorite>(_degustationFavoriteToggle);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -69,7 +70,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   ) {
     emit(const UserDataState(
       dataState: DataState.inactive,
-      usedData: UserData(),
+      userData: UserData(),
     ));
   }
 
@@ -79,7 +80,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   ) {
     emit(UserDataState(
       dataState: DataState.active,
-      usedData: event.userData,
+      userData: event.userData,
     ));
   }
 
@@ -89,7 +90,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   ) {
     if (state.dataState == DataState.active) {
       final User user = _authBloc.state.user!;
-      if (state.usedData.myProgramme.contains(event.entryId)) {
+      if (state.userData.myProgramme.contains(event.entryId)) {
         _dataRepo.removeMyProgrammeEntry(user.uid, event.entryId);
       } else {
         _dataRepo.addMyProgrammeEntry(user.uid, event.entryId);
@@ -103,7 +104,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   ) {
     if (state.dataState == DataState.active) {
       final User user = _authBloc.state.user!;
-      if (state.usedData.myNotifications.contains(event.entryId)) {
+      if (state.userData.myNotifications.contains(event.entryId)) {
         _dataRepo.removeProgrammeEntryNotification(user.uid, event.entryId);
       } else {
         _dataRepo.addProgrammeEntryNotification(user.uid, event.entryId);
@@ -127,6 +128,26 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
         itemRef: event.itemRef,
         rating: event.rating,
       );
+    }
+  }
+
+  FutureOr<void> _degustationFavoriteToggle(
+    UserDataDegustationFavorite event,
+    Emitter<UserDataState> emit,
+  ) {
+    if (state.dataState == DataState.active) {
+      final User user = _authBloc.state.user!;
+      if (state.userData.favoriteSamples.contains(event.itemRef)) {
+        _dataRepo.removeDegustationFavorite(
+          user.uid,
+          event.itemRef,
+        );
+      } else {
+        _dataRepo.addDegustationFavorite(
+          _authBloc.state.user!.uid,
+          event.itemRef,
+        );
+      }
     }
   }
 }

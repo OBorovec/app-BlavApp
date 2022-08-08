@@ -4,12 +4,12 @@ enum DataState { active, inactive }
 
 class UserDataState extends Equatable {
   final DataState dataState;
-  final UserData usedData;
+  final UserData userData;
   const UserDataState({
     required this.dataState,
-    required this.usedData,
+    required this.userData,
   });
 
   @override
-  List<Object> get props => [dataState, usedData];
+  List<Object> get props => [dataState, userData];
 }

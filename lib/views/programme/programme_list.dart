@@ -84,10 +84,10 @@ class ProgrammeList extends StatelessWidget {
               );
             },
             backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
-            icon: state.usedData.myNotifications.contains(entry.id)
+            icon: state.userData.myNotifications.contains(entry.id)
                 ? Icons.notifications_active
                 : Icons.notification_add,
-            label: state.usedData.myNotifications.contains(entry.id)
+            label: state.userData.myNotifications.contains(entry.id)
                 ? 'Silent'
                 : 'Notify',
           );
@@ -102,10 +102,10 @@ class ProgrammeList extends StatelessWidget {
               );
             },
             backgroundColor: Theme.of(context).primaryColor,
-            icon: state.usedData.myProgramme.contains(entry.id)
+            icon: state.userData.myProgramme.contains(entry.id)
                 ? Icons.bookmark_added
                 : Icons.bookmark_add,
-            label: state.usedData.myProgramme.contains(entry.id)
+            label: state.userData.myProgramme.contains(entry.id)
                 ? 'Remove'
                 : 'Add',
           );

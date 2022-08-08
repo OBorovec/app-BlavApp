@@ -53,3 +53,11 @@ class UserDataRateItem extends UserDataEvent {
     required this.rating,
   });
 }
+
+class UserDataDegustationFavorite extends UserDataEvent {
+  final String itemRef;
+
+  const UserDataDegustationFavorite({
+    required this.itemRef,
+  });
+}

@@ -6,6 +6,7 @@ import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
+import 'package:blavapp/views/degustation/degustation_place_details.dart';
 import 'package:blavapp/views/gwint_events/event_details.dart';
 import 'package:blavapp/views/gwint_events/event_home_page.dart';
 import 'package:blavapp/views/gwint_events/events_page.dart';
@@ -41,11 +42,12 @@ class RoutePaths {
   // Event related route
   static const String eventHome = '/';
   static const String programme = '/programme';
-  static const String programmeEntry = '/programme-entry';
+  static const String programmeEntry = '/programme/entry';
   static const String catering = '/catering';
   static const String cateringItem = '/catering-item';
   static const String degustation = '/degustation';
-  static const String degustationItem = '/degustation-item';
+  static const String degustationItem = '/degustation/item';
+  static const String degustationPlace = '/degustation/place';
   static const String cosplay = '/cosplay';
   static const String divisions = '/divisions';
   static const String maps = '/maps';
@@ -181,6 +183,14 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => DegustationDetails(item: args.item),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.degustationPlace:
+        final args = settings.arguments! as DegustationPlaceDetailsArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => DegustationPlaceDetails(place: args.place),
           ),
           isAuthenticated,
         );

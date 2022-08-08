@@ -91,6 +91,24 @@ class DataRepo {
         .update({'myRatings.$itemRef': rating});
   }
 
+  Future<void> addDegustationFavorite(
+    String userUID,
+    String entryID,
+  ) {
+    return _userDataCollectionRef.doc(userUID).update({
+      'favoriteSamples': FieldValue.arrayUnion([entryID])
+    });
+  }
+
+  Future<void> removeDegustationFavorite(
+    String userUID,
+    String entryID,
+  ) {
+    return _userDataCollectionRef.doc(userUID).update({
+      'favoriteSamples': FieldValue.arrayRemove([entryID])
+    });
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Events
   //////////////////////////////////////////////////////////////////////////////

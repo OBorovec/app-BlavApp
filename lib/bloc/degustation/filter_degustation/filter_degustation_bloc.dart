@@ -83,7 +83,9 @@ class FilterDegustationBloc
     for (final DegusItem item in state.degusItems) {
       availableAlcoholTypes.add(item.alcoholType);
       if (item.origin != null) availableOrigins.add(item.origin!);
-      availablePlaces.add(item.placeRef);
+      for (final String place in item.placeRef) {
+        availablePlaces.add(place);
+      }
     }
     emit(state.copyWith(
       availableAlcoholTypes: availableAlcoholTypes,

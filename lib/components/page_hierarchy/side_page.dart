@@ -5,11 +5,13 @@ class SidePage extends StatefulWidget {
   final String titleText;
   final Widget body;
   final Widget? floatingActionButton;
+  final List<Widget>? actions;
 
   const SidePage({
     Key? key,
     required this.titleText,
     required this.body,
+    this.actions,
     this.floatingActionButton,
   }) : super(key: key);
 
@@ -34,6 +36,7 @@ class _SidePageState extends State<SidePage> {
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back),
           ),
+          actions: widget.actions,
         ),
         body: Stack(
           children: [

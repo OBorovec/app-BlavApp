@@ -21,7 +21,7 @@ class FilterProgrammeBloc
   }) : super(FilterProgrammeState(
           programmeEntries: programmeBloc.state.programmeEntries,
           programmeEntriesFiltered: programmeBloc.state.programmeEntries,
-          myProgrammeEntryIds: userDataBloc.state.usedData.myProgramme,
+          myProgrammeEntryIds: userDataBloc.state.userData.myProgramme,
         )) {
     _programmeBlocSubscription = programmeBloc.stream.listen(
       (ProgrammeState state) {
@@ -35,7 +35,7 @@ class FilterProgrammeBloc
     _userDataBlocSubscription = userDataBloc.stream.listen(
       (UserDataState state) => add(
         UpdateMyProgrammeEntryIds(
-          myProgrammeEntryIds: state.usedData.myProgramme,
+          myProgrammeEntryIds: state.userData.myProgramme,
         ),
       ),
     );

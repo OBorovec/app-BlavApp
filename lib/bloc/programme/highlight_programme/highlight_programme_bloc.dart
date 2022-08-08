@@ -18,7 +18,7 @@ class HighlightProgrammeBloc
     required UserDataBloc userDataBloc,
   }) : super(HighlightProgrammeState(
           programmeEntries: programmeBloc.state.programmeEntries,
-          myProgrammeEntryIds: userDataBloc.state.usedData.myProgramme,
+          myProgrammeEntryIds: userDataBloc.state.userData.myProgramme,
         )) {
     _programmeBlocSubscription = programmeBloc.stream.listen(
       (ProgrammeState state) {
@@ -32,7 +32,7 @@ class HighlightProgrammeBloc
     _userDataBlocSubscription = userDataBloc.stream.listen(
       (UserDataState state) => add(
         UpdateMyProgrammeEntryIds(
-          myProgrammeEntryIds: state.usedData.myProgramme,
+          myProgrammeEntryIds: state.userData.myProgramme,
         ),
       ),
     );

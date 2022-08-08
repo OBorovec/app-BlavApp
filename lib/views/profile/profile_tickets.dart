@@ -16,7 +16,7 @@ class ProfileMyTicketsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserTicketsBloc(
-        tickets: context.read<UserDataBloc>().state.usedData.tickets,
+        tickets: context.read<UserDataBloc>().state.userData.tickets,
         dataRepo: context.read<DataRepo>(),
       ),
       child: SidePage(

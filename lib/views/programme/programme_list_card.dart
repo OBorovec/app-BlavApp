@@ -161,7 +161,7 @@ class _ProgrammeEntryUserData extends StatelessWidget {
         return Column(
           children: [
             NotificationSwitch(
-              isOn: state.usedData.myNotifications.contains(entry.id),
+              isOn: state.userData.myNotifications.contains(entry.id),
               onPressed: () {
                 BlocProvider.of<UserDataBloc>(context).add(
                   UserDataProgMyNotification(
@@ -171,7 +171,7 @@ class _ProgrammeEntryUserData extends StatelessWidget {
               },
             ),
             BookmarkSwitch(
-              isOn: state.usedData.myProgramme.contains(entry.id),
+              isOn: state.userData.myProgramme.contains(entry.id),
               onPressed: () {
                 BlocProvider.of<UserDataBloc>(context).add(
                   UserDataMyProgramme(
