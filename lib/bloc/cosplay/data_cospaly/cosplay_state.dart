@@ -9,26 +9,28 @@ enum CosplayStatus {
 class CosplayState extends Equatable {
   final CosplayStatus status;
   final String message;
-  final List<CosplayRecord> cosplayRecords;
+  final Cosplay cosplay;
 
   const CosplayState({
     this.status = CosplayStatus.initial,
     this.message = '',
-    this.cosplayRecords = const [],
+    this.cosplay = const Cosplay(),
   });
 
+  List<CosplayRecord> get cosplayRecords => cosplay.cosplayRecords;
+
   @override
-  List<Object> get props => [status, cosplayRecords];
+  List<Object> get props => [status, cosplay];
 
   CosplayState copyWith({
     CosplayStatus? status,
     String? message,
-    List<CosplayRecord>? cosplayRecords,
+    Cosplay? cosplay,
   }) {
     return CosplayState(
       status: status ?? this.status,
       message: message ?? this.message,
-      cosplayRecords: cosplayRecords ?? this.cosplayRecords,
+      cosplay: cosplay ?? this.cosplay,
     );
   }
 }

@@ -28,6 +28,7 @@ class DegustationDetails extends StatelessWidget {
     return SidePage(
       titleText: t(item.name, context),
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
             if (item.images.isNotEmpty) _DegustationItemHeroImage(item: item),
@@ -35,14 +36,11 @@ class DegustationDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if (item.desc != null) ...[
-                    _DegustationItemDescription(item: item),
-                  ],
-                  _DegustationItemPlaces(item: item),
+                  _DegustationItemBaseInfo(item: item),
                   _DegustationItemRating(item: item),
-                  const SizedBox(height: 8),
-                  const Divider(),
-                  const SizedBox(height: 8),
+                  if (item.desc != null)
+                    _DegustationItemDescription(item: item),
+                  _DegustationItemPlaces(item: item),
                   _DegustationItemControlBtns(item: item),
                   const SizedBox(height: 32),
                 ],
@@ -82,6 +80,79 @@ class _DegustationItemHeroImage extends StatelessWidget {
             asCover: true,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _DegustationItemBaseInfo extends StatelessWidget {
+  final DegusItem item;
+
+  const _DegustationItemBaseInfo({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 16),
+            Text(
+              t(item.name, context),
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            _buildInfoLine(
+              Icons.category_outlined,
+              tDegusAlcoholType(item.alcoholType, context),
+              context,
+            ),
+            if (item.subType != null)
+              _buildInfoLine(
+                Icons.subject_outlined,
+                tDegusSubAlcoholType(item.subType!, context),
+                context,
+              ),
+          ],
+        ),
+        Column(
+          children: [
+            DegustationFavoriteSwitch(
+              itemRef: item.id,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.share),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoLine(
+    IconData iconData,
+    String text,
+    BuildContext context,
+  ) {
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            iconData,
+            size: 20,
+          ),
+          const VerticalDivider(),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+        ],
       ),
     );
   }
@@ -323,6 +394,7 @@ class _DegustationItemControlBtns extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const Divider(height: 32),
         ElevatedButton.icon(
           onPressed: () => null,
           icon: const Icon(Icons.store),

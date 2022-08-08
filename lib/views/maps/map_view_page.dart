@@ -5,7 +5,7 @@ import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/toasting.dart';
-import 'package:blavapp/views/maps/custom_map.dart';
+import 'package:blavapp/views/maps/map_custom_interactive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -37,7 +37,7 @@ class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
     _cosplayStream = _dataRepo.getCosplayStream(eventTag).listen(
           (Cosplay cosplay) => add(
             CosplayStreamChanged(
-              cosplayRecords: cosplay.cosplayRecords,
+              cosplay: cosplay,
             ),
           ),
         )..onError(
@@ -58,7 +58,7 @@ class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
     try {
       emit(CosplayState(
         status: CosplayStatus.loaded,
-        cosplayRecords: event.cosplayRecords,
+        cosplay: event.cosplay,
       ));
     } on Exception catch (e) {
       emit(

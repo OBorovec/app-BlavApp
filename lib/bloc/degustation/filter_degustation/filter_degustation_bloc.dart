@@ -20,6 +20,7 @@ class FilterDegustationBloc
     required UserDataBloc userDataBloc,
   }) : super(FilterDegustationState(
           degusItems: degustationBloc.state.degustationItems,
+          myFavoriteItemRefs: userDataBloc.state.userData.favoriteSamples,
           degusItemsFiltered: degustationBloc.state.degustationItems,
         )) {
     _degustationBlocSubscription = degustationBloc.stream.listen(
@@ -32,14 +33,20 @@ class FilterDegustationBloc
       },
     );
     _userDataBlocSubscription = userDataBloc.stream.listen(
-      (UserDataState state) {},
+      (UserDataState state) => add(
+        UpdateMyFavoriteItemRefs(
+          myFavoriteItemRefs: state.userData.favoriteSamples,
+        ),
+      ),
     );
     // Event listeners
     on<UpdateDegusItems>(_updateDegusItems);
+    on<UpdateMyFavoriteItemRefs>(_updateMyFavoriteItemRefs);
     on<ToggleSearch>(_toggleSearch);
     on<SetAvailableFilters>(_setAvailableFilters);
     on<ApplyDegusFilters>(_applyAllFilters);
     on<ResetDegusFilters>(_resetAllFilters);
+    on<UseMyFavoriteFilter>(_useMyFavoriteFilter);
     on<DegusAlcoholTypeFilter>(_updateAlcoholTypeFilter);
     on<DegusOriginFilter>(_updateOriginFilter);
     on<DegusPlaceFilter>(_updatePlaceFilter);
@@ -58,6 +65,18 @@ class FilterDegustationBloc
       ),
     );
     add(const SetAvailableFilters());
+    add(const ApplyDegusFilters());
+  }
+
+  FutureOr<void> _updateMyFavoriteItemRefs(
+    UpdateMyFavoriteItemRefs event,
+    Emitter<FilterDegustationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        myFavoriteItemRefs: event.myFavoriteItemRefs,
+      ),
+    );
     add(const ApplyDegusFilters());
   }
 
@@ -99,6 +118,11 @@ class FilterDegustationBloc
     Emitter<FilterDegustationState> emit,
   ) {
     Iterable<DegusItem> itemFiltering = state.degusItems;
+    if (state.onlyMyFavorite) {
+      itemFiltering = itemFiltering.where(
+        (DegusItem item) => state.myFavoriteItemRefs.contains(item.id),
+      );
+    }
     if (state.alcoholTypeFilter.isNotEmpty) {
       itemFiltering = itemFiltering.where(
         (DegusItem item) => state.alcoholTypeFilter.contains(item.alcoholType),
@@ -146,6 +170,16 @@ class FilterDegustationBloc
       maxAlcohol: 100,
       queryString: '',
     ));
+  }
+
+  FutureOr<void> _useMyFavoriteFilter(
+    UseMyFavoriteFilter event,
+    Emitter<FilterDegustationState> emit,
+  ) {
+    emit(state.copyWith(
+      onlyMyFavorite: event.value,
+    ));
+    add(const ApplyDegusFilters());
   }
 
   FutureOr<void> _updateAlcoholTypeFilter(

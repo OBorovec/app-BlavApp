@@ -8,14 +8,10 @@ abstract class DegustationEvent extends Equatable {
 }
 
 class DegustationStreamChanged extends DegustationEvent {
-  final List<DegusItem> degustationItems;
-  final Map<String, DegusPlace> degustationPlaces;
-  final List<DegusNotification> degustationNotifications;
+  final Degustation degustation;
 
   const DegustationStreamChanged({
-    required this.degustationItems,
-    required this.degustationPlaces,
-    required this.degustationNotifications,
+    required this.degustation,
   });
 }
 

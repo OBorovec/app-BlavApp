@@ -46,7 +46,8 @@
   "@degustationPage":"-------------------------------------------",
   "degusTitle": "Degustace",
   "degusHighlightTitle": "Degustace",
-  "degusListTitle": "Degustace - výčet",
+  "degusListTitle": "Všechny vzorky",
+  "degusListFavoriteTitle": "Oblíbené vzorky",
   "degusPlaceTitle": "Degustace - místa",
   "degusSearchHint": "Textové vyhledávání...",
   "degusSearchPredef": "Dostupné filtry:",
@@ -193,6 +194,13 @@
   "progSearchAvailableDates": "Den konání",
   "progSearchAvailableCategs": "Kategorie událsoti",
   "progSearchAvailablePlaces": "Místo události",
+  "@programmeDetailPage":"-------------------------------------------",
+  "progDetailBtnFeedBack": "Zpětná vazba",
+  "progDetailBtnSignUp": "Přihlásit se",
+  "progDetailBtnMyProgramme": "Přidat do mého programu",
+  "progDetailBtnMyProgrammeRemove": "Odebrat z mého programu",
+  "progDetailBtnNotification": "Pololit upozornění",
+  "progDetailBtnNotificationRemove": "Odebrat upozornění",
   "@gwintClubPage":"---------------------------------------------",
   "gwintTitle": "Gwint klub",
   "@gwintEventsPage":"-------------------------------------------",
@@ -298,5 +306,6 @@
   "cateringTypeDrink": "Pití",
   "cateringTypeDesert": "Zákusek",
   "@degustation":"-----------------------------------------------",
-  "degusAlcoholTypeMead": "Medovina"
+  "degusAlcoholTypeMead": "Medovina",
+  "degusAlcoholSubTypeLip": "Lipová"
 }

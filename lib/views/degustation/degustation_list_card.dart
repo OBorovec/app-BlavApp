@@ -5,9 +5,9 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_interpreter.dart';
+import 'package:blavapp/views/degustation/degustation_bloc_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DegustationItemCard extends StatelessWidget {
   final DegusItem item;
@@ -23,29 +23,29 @@ class DegustationItemCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
+        child: Column(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: _DegusItemInfo(item: item),
                     ),
-                    if (item.images.isNotEmpty)
-                      Expanded(
-                        flex: 1,
-                        child: _DegusItemHeroImage(item: item),
-                      ),
-                  ],
-                ),
+                  ),
+                  if (item.images.isNotEmpty)
+                    Expanded(
+                      flex: 1,
+                      child: _DegusItemHeroImage(item: item),
+                    ),
+                ],
               ),
-              const Divider(),
-              _DegusPriceScroll(volumes: item.volumes),
-            ],
-          ),
+            ),
+            const Divider(),
+            _DegusPriceScroll(volumes: item.volumes),
+          ],
         ),
       ),
     );
@@ -68,10 +68,19 @@ class _DegusItemInfo extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              t(item.name, context),
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline6,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    t(item.name, context),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ),
+                DegustationFavoriteSwitch(
+                  itemRef: item.id,
+                ),
+              ],
             ),
             if (item.rating != null)
               AppRatingIndicator(

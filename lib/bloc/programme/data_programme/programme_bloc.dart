@@ -18,7 +18,10 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
     required EventFocusBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(
-          const ProgrammeState(status: ProgrammeStatus.initial),
+          const ProgrammeState(
+            status: ProgrammeStatus.initial,
+            programme: Programme(),
+          ),
         ) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
         (EventFocusState eventFocusState) =>
@@ -39,7 +42,7 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
         .getProgrammeStream(eventTag)
         .listen((Programme programme) => add(
               ProgrammeStreamChanged(
-                programmeEntries: programme.entries,
+                programme: programme,
               ),
             ))
       ..onError(
@@ -58,7 +61,7 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
     emit(
       ProgrammeState(
         status: ProgrammeStatus.loaded,
-        programmeEntries: event.programmeEntries,
+        programme: event.programme,
       ),
     );
   }

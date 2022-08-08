@@ -124,6 +124,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
   List<Widget> _buildActions() {
     switch (content) {
       case ProgrammePageContent.list:
+      case ProgrammePageContent.mylist:
         return [
           BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
             builder: (context, state) {

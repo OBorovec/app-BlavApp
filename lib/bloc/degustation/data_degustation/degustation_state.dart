@@ -9,40 +9,35 @@ enum DegustationStatus {
 class DegustationState extends Equatable {
   final DegustationStatus status;
   final String message;
-  final List<DegusItem> degustationItems;
-  final Map<String, DegusPlace> degustationPlaces;
-  final List<DegusNotification> notifications;
+  final Degustation degustation;
 
   const DegustationState({
     this.status = DegustationStatus.initial,
     this.message = '',
-    this.degustationItems = const <DegusItem>[],
-    this.degustationPlaces = const {},
-    this.notifications = const [],
+    this.degustation = const Degustation(),
   });
+
+  List<DegusItem> get degustationItems => degustation.items;
+  Map<String, DegusPlace> get degustationPlaces => degustation.places;
+  List<DegusNotification> get degustationNotifications =>
+      degustation.notifications;
 
   @override
   List<Object> get props => [
         status,
         message,
-        degustationItems,
-        degustationPlaces,
-        notifications,
+        degustation,
       ];
 
   DegustationState copyWith({
     DegustationStatus? status,
     String? message,
-    List<DegusItem>? degustationItems,
-    Map<String, DegusPlace>? degustationPlaces,
-    List<DegusNotification>? notifications,
+    Degustation? degustation,
   }) {
     return DegustationState(
       status: status ?? this.status,
       message: message ?? this.message,
-      degustationItems: degustationItems ?? this.degustationItems,
-      degustationPlaces: degustationPlaces ?? this.degustationPlaces,
-      notifications: notifications ?? this.notifications,
+      degustation: degustation ?? this.degustation,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
@@ -5,6 +6,7 @@ import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
+import 'package:blavapp/views/programme/programme_bloc_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -83,6 +85,8 @@ class _ProgrammeEntryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, ProgPlace> places =
+        BlocProvider.of<ProgrammeBloc>(context).state.programmePlaces;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -111,7 +115,9 @@ class _ProgrammeEntryInfo extends StatelessWidget {
         // Entry place
         _buildInfoLine(
           Icons.place_outlined,
-          entry.placeRef ?? '',
+          places.containsKey(entry.placeRef)
+              ? t(places[entry.placeRef]!.name, context)
+              : '?${entry.placeRef}?',
         ),
         // Entry category
         _buildInfoLine(
@@ -160,26 +166,8 @@ class _ProgrammeEntryUserData extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            NotificationSwitch(
-              isOn: state.userData.myNotifications.contains(entry.id),
-              onPressed: () {
-                BlocProvider.of<UserDataBloc>(context).add(
-                  UserDataProgMyNotification(
-                    entryId: entry.id,
-                  ),
-                );
-              },
-            ),
-            BookmarkSwitch(
-              isOn: state.userData.myProgramme.contains(entry.id),
-              onPressed: () {
-                BlocProvider.of<UserDataBloc>(context).add(
-                  UserDataMyProgramme(
-                    entryId: entry.id,
-                  ),
-                );
-              },
-            ),
+            ProgrammeEntryNotification(entryId: entry.id),
+            ProgrammeEntryMyProgramme(entryId: entry.id),
           ],
         );
       },

@@ -17,7 +17,7 @@ import 'package:blavapp/views/maps/maps_page.dart';
 import 'package:blavapp/views/profile/profile_delete_page.dart';
 import 'package:blavapp/views/profile/profile_page.dart';
 import 'package:blavapp/views/profile/profile_tickets.dart';
-import 'package:blavapp/views/programme/programe_details.dart';
+import 'package:blavapp/views/programme/programme_details.dart';
 import 'package:blavapp/views/programme/programme_page.dart';
 import 'package:blavapp/views/settings/settings_page.dart';
 import 'package:blavapp/views/sign_in/signin_page.dart';

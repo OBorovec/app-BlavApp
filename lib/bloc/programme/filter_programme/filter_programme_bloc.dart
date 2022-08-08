@@ -174,6 +174,7 @@ class FilterProgrammeBloc
         queryString: '',
       ),
     );
+    add(const ApplyProgrammeFilters());
   }
 
   FutureOr<void> _useMyProgrammeFilter(

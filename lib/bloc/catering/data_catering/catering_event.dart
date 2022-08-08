@@ -8,14 +8,9 @@ abstract class CateringEvent extends Equatable {
 }
 
 class CateringStreamChanged extends CateringEvent {
-  final List<CaterItem> cateringItems;
-  final Map<String, CaterPlace> cateringPlaces;
-  final List<CaterNotification> cateringNotifications;
-
+  final Catering catering;
   const CateringStreamChanged({
-    required this.cateringItems,
-    required this.cateringPlaces,
-    required this.cateringNotifications,
+    required this.catering,
   });
 }
 

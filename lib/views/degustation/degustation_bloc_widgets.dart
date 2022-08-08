@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DegustationFavoriteSwitch extends StatelessWidget {
   final String itemRef;
-  const DegustationFavoriteSwitch({Key? key, required this.itemRef})
-      : super(key: key);
+  const DegustationFavoriteSwitch({
+    Key? key,
+    required this.itemRef,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

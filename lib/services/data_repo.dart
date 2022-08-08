@@ -332,3 +332,9 @@ class NullDataException implements Exception {
 
   NullDataException(this.message);
 }
+
+class UnableParseDataException implements Exception {
+  final String message;
+
+  UnableParseDataException(this.message);
+}

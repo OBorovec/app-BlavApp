@@ -7,9 +7,15 @@ part of 'programme.dart';
 // **************************************************************************
 
 Programme _$ProgrammeFromJson(Map<String, dynamic> json) => Programme(
-      entries: (json['entries'] as List<dynamic>)
-          .map((e) => ProgEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      entries: (json['entries'] as List<dynamic>?)
+              ?.map((e) => ProgEntry.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      places: (json['places'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ProgPlace.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       notifications: (json['notifications'] as List<dynamic>?)
               ?.map((e) => ProgNotification.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -18,6 +24,7 @@ Programme _$ProgrammeFromJson(Map<String, dynamic> json) => Programme(
 
 Map<String, dynamic> _$ProgrammeToJson(Programme instance) => <String, dynamic>{
       'entries': instance.entries,
+      'places': instance.places,
       'notifications': instance.notifications,
     };
 
@@ -43,6 +50,7 @@ ProgEntry _$ProgEntryFromJson(Map<String, dynamic> json) => ProgEntry(
               .toList() ??
           const [],
       contactPageID: json['contactPageID'] as String?,
+      requireSignUp: json['requireSignUp'] as bool? ?? false,
       capacity: json['capacity'] as int?,
       occupancy: json['occupancy'] as int?,
       vipOnly: json['vipOnly'] as bool? ?? false,
@@ -73,6 +81,7 @@ Map<String, dynamic> _$ProgEntryToJson(ProgEntry instance) => <String, dynamic>{
       'organizer': instance.organizer,
       'sponsor': instance.sponsor,
       'contactPageID': instance.contactPageID,
+      'requireSignUp': instance.requireSignUp,
       'capacity': instance.capacity,
       'occupancy': instance.occupancy,
       'vipOnly': instance.vipOnly,
@@ -95,6 +104,34 @@ const _$ProgEntryTypeEnumMap = {
   ProgEntryType.cosplay: 'cosplay',
   ProgEntryType.other: 'other',
 };
+
+ProgPlace _$ProgPlaceFromJson(Map<String, dynamic> json) => ProgPlace(
+      name: Map<String, String>.from(json['name'] as Map),
+      loc: json['loc'] == null
+          ? null
+          : ProgPlaceLoc.fromJson(json['loc'] as Map<String, dynamic>),
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$ProgPlaceToJson(ProgPlace instance) => <String, dynamic>{
+      'name': instance.name,
+      'loc': instance.loc,
+      'images': instance.images,
+    };
+
+ProgPlaceLoc _$ProgPlaceLocFromJson(Map<String, dynamic> json) => ProgPlaceLoc(
+      mapRef: json['mapRef'] as String,
+      pointRef: json['pointRef'] as String,
+    );
+
+Map<String, dynamic> _$ProgPlaceLocToJson(ProgPlaceLoc instance) =>
+    <String, dynamic>{
+      'mapRef': instance.mapRef,
+      'pointRef': instance.pointRef,
+    };
 
 ProgNotification _$ProgNotificationFromJson(Map<String, dynamic> json) =>
     ProgNotification(

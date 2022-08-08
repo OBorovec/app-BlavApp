@@ -47,6 +47,7 @@
   "degusTitle": "Degustation",
   "degusHighlightTitle": "Degustation overview",
   "degusListTitle": "Degustation samples",
+  "degusListFavoriteTitle": "Favorite samples",
   "degusPlaceTitle": "Degustation places",
   "degusSearchHint": "Text search...",
   "degusSearchPredef": "Available filters:",
@@ -193,6 +194,13 @@
   "progSearchAvailableDates": "Event day",
   "progSearchAvailableCategs": "Event category",
   "progSearchAvailablePlaces": "Event place",
+  "@programmeDetailPage":"-------------------------------------------",
+  "progDetailBtnFeedBack": "Give feedback",
+  "progDetailBtnSignUp": "Sign up",
+  "progDetailBtnMyProgramme": "Add to my programme",
+  "progDetailBtnMyProgrammeRemove": "Remove from my programme",
+  "progDetailBtnNotification": "Add notification",
+  "progDetailBtnNotificationRemove": "Remove notification",
   "@gwintClubPage":"---------------------------------------------",
   "gwintTitle": "Gwint club",
   "@gwintEventsPage":"-------------------------------------------",
@@ -298,5 +306,6 @@
   "cateringTypeDrink": "Drink",
   "cateringTypeDesert": "Desert",
   "@degustation":"-----------------------------------------------",
-  "degusAlcoholTypeMead": "Mead"
+  "degusAlcoholTypeMead": "Mead",
+  "degusAlcoholSubTypeLip": "Linden"
 }

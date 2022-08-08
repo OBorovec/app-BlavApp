@@ -36,10 +36,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     }
     _mapsStream = _dataRepo.getMapsStream(eventTag).listen(
           (Maps maps) => add(
-            MapsStreamChanged(
-              mapRecords: maps.mapRecords,
-              realWorldRecords: maps.realWorldRecords,
-            ),
+            MapsStreamChanged(maps: maps),
           ),
         )..onError(
         (error) {
@@ -59,8 +56,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     try {
       emit(MapsState(
         status: MapsStatus.loaded,
-        mapRecords: event.mapRecords,
-        realWorldRecords: event.realWorldRecords,
+        maps: event.maps,
       ));
     } on Exception catch (e) {
       emit(

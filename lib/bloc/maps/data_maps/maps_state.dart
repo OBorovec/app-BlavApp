@@ -9,35 +9,32 @@ enum MapsStatus {
 class MapsState extends Equatable {
   final MapsStatus status;
   final String message;
-  final Map<String, MapRecord> mapRecords;
-  final List<RealWorldRecord> realWorldRecords;
+  final Maps maps;
 
   const MapsState({
     this.status = MapsStatus.initial,
     this.message = '',
-    this.mapRecords = const {},
-    this.realWorldRecords = const [],
+    this.maps = const Maps(),
   });
+
+  Map<String, MapRecord> get mapRecords => maps.mapRecords;
+  List<RealWorldRecord> get realWorldRecords => maps.realWorldRecords;
 
   @override
   List<Object> get props => [
         status,
         message,
-        mapRecords,
-        realWorldRecords,
       ];
 
   MapsState copyWith({
     MapsStatus? status,
     String? message,
-    Map<String, MapRecord>? mapRecords,
-    List<RealWorldRecord>? realWorldRecords,
+    Maps? maps,
   }) {
     return MapsState(
       status: status ?? this.status,
       message: message ?? this.message,
-      mapRecords: mapRecords ?? this.mapRecords,
-      realWorldRecords: realWorldRecords ?? this.realWorldRecords,
+      maps: maps ?? this.maps,
     );
   }
 }

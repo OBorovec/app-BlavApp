@@ -8,10 +8,10 @@ abstract class ProgrammeEvent extends Equatable {
 }
 
 class ProgrammeStreamChanged extends ProgrammeEvent {
-  final List<ProgEntry> programmeEntries;
+  final Programme programme;
 
   const ProgrammeStreamChanged({
-    required this.programmeEntries,
+    required this.programme,
   });
 }
 

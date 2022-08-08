@@ -8,10 +8,10 @@ abstract class CosplayEvent extends Equatable {
 }
 
 class CosplayStreamChanged extends CosplayEvent {
-  final List<CosplayRecord> cosplayRecords;
+  final Cosplay cosplay;
 
   const CosplayStreamChanged({
-    required this.cosplayRecords,
+    required this.cosplay,
   });
 }
 

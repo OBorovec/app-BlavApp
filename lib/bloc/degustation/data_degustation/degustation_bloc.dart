@@ -36,9 +36,7 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
     _degustationStream = _dataRepo.getDegustationStream(eventTag).listen(
           (Degustation degustation) => add(
             DegustationStreamChanged(
-              degustationItems: degustation.items,
-              degustationPlaces: degustation.places,
-              degustationNotifications: degustation.notifications,
+              degustation: degustation,
             ),
           ),
         )..onError(
@@ -66,9 +64,7 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
     try {
       emit(DegustationState(
         status: DegustationStatus.loaded,
-        degustationItems: event.degustationItems,
-        degustationPlaces: event.degustationPlaces,
-        notifications: event.degustationNotifications,
+        degustation: event.degustation,
       ));
     } on Exception catch (e) {
       emit(

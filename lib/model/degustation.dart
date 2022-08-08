@@ -10,7 +10,7 @@ class Degustation extends Equatable {
   final List<DegusNotification> notifications;
 
   const Degustation({
-    required this.items,
+    this.items = const [],
     this.places = const {},
     this.notifications = const [],
   });

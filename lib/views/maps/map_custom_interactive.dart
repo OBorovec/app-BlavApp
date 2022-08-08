@@ -43,7 +43,6 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )..addListener(_mapAnimationListener);
-    print(widget.pointRefZoom);
     if (widget.pointRefZoom != null) {
       List<MapPoint> points = widget.mapRecord.points
           .where((MapPoint p) => p.id == widget.pointRefZoom)

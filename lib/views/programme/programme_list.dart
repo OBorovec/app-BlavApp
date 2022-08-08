@@ -2,7 +2,7 @@ import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.da
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/route_generator.dart';
-import 'package:blavapp/views/programme/programe_details.dart';
+import 'package:blavapp/views/programme/programme_details.dart';
 import 'package:blavapp/views/programme/programme_list_card.dart';
 import 'package:blavapp/views/programme/programme_list_search.dart';
 import 'package:flutter/material.dart';

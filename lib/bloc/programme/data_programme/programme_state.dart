@@ -9,30 +9,34 @@ enum ProgrammeStatus {
 class ProgrammeState extends Equatable {
   final ProgrammeStatus status;
   final String message;
-  final List<ProgEntry> programmeEntries;
+  final Programme programme;
 
   const ProgrammeState({
     required this.status,
     this.message = '',
-    this.programmeEntries = const <ProgEntry>[],
+    required this.programme,
   });
+
+  List<ProgEntry> get programmeEntries => programme.entries;
+  Map<String, ProgPlace> get programmePlaces => programme.places;
+  List<ProgNotification> get programmeNotifications => programme.notifications;
 
   @override
   List<Object> get props => [
         status,
         message,
-        programmeEntries,
+        programme,
       ];
 
   ProgrammeState copyWith({
     ProgrammeStatus? status,
     String? message,
-    List<ProgEntry>? programmeEntries,
+    Programme? programme,
   }) {
     return ProgrammeState(
       status: status ?? this.status,
       message: message ?? this.message,
-      programmeEntries: programmeEntries ?? this.programmeEntries,
+      programme: programme ?? this.programme,
     );
   }
 }

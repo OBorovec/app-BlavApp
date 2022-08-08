@@ -76,3 +76,12 @@ String tDegusAlcoholType(DegusAlcoholType type, BuildContext context) {
       return 'Unknown';
   }
 }
+
+String tDegusSubAlcoholType(String type, BuildContext context) {
+  switch (type) {
+    case 'lip':
+      return AppLocalizations.of(context)!.degusAlcoholSubTypeLip;
+    default:
+      return type;
+  }
+}

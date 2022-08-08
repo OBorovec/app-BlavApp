@@ -37,9 +37,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
     _cateringStream = _dataRepo.getCateringStream(eventTag).listen(
           (Catering catering) => add(
             CateringStreamChanged(
-              cateringItems: catering.items,
-              cateringPlaces: catering.places,
-              cateringNotifications: catering.notifications,
+              catering: catering,
             ),
           ),
         )..onError(
@@ -63,9 +61,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
       emit(
         CateringState(
           status: CateringStatus.loaded,
-          cateringItems: event.cateringItems,
-          cateringPlaces: event.cateringPlaces,
-          notifications: event.cateringNotifications,
+          catering: event.catering,
         ),
       );
     } on Exception catch (e) {

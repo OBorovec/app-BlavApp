@@ -15,6 +15,14 @@ class UpdateDegusItems extends FilterDegustationEvent {
   });
 }
 
+class UpdateMyFavoriteItemRefs extends FilterDegustationEvent {
+  final Set<String> myFavoriteItemRefs;
+
+  const UpdateMyFavoriteItemRefs({
+    required this.myFavoriteItemRefs,
+  });
+}
+
 class ToggleSearch extends FilterDegustationEvent {
   const ToggleSearch();
 }
@@ -29,6 +37,12 @@ class ApplyDegusFilters extends FilterDegustationEvent {
 
 class ResetDegusFilters extends FilterDegustationEvent {
   const ResetDegusFilters();
+}
+
+class UseMyFavoriteFilter extends FilterDegustationEvent {
+  final bool value;
+
+  const UseMyFavoriteFilter(this.value);
 }
 
 class DegusAlcoholTypeFilter extends FilterDegustationEvent {

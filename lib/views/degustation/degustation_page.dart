@@ -22,7 +22,7 @@ class DegustationPage extends StatefulWidget {
   State<DegustationPage> createState() => _DegustationPageState();
 }
 
-enum DegustationPageContent { highlight, list, places }
+enum DegustationPageContent { highlight, list, favoriteList, places }
 
 class _DegustationPageState extends State<DegustationPage> {
   late String titleText;
@@ -39,6 +39,8 @@ class _DegustationPageState extends State<DegustationPage> {
       case DegustationPageContent.highlight:
         return 0;
       case DegustationPageContent.list:
+        return 1;
+      case DegustationPageContent.favoriteList:
         return 1;
       case DegustationPageContent.places:
         return 2;
@@ -95,6 +97,8 @@ class _DegustationPageState extends State<DegustationPage> {
         return AppLocalizations.of(context)!.degusHighlightTitle;
       case DegustationPageContent.list:
         return AppLocalizations.of(context)!.degusListTitle;
+      case DegustationPageContent.favoriteList:
+        return AppLocalizations.of(context)!.degusListFavoriteTitle;
       case DegustationPageContent.places:
         return AppLocalizations.of(context)!.degusPlaceTitle;
     }
@@ -107,6 +111,7 @@ class _DegustationPageState extends State<DegustationPage> {
   List<Widget> _buildActions() {
     switch (content) {
       case DegustationPageContent.list:
+      case DegustationPageContent.favoriteList:
         return [
           BlocBuilder<FilterDegustationBloc, FilterDegustationState>(
             builder: (context, state) {
@@ -130,6 +135,7 @@ class _DegustationPageState extends State<DegustationPage> {
       items: const [
         Icons.amp_stories,
         Icons.local_bar,
+        Icons.favorite,
         Icons.location_on,
       ],
       onTap: (index) {
@@ -143,8 +149,19 @@ class _DegustationPageState extends State<DegustationPage> {
             setState(() {
               content = DegustationPageContent.list;
             });
+            context
+                .read<FilterDegustationBloc>()
+                .add(const UseMyFavoriteFilter(false));
             break;
           case 2:
+            setState(() {
+              content = DegustationPageContent.favoriteList;
+            });
+            context
+                .read<FilterDegustationBloc>()
+                .add(const UseMyFavoriteFilter(true));
+            break;
+          case 3:
             setState(() {
               content = DegustationPageContent.places;
             });

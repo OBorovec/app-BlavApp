@@ -2,14 +2,17 @@ part of 'filter_degustation_bloc.dart';
 
 class FilterDegustationState extends Equatable {
   final List<DegusItem> degusItems;
-  final List<DegusItem> degusItemsFiltered;
+  final Set<String> myFavoriteItemRefs;
   // Control
   final bool searchActive;
-  // Programme filter options
+  //Filtered entry list
+  final List<DegusItem> degusItemsFiltered;
+  // Filter options
   final Set<DegusAlcoholType> availableAlcoholTypes;
   final Set<String> availableOrigins;
   final Set<String> availablePlaces;
   // Filters
+  final bool onlyMyFavorite;
   final Set<DegusAlcoholType> alcoholTypeFilter;
   final Set<String> originFilter;
   final Set<String> placeFilter;
@@ -19,12 +22,14 @@ class FilterDegustationState extends Equatable {
   final String queryString;
 
   const FilterDegustationState({
-    this.degusItems = const <DegusItem>[],
-    this.degusItemsFiltered = const <DegusItem>[],
+    required this.degusItems,
+    required this.myFavoriteItemRefs,
     this.searchActive = false,
+    required this.degusItemsFiltered,
     this.availableAlcoholTypes = const {},
     this.availableOrigins = const {},
     this.availablePlaces = const {},
+    this.onlyMyFavorite = false,
     this.alcoholTypeFilter = const {},
     this.originFilter = const {},
     this.placeFilter = const {},
@@ -37,11 +42,13 @@ class FilterDegustationState extends Equatable {
   @override
   List<Object> get props => [
         degusItems,
-        degusItemsFiltered,
+        myFavoriteItemRefs,
         searchActive,
+        degusItemsFiltered,
         availableAlcoholTypes,
         availableOrigins,
         availablePlaces,
+        onlyMyFavorite,
         alcoholTypeFilter,
         originFilter,
         placeFilter,
@@ -53,11 +60,13 @@ class FilterDegustationState extends Equatable {
 
   FilterDegustationState copyWith({
     List<DegusItem>? degusItems,
-    List<DegusItem>? degusItemsFiltered,
+    Set<String>? myFavoriteItemRefs,
     bool? searchActive,
+    List<DegusItem>? degusItemsFiltered,
     Set<DegusAlcoholType>? availableAlcoholTypes,
     Set<String>? availableOrigins,
     Set<String>? availablePlaces,
+    bool? onlyMyFavorite,
     Set<DegusAlcoholType>? alcoholTypeFilter,
     Set<String>? originFilter,
     Set<String>? placeFilter,
@@ -68,12 +77,14 @@ class FilterDegustationState extends Equatable {
   }) {
     return FilterDegustationState(
       degusItems: degusItems ?? this.degusItems,
-      degusItemsFiltered: degusItemsFiltered ?? this.degusItemsFiltered,
+      myFavoriteItemRefs: myFavoriteItemRefs ?? this.myFavoriteItemRefs,
       searchActive: searchActive ?? this.searchActive,
+      degusItemsFiltered: degusItemsFiltered ?? this.degusItemsFiltered,
       availableAlcoholTypes:
           availableAlcoholTypes ?? this.availableAlcoholTypes,
       availableOrigins: availableOrigins ?? this.availableOrigins,
       availablePlaces: availablePlaces ?? this.availablePlaces,
+      onlyMyFavorite: onlyMyFavorite ?? this.onlyMyFavorite,
       alcoholTypeFilter: alcoholTypeFilter ?? this.alcoholTypeFilter,
       originFilter: originFilter ?? this.originFilter,
       placeFilter: placeFilter ?? this.placeFilter,

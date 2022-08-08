@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/programme.dart';
@@ -25,6 +26,7 @@ class ProgrammeSearchTile extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.filter_list),
                   onPressed: () => _showSearchOptions(context, state),
+                  iconSize: 48,
                 ),
               ],
             ),
@@ -83,8 +85,7 @@ class ProgrammeSearchTile extends StatelessWidget {
                   ),
                   Wrap(
                     children: state.availableEntryPlaces
-                        .map((e) =>
-                            _ProgrammePlaceSearchTag(placeRef: e ?? 'Unset'))
+                        .map((e) => _ProgrammePlaceSearchTag(placeRef: e ?? ''))
                         .toList(),
                   ),
                 ],
@@ -288,7 +289,9 @@ class _ProgrammePlaceSearchTag extends _ProgrammeSearchTag {
 
   @override
   String _getLabelText(BuildContext context) {
-    return placeRef;
+    ProgrammeState prgState = BlocProvider.of<ProgrammeBloc>(context).state;
+    ProgPlace? place = prgState.programmePlaces[placeRef];
+    return place != null ? t(place.name, context) : '?$placeRef';
   }
 
   @override

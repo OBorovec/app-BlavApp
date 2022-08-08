@@ -3,7 +3,7 @@ import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
-import 'package:blavapp/views/programme/programe_details.dart';
+import 'package:blavapp/views/programme/programme_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

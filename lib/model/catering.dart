@@ -10,7 +10,7 @@ class Catering extends Equatable {
   final List<CaterNotification> notifications;
 
   const Catering({
-    required this.items,
+    this.items = const [],
     this.places = const {},
     this.notifications = const [],
   });
