@@ -1,4 +1,5 @@
 import 'package:blavapp/bloc/programme/highlight_programme/highlight_programme_bloc.dart';
+import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
@@ -19,9 +20,12 @@ class ProgrammeHighlight extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            _HighlightTitle(
+            TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightOngoing,
             ),
+            // _HighlightTitle(
+            //   title: AppLocalizations.of(context)!.progHighlightOngoing,
+            // ),
             state.ongoingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
                     entries: state.ongoingEntries,
@@ -30,9 +34,12 @@ class ProgrammeHighlight extends StatelessWidget {
                     text:
                         AppLocalizations.of(context)!.progHighlightOngoingEmpty,
                   ),
-            _HighlightTitle(
+            TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightUpcoming,
             ),
+            // _HighlightTitle(
+            //   title: AppLocalizations.of(context)!.progHighlightUpcoming,
+            // ),
             state.upcomingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
                     entries: state.upcomingEntries,
@@ -41,9 +48,12 @@ class ProgrammeHighlight extends StatelessWidget {
                     text: AppLocalizations.of(context)!
                         .progHighlightUpcomingEmpty,
                   ),
-            _HighlightTitle(
+            TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightMyUpcoming,
             ),
+            // _HighlightTitle(
+            //   title: AppLocalizations.of(context)!.progHighlightMyUpcoming,
+            // ),
             state.upcomingMyEntries.isNotEmpty
                 ? Expanded(
                     child: _VerticalHighlightEntryList(

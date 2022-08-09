@@ -1,16 +1,18 @@
 part of 'places_catering_bloc.dart';
 
 class CateringPlaceInfo extends Equatable {
+  final bool isOpen;
   final CaterPlace place;
   final List<CateringPlaceMenuSec> items;
 
   const CateringPlaceInfo({
+    required this.isOpen,
     required this.place,
     required this.items,
   });
 
   @override
-  List<Object?> get props => [place, items];
+  List<Object?> get props => [isOpen, place, items];
 }
 
 class CateringPlaceMenuSec extends Equatable {

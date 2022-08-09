@@ -24,6 +24,7 @@ class MapsState extends Equatable {
   List<Object> get props => [
         status,
         message,
+        maps,
       ];
 
   MapsState copyWith({

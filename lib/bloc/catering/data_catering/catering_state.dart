@@ -25,6 +25,7 @@ class CateringState extends Equatable {
   List<Object> get props => [
         status,
         message,
+        catering,
       ];
 
   CateringState copyWith({

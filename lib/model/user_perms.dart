@@ -6,13 +6,15 @@ part 'user_perms.g.dart';
 @JsonSerializable()
 class UserPerms extends Equatable {
   final Roles roles;
+  final bool hasAdmin;
 
   const UserPerms({
-    Roles? roles,
-  }) : roles = roles ?? const Roles();
+    this.roles = const Roles(),
+    this.hasAdmin = false,
+  });
 
   @override
-  List<Object?> get props => [roles];
+  List<Object?> get props => [roles, hasAdmin];
 
   factory UserPerms.fromJson(Map<String, Object?> json) =>
       _$UserPermsFromJson(json);

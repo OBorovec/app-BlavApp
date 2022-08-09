@@ -201,7 +201,6 @@ abstract class _CateringSearchTag extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).focusColor,
-              border: Border.all(color: getAppBarColor(context)),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),

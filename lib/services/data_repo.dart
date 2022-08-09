@@ -7,6 +7,7 @@ import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/model/support.dart';
 import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/model/user_data.dart';
+import 'package:blavapp/model/user_perms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataRepo {
@@ -17,6 +18,22 @@ class DataRepo {
     );
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  // User permissions
+  //////////////////////////////////////////////////////////////////////////////
+  final CollectionReference _userPermsCollectionRef = FirebaseFirestore.instance
+      .collection('user_perms')
+      .withConverter<UserPerms>(
+        fromFirestore: (snapshot, _) => UserPerms.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Future<UserPerms> getUserPerms(String userUID) {
+    return _userPermsCollectionRef
+        .doc(userUID)
+        .get()
+        .then((value) => value.data()! as UserPerms);
+  }
   //////////////////////////////////////////////////////////////////////////////
   // User data
   //////////////////////////////////////////////////////////////////////////////

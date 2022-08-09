@@ -25,6 +25,8 @@
   "caterSearchVegetarian": "Vegetarian",
   "caterSearchVegan": "Vegan",
   "caterSearchGluttenFree": "Gluten free",
+  "caterPlaceCardIsOpen": "Otevřeno",
+  "caterPlaceCardIsClosed": "Zavřeno",
   "caterPlaceCardOpensAt": "Opens at {time}",
   "@caterPlaceCardOpensAt": {
     "placeholders": {

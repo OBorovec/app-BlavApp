@@ -8,12 +8,14 @@ part of 'user_perms.dart';
 
 UserPerms _$UserPermsFromJson(Map<String, dynamic> json) => UserPerms(
       roles: json['roles'] == null
-          ? null
+          ? const Roles()
           : Roles.fromJson(json['roles'] as Map<String, dynamic>),
+      hasAdmin: json['hasAdmin'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserPermsToJson(UserPerms instance) => <String, dynamic>{
       'roles': instance.roles,
+      'hasAdmin': instance.hasAdmin,
     };
 
 Roles _$RolesFromJson(Map<String, dynamic> json) => Roles(

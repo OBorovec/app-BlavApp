@@ -4,6 +4,7 @@ import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 part 'places_catering_event.dart';
 part 'places_catering_state.dart';
@@ -47,6 +48,18 @@ class PlacesCateringBloc
       final List<CaterItem> placeItems = cateringState.cateringItems
           .where((item) => item.placeRef == e.key)
           .toList();
+      bool isOpen = false;
+      if (e.value.open != null) {
+        final String openFrom = e.value.open!['from']!;
+        final String openTo = e.value.open!['to']!;
+        final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+        final DateTime openAt =
+            DateTime.parse("${dateFormat.format(DateTime.now())}T$openFrom");
+        final DateTime closeAt =
+            DateTime.parse("${dateFormat.format(DateTime.now())}T$openTo");
+        isOpen =
+            DateTime.now().isAfter(openAt) && DateTime.now().isBefore(closeAt);
+      }
 
       return CateringPlaceInfo(
         items: menuOrder
@@ -62,6 +75,7 @@ class PlacesCateringBloc
             )
             .toList(),
         place: e.value,
+        isOpen: isOpen,
       );
     }).toList();
   }

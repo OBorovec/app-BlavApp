@@ -9,5 +9,5 @@ Color getAppBarColor(BuildContext context) {
   // working for flex_color_scheme package
   return brightness == Brightness.light
       ? Theme.of(context).appBarTheme.backgroundColor!.withOpacity(1)
-      : Theme.of(context).appBarTheme.backgroundColor!;
+      : Theme.of(context).appBarTheme.backgroundColor!.withOpacity(1);
 }

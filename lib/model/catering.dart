@@ -78,7 +78,7 @@ class CaterItem extends Equatable {
         glutenFree,
         images,
         volumes,
-        tags
+        tags,
       ];
 
   factory CaterItem.fromJson(Map<String, Object?> json) =>
@@ -108,18 +108,23 @@ class CaterVolume extends Equatable {
 class CaterPlace extends Equatable {
   final Map<String, String> name;
   final CaterPlaceLoc? loc;
-  final Map<String, String>? opens;
+  final Map<String, String>? open;
   final List<String> images;
 
   const CaterPlace({
     required this.name,
     required this.loc,
-    required this.opens,
+    required this.open,
     this.images = const [],
   });
 
   @override
-  List<Object?> get props => [name, loc, opens];
+  List<Object?> get props => [
+        name,
+        loc,
+        open,
+        images,
+      ];
 
   factory CaterPlace.fromJson(Map<String, Object?> json) =>
       _$CaterPlaceFromJson(json);

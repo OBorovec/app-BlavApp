@@ -20,7 +20,7 @@ class CosplayState extends Equatable {
   List<CosplayRecord> get cosplayRecords => cosplay.cosplayRecords;
 
   @override
-  List<Object> get props => [status, cosplay];
+  List<Object> get props => [status, message, cosplay];
 
   CosplayState copyWith({
     CosplayStatus? status,

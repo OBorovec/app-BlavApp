@@ -1,4 +1,5 @@
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,15 +34,16 @@ class DrawerGeneralItems extends StatelessWidget {
             ],
           ),
         ),
-        ListTile(
-          title: Text(AppLocalizations.of(context)!.adminTitle),
-          onTap: () {
-            Navigator.pushReplacementNamed(
-              context,
-              RoutePaths.admin,
-            );
-          },
-        ),
+        if (context.read<UserPermsBloc>().state.hasAdmin)
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.adminTitle),
+            onTap: () {
+              Navigator.pushReplacementNamed(
+                context,
+                RoutePaths.admin,
+              );
+            },
+          ),
         ListTile(
           title: Text(AppLocalizations.of(context)!.setsTitle),
           onTap: () {

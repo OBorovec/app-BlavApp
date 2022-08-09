@@ -6,6 +6,7 @@ import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_interpreter.dart';
+import 'package:blavapp/views/maps/maps_control_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,9 @@ class CateringItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CaterPlace? place = BlocProvider.of<CateringBloc>(context)
+        .state
+        .cateringPlaces[item.placeRef];
     return InkWell(
       // onTap: onTap,
       child: Card(
@@ -48,7 +52,18 @@ class CateringItemCard extends StatelessWidget {
               ),
             ),
             const Divider(),
-            _CaterPriceScroll(item: item),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                (place != null && place.loc != null)
+                    ? IconBtnPushCustomMap(
+                        mapRef: place.loc!.mapRef,
+                        pointRef: place.loc!.pointRef,
+                      )
+                    : const Icon(Icons.location_off),
+                Expanded(child: _CaterPriceWrap(item: item)),
+              ],
+            ),
           ],
         ),
       ),
@@ -194,8 +209,8 @@ class _CateringItemHeroImage extends StatelessWidget {
   }
 }
 
-class _CaterPriceScroll extends StatelessWidget {
-  const _CaterPriceScroll({
+class _CaterPriceWrap extends StatelessWidget {
+  const _CaterPriceWrap({
     Key? key,
     required this.item,
   }) : super(key: key);
@@ -204,15 +219,11 @@ class _CaterPriceScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: item.volumes
-            .map((CaterVolume e) => _CaterPriceVolume(pv: e))
-            .toList(),
-      ),
+    return Wrap(
+      alignment: WrapAlignment.end,
+      children: item.volumes
+          .map((CaterVolume e) => _CaterPriceVolume(pv: e))
+          .toList(),
     );
   }
 }

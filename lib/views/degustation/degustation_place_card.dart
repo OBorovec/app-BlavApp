@@ -5,6 +5,7 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_interpreter.dart';
+import 'package:blavapp/views/maps/maps_control_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,10 +24,20 @@ class DegustationPlaceCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              t(degustationPlaceInfo.place.name, context),
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline5,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  t(degustationPlaceInfo.place.name, context),
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                if (degustationPlaceInfo.place.loc != null)
+                  IconBtnPushCustomMap(
+                    mapRef: degustationPlaceInfo.place.loc!.mapRef,
+                    pointRef: degustationPlaceInfo.place.loc!.pointRef,
+                  ),
+              ],
             ),
             const Divider(),
             Row(

@@ -25,6 +25,8 @@
   "caterSearchVegetarian": "Pouze vegetariánská",
   "caterSearchVegan": "Pouze veganánská",
   "caterSearchGluttenFree": "Pouze bezlepková",
+  "caterPlaceCardIsOpen": "Otevřeno",
+  "caterPlaceCardIsClosed": "Zavřeno",
   "caterPlaceCardOpensAt": "Otevírá ve {time}",
   "@caterPlaceCardOpensAt": {
     "placeholders": {
