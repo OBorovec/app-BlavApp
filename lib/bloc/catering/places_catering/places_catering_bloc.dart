@@ -54,9 +54,9 @@ class PlacesCateringBloc
         final String openTo = e.value.open!['to']!;
         final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
         final DateTime openAt =
-            DateTime.parse("${dateFormat.format(DateTime.now())}T$openFrom");
+            DateTime.parse("${dateFormat.format(DateTime.now())} $openFrom");
         final DateTime closeAt =
-            DateTime.parse("${dateFormat.format(DateTime.now())}T$openTo");
+            DateTime.parse("${dateFormat.format(DateTime.now())} $openTo");
         isOpen =
             DateTime.now().isAfter(openAt) && DateTime.now().isBefore(closeAt);
       }
@@ -66,11 +66,7 @@ class PlacesCateringBloc
             .map(
               (type) => CateringPlaceMenuSec(
                 type: type,
-                items: placeItems
-                    .where(
-                      (item) => item.type == type,
-                    )
-                    .toList(),
+                items: placeItems.where((item) => item.type == type).toList(),
               ),
             )
             .toList(),

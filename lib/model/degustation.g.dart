@@ -7,6 +7,9 @@ part of 'degustation.dart';
 // **************************************************************************
 
 Degustation _$DegustationFromJson(Map<String, dynamic> json) => Degustation(
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => DegusItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -25,6 +28,7 @@ Degustation _$DegustationFromJson(Map<String, dynamic> json) => Degustation(
 
 Map<String, dynamic> _$DegustationToJson(Degustation instance) =>
     <String, dynamic>{
+      'desc': instance.desc,
       'items': instance.items,
       'places': instance.places,
       'notifications': instance.notifications,
@@ -36,7 +40,7 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      rating: (json['rating'] as num?)?.toDouble(),
+      rating: (json['rating'] as num?)?.toDouble() ?? -1,
       alcoholVolume: (json['alcoholVolume'] as num?)?.toDouble(),
       placeRef:
           (json['placeRef'] as List<dynamic>).map((e) => e as String).toList(),

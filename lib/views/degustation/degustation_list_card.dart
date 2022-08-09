@@ -82,9 +82,9 @@ class _DegusItemInfo extends StatelessWidget {
                 ),
               ],
             ),
-            if (item.rating != null)
+            if (item.rating != -1)
               AppRatingIndicator(
-                rating: item.rating!,
+                rating: item.rating,
               ),
             if (item.desc != null) ...[
               const Divider(),

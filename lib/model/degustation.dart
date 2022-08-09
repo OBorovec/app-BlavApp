@@ -5,18 +5,20 @@ part 'degustation.g.dart';
 
 @JsonSerializable()
 class Degustation extends Equatable {
+  final Map<String, String>? desc;
   final List<DegusItem> items;
   final Map<String, DegusPlace> places;
   final List<DegusNotification> notifications;
 
   const Degustation({
+    this.desc,
     this.items = const [],
     this.places = const {},
     this.notifications = const [],
   });
 
   @override
-  List<Object?> get props => [items, places, notifications];
+  List<Object?> get props => [desc, items, places, notifications];
 
   factory Degustation.fromJson(Map<String, Object?> json) =>
       _$DegustationFromJson(json);
@@ -34,7 +36,7 @@ class DegusItem extends Equatable {
   final List<String> placeRef;
   final Map<String, String> name;
   final Map<String, String>? desc;
-  final double? rating;
+  final double rating;
   final double? alcoholVolume;
   final DegusAlcoholType alcoholType;
   final String? subType;
@@ -49,7 +51,7 @@ class DegusItem extends Equatable {
     required this.id,
     required this.name,
     this.desc,
-    this.rating,
+    this.rating = -1,
     this.alcoholVolume,
     required this.placeRef,
     required this.alcoholType,

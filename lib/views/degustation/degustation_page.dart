@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
+import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/place_degustation/place_degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
@@ -9,7 +10,7 @@ import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/degustation/degustation_list.dart';
-import 'package:blavapp/views/degustation/degustation_overview.dart';
+import 'package:blavapp/views/degustation/degustation_highlight.dart';
 import 'package:blavapp/views/degustation/degustation_place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class _DegustationPageState extends State<DegustationPage> {
   DegustationPageContent content = DegustationPageContent.highlight;
 
   final degustationContent = [
-    const DegustationOverview(),
+    const DegustationHighlight(),
     const DegustationList(),
     const DegustationPlaceList(),
   ];
@@ -61,6 +62,12 @@ class _DegustationPageState extends State<DegustationPage> {
           case DegustationStatus.loaded:
             return MultiBlocProvider(
               providers: [
+                BlocProvider(
+                  create: (context) => HighlightDegustationBloc(
+                    degustationBloc: context.read<DegustationBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
+                  ),
+                ),
                 BlocProvider(
                   create: (context) => FilterDegustationBloc(
                     degustationBloc: context.read<DegustationBloc>(),

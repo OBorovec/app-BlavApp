@@ -279,9 +279,9 @@ class _DegustationItemRating extends StatelessWidget {
             children: [
               Expanded(
                 child: Center(
-                  child: item.rating != null
+                  child: item.rating != -1
                       ? AppRatingIndicator(
-                          rating: item.rating!,
+                          rating: item.rating,
                           itemSize: 32,
                         )
                       : Text(
@@ -293,11 +293,10 @@ class _DegustationItemRating extends StatelessWidget {
                         ),
                 ),
               ),
-              if (item.rating != null)
-                Text(
-                  '(${item.rating})',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
+              Text(
+                '(${item.rating})',
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
               const VerticalDivider(),
               BlocBuilder<UserDataBloc, UserDataState>(
                 builder: (context, state) {
