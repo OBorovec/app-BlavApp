@@ -35,6 +35,8 @@ class DegustationHighlight extends StatelessWidget {
               _DegustationHighlightBestRated(state: state),
               if (state.recommendations.isNotEmpty)
                 _DegustationHighlightRecommendation(state: state),
+              if (state.similarToLiked.isNotEmpty)
+                _DegustationHighlightSimilarToLiked(state: state),
             ],
           ),
         );
@@ -121,6 +123,43 @@ class _DegustaionNumbers extends StatelessWidget {
       );
 }
 
+class _DegustationItemHighlightCard extends StatelessWidget {
+  final DegusItem item;
+
+  const _DegustationItemHighlightCard({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text(
+              t(item.name, context),
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            AppRatingIndicator(
+              rating: item.rating,
+              itemSize: 16,
+            ),
+            Text(
+              tDegusAlcoholType(item.alcoholType, context),
+            ),
+            if (item.subType != null)
+              Text(
+                tDegusSubAlcoholType(item.subType!, context),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _DegustationHighlightBestRated extends StatelessWidget {
   final HighlightDegustationState state;
 
@@ -150,30 +189,7 @@ class _DegustationHighlightBestRated extends StatelessWidget {
                         item: item,
                       ),
                     ),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              t(item.name, context),
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            AppRatingIndicator(
-                              rating: item.rating,
-                              itemSize: 16,
-                            ),
-                            Text(
-                              tDegusAlcoholType(item.alcoholType, context),
-                            ),
-                            if (item.subType != null)
-                              Text(
-                                tDegusSubAlcoholType(item.subType!, context),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    child: _DegustationItemHighlightCard(item: item),
                   ),
                 )
                 .toList(),
@@ -199,6 +215,65 @@ class _DegustationHighlightRecommendation extends StatelessWidget {
         const SizedBox(height: 16),
         TitleDivider(
           title: AppLocalizations.of(context)!.degusHighlightRecommendation,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: state.recommendations
+                .map(
+                  (DegusItem item) => InkWell(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      RoutePaths.degustationItem,
+                      arguments: DegustationDetailsArguments(
+                        item: item,
+                      ),
+                    ),
+                    child: _DegustationItemHighlightCard(item: item),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DegustationHighlightSimilarToLiked extends StatelessWidget {
+  final HighlightDegustationState state;
+
+  const _DegustationHighlightSimilarToLiked({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.degusHighlightSimilarTo,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: state.similarToLiked
+                .map(
+                  (DegusItem item) => InkWell(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      RoutePaths.degustationItem,
+                      arguments: DegustationDetailsArguments(
+                        item: item,
+                      ),
+                    ),
+                    child: _DegustationItemHighlightCard(item: item),
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ],
     );

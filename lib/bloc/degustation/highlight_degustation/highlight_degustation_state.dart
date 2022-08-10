@@ -14,6 +14,7 @@ class HighlightDegustationState extends Equatable {
   final int totalFavorites;
   final int totalRated;
   final List<DegusItem> bestRated;
+  final List<DegusItem> similarToLiked;
   final List<DegusItem> recommendations;
 
   const HighlightDegustationState({
@@ -27,6 +28,7 @@ class HighlightDegustationState extends Equatable {
     this.totalFavorites = 0,
     this.totalRated = 0,
     this.bestRated = const <DegusItem>[],
+    this.similarToLiked = const <DegusItem>[],
     this.recommendations = const <DegusItem>[],
   });
 
@@ -35,10 +37,13 @@ class HighlightDegustationState extends Equatable {
         degustationItems,
         myFavorite,
         myRatings,
+        myDegustationFavorite,
+        myDegustationRatings,
         totalSamples,
         totalFavorites,
         totalRated,
         bestRated,
+        similarToLiked,
         recommendations,
       ];
 
@@ -53,6 +58,7 @@ class HighlightDegustationState extends Equatable {
     int? totalFavorites,
     int? totalRated,
     List<DegusItem>? bestRated,
+    List<DegusItem>? similarToLiked,
     List<DegusItem>? recommendations,
   }) {
     return HighlightDegustationState(
@@ -67,6 +73,7 @@ class HighlightDegustationState extends Equatable {
       totalFavorites: totalFavorites ?? this.totalFavorites,
       totalRated: totalRated ?? this.totalRated,
       bestRated: bestRated ?? this.bestRated,
+      similarToLiked: similarToLiked ?? this.similarToLiked,
       recommendations: recommendations ?? this.recommendations,
     );
   }

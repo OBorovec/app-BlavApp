@@ -70,7 +70,7 @@ class HighlightDegustationBloc
     Emitter<HighlightDegustationState> emit,
   ) {
     emit(state.copyWith(
-      myDegustationFavorite: event.myFavorite,
+      myFavorite: event.myFavorite,
       myRatings: event.myRatings,
     ));
     add(const UpdateViewData());
@@ -95,6 +95,28 @@ class HighlightDegustationBloc
     sortedDegustationItems.sort(
       (DegusItem b, DegusItem a) => a.rating.compareTo(b.rating),
     );
+    final List<DegusItem> myFavoriteItems = state.degustationItems
+        .where(
+          (DegusItem item) => state.myFavorite.contains(item.id),
+        )
+        .toList();
+    final Set<DegusItem> similarToLikedItems = {};
+    for (DegusItem item in myFavoriteItems) {
+      for (String simItemRef in item.similarItems) {
+        try {
+          final DegusItem simItem = state.degustationItems
+              .where((DegusItem i) =>
+                  i.id == simItemRef && !state.myFavorite.contains(i.id))
+              .first;
+          similarToLikedItems.add(simItem);
+        } catch (e) {
+          // TODO: fix it to not use ty-catch
+        }
+      }
+    }
+    final List<DegusItem> similarToLikedItemsList =
+        similarToLikedItems.toList();
+    similarToLikedItemsList.shuffle();
     emit(state.copyWith(
       myDegustationFavorite: myDegustationFavorite,
       myDegustationRatings: myDegustationRatings,
@@ -102,6 +124,7 @@ class HighlightDegustationBloc
       totalFavorites: myDegustationFavorite.length,
       totalRated: myDegustationRatings.length,
       bestRated: sortedDegustationItems.take(5).toList(),
+      similarToLiked: similarToLikedItemsList.take(5).toList(),
       recommendations: const [],
     ));
   }

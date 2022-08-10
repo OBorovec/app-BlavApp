@@ -88,6 +88,7 @@
   "degusHighlightLiked": "Počet oblíbených vzorků",
   "degusHighlightRated": "Počet hodnocených vzorků",
   "degusHighlightBestRated": "Nejlépe hodnocené vzorky",
+  "degusHighlightSimilarTo": "Podobné tvému výběru",
   "degusHighlightRecommendation": "Doporučené vzorky",
   "@divisionsPage":"--------------------------------------------",
   "divsTitle": "Divize",

@@ -65,7 +65,22 @@ class DegusItem extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        name,
+        desc,
+        rating,
+        alcoholVolume,
+        placeRef,
+        alcoholType,
+        subType,
+        dSubType,
+        price,
+        volumes,
+        images,
+        origin,
+        similarItems,
+      ];
 
   factory DegusItem.fromJson(Map<String, Object?> json) =>
       _$DegusItemFromJson(json);
