@@ -55,7 +55,6 @@ class RoutePaths {
   static const String degustationPlace = '/degustation/place';
   static const String cosplay = '/cosplay';
   static const String cosplayRecord = '/cosplay/record';
-  static const String divisions = '/divisions';
   static const String maps = '/maps';
   static const String mapView = '/map/view';
 }
@@ -267,8 +266,8 @@ class RouteGenerator {
     if (!isAuthenticated) {
       return MaterialPageRoute(
         builder: (context) => RedirectPage(
-          titleText: AppLocalizations.of(context)!.signInRedirectTitle,
-          redirectMessage: AppLocalizations.of(context)!.signInRedirectText,
+          titleText: AppLocalizations.of(context)!.contSignInRedirectTitle,
+          redirectMessage: AppLocalizations.of(context)!.contSignInRedirectText,
           route: RoutePaths.signIn,
         ),
       );
@@ -283,8 +282,9 @@ class RouteGenerator {
     if (isAuthenticated) {
       return MaterialPageRoute(
         builder: (context) => RedirectPage(
-          titleText: AppLocalizations.of(context)!.profRedirectTitle,
-          redirectMessage: AppLocalizations.of(context)!.profRedirectText,
+          titleText: AppLocalizations.of(context)!.contProfileRedirectTitle,
+          redirectMessage:
+              AppLocalizations.of(context)!.contProfileRedirectText,
           route: RoutePaths.profile,
         ),
       );

@@ -13,7 +13,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RootPage(
-      titleText: AppLocalizations.of(context)!.signInTitle,
+      titleText: AppLocalizations.of(context)!.contSignInTitle,
       body: BlocProvider(
         create: (context) => UserSignInBloc(
           authRepo: context.read<AuthRepo>(),
@@ -42,13 +42,13 @@ class SignInPage extends StatelessWidget {
                     _SignUpButton(),
                   ],
                 ),
-                // Column(
-                //   children: [
-                //     Text(AppLocalizations.of(context)!.signInProviders),
-                //     const SizedBox(height: 16),
-                //     _SignInWithGoogleButton(),
-                //   ],
-                // ),
+                Column(
+                  children: [
+                    Text(AppLocalizations.of(context)!.contSignInProviders),
+                    const SizedBox(height: 16),
+                    _SignInWithGoogleButton(),
+                  ],
+                ),
               ],
             ),
           ),
@@ -69,10 +69,7 @@ class SignInPage extends StatelessWidget {
     if (state.status == SignInStatus.fail) {
       Toasting.notifyToast(
         context,
-        state.message ??
-            AppLocalizations.of(context)!.signInToastingErrro(
-              state.message ?? '',
-            ),
+        state.message,
       );
     }
   }
@@ -97,10 +94,10 @@ class _EmailTextField extends StatelessWidget {
               ),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.signInEmail,
-            hintText: AppLocalizations.of(context)!.signInEmail,
+            labelText: AppLocalizations.of(context)!.genEmail,
+            hintText: AppLocalizations.of(context)!.genEmail,
             errorText: !state.isEmailValid
-                ? AppLocalizations.of(context)!.signInEmailError
+                ? AppLocalizations.of(context)!.contSignInEmailError
                 : null,
             contentPadding: const EdgeInsets.symmetric(
               vertical: 15.0,
@@ -124,10 +121,10 @@ class _PasswordTextField extends StatelessWidget {
               ),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.signInPsw,
-            hintText: AppLocalizations.of(context)!.signInPsw,
+            labelText: AppLocalizations.of(context)!.genPassword,
+            hintText: AppLocalizations.of(context)!.genPassword,
             errorText: !state.isPasswordValid
-                ? AppLocalizations.of(context)!.signInPswError
+                ? AppLocalizations.of(context)!.contSignInPswError
                 : null,
             contentPadding: const EdgeInsets.symmetric(
               vertical: 15.0,
@@ -147,7 +144,7 @@ class _SignInButton extends StatelessWidget {
       onPressed: () {
         context.read<UserSignInBloc>().add(const UserSignInFormValidate());
       },
-      child: Text(AppLocalizations.of(context)!.signInBtnSignIn),
+      child: Text(AppLocalizations.of(context)!.contSignInBtnSignIn),
     );
   }
 }
@@ -156,7 +153,7 @@ class _ForgottenPasswordButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Text(AppLocalizations.of(context)!.signInForgotten),
+      child: Text(AppLocalizations.of(context)!.contSignInForgotten),
       onTap: () {
         Navigator.of(context).pushNamed(RoutePaths.profileDelete);
       },
@@ -171,7 +168,7 @@ class _SignUpButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, RoutePaths.signUp);
       },
-      child: Text(AppLocalizations.of(context)!.signInBtnSignUp),
+      child: Text(AppLocalizations.of(context)!.contSignInBtnSignUp),
     );
   }
 }

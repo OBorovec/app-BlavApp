@@ -21,18 +21,20 @@ class ProgrammeHighlight extends StatelessWidget {
         return Column(
           children: [
             TitleDivider(
-              title: AppLocalizations.of(context)!.progHighlightOngoing,
+              title:
+                  AppLocalizations.of(context)!.contProgrammeHighlightOngoing,
             ),
             state.ongoingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
                     entries: state.ongoingEntries,
                   )
                 : _HighlightEmpty(
-                    text:
-                        AppLocalizations.of(context)!.progHighlightOngoingEmpty,
+                    text: AppLocalizations.of(context)!
+                        .contProgrammeHighlightOngoingEmpty,
                   ),
             TitleDivider(
-              title: AppLocalizations.of(context)!.progHighlightUpcoming,
+              title:
+                  AppLocalizations.of(context)!.contProgrammeHighlightUpcoming,
             ),
             state.upcomingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
@@ -40,10 +42,11 @@ class ProgrammeHighlight extends StatelessWidget {
                   )
                 : _HighlightEmpty(
                     text: AppLocalizations.of(context)!
-                        .progHighlightUpcomingEmpty,
+                        .contProgrammeHighlightUpcomingEmpty,
                   ),
             TitleDivider(
-              title: AppLocalizations.of(context)!.progHighlightMyUpcoming,
+              title: AppLocalizations.of(context)!
+                  .contProgrammeHighlightMyUpcoming,
             ),
             state.upcomingMyEntries.isNotEmpty
                 ? Expanded(
@@ -53,7 +56,7 @@ class ProgrammeHighlight extends StatelessWidget {
                   )
                 : _HighlightEmpty(
                     text: AppLocalizations.of(context)!
-                        .progHighlightMyUpcomingEmpty,
+                        .contProgrammeHighlightMyUpcomingEmpty,
                   ),
           ],
         );

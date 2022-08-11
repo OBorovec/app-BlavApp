@@ -15,7 +15,7 @@ class DrawerGeneralItems extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          title: Text(AppLocalizations.of(context)!.gwintEventsTitle),
+          title: Text(AppLocalizations.of(context)!.contEventsTitle),
           onTap: () {
             Navigator.pushReplacementNamed(
               context,
@@ -45,7 +45,7 @@ class DrawerGeneralItems extends StatelessWidget {
             },
           ),
         ListTile(
-          title: Text(AppLocalizations.of(context)!.setsTitle),
+          title: Text(AppLocalizations.of(context)!.settingsTitle),
           onTap: () {
             Navigator.pushReplacementNamed(
               context,

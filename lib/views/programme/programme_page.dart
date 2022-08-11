@@ -104,13 +104,13 @@ class _ProgrammePageState extends State<ProgrammePage> {
   String _pageTitle() {
     switch (content) {
       case ProgrammePageContent.highlight:
-        return AppLocalizations.of(context)!.progHighlight;
+        return AppLocalizations.of(context)!.contProgrammeHighlight;
       case ProgrammePageContent.list:
-        return AppLocalizations.of(context)!.progTitle;
+        return AppLocalizations.of(context)!.contProgrammeListTitle;
       case ProgrammePageContent.mylist:
-        return AppLocalizations.of(context)!.progMyTitle;
+        return AppLocalizations.of(context)!.contProgrammeListMyTitle;
       case ProgrammePageContent.agenda:
-        return AppLocalizations.of(context)!.progAgendTitle;
+        return AppLocalizations.of(context)!.contProgrammeAgendTitle;
     }
   }
 

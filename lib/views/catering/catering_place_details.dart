@@ -107,8 +107,8 @@ class _CateringPlaceOpenInfo extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               isOpen
-                  ? AppLocalizations.of(context)!.caterPlaceCardIsOpen
-                  : AppLocalizations.of(context)!.caterPlaceCardIsClosed,
+                  ? AppLocalizations.of(context)!.genOpen
+                  : AppLocalizations.of(context)!.genClose,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],
@@ -136,7 +136,7 @@ class _CateringPlaceMenu extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.cateringPlaceDetailsMenu,
+          title: AppLocalizations.of(context)!.contCateringPlaceDetailsMenu,
         ),
         BlocProvider(
           create: (context) => PlaceMenuCateringBloc(

@@ -31,7 +31,7 @@ class CosplayPage extends StatelessWidget {
           case CosplayStatus.loaded:
             return Builder(builder: (context) {
               return RootPage(
-                titleText: AppLocalizations.of(context)!.cospTitle,
+                titleText: AppLocalizations.of(context)!.contCosplayTitle,
                 body: _CosplayGallery(
                   cosplayRecords: state.cosplayRecords,
                 ),

@@ -17,7 +17,7 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RootPage(
-        titleText: AppLocalizations.of(context)!.profTitle,
+        titleText: AppLocalizations.of(context)!.contProfileTitle,
         body: BlocProvider(
           create: (context) => UserProfileBloc(
             user: (context.read<AuthBloc>()).state.user!,
@@ -78,42 +78,32 @@ class UserProfilePage extends StatelessWidget {
     if (userEditState.status == UserEditStatus.ready) {
       return;
     } else if (userEditState.status == UserEditStatus.error) {
-      Toasting.notifyToast(
-        context,
-        userEditState.errorMessage ??
-            AppLocalizations.of(context)!.profUnknownErrro(
-              userEditState.errorMessage,
-            ),
-      );
+      Toasting.notifyToast(context, userEditState.errorMessage);
     } else if (userEditState.status == UserEditStatus.emailVerificationSent) {
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.profToastingEmailVerificationSent,
+        AppLocalizations.of(context)!.contProfileTEmailVerificationSent,
       );
     } else if (userEditState.status ==
         UserEditStatus.emailVerificationVerified) {
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.profToastingEmailVerified,
+        AppLocalizations.of(context)!.contProfileTEmailVerified,
       );
     } else if (userEditState.status == UserEditStatus.emailVerificationFailed) {
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.profToastingEmailVerificationFailed(
-          userEditState.errorMessage,
-        ),
+        '${AppLocalizations.of(context)!.contProfileTEmailVerificationFailed}: ${userEditState.errorMessage}',
       );
     } else if (userEditState.status == UserEditStatus.passwordEmailSent) {
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.profToastingPasswordEmailSent,
+        AppLocalizations.of(context)!.contProfileTPasswordEmailSent,
       );
     } else if (userEditState.status == UserEditStatus.passwordEmailFailedSent) {
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.profToastingPasswordEmailFailedSent(
-          userEditState.errorMessage,
-        ),
+        '${AppLocalizations.of(context)!.contProfileTPasswordEmailFailedSent}: ${userEditState.errorMessage}',
       );
     }
   }
@@ -167,7 +157,7 @@ class _ProfileEmail extends StatelessWidget {
           readOnly: true,
           controller: TextEditingController(text: state.user.email),
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.profEmail,
+            labelText: AppLocalizations.of(context)!.genEmail,
             icon: const Icon(Icons.mail),
             suffixIcon: IconButton(
               icon: Icon(
@@ -222,7 +212,7 @@ class _ProfileNickNameState extends State<_ProfileNickName> {
           enableSuggestions: false,
           controller: _textController,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.profNick,
+            labelText: AppLocalizations.of(context)!.genNick,
             icon: const Icon(Icons.perm_identity),
             suffixIcon: Row(
               mainAxisSize: MainAxisSize.min,
@@ -278,7 +268,7 @@ class _ShowTicketshButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => Navigator.pushNamed(context, RoutePaths.myTickets),
-      child: Text(AppLocalizations.of(context)!.profBtnProfileTickets),
+      child: Text(AppLocalizations.of(context)!.contProfileBtnProfileTickets),
     );
   }
 }
@@ -292,7 +282,7 @@ class _ProfileRefreshButton extends StatelessWidget {
       onPressed: () {
         context.read<UserProfileBloc>().add(const UserProfileRefresh());
       },
-      child: Text(AppLocalizations.of(context)!.profBtnProfileRefresh),
+      child: Text(AppLocalizations.of(context)!.contProfileBtnProfileRefresh),
     );
   }
 }
@@ -306,7 +296,7 @@ class _PasswordResetButton extends StatelessWidget {
       onPressed: () {
         context.read<UserProfileBloc>().add(const UserPasswordReset());
       },
-      child: Text(AppLocalizations.of(context)!.profBtnResetPsw),
+      child: Text(AppLocalizations.of(context)!.contProfileBtnResetPsw),
     );
   }
 }
@@ -323,7 +313,7 @@ class _SignOutButton extends StatelessWidget {
           Navigator.of(context).popAndPushNamed(RoutePaths.signIn);
         });
       },
-      child: Text(AppLocalizations.of(context)!.profBtnSignOut),
+      child: Text(AppLocalizations.of(context)!.contProfileBtnSignOut),
     );
   }
 }
@@ -337,7 +327,7 @@ class _DeleteAccountButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, RoutePaths.profileDelete);
       },
-      child: Text(AppLocalizations.of(context)!.profBtnDeleteAccount),
+      child: Text(AppLocalizations.of(context)!.contProfileBtnDeleteAccount),
     );
   }
 }

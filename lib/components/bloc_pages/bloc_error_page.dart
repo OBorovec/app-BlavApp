@@ -1,4 +1,3 @@
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +15,7 @@ class BlocErrorPage extends StatelessWidget {
     // TODO: finish localization
     // TODO: add a button to report the problem
     return SidePage(
-      titleText: 'Error',
+      titleText: AppLocalizations.of(context)!.genError,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -25,7 +24,8 @@ class BlocErrorPage extends StatelessWidget {
               Icons.error,
               size: 128,
             ),
-            Text(AppLocalizations.of(context)!.blocDataFail(message)),
+            Text(AppLocalizations.of(context)!.blocDataFail),
+            Text(message),
           ],
         ),
       ),

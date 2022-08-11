@@ -86,19 +86,19 @@ class _DegustaionNumbers extends StatelessWidget {
         child: Column(
           children: [
             _buildLine(
-              AppLocalizations.of(context)!.degusHighlightTotalSample,
+              AppLocalizations.of(context)!.contDegustationHighlightTotalSample,
               state.totalSamples,
               context,
             ),
             const SizedBox(height: 8),
             _buildLine(
-              AppLocalizations.of(context)!.degusHighlightLiked,
+              AppLocalizations.of(context)!.contDegustationHighlightLiked,
               state.totalFavorites,
               context,
             ),
             const SizedBox(height: 8),
             _buildLine(
-              AppLocalizations.of(context)!.degusHighlightRated,
+              AppLocalizations.of(context)!.contDegustationHighlightRated,
               state.totalRated,
               context,
             ),
@@ -138,7 +138,8 @@ class _DegustationPlaceList extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusHighlightPlaceList,
+          title:
+              AppLocalizations.of(context)!.contDegustationHighlightPlaceList,
         ),
         Column(
           children: state.placeCardData
@@ -218,8 +219,8 @@ class _DegustationHighlightPlaceCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 data.isOpen
-                    ? AppLocalizations.of(context)!.open
-                    : AppLocalizations.of(context)!.close,
+                    ? AppLocalizations.of(context)!.genOpen
+                    : AppLocalizations.of(context)!.genClose,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
             ],
@@ -285,7 +286,8 @@ class _DegustationHighlightBestRated extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusHighlightBestRated,
+          title:
+              AppLocalizations.of(context)!.contDegustationHighlightBestRated,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -325,7 +327,8 @@ class _DegustationHighlightRecommendation extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusHighlightRecommendation,
+          title: AppLocalizations.of(context)!
+              .contDegustationHighlightRecommendation,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -365,7 +368,8 @@ class _DegustationHighlightSimilarToLiked extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusHighlightSimilarTo,
+          title:
+              AppLocalizations.of(context)!.contDegustationHighlightSimilarTo,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

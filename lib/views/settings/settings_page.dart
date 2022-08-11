@@ -18,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return RootPage(
-      titleText: AppLocalizations.of(context)!.setsTitle,
+      titleText: AppLocalizations.of(context)!.settingsTitle,
       body: _buildBody(context),
     );
   }
@@ -70,7 +70,7 @@ class LanguageOptions extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.setsLang),
+            Text(AppLocalizations.of(context)!.settingsLang),
             DropdownButton<AppLang>(
               value: state.appLang,
               onChanged: (AppLang? newLang) {
@@ -82,19 +82,19 @@ class LanguageOptions extends StatelessWidget {
                 DropdownMenuItem<AppLang>(
                   value: AppLang.auto,
                   child: Text(
-                    AppLocalizations.of(context)!.setsLangOptAuto,
+                    AppLocalizations.of(context)!.settingsLangOptAuto,
                   ),
                 ),
                 DropdownMenuItem<AppLang>(
                   value: AppLang.en,
                   child: Text(
-                    AppLocalizations.of(context)!.setsLangOptEN,
+                    AppLocalizations.of(context)!.settingsLangOptEN,
                   ),
                 ),
                 DropdownMenuItem<AppLang>(
                   value: AppLang.cs,
                   child: Text(
-                    AppLocalizations.of(context)!.setsLangOptCS,
+                    AppLocalizations.of(context)!.settingsLangOptCS,
                   ),
                 ),
               ],
@@ -118,7 +118,7 @@ class ThemeOption extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.setsTheme),
+            Text(AppLocalizations.of(context)!.settingsTheme),
             Switch(
               value: state.appTheme == AppTheme.dark,
               onChanged: (value) {

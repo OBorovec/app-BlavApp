@@ -10,7 +10,7 @@ class UserProfileDeletePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidePage(
-      titleText: AppLocalizations.of(context)!.profileDeleteTitle,
+      titleText: AppLocalizations.of(context)!.contProfileDeleteTitle,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -18,7 +18,7 @@ class UserProfileDeletePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                AppLocalizations.of(context)!.profileDeleteText,
+                AppLocalizations.of(context)!.contProfileDeleteText,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline4,
               ),
@@ -26,8 +26,8 @@ class UserProfileDeletePage extends StatelessWidget {
                 onPressed: () {
                   context.read<AuthBloc>().add(const UserAuthDelete());
                 },
-                child:
-                    Text(AppLocalizations.of(context)!.profileDeleteBtnConfirm),
+                child: Text(
+                    AppLocalizations.of(context)!.contProfileDeleteBtnConfirm),
               )
             ],
           ),

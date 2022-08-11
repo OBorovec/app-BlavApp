@@ -78,13 +78,13 @@ class _DegustaionNumbers extends StatelessWidget {
         child: Column(
           children: [
             _buildLine(
-              AppLocalizations.of(context)!.degusHighlightTotalSample,
+              AppLocalizations.of(context)!.contCateringHighlightTotalItems,
               state.totalItems,
               context,
             ),
             const SizedBox(height: 8),
             _buildLine(
-              AppLocalizations.of(context)!.degusHighlightRated,
+              AppLocalizations.of(context)!.contCateringHighlightTotalPlaces,
               state.totalPlaces,
               context,
             ),
@@ -124,7 +124,7 @@ class _CateringPlaceList extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.cateringHighlightPlaceList,
+          title: AppLocalizations.of(context)!.contCateringHighlightPlaceList,
         ),
         Column(
           children: state.placeCardData
@@ -203,8 +203,8 @@ class _CateringHighlightPlaceCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 data.isOpen
-                    ? AppLocalizations.of(context)!.open
-                    : AppLocalizations.of(context)!.close,
+                    ? AppLocalizations.of(context)!.genOpen
+                    : AppLocalizations.of(context)!.genClose,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
             ],

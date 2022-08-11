@@ -2,7 +2,6 @@ import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/catering.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,13 +52,13 @@ class CateringSearchTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.caterSearchPredef,
+                    AppLocalizations.of(context)!.contCateringListSearchPredef,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 8),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.caterSearchTypes,
+                    AppLocalizations.of(context)!.contCateringListSearchTypes,
                     Icons.access_time_outlined,
                   ),
                   Wrap(
@@ -69,7 +68,7 @@ class CateringSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.caterSearchPlaces,
+                    AppLocalizations.of(context)!.contCateringListSearchPlaces,
                     Icons.place_outlined,
                   ),
                   Wrap(
@@ -79,7 +78,8 @@ class CateringSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.caterSearchAllergens,
+                    AppLocalizations.of(context)!
+                        .contCateringListSearchAllergens,
                     Icons.place_outlined,
                   ),
                   Wrap(
@@ -153,7 +153,7 @@ class __TextSearchLineState extends State<_TextSearchLine> {
       child: TextField(
         controller: _textController,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.caterSearchHint,
+          hintText: AppLocalizations.of(context)!.contCateringListSearchHint,
           suffixIcon: IconButton(
             icon: _textController.text.isEmpty
                 ? const Icon(Icons.search)

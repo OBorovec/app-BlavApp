@@ -14,7 +14,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidePage(
-      titleText: AppLocalizations.of(context)!.signUpTitle,
+      titleText: AppLocalizations.of(context)!.contSignUpTitle,
       // body: Container(),
       body: BlocProvider(
         create: (context) => UserSignUpBloc(
@@ -43,13 +43,13 @@ class SignUpPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Column(
-                //   children: [
-                //     Text(AppLocalizations.of(context)!.signUnProviders),
-                //     const SizedBox(height: 16),
-                //     _SignUpWithGoogleButton(),
-                //   ],
-                // ),
+                Column(
+                  children: [
+                    Text(AppLocalizations.of(context)!.contSignUnProviders),
+                    const SizedBox(height: 16),
+                    _SignUpWithGoogleButton(),
+                  ],
+                ),
               ],
             ),
           ),
@@ -58,7 +58,10 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void userSignUpListener(BuildContext context, UserSignUpState state) {
+  void userSignUpListener(
+    BuildContext context,
+    UserSignUpState state,
+  ) {
     if (state.status == SignUpStatus.success) {
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.popAndPushNamed(context, RoutePaths.profile);
@@ -67,10 +70,7 @@ class SignUpPage extends StatelessWidget {
     if (state.status == SignUpStatus.fail) {
       Toasting.notifyToast(
         context,
-        state.message ??
-            AppLocalizations.of(context)!.signUpToastingErrro(
-              state.message ?? '',
-            ),
+        state.message,
       );
     }
   }
@@ -90,10 +90,10 @@ class _EmailTextField extends StatelessWidget {
               .add(UserSignUpEmailChanged(email: value)),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.signUpEmail,
-            hintText: AppLocalizations.of(context)!.signUpEmail,
+            labelText: AppLocalizations.of(context)!.genEmail,
+            hintText: AppLocalizations.of(context)!.genEmail,
             errorText: !state.isEmailValid
-                ? AppLocalizations.of(context)!.signUpEmailError
+                ? AppLocalizations.of(context)!.contSignUpEmailError
                 : null,
             errorMaxLines: 2,
             contentPadding: const EdgeInsets.symmetric(
@@ -128,10 +128,10 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
               ),
           obscureText: !_valueVisible,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.signUpPsw,
-            hintText: AppLocalizations.of(context)!.signUpPsw,
+            labelText: AppLocalizations.of(context)!.genPassword,
+            hintText: AppLocalizations.of(context)!.genPassword,
             errorText: !state.isPasswordValid
-                ? AppLocalizations.of(context)!.signUpPswError
+                ? AppLocalizations.of(context)!.contSignUpPswError
                 : null,
             errorMaxLines: 2,
             contentPadding: const EdgeInsets.symmetric(
@@ -169,10 +169,10 @@ class _NickTextField extends StatelessWidget {
               .read<UserSignUpBloc>()
               .add(UserSignUpNNChanged(nickName: value)),
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.signUpNick,
-            hintText: AppLocalizations.of(context)!.signUpNick,
+            labelText: AppLocalizations.of(context)!.genNick,
+            hintText: AppLocalizations.of(context)!.genNick,
             errorText: !state.isNickNameValid
-                ? AppLocalizations.of(context)!.signUpNickError
+                ? AppLocalizations.of(context)!.contSignUpNickError
                 : null,
             errorMaxLines: 2,
             contentPadding: const EdgeInsets.symmetric(
@@ -209,7 +209,7 @@ class _SignUpButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(AppLocalizations.of(context)!.signUpBtnLoading),
+          Text(AppLocalizations.of(context)!.contSignUpBtnLoading),
           const SizedBox(width: 10),
           SizedBox(
             height: 20,
@@ -225,7 +225,7 @@ class _SignUpButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(AppLocalizations.of(context)!.signUpBtnSuccess),
+          Text(AppLocalizations.of(context)!.contSignUpBtnSuccess),
           const SizedBox(width: 10),
           SizedBox(
             height: 20,
@@ -242,7 +242,7 @@ class _SignUpButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(AppLocalizations.of(context)!.signUpBtnFail),
+          Text(AppLocalizations.of(context)!.contSignUpBtnFail),
           const SizedBox(width: 10),
           SizedBox(
             height: 20,
@@ -255,7 +255,7 @@ class _SignUpButton extends StatelessWidget {
         ],
       );
     }
-    return Text(AppLocalizations.of(context)!.signUpBtnSignUp);
+    return Text(AppLocalizations.of(context)!.contSignUpBtnSignUp);
   }
 }
 

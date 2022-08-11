@@ -172,7 +172,7 @@ class _DegustationItemDescription extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.description,
+          title: AppLocalizations.of(context)!.genDescription,
         ),
         Text(t(item.desc!, context))
       ],
@@ -194,7 +194,7 @@ class _DegustationItemPlaces extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusDetailWhereToBuy,
+          title: AppLocalizations.of(context)!.contDegustationDetailWhereToBuy,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -272,7 +272,7 @@ class _DegustationItemRating extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.degusDetailRating,
+          title: AppLocalizations.of(context)!.contDegustationDetailRating,
         ),
         IntrinsicHeight(
           child: Row(
@@ -285,7 +285,8 @@ class _DegustationItemRating extends StatelessWidget {
                           itemSize: 32,
                         )
                       : Text(
-                          AppLocalizations.of(context)!.degusDetailNoRating,
+                          AppLocalizations.of(context)!
+                              .contDegustationDetailNoRating,
                           style: Theme.of(context).textTheme.subtitle1,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -307,12 +308,13 @@ class _DegustationItemRating extends StatelessWidget {
                         builder: (BuildContext context) => _buildRatingDialog(
                             context,
                             AppLocalizations.of(context)!
-                                .degusDetailReRateMeTitle),
+                                .contDegustationDetailReRateMeTitle),
                       ),
                       child: Column(
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.degusDetailYourRating,
+                            AppLocalizations.of(context)!
+                                .contDegustationDetailYourRating,
                             style: Theme.of(context).textTheme.subtitle2,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -333,10 +335,10 @@ class _DegustationItemRating extends StatelessWidget {
                         builder: (BuildContext context) => _buildRatingDialog(
                             context,
                             AppLocalizations.of(context)!
-                                .degusDetailRateMeTitle),
+                                .contDegustationDetailRateMeTitle),
                       ),
-                      child: Text(
-                          AppLocalizations.of(context)!.degusDetailBtnRateMe),
+                      child: Text(AppLocalizations.of(context)!
+                          .contDegustationDetailBtnRateMe),
                     );
                   }
                 },
@@ -374,7 +376,7 @@ class _DegustationItemRating extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.dismiss),
+          child: Text(AppLocalizations.of(context)!.genDismiss),
         ),
       ],
     );
@@ -397,7 +399,8 @@ class _DegustationItemControlBtns extends StatelessWidget {
         ElevatedButton.icon(
           onPressed: () => null,
           icon: const Icon(Icons.store),
-          label: Text(AppLocalizations.of(context)!.degusDetailBtnShop),
+          label:
+              Text(AppLocalizations.of(context)!.contDegustationDetailBtnShop),
         )
       ],
     );

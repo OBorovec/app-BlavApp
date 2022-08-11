@@ -2,7 +2,6 @@ import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart'
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/degustation.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,13 +52,15 @@ class DegustationSearchTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.degusSearchPredef,
+                    AppLocalizations.of(context)!
+                        .contDegustationListSearchPredef,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 8),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.degusSearchTypes,
+                    AppLocalizations.of(context)!
+                        .contDegustationListSearchTypes,
                     Icons.access_time_outlined,
                   ),
                   Wrap(
@@ -69,7 +70,8 @@ class DegustationSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.degusSearchOrigin,
+                    AppLocalizations.of(context)!
+                        .contDegustationListSearchOrigin,
                     Icons.place_outlined,
                   ),
                   Wrap(
@@ -79,7 +81,8 @@ class DegustationSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.degusSearchPlaces,
+                    AppLocalizations.of(context)!
+                        .contDegustationListSearchPlaces,
                     Icons.place_outlined,
                   ),
                   Wrap(
@@ -158,7 +161,7 @@ class __TextSearchLineState extends State<_TextSearchLine> {
       child: TextField(
         controller: _textController,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.degusSearchHint,
+          hintText: AppLocalizations.of(context)!.contDegustationListSearchHint,
           suffixIcon: IconButton(
             icon: _textController.text.isEmpty
                 ? const Icon(Icons.search)

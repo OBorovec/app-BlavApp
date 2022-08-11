@@ -108,8 +108,8 @@ class _DegustationPlaceOpenInfo extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               isOpen
-                  ? AppLocalizations.of(context)!.open
-                  : AppLocalizations.of(context)!.caterPlaceCardIsClosed,
+                  ? AppLocalizations.of(context)!.genOpen
+                  : AppLocalizations.of(context)!.genClose,
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ],
@@ -137,7 +137,7 @@ class _DegustationPlaceMenu extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.cateringPlaceDetailsMenu,
+          title: AppLocalizations.of(context)!.contCateringPlaceDetailsMenu,
         ),
         BlocProvider(
           create: (context) => PlaceMenuDegustationBloc(

@@ -11,7 +11,6 @@ import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/catering/catering_list.dart';
 import 'package:blavapp/views/catering/catering_highlight.dart';
-import 'package:blavapp/views/catering/catering_place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,7 +25,6 @@ class CateringPage extends StatefulWidget {
 enum CateringPageContent {
   highlight,
   list,
-  // places,
 }
 
 class _CateringPageState extends State<CateringPage> {
@@ -45,8 +43,6 @@ class _CateringPageState extends State<CateringPage> {
         return 0;
       case CateringPageContent.list:
         return 1;
-      // case CateringPageContent.places:
-      //   return 2;
     }
   }
 
@@ -102,11 +98,9 @@ class _CateringPageState extends State<CateringPage> {
   String _pageTitle() {
     switch (content) {
       case CateringPageContent.highlight:
-        return AppLocalizations.of(context)!.caterTitle;
+        return AppLocalizations.of(context)!.contCateringHighlightTitle;
       case CateringPageContent.list:
-        return AppLocalizations.of(context)!.caterListTitle;
-      // case CateringPageContent.places:
-      //   return AppLocalizations.of(context)!.caterPlaceTitle;
+        return AppLocalizations.of(context)!.contCateringListTitle;
     }
   }
 
@@ -143,7 +137,6 @@ class _CateringPageState extends State<CateringPage> {
       items: const [
         Icons.amp_stories,
         Icons.list,
-        // Icons.place,
       ],
       onTap: (index) {
         switch (index) {
@@ -157,11 +150,6 @@ class _CateringPageState extends State<CateringPage> {
               content = CateringPageContent.list;
             });
             break;
-          // case 2:
-          //   setState(() {
-          //     content = CateringPageContent.places;
-          //   });
-          //   break;
         }
       },
     );

@@ -101,15 +101,12 @@ class _ProgrammeEntryInfo extends StatelessWidget {
         // Entry time
         _buildInfoLine(
           Icons.access_time_outlined,
-          AppLocalizations.of(context)!.programmeEntryTimestamp(
-            datetimeToDateShort(entry.timestamp, context),
-            datetimeToHours(entry.timestamp, context),
-          ),
+          '${datetimeToDateShort(entry.timestamp, context)}-${datetimeToHours(entry.timestamp, context)}',
         ),
         //Entry duration
         _buildInfoLine(
           Icons.timelapse_outlined,
-          AppLocalizations.of(context)!.programmeEntryDuration(entry.duration),
+          '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
         ),
         // Entry place
         _buildInfoLine(

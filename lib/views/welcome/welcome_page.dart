@@ -32,7 +32,8 @@ class WelcomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.welcomeGoToSignInReq,
+                          AppLocalizations.of(context)!
+                              .contWelcomeGoToSignInReq,
                           textAlign: TextAlign.center,
                         ),
                         ElevatedButton(
@@ -40,14 +41,19 @@ class WelcomePage extends StatelessWidget {
                             Navigator.of(context).pushNamed(RoutePaths.signIn);
                           },
                           child: Text(AppLocalizations.of(context)!
-                              .welcomeBtnGoToSignIn),
+                              .contWelcomeBtnGoToSignIn),
                         ),
                       ],
                     );
                   } else if (state.status == AuthStatus.authenticated) {
-                    return Text(
-                      AppLocalizations.of(context)!
-                          .welcomeUserText(state.user!.displayName!),
+                    return Column(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.contWelcomeUserText,
+                        ),
+                        Text(state.user!.displayName!,
+                            style: Theme.of(context).textTheme.headline6),
+                      ],
                     );
                   } else {
                     return const CircularProgressIndicator();

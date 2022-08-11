@@ -20,7 +20,7 @@ class ProfileMyTicketsPage extends StatelessWidget {
         dataRepo: context.read<DataRepo>(),
       ),
       child: SidePage(
-        titleText: AppLocalizations.of(context)!.profileTicketsTitle,
+        titleText: AppLocalizations.of(context)!.contProfileTicketsTitle,
         body: BlocBuilder<UserTicketsBloc, UserTicketsState>(
           builder: (context, state) {
             switch (state.status) {
@@ -31,7 +31,7 @@ class ProfileMyTicketsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(AppLocalizations.of(context)!
-                            .profileTicketsNoTickets),
+                            .contProfileTicketsNoTickets),
                       ],
                     ),
                   );
@@ -59,7 +59,7 @@ class ProfileMyTicketsPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       const CircularProgressIndicator(),
-                      Text(AppLocalizations.of(context)!.loading),
+                      Text(AppLocalizations.of(context)!.genLoading),
                     ],
                   ),
                 );
@@ -93,7 +93,7 @@ class ProfileMyTicketsPage extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.dismiss),
+          child: Text(AppLocalizations.of(context)!.genDismiss),
         ),
       ],
     );

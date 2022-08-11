@@ -4,7 +4,7 @@ enum SignUpStatus { ready, loading, success, fail }
 
 class UserSignUpState extends Equatable {
   final SignUpStatus status;
-  final String? message;
+  final String message;
   final String email;
   final bool isEmailValid;
   final String password;
@@ -15,7 +15,7 @@ class UserSignUpState extends Equatable {
 
   const UserSignUpState({
     this.status = SignUpStatus.ready,
-    this.message,
+    this.message = '',
     this.email = '',
     this.isEmailValid = true,
     this.password = '',

@@ -11,7 +11,6 @@ import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/degustation/degustation_list.dart';
 import 'package:blavapp/views/degustation/degustation_highlight.dart';
-import 'package:blavapp/views/degustation/degustation_place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,7 +26,6 @@ enum DegustationPageContent {
   highlight,
   list,
   favoriteList,
-  // places,
 }
 
 class _DegustationPageState extends State<DegustationPage> {
@@ -37,7 +35,6 @@ class _DegustationPageState extends State<DegustationPage> {
   final degustationContent = [
     const DegustationHighlight(),
     const DegustationList(),
-    // const DegustationPlaceList(),
   ];
 
   int contentIndex() {
@@ -48,8 +45,6 @@ class _DegustationPageState extends State<DegustationPage> {
         return 1;
       case DegustationPageContent.favoriteList:
         return 1;
-      // case DegustationPageContent.places:
-      //   return 2;
     }
   }
 
@@ -106,13 +101,11 @@ class _DegustationPageState extends State<DegustationPage> {
   String _pageTitle() {
     switch (content) {
       case DegustationPageContent.highlight:
-        return AppLocalizations.of(context)!.degusHighlightTitle;
+        return AppLocalizations.of(context)!.contDegustationHighlightTitle;
       case DegustationPageContent.list:
-        return AppLocalizations.of(context)!.degusListTitle;
+        return AppLocalizations.of(context)!.contDegustationListTitle;
       case DegustationPageContent.favoriteList:
-        return AppLocalizations.of(context)!.degusListFavoriteTitle;
-      // case DegustationPageContent.places:
-      //   return AppLocalizations.of(context)!.degusPlaceTitle;
+        return AppLocalizations.of(context)!.contDegustationListFavoriteTitle;
     }
   }
 
@@ -148,7 +141,6 @@ class _DegustationPageState extends State<DegustationPage> {
         Icons.amp_stories,
         Icons.local_bar,
         Icons.favorite,
-        // Icons.location_on,
       ],
       onTap: (index) {
         switch (index) {
@@ -173,11 +165,6 @@ class _DegustationPageState extends State<DegustationPage> {
                 .read<FilterDegustationBloc>()
                 .add(const UseMyFavoriteFilter(true));
             break;
-          // case 3:
-          //   setState(() {
-          //     content = DegustationPageContent.places;
-          //   });
-          //   break;
         }
       },
     );

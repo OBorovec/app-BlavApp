@@ -17,7 +17,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RootPage(
-      titleText: AppLocalizations.of(context)!.gwintEventsTitle,
+      titleText: AppLocalizations.of(context)!.contEventsTitle,
       body: BlocProvider(
         create: (context) => EventsBloc(
           dataRepo: context.read<DataRepo>(),
@@ -50,7 +50,7 @@ class EventsPage extends StatelessWidget {
                     ),
                     const Divider(),
                     Text(
-                      AppLocalizations.of(context)!.gwintEventsPastEvents,
+                      AppLocalizations.of(context)!.contEventsPastEvents,
                     ),
                     ...state.pastEvents.map(
                       (Event event) => EventCard(

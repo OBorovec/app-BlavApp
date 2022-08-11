@@ -21,48 +21,48 @@ String t(Map<String, String> modelItem, BuildContext context) {
 String tProgEntryType(ProgEntryType type, BuildContext context) {
   switch (type) {
     case ProgEntryType.concert:
-      return AppLocalizations.of(context)!.programmeTypeConcert;
+      return AppLocalizations.of(context)!.modelProgrammeTypeConcert;
     case ProgEntryType.storyline:
-      return AppLocalizations.of(context)!.programmeTypeStoryline;
+      return AppLocalizations.of(context)!.modelProgrammeTypeStoryline;
     case ProgEntryType.workshop:
-      return AppLocalizations.of(context)!.programmeTypeWorkshop;
+      return AppLocalizations.of(context)!.modelProgrammeTypeWorkshop;
     case ProgEntryType.lecture:
-      return AppLocalizations.of(context)!.programmeTypeLecture;
+      return AppLocalizations.of(context)!.modelProgrammeTypeLecture;
     case ProgEntryType.tournament:
-      return AppLocalizations.of(context)!.programmeTypeTournament;
+      return AppLocalizations.of(context)!.modelProgrammeTypeTournament;
     case ProgEntryType.show:
-      return AppLocalizations.of(context)!.programmeTypeShow;
+      return AppLocalizations.of(context)!.modelProgrammeTypeShow;
     case ProgEntryType.degustation:
-      return AppLocalizations.of(context)!.programmeTypeDegustation;
+      return AppLocalizations.of(context)!.modelProgrammeTypeDegustation;
     case ProgEntryType.discussion:
-      return AppLocalizations.of(context)!.programmeTypeDiscussion;
+      return AppLocalizations.of(context)!.modelProgrammeTypeDiscussion;
     case ProgEntryType.gaming:
-      return AppLocalizations.of(context)!.programmeTypeGaming;
+      return AppLocalizations.of(context)!.modelProgrammeTypeGaming;
     case ProgEntryType.photo:
-      return AppLocalizations.of(context)!.programmeTypePhoto;
+      return AppLocalizations.of(context)!.modelProgrammeTypePhoto;
     case ProgEntryType.cosplay:
-      return AppLocalizations.of(context)!.programmeTypeCosplay;
+      return AppLocalizations.of(context)!.modelProgrammeTypeCosplay;
     case ProgEntryType.other:
-      return AppLocalizations.of(context)!.programmeTypeOther;
+      return AppLocalizations.of(context)!.modelProgrammeTypeOther;
   }
 }
 
 String tCaterItemType(CaterItemType itemType, BuildContext context) {
   switch (itemType) {
     case CaterItemType.starter:
-      return AppLocalizations.of(context)!.cateringTypeStarter;
+      return AppLocalizations.of(context)!.modelCateringTypeStarter;
     case CaterItemType.soup:
-      return AppLocalizations.of(context)!.cateringTypeSoup;
+      return AppLocalizations.of(context)!.modelCateringTypeSoup;
     case CaterItemType.snack:
-      return AppLocalizations.of(context)!.cateringTypeSnack;
+      return AppLocalizations.of(context)!.modelCateringTypeSnack;
     case CaterItemType.main:
-      return AppLocalizations.of(context)!.cateringTypeMain;
+      return AppLocalizations.of(context)!.modelCateringTypeMain;
     case CaterItemType.side:
-      return AppLocalizations.of(context)!.cateringTypeSide;
+      return AppLocalizations.of(context)!.modelCateringTypeSide;
     case CaterItemType.drink:
-      return AppLocalizations.of(context)!.cateringTypeDrink;
+      return AppLocalizations.of(context)!.modelCateringTypeDrink;
     case CaterItemType.desert:
-      return AppLocalizations.of(context)!.cateringTypeDesert;
+      return AppLocalizations.of(context)!.modelCateringTypeDesert;
     default:
       return 'Unknown';
   }
@@ -71,7 +71,7 @@ String tCaterItemType(CaterItemType itemType, BuildContext context) {
 String tDegusAlcoholType(DegusAlcoholType type, BuildContext context) {
   switch (type) {
     case DegusAlcoholType.mead:
-      return AppLocalizations.of(context)!.degusAlcoholTypeMead;
+      return AppLocalizations.of(context)!.modelDegustationTypeMead;
     default:
       return 'Unknown';
   }
@@ -80,7 +80,7 @@ String tDegusAlcoholType(DegusAlcoholType type, BuildContext context) {
 String tDegusSubAlcoholType(String type, BuildContext context) {
   switch (type) {
     case 'lip':
-      return AppLocalizations.of(context)!.degusAlcoholSubTypeLip;
+      return AppLocalizations.of(context)!.modelDegustationTypeSubLip;
     default:
       return type;
   }

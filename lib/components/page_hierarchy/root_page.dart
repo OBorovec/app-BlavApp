@@ -69,7 +69,7 @@ class _RootPageState extends State<RootPage> {
       currentBackPressTime = now;
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.toastDoubleTapExit,
+        AppLocalizations.of(context)!.toatingDoubleTapExit,
       );
       return Future.value(false);
     }

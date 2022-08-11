@@ -104,16 +104,12 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
             ),
             _buildInfoLine(
               Icons.access_time_outlined,
-              AppLocalizations.of(context)!.programmeEntryTimestamp(
-                datetimeToDateShort(entry.timestamp, context),
-                datetimeToHours(entry.timestamp, context),
-              ),
+              '${datetimeToDateShort(entry.timestamp, context)}-${datetimeToHours(entry.timestamp, context)}',
               context,
             ),
             _buildInfoLine(
               Icons.timelapse_outlined,
-              AppLocalizations.of(context)!
-                  .programmeEntryDuration(entry.duration),
+              '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
               context,
             ),
             _buildInfoLine(
@@ -194,7 +190,7 @@ class _ProgrammeEntryDescription extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.description,
+          title: AppLocalizations.of(context)!.genDescription,
         ),
         Text(t(entry.desc!, context))
       ],
@@ -226,14 +222,14 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
               _buildBtn(
                 () => null,
                 Icons.feedback,
-                AppLocalizations.of(context)!.progDetailBtnFeedBack,
+                AppLocalizations.of(context)!.contProgrammeDetailBtnFeedBack,
               ),
               if (entry.requireSignUp) ...[
                 const SizedBox(height: 8),
                 _buildBtn(
                   () => null,
                   Icons.login,
-                  AppLocalizations.of(context)!.progDetailBtnSignUp,
+                  AppLocalizations.of(context)!.contProgrammeDetailBtnSignUp,
                 ),
               ],
               const SizedBox(height: 8),
@@ -250,9 +246,9 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
                     isIn ? Icons.bookmark_remove : Icons.bookmark_add,
                     isIn
                         ? AppLocalizations.of(context)!
-                            .progDetailBtnMyProgrammeRemove
+                            .contProgrammeDetailBtnMyProgrammeRemove
                         : AppLocalizations.of(context)!
-                            .progDetailBtnMyProgramme,
+                            .contProgrammeDetailBtnMyProgramme,
                   );
                 },
               ),
@@ -270,9 +266,9 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
                     isIn ? Icons.notifications_on : Icons.notifications_off,
                     isIn
                         ? AppLocalizations.of(context)!
-                            .progDetailBtnNotificationRemove
+                            .contProgrammeDetailBtnNotificationRemove
                         : AppLocalizations.of(context)!
-                            .progDetailBtnNotification,
+                            .contProgrammeDetailBtnNotification,
                   );
                 },
               ),

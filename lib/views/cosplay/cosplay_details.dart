@@ -126,7 +126,7 @@ class _CosplayRecordDescription extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.description,
+          title: AppLocalizations.of(context)!.genDescription,
         ),
         Text(t(record.desc, context))
       ],
@@ -147,7 +147,7 @@ class _CosplayRecordVoting extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         TitleDivider(
-          title: AppLocalizations.of(context)!.cospDetailsVoting,
+          title: AppLocalizations.of(context)!.contCosplayDetailsVoting,
         ),
         Card(
           child: Row(

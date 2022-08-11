@@ -2,7 +2,6 @@ import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/model/programme.dart';
-import 'package:blavapp/utils/app_themes.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
@@ -54,13 +53,14 @@ class ProgrammeSearchTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.progSearchPredef,
+                    AppLocalizations.of(context)!.contProgrammeListSearchPredef,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 8),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.progSearchAvailableDates,
+                    AppLocalizations.of(context)!
+                        .contProgrammeListSearchAvailableDates,
                     Icons.access_time_outlined,
                   ),
                   Wrap(
@@ -70,7 +70,8 @@ class ProgrammeSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.progSearchAvailableCategs,
+                    AppLocalizations.of(context)!
+                        .contProgrammeListSearchAvailableCategs,
                     Icons.place_outlined,
                   ),
                   Wrap(
@@ -80,7 +81,8 @@ class ProgrammeSearchTile extends StatelessWidget {
                   ),
                   _buildFilterSubtitle(
                     context,
-                    AppLocalizations.of(context)!.progSearchAvailablePlaces,
+                    AppLocalizations.of(context)!
+                        .contProgrammeListSearchAvailablePlaces,
                     Icons.category_outlined,
                   ),
                   Wrap(
@@ -154,7 +156,7 @@ class __TextSearchLineState extends State<_TextSearchLine> {
       child: TextField(
         controller: _textController,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.progSearchHint,
+          hintText: AppLocalizations.of(context)!.contProgrammeListSearchHint,
           suffixIcon: IconButton(
             icon: _textController.text.isEmpty
                 ? const Icon(Icons.search)

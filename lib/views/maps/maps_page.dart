@@ -35,7 +35,7 @@ class _MapsPageState extends State<MapsPage> {
         switch (state.status) {
           case MapsStatus.loaded:
             return RootPage(
-              titleText: AppLocalizations.of(context)!.mapsTitle,
+              titleText: AppLocalizations.of(context)!.contMapsTitle,
               body: _MapsMainContent(state: state),
             );
           case MapsStatus.error:
@@ -92,7 +92,7 @@ class _MapsMainContent extends StatelessWidget {
           ),
           const Divider(),
           Text(
-            AppLocalizations.of(context)!.mapsReadlWorldHeader,
+            AppLocalizations.of(context)!.contMapsRealWorldHeader,
             style: Theme.of(context).textTheme.headline5,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
