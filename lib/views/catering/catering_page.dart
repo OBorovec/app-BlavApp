@@ -2,6 +2,7 @@ import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/bloc/catering/highlight_catering/highlight_catering_bloc.dart';
 import 'package:blavapp/bloc/catering/places_catering/places_catering_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
@@ -9,7 +10,7 @@ import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/catering/catering_list.dart';
-import 'package:blavapp/views/catering/catering_overview.dart';
+import 'package:blavapp/views/catering/catering_highlight.dart';
 import 'package:blavapp/views/catering/catering_place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,11 @@ class CateringPage extends StatefulWidget {
   State<CateringPage> createState() => _CateringPageState();
 }
 
-enum CateringPageContent { highlight, list, places }
+enum CateringPageContent {
+  highlight,
+  list,
+  // places,
+}
 
 class _CateringPageState extends State<CateringPage> {
   late String titleText;
@@ -31,7 +36,7 @@ class _CateringPageState extends State<CateringPage> {
   final cateringContent = [
     const CateringOverview(),
     const CateringList(),
-    const CateringPlaceList(),
+    // const CateringPlaceList(),
   ];
 
   int contentIndex() {
@@ -40,8 +45,8 @@ class _CateringPageState extends State<CateringPage> {
         return 0;
       case CateringPageContent.list:
         return 1;
-      case CateringPageContent.places:
-        return 2;
+      // case CateringPageContent.places:
+      //   return 2;
     }
   }
 
@@ -62,6 +67,7 @@ class _CateringPageState extends State<CateringPage> {
                 BlocProvider(
                   create: (context) => HighlightCateringBloc(
                     cateringBloc: context.read<CateringBloc>(),
+                    userDataBloc: context.read<UserDataBloc>(),
                   ),
                 ),
                 BlocProvider(
@@ -99,8 +105,8 @@ class _CateringPageState extends State<CateringPage> {
         return AppLocalizations.of(context)!.caterTitle;
       case CateringPageContent.list:
         return AppLocalizations.of(context)!.caterListTitle;
-      case CateringPageContent.places:
-        return AppLocalizations.of(context)!.caterPlaceTitle;
+      // case CateringPageContent.places:
+      //   return AppLocalizations.of(context)!.caterPlaceTitle;
     }
   }
 
@@ -137,7 +143,7 @@ class _CateringPageState extends State<CateringPage> {
       items: const [
         Icons.amp_stories,
         Icons.list,
-        Icons.place,
+        // Icons.place,
       ],
       onTap: (index) {
         switch (index) {
@@ -151,11 +157,11 @@ class _CateringPageState extends State<CateringPage> {
               content = CateringPageContent.list;
             });
             break;
-          case 2:
-            setState(() {
-              content = CateringPageContent.places;
-            });
-            break;
+          // case 2:
+          //   setState(() {
+          //     content = CateringPageContent.places;
+          //   });
+          //   break;
         }
       },
     );

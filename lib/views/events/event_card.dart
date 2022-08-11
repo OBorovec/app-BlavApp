@@ -5,17 +5,19 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
-  final Function() onTapHandler;
+  final Function() onTap;
+  final Function()? onFocusSelection;
   const EventCard({
     Key? key,
     required this.event,
-    required this.onTapHandler,
+    required this.onTap,
+    required this.onFocusSelection,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTapHandler,
+      onTap: onTap,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -29,6 +31,10 @@ class EventCard extends StatelessWidget {
                     event.dayStart,
                     event.dayEnd,
                   ),
+                ),
+                trailing: IconButton(
+                  onPressed: onFocusSelection,
+                  icon: Icon(Icons.arrow_forward),
                 ),
               ),
             ],

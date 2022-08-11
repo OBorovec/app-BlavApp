@@ -107,20 +107,22 @@ class DegusVolume extends Equatable {
 
 @JsonSerializable()
 class DegusPlace extends Equatable {
+  final String id;
   final Map<String, String> name;
   final DegusPlaceLoc? loc;
-  final Map<String, String>? opens;
+  final Map<String, String>? open;
   final List<String> images;
 
   const DegusPlace({
+    required this.id,
     required this.name,
     required this.loc,
-    required this.opens,
+    required this.open,
     this.images = const [],
   });
 
   @override
-  List<Object?> get props => [name, loc, opens];
+  List<Object?> get props => [name, loc, open];
 
   factory DegusPlace.fromJson(Map<String, Object?> json) =>
       _$DegusPlaceFromJson(json);

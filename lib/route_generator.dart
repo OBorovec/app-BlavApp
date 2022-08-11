@@ -4,14 +4,15 @@ import 'package:blavapp/views/admin/cosplay_results.dart';
 import 'package:blavapp/views/admin/ticket_validation.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
+import 'package:blavapp/views/catering/catering_place_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
 import 'package:blavapp/views/degustation/degustation_place_details.dart';
-import 'package:blavapp/views/gwint_events/event_details.dart';
-import 'package:blavapp/views/gwint_events/event_home_page.dart';
-import 'package:blavapp/views/gwint_events/events_page.dart';
+import 'package:blavapp/views/events/event_details.dart';
+import 'package:blavapp/views/events/event_home_page.dart';
+import 'package:blavapp/views/events/events_page.dart';
 import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:blavapp/views/maps/maps_page.dart';
 import 'package:blavapp/views/profile/profile_delete_page.dart';
@@ -48,6 +49,7 @@ class RoutePaths {
   static const String programmeEntry = '/programme/entry';
   static const String catering = '/catering';
   static const String cateringItem = '/catering/item';
+  static const String cateringPlace = '/catering/place';
   static const String degustation = '/degustation';
   static const String degustationItem = '/degustation/item';
   static const String degustationPlace = '/degustation/place';
@@ -180,6 +182,14 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => CateringDetails(item: args.item),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.cateringPlace:
+        final args = settings.arguments! as CateringPlaceDetailsArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => CateringPlaceDetails(place: args.place),
           ),
           isAuthenticated,
         );

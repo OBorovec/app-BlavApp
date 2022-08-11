@@ -5,11 +5,13 @@ part 'catering.g.dart';
 
 @JsonSerializable()
 class Catering extends Equatable {
+  final Map<String, String>? desc;
   final List<CaterItem> items;
   final Map<String, CaterPlace> places;
   final List<CaterNotification> notifications;
 
   const Catering({
+    this.desc,
     this.items = const [],
     this.places = const {},
     this.notifications = const [],
@@ -106,12 +108,14 @@ class CaterVolume extends Equatable {
 
 @JsonSerializable()
 class CaterPlace extends Equatable {
+  final String id;
   final Map<String, String> name;
   final CaterPlaceLoc? loc;
   final Map<String, String>? open;
   final List<String> images;
 
   const CaterPlace({
+    required this.id,
     required this.name,
     required this.loc,
     required this.open,
@@ -120,6 +124,7 @@ class CaterPlace extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         name,
         loc,
         open,

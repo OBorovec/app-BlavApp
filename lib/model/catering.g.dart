@@ -7,6 +7,9 @@ part of 'catering.dart';
 // **************************************************************************
 
 Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       items: (json['items'] as List<dynamic>?)
               ?.map((e) => CaterItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -24,6 +27,7 @@ Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
     );
 
 Map<String, dynamic> _$CateringToJson(Catering instance) => <String, dynamic>{
+      'desc': instance.desc,
       'items': instance.items,
       'places': instance.places,
       'notifications': instance.notifications,
@@ -95,6 +99,7 @@ Map<String, dynamic> _$CaterVolumeToJson(CaterVolume instance) =>
     };
 
 CaterPlace _$CaterPlaceFromJson(Map<String, dynamic> json) => CaterPlace(
+      id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
       loc: json['loc'] == null
           ? null
@@ -110,6 +115,7 @@ CaterPlace _$CaterPlaceFromJson(Map<String, dynamic> json) => CaterPlace(
 
 Map<String, dynamic> _$CaterPlaceToJson(CaterPlace instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'loc': instance.loc,
       'open': instance.open,

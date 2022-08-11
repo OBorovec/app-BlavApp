@@ -100,11 +100,12 @@ Map<String, dynamic> _$DegusVolumeToJson(DegusVolume instance) =>
     };
 
 DegusPlace _$DegusPlaceFromJson(Map<String, dynamic> json) => DegusPlace(
+      id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
       loc: json['loc'] == null
           ? null
           : DegusPlaceLoc.fromJson(json['loc'] as Map<String, dynamic>),
-      opens: (json['opens'] as Map<String, dynamic>?)?.map(
+      open: (json['open'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
       images: (json['images'] as List<dynamic>?)
@@ -115,9 +116,10 @@ DegusPlace _$DegusPlaceFromJson(Map<String, dynamic> json) => DegusPlace(
 
 Map<String, dynamic> _$DegusPlaceToJson(DegusPlace instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'loc': instance.loc,
-      'opens': instance.opens,
+      'open': instance.open,
       'images': instance.images,
     };
 

@@ -23,9 +23,6 @@ class ProgrammeHighlight extends StatelessWidget {
             TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightOngoing,
             ),
-            // _HighlightTitle(
-            //   title: AppLocalizations.of(context)!.progHighlightOngoing,
-            // ),
             state.ongoingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
                     entries: state.ongoingEntries,
@@ -37,9 +34,6 @@ class ProgrammeHighlight extends StatelessWidget {
             TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightUpcoming,
             ),
-            // _HighlightTitle(
-            //   title: AppLocalizations.of(context)!.progHighlightUpcoming,
-            // ),
             state.upcomingEntries.isNotEmpty
                 ? _HorizontalHighlightEntryList(
                     entries: state.upcomingEntries,
@@ -51,9 +45,6 @@ class ProgrammeHighlight extends StatelessWidget {
             TitleDivider(
               title: AppLocalizations.of(context)!.progHighlightMyUpcoming,
             ),
-            // _HighlightTitle(
-            //   title: AppLocalizations.of(context)!.progHighlightMyUpcoming,
-            // ),
             state.upcomingMyEntries.isNotEmpty
                 ? Expanded(
                     child: _VerticalHighlightEntryList(
@@ -67,28 +58,6 @@ class ProgrammeHighlight extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-class _HighlightTitle extends StatelessWidget {
-  final String title;
-  const _HighlightTitle({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headline5,
-        ),
-      ),
     );
   }
 }
@@ -149,7 +118,7 @@ class _HorizontalEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: () => Navigator.pushNamed(
+      onTap: () => Navigator.pushNamed(
         context,
         RoutePaths.programmeEntry,
         arguments: ProgrammeDetailsArguments(
@@ -212,7 +181,7 @@ class _VerticalEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: () => Navigator.pushNamed(
+      onTap: () => Navigator.pushNamed(
         context,
         RoutePaths.programmeEntry,
         arguments: ProgrammeDetailsArguments(

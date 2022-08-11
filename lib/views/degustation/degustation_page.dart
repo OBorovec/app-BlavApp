@@ -23,7 +23,12 @@ class DegustationPage extends StatefulWidget {
   State<DegustationPage> createState() => _DegustationPageState();
 }
 
-enum DegustationPageContent { highlight, list, favoriteList, places }
+enum DegustationPageContent {
+  highlight,
+  list,
+  favoriteList,
+  // places,
+}
 
 class _DegustationPageState extends State<DegustationPage> {
   late String titleText;
@@ -32,7 +37,7 @@ class _DegustationPageState extends State<DegustationPage> {
   final degustationContent = [
     const DegustationHighlight(),
     const DegustationList(),
-    const DegustationPlaceList(),
+    // const DegustationPlaceList(),
   ];
 
   int contentIndex() {
@@ -43,8 +48,8 @@ class _DegustationPageState extends State<DegustationPage> {
         return 1;
       case DegustationPageContent.favoriteList:
         return 1;
-      case DegustationPageContent.places:
-        return 2;
+      // case DegustationPageContent.places:
+      //   return 2;
     }
   }
 
@@ -106,8 +111,8 @@ class _DegustationPageState extends State<DegustationPage> {
         return AppLocalizations.of(context)!.degusListTitle;
       case DegustationPageContent.favoriteList:
         return AppLocalizations.of(context)!.degusListFavoriteTitle;
-      case DegustationPageContent.places:
-        return AppLocalizations.of(context)!.degusPlaceTitle;
+      // case DegustationPageContent.places:
+      //   return AppLocalizations.of(context)!.degusPlaceTitle;
     }
   }
 
@@ -143,7 +148,7 @@ class _DegustationPageState extends State<DegustationPage> {
         Icons.amp_stories,
         Icons.local_bar,
         Icons.favorite,
-        Icons.location_on,
+        // Icons.location_on,
       ],
       onTap: (index) {
         switch (index) {
@@ -168,11 +173,11 @@ class _DegustationPageState extends State<DegustationPage> {
                 .read<FilterDegustationBloc>()
                 .add(const UseMyFavoriteFilter(true));
             break;
-          case 3:
-            setState(() {
-              content = DegustationPageContent.places;
-            });
-            break;
+          // case 3:
+          //   setState(() {
+          //     content = DegustationPageContent.places;
+          //   });
+          //   break;
         }
       },
     );

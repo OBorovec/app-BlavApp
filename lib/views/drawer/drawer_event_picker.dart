@@ -45,7 +45,7 @@ class DrawerEventPicker extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return DrawerEventCard(
               event: events[index],
-              onTapHandler: () => {
+              onTap: () => {
                 context.read<EventFocusBloc>().add(
                       EventFocusChanged(eventID: events[index].id),
                     )
@@ -60,17 +60,17 @@ class DrawerEventPicker extends StatelessWidget {
 
 class DrawerEventCard extends StatelessWidget {
   final Event event;
-  final Function() onTapHandler;
+  final Function() onTap;
   const DrawerEventCard({
     Key? key,
     required this.event,
-    required this.onTapHandler,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTapHandler,
+      onTap: onTap,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

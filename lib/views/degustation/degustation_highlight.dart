@@ -5,6 +5,8 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
+import 'package:blavapp/views/degustation/degustation_place_details.dart';
+import 'package:blavapp/views/maps/maps_control_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,8 +16,6 @@ class DegustationHighlight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HighlightDegustationBloc>(context)
-        .add(const UpdateViewData());
     return BlocBuilder<HighlightDegustationBloc, HighlightDegustationState>(
       builder: (context, state) {
         return SingleChildScrollView(
@@ -32,6 +32,7 @@ class DegustationHighlight extends StatelessWidget {
                   ),
                 ],
               ),
+              _DegustationPlaceList(state: state),
               _DegustationHighlightBestRated(state: state),
               if (state.recommendations.isNotEmpty)
                 _DegustationHighlightRecommendation(state: state),
@@ -121,6 +122,116 @@ class _DegustaionNumbers extends StatelessWidget {
           ),
         ],
       );
+}
+
+class _DegustationPlaceList extends StatelessWidget {
+  final HighlightDegustationState state;
+
+  const _DegustationPlaceList({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.degusHighlightPlaceList,
+        ),
+        Column(
+          children: state.placeCardData
+              .map((HighlightPlaceCardData data) =>
+                  _DegustationHighlightPlaceCard(
+                    data: data,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      RoutePaths.degustationPlace,
+                      arguments: DegustationPlaceDetailsArguments(
+                        place: data.place,
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _DegustationHighlightPlaceCard extends StatelessWidget {
+  final HighlightPlaceCardData data;
+  final Function() onTap;
+
+  const _DegustationHighlightPlaceCard({
+    Key? key,
+    required this.data,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              if (data.place.loc != null)
+                IconBtnPushCustomMap(
+                  mapRef: data.place.loc!.mapRef,
+                  pointRef: data.place.loc!.pointRef,
+                ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  t(data.place.name, context),
+                  style: Theme.of(context).textTheme.subtitle1,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (data.place.open != null) _buildOpeningIndicator(context),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded _buildOpeningIndicator(BuildContext context) {
+    final String openFrom = data.place.open!['from']!;
+    final String openTo = data.place.open!['to']!;
+    return Expanded(
+      flex: 1,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.watch_later_outlined,
+                size: 12,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                data.isOpen
+                    ? AppLocalizations.of(context)!.open
+                    : AppLocalizations.of(context)!.close,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+            ],
+          ),
+          Text(
+            '$openFrom - $openTo',
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _DegustationItemHighlightCard extends StatelessWidget {

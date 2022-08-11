@@ -6,3 +6,27 @@ abstract class HighlightCateringEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class UpdateCatering extends HighlightCateringEvent {
+  final Map<String, String>? desc;
+  final List<CaterItem> cateringItems;
+  final Map<String, CaterPlace> caterPlaces;
+
+  const UpdateCatering({
+    this.desc,
+    required this.cateringItems,
+    required this.caterPlaces,
+  });
+}
+
+class UpdateUserData extends HighlightCateringEvent {
+  final Set<String> myFavorite;
+
+  const UpdateUserData({
+    required this.myFavorite,
+  });
+}
+
+class UpdateViewData extends HighlightCateringEvent {
+  const UpdateViewData();
+}

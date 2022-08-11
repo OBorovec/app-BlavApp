@@ -42,7 +42,7 @@ class DegustationPlaceCard extends StatelessWidget {
             const Divider(),
             Row(
               children: [
-                if (degustationPlaceInfo.place.opens != null)
+                if (degustationPlaceInfo.place.open != null)
                   Expanded(
                     flex: 1,
                     child: _DegustationPlaceOpenHours(
@@ -88,7 +88,7 @@ class _DegustationPlaceOpenHours extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   AppLocalizations.of(context)!
-                      .degusPlaceCardOpensAt(place.opens!['from'] ?? '??'),
+                      .degusPlaceCardOpensAt(place.open!['from'] ?? '??'),
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
@@ -97,7 +97,7 @@ class _DegustationPlaceOpenHours extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   AppLocalizations.of(context)!
-                      .degusPlaceCardClosesAt(place.opens!['to'] ?? '??'),
+                      .degusPlaceCardClosesAt(place.open!['to'] ?? '??'),
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
