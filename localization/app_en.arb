@@ -98,6 +98,8 @@
   "contProgrammeHighlightOngoingEmpty": "Currently there are no ongoing events.",
   "contProgrammeHighlightUpcoming": "Upcoming events",
   "contProgrammeHighlightUpcomingEmpty": "There is nothing more planned for today.",
+  "contProgrammeListEmpty": "There are no entries based on your filtering.",
+  "contProgrammeListMyEmpty": "You have no entries in your programme or you are using too strict filtr.",
   "contProgrammeListMyTitle": "My programme",
   "contProgrammeListSearchAvailableCategs": "Event category",
   "contProgrammeListSearchAvailableDates": "Event day",

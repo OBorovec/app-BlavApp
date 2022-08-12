@@ -31,7 +31,7 @@ class CosplayRecordUpvote extends StatelessWidget {
             },
             child: const Center(
               child: Icon(
-                Icons.arrow_upward,
+                Icons.thumb_up,
               ),
             ),
           ),
@@ -69,7 +69,7 @@ class CosplayRecordDownvote extends StatelessWidget {
             },
             child: const Center(
               child: Icon(
-                Icons.arrow_downward,
+                Icons.thumb_down,
               ),
             ),
           ),

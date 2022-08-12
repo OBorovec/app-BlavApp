@@ -2,8 +2,10 @@ import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.da
 import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agenda_bloc.dart';
 import 'package:blavapp/model/programme.dart';
+import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_colors.dart';
 import 'package:blavapp/utils/model_localization.dart';
+import 'package:blavapp/views/programme/programme_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -26,31 +28,63 @@ class ProgrammeAgenda extends StatelessWidget {
           (i) => (minDate.weekday + i) % 7,
         ).toSet();
         final List<int> nonEventDays = allDays.difference(eventDays).toList();
-        return BlocBuilder<FilterProgrammeBloc, FilterProgrammeState>(
-          builder: (context, state) {
-            return SfCalendar(
-              headerHeight: 0,
-              allowedViews: const [
-                CalendarView.workWeek,
-              ],
-              view: CalendarView.workWeek,
-              firstDayOfWeek: minDate.weekday,
-              timeSlotViewSettings: TimeSlotViewSettings(
-                startHour: 6,
-                // endHour: 24,
-                nonWorkingDays: nonEventDays,
-              ),
-              minDate: minDate,
-              maxDate: maxDate,
-              dataSource: AgendaDataSource(
-                programmeEntries: state.programmeEntriesFiltered,
-                lang: context.watch<LocalizationBloc>().state.appLang,
-                context: context,
-              ),
-            );
-          },
+        return SfCalendar(
+          headerHeight: 0,
+          allowedViews: const [
+            CalendarView.workWeek,
+          ],
+          view: CalendarView.workWeek,
+          firstDayOfWeek: minDate.weekday,
+          timeSlotViewSettings: TimeSlotViewSettings(
+            startHour: 6,
+            // endHour: 24,
+            nonWorkingDays: nonEventDays,
+          ),
+          minDate: minDate,
+          maxDate: maxDate,
+          dataSource: AgendaDataSource(
+            programmeEntries: state.agendaData,
+            lang: context.read<LocalizationBloc>().state.appLang,
+            context: context,
+          ),
+          appointmentBuilder: appointmentBuilder,
         );
       },
+    );
+  }
+
+  Widget appointmentBuilder(BuildContext context,
+      CalendarAppointmentDetails calendarAppointmentDetails) {
+    final ProgEntry entry = calendarAppointmentDetails.appointments.first;
+    return InkWell(
+      onTap: () => Navigator.pushNamed(
+        context,
+        RoutePaths.programmeEntry,
+        arguments: ProgrammeDetailsArguments(
+          entry: entry,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+            color: colorProgEntryType(entry.type, context),
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Column(
+              children: [
+                Text(
+                  t(entry.name, context),
+                  style: Theme.of(context).textTheme.subtitle2,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                Text(tProgEntryType(entry.type, context)),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -83,8 +117,12 @@ class AgendaDataSource extends CalendarDataSource {
 
   @override
   String getSubject(int index) {
-    Map<String, String> name = programmeEntries[index].name;
-    return name[modelAppLang[lang]] ?? name['@en'] ?? 'Undef.';
+    return t(programmeEntries[index].name, context);
+  }
+
+  @override
+  String getNotes(int index) {
+    return tProgEntryType(programmeEntries[index].type, context);
   }
 
   @override
@@ -92,9 +130,6 @@ class AgendaDataSource extends CalendarDataSource {
         programmeEntries[index].type,
         context,
       );
-
-  @override
-  String? getNotes(int index) => 'Notes';
 
   @override
   bool isAllDay(int index) {

@@ -22,13 +22,13 @@ class UserProgrammeAgendaBloc
   }) : super(UserProgrammeAgendaState(
           programmeEntries: programmeBloc.state.programmeEntries,
           myProgrammeEntryIds: userDataBloc.state.userData.myProgramme,
+          event: event,
           agendaData: programmeBloc.state.programmeEntries
               .where(
                 (ProgEntry entry) =>
                     userDataBloc.state.userData.myProgramme.contains(entry.id),
               )
               .toList(),
-          event: event,
         )) {
     _programmeBlocSubscription = programmeBloc.stream.listen(
       (ProgrammeState state) {
@@ -50,6 +50,8 @@ class UserProgrammeAgendaBloc
     on<UpdateProgrammeEntries>(_updateProgrammeEntries);
     on<UpdateMyProgrammeEntryIds>(_updateMyProgrammeEntryIds);
     on<UpdateAgendaData>(_updateAgendaData);
+    // Init
+    add(const UpdateAgendaData());
   }
 
   FutureOr<void> _updateProgrammeEntries(

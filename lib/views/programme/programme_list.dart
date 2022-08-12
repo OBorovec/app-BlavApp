@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeList extends StatelessWidget {
   const ProgrammeList({
@@ -27,46 +28,70 @@ class ProgrammeList extends StatelessWidget {
               const Divider(),
             ],
             Expanded(
-              child: ImplicitlyAnimatedList<ProgEntry>(
-                items: state.programmeEntriesFiltered,
-                areItemsTheSame: (a, b) => a.id == b.id,
-                updateDuration: const Duration(milliseconds: 200),
-                insertDuration: const Duration(milliseconds: 200),
-                removeDuration: const Duration(milliseconds: 200),
-                itemBuilder: (context, animation, item, index) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(-1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: Slidable(
-                      endActionPane: ActionPane(
-                        extentRatio:
-                            2 / 3, // Goes with the current entry card setup
-                        motion: const DrawerMotion(),
-                        children: _buildSlidableActions(
-                          item,
-                          context,
-                        ),
-                      ),
-                      child: ProgrammeEntryCard(
-                        entry: item,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          RoutePaths.programmeEntry,
-                          arguments: ProgrammeDetailsArguments(
-                            entry: item,
+              child: state.programmeEntriesFiltered.isNotEmpty
+                  ? ImplicitlyAnimatedList<ProgEntry>(
+                      items: state.programmeEntriesFiltered,
+                      areItemsTheSame: (a, b) => a.id == b.id,
+                      updateDuration: const Duration(milliseconds: 200),
+                      insertDuration: const Duration(milliseconds: 200),
+                      removeDuration: const Duration(milliseconds: 200),
+                      itemBuilder: (context, animation, item, index) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(-1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: Slidable(
+                            endActionPane: ActionPane(
+                              extentRatio: 2 /
+                                  3, // Goes with the current entry card setup
+                              motion: const DrawerMotion(),
+                              children: _buildSlidableActions(
+                                item,
+                                context,
+                              ),
+                            ),
+                            child: ProgrammeEntryCard(
+                              entry: item,
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                RoutePaths.programmeEntry,
+                                arguments: ProgrammeDetailsArguments(
+                                  entry: item,
+                                ),
+                              ),
+                            ),
                           ),
+                        );
+                      },
+                    )
+                  : state.onlyMyProgramme
+                      ? _buildEmptyListMessage(
+                          AppLocalizations.of(context)!
+                              .contProgrammeListMyEmpty,
+                          context,
+                        )
+                      : _buildEmptyListMessage(
+                          AppLocalizations.of(context)!.contProgrammeListEmpty,
+                          context,
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildEmptyListMessage(String text, BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.headline6,
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 

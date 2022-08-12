@@ -33,7 +33,7 @@ class Roles extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [org, vip];
 
   factory Roles.fromJson(Map<String, dynamic> json) => _$RolesFromJson(json);
   Map<String, dynamic> toJson() => _$RolesToJson(this);

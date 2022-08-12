@@ -98,6 +98,8 @@
   "contProgrammeHighlightOngoingEmpty": "Právě neprobíhá žádná akce.",
   "contProgrammeHighlightUpcoming": "Zrovna se chystá",
   "contProgrammeHighlightUpcomingEmpty": "Pro dnešek se už nic chystá.",
+  "contProgrammeListEmpty": "Žádná část programu neodpovídá hledaným parametrům.",
+  "contProgrammeListMyEmpty": "Ve svém programu buď zatím nemáš žádné události, nebo používáš příliš striktní filt.",
   "contProgrammeListMyTitle": "Můj program",
   "contProgrammeListSearchAvailableCategs": "Kategorie událsoti",
   "contProgrammeListSearchAvailableDates": "Den konání",

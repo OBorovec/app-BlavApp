@@ -19,6 +19,8 @@ class UserProgrammeAgendaState extends Equatable {
   List<Object> get props => [
         programmeEntries,
         myProgrammeEntryIds,
+        event,
+        agendaData,
       ];
 
   UserProgrammeAgendaState copyWith({

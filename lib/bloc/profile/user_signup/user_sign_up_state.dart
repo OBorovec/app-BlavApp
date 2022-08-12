@@ -29,7 +29,7 @@ class UserSignUpState extends Equatable {
   List<Object> get props {
     return [
       status,
-      message ?? '',
+      message,
       email,
       isEmailValid,
       password,
