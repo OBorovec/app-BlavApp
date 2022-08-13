@@ -54,6 +54,6 @@ class AuthRepo {
 
   // delete user
   Future<void> deleteUser() async {
-    await _firebaseAuth.currentUser!.delete();
+    // await _firebaseAuth.currentUser!.delete();
   }
 }

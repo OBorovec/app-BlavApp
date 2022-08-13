@@ -52,6 +52,7 @@ class Routing extends Equatable {
   final bool divisions;
   final bool maps;
   final bool programme;
+  final bool story;
 
   const Routing({
     this.catering = false,
@@ -60,6 +61,7 @@ class Routing extends Equatable {
     this.divisions = false,
     this.maps = false,
     this.programme = false,
+    this.story = false,
   });
 
   @override
@@ -71,6 +73,7 @@ class Routing extends Equatable {
         divisions,
         maps,
         programme,
+        story,
       ];
 
   factory Routing.fromJson(Map<String, dynamic> json) =>

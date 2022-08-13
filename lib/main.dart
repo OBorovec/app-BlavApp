@@ -1,3 +1,4 @@
+import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
+import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
@@ -113,6 +115,13 @@ class _BlavAppState extends State<BlavApp> {
                     authRepo: context.read<AuthRepo>(),
                   ),
                 ),
+                BlocProvider(
+                  lazy: false,
+                  create: (context) => EventFocusBloc(
+                    prefs: context.read<PrefsRepo>(),
+                    dataRepo: context.read<DataRepo>(),
+                  )..add(const EventFocusLoad()),
+                ),
               ],
               child: MultiBlocProvider(
                 providers: [
@@ -122,6 +131,7 @@ class _BlavAppState extends State<BlavApp> {
                     create: (context) => UserDataBloc(
                       authBloc: context.read<AuthBloc>(),
                       dataRepo: context.read<DataRepo>(),
+                      eventFocusBloc: context.read<EventFocusBloc>(),
                     ),
                   ),
                   BlocProvider(
@@ -139,13 +149,6 @@ class _BlavAppState extends State<BlavApp> {
                         context.read<PrefsRepo>(),
                       ),
                     ),
-                  ),
-                  BlocProvider(
-                    lazy: false,
-                    create: (context) => EventFocusBloc(
-                      prefs: context.read<PrefsRepo>(),
-                      dataRepo: context.read<DataRepo>(),
-                    )..add(const EventFocusLoad()),
                   ),
                 ],
                 child: BlocBuilder<ThemeBloc, ThemeState>(
@@ -191,6 +194,20 @@ class _BlavAppState extends State<BlavApp> {
                                     ),
                                     BlocProvider(
                                       create: (context) => ProgrammeBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => StoryBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => VotingDataBloc(
                                         dataRepo: context.read<DataRepo>(),
                                         eventFocusBloc:
                                             context.read<EventFocusBloc>(),

@@ -20,47 +20,100 @@ class ProgrammeHighlight extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            TitleDivider(
-              title:
-                  AppLocalizations.of(context)!.contProgrammeHighlightOngoing,
-            ),
-            state.ongoingEntries.isNotEmpty
-                ? _HorizontalHighlightEntryList(
-                    entries: state.ongoingEntries,
-                  )
-                : _HighlightEmpty(
-                    text: AppLocalizations.of(context)!
-                        .contProgrammeHighlightOngoingEmpty,
-                  ),
-            TitleDivider(
-              title:
-                  AppLocalizations.of(context)!.contProgrammeHighlightUpcoming,
-            ),
-            state.upcomingEntries.isNotEmpty
-                ? _HorizontalHighlightEntryList(
-                    entries: state.upcomingEntries,
-                  )
-                : _HighlightEmpty(
-                    text: AppLocalizations.of(context)!
-                        .contProgrammeHighlightUpcomingEmpty,
-                  ),
-            TitleDivider(
-              title: AppLocalizations.of(context)!
-                  .contProgrammeHighlightMyUpcoming,
-            ),
-            state.upcomingMyEntries.isNotEmpty
-                ? Expanded(
-                    child: _VerticalHighlightEntryList(
-                      entries: state.upcomingMyEntries,
-                    ),
-                  )
-                : _HighlightEmpty(
-                    text: AppLocalizations.of(context)!
-                        .contProgrammeHighlightMyUpcomingEmpty,
-                  ),
+            _ProgrammeHighlightOnGoing(state: state),
+            _ProgrammeHighlightUpComing(state: state),
+            _ProgrammeHighlightMyUpComing(state: state),
           ],
         );
       },
+    );
+  }
+}
+
+class _ProgrammeHighlightOnGoing extends StatelessWidget {
+  final HighlightProgrammeState state;
+
+  const _ProgrammeHighlightOnGoing({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.contProgrammeHighlightOngoing,
+        ),
+        state.ongoingEntries.isNotEmpty
+            ? _HorizontalHighlightEntryList(
+                entries: state.ongoingEntries,
+              )
+            : _HighlightEmpty(
+                text: AppLocalizations.of(context)!
+                    .contProgrammeHighlightOngoingEmpty,
+              ),
+      ],
+    );
+  }
+}
+
+class _ProgrammeHighlightUpComing extends StatelessWidget {
+  final HighlightProgrammeState state;
+  const _ProgrammeHighlightUpComing({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.contProgrammeHighlightUpcoming,
+        ),
+        state.upcomingEntries.isNotEmpty
+            ? _HorizontalHighlightEntryList(
+                entries: state.upcomingEntries,
+              )
+            : _HighlightEmpty(
+                text: AppLocalizations.of(context)!
+                    .contProgrammeHighlightUpcomingEmpty,
+              ),
+      ],
+    );
+  }
+}
+
+class _ProgrammeHighlightMyUpComing extends StatelessWidget {
+  final HighlightProgrammeState state;
+
+  const _ProgrammeHighlightMyUpComing({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.contProgrammeHighlightMyUpcoming,
+        ),
+        state.upcomingMyEntries.isNotEmpty
+            ? Expanded(
+                child: _VerticalHighlightEntryList(
+                  entries: state.upcomingMyEntries,
+                ),
+              )
+            : _HighlightEmpty(
+                text: AppLocalizations.of(context)!
+                    .contProgrammeHighlightMyUpcomingEmpty,
+              ),
+      ],
     );
   }
 }

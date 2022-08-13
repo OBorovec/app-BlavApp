@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/components/control/rating_bar.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/views/title_divider.dart';
@@ -219,32 +220,41 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Feedback button
               _buildBtn(
-                () => null,
-                Icons.feedback,
-                AppLocalizations.of(context)!.contProgrammeDetailBtnFeedBack,
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      _ProgrammeFeedbackDialog(reference: entry.id),
+                ),
+                iconData: Icons.feedback,
+                text: AppLocalizations.of(context)!
+                    .contProgrammeDetailBtnFeedBack,
               ),
+              // Sing up button
               if (entry.requireSignUp) ...[
                 const SizedBox(height: 8),
                 _buildBtn(
-                  () => null,
-                  Icons.login,
-                  AppLocalizations.of(context)!.contProgrammeDetailBtnSignUp,
+                  onPressed: () => null,
+                  iconData: Icons.login,
+                  text: AppLocalizations.of(context)!
+                      .contProgrammeDetailBtnSignUp,
                 ),
               ],
               const SizedBox(height: 8),
+              // My programme button
               BlocBuilder<UserDataBloc, UserDataState>(
                 builder: (context, state) {
                   final bool isIn =
                       state.userData.myProgramme.contains(entry.id);
                   return _buildBtn(
-                    () => BlocProvider.of<UserDataBloc>(context).add(
+                    onPressed: () => BlocProvider.of<UserDataBloc>(context).add(
                       UserDataMyProgramme(
                         entryId: entry.id,
                       ),
                     ),
-                    isIn ? Icons.bookmark_remove : Icons.bookmark_add,
-                    isIn
+                    iconData: isIn ? Icons.bookmark_remove : Icons.bookmark_add,
+                    text: isIn
                         ? AppLocalizations.of(context)!
                             .contProgrammeDetailBtnMyProgrammeRemove
                         : AppLocalizations.of(context)!
@@ -253,18 +263,20 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 8),
+              // My notification button
               BlocBuilder<UserDataBloc, UserDataState>(
                 builder: (context, state) {
                   final bool isIn =
                       state.userData.myNotifications.contains(entry.id);
                   return _buildBtn(
-                    () => BlocProvider.of<UserDataBloc>(context).add(
+                    onPressed: () => BlocProvider.of<UserDataBloc>(context).add(
                       UserDataProgMyNotification(
                         entryId: entry.id,
                       ),
                     ),
-                    isIn ? Icons.notifications_on : Icons.notifications_off,
-                    isIn
+                    iconData:
+                        isIn ? Icons.notifications_on : Icons.notifications_off,
+                    text: isIn
                         ? AppLocalizations.of(context)!
                             .contProgrammeDetailBtnNotificationRemove
                         : AppLocalizations.of(context)!
@@ -279,11 +291,11 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
     );
   }
 
-  Widget _buildBtn(
-    Function() onPressed,
-    IconData iconData,
-    String text,
-  ) {
+  Widget _buildBtn({
+    required Function() onPressed,
+    required IconData iconData,
+    required String text,
+  }) {
     return ElevatedButton(
       onPressed: onPressed,
       child: Row(
@@ -294,6 +306,68 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _ProgrammeFeedbackDialog extends StatefulWidget {
+  final String reference;
+  const _ProgrammeFeedbackDialog({
+    Key? key,
+    required,
+    required this.reference,
+  }) : super(key: key);
+
+  @override
+  State<_ProgrammeFeedbackDialog> createState() =>
+      _ProgrammeFeedbackDialogState();
+}
+
+class _ProgrammeFeedbackDialogState extends State<_ProgrammeFeedbackDialog> {
+  double rating = 0;
+  String message = '';
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        AppLocalizations.of(context)!.contProgrammeDetailDiagFeedback,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppRatingBar(
+            onRating: (rating) => setState(() => this.rating = rating),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            onChanged: (value) => setState(() {
+              message = value;
+            }),
+            maxLines: 10,
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            BlocProvider.of<UserDataBloc>(context).add(
+              UserDataFeedBack(
+                rating: rating,
+                message: message,
+                reference: widget.reference,
+              ),
+            );
+            Navigator.pop(context);
+          },
+          child: Text(AppLocalizations.of(context)!.genSend),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.genDismiss),
+        ),
+      ],
     );
   }
 }

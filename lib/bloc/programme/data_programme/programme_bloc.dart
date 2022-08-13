@@ -56,6 +56,13 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
       );
   }
 
+  @override
+  Future<void> close() {
+    _programmeStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
+    return super.close();
+  }
+
   Future<void> _onProgrammeStreamChanged(
       ProgrammeStreamChanged event, emit) async {
     emit(
@@ -74,12 +81,5 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
         message: event.message,
       ),
     );
-  }
-
-  @override
-  Future<void> close() {
-    _programmeStream?.cancel();
-    _eventFocusBlocSubscription.cancel();
-    return super.close();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:bloc/bloc.dart';
@@ -12,16 +13,19 @@ part 'user_data_event.dart';
 part 'user_data_state.dart';
 
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
-  final AuthBloc _authBloc;
   final DataRepo _dataRepo;
+  final AuthBloc _authBloc;
+  final EventFocusBloc _eventFocusBloc;
   late final StreamSubscription _authBlocSub;
   late StreamSubscription<UserData> _userDataSubscription;
 
   UserDataBloc({
-    required AuthBloc authBloc,
     required DataRepo dataRepo,
-  })  : _authBloc = authBloc,
-        _dataRepo = dataRepo,
+    required AuthBloc authBloc,
+    required EventFocusBloc eventFocusBloc,
+  })  : _dataRepo = dataRepo,
+        _authBloc = authBloc,
+        _eventFocusBloc = eventFocusBloc,
         super(const UserDataState(
           dataStatus: DataStatus.inactive,
           userData: UserData(),
@@ -32,9 +36,10 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<SetUserData>(_setUserData);
     on<UserDataMyProgramme>(_progEntryToggleUserData);
     on<UserDataProgMyNotification>(_progNotificationToggleUserData);
-    on<UserDataRateItem>(_rateItem);
     on<UserDataDegustationFavorite>(_degustationFavoriteToggle);
+    on<UserDataRateItem>(_rateItem);
     on<UserDataVoteCosplay>(_voteCosplay);
+    on<UserDataFeedBack>(_feedBack);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -113,25 +118,6 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     }
   }
 
-  FutureOr<void> _rateItem(
-    UserDataRateItem event,
-    Emitter<UserDataState> emit,
-  ) {
-    final User? user = _authBloc.state.user;
-    if (user != null) {
-      _dataRepo.addRating(
-        userUID: user.uid,
-        itemRef: event.itemRef,
-        rating: event.rating,
-      );
-      _dataRepo.setUserRating(
-        userUID: user.uid,
-        itemRef: event.itemRef,
-        rating: event.rating,
-      );
-    }
-  }
-
   FutureOr<void> _degustationFavoriteToggle(
     UserDataDegustationFavorite event,
     Emitter<UserDataState> emit,
@@ -152,6 +138,26 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     }
   }
 
+  FutureOr<void> _rateItem(
+    UserDataRateItem event,
+    Emitter<UserDataState> emit,
+  ) {
+    final User? user = _authBloc.state.user;
+    if (user != null) {
+      _dataRepo.addRating(
+        eventRef: _eventFocusBloc.state.eventTag,
+        userUID: user.uid,
+        itemRef: event.itemRef,
+        rating: event.rating,
+      );
+      _dataRepo.setUserRating(
+        userUID: user.uid,
+        itemRef: event.itemRef,
+        rating: event.rating,
+      );
+    }
+  }
+
   FutureOr<void> _voteCosplay(
     UserDataVoteCosplay event,
     Emitter<UserDataState> emit,
@@ -159,15 +165,31 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     final User? user = _authBloc.state.user;
     if (user != null) {
       _dataRepo.addVote(
+        eventRef: _eventFocusBloc.state.eventTag,
         voteRef: event.voteRef,
         userUID: user.uid,
         cosplayRef: event.cosplayRef,
         vote: event.vote,
       );
-      _dataRepo.setCosplayVote(
+      _dataRepo.setUserVote(
         userUID: user.uid,
         cosplayRef: event.cosplayRef,
         vote: event.vote,
+      );
+    }
+  }
+
+  FutureOr<void> _feedBack(
+    UserDataFeedBack event,
+    Emitter<UserDataState> emit,
+  ) {
+    final User? user = _authBloc.state.user;
+    if (user != null) {
+      _dataRepo.addReview(
+        eventRef: _eventFocusBloc.state.eventTag,
+        reference: event.reference,
+        rating: event.rating,
+        review: event.message + (event.signed ? user.uid : ''),
       );
     }
   }

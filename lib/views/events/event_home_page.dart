@@ -1,6 +1,8 @@
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/model/event.dart';
+import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +23,7 @@ class EventHomePage extends StatelessWidget {
                 child: Column(children: [
                   // Event image
                   if (state.event!.images.isNotEmpty)
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(64),
-                      ),
-                      child: AppNetworkImage(
-                        imgLocation: state.event!.images[0],
-                      ),
-                    ),
+                    _EventItemHeroImage(event: state.event!),
                   // Event description
                   if (state.event!.desc != null)
                     Padding(
@@ -69,6 +64,35 @@ class EventHomePage extends StatelessWidget {
             );
         }
       },
+    );
+  }
+}
+
+class _EventItemHeroImage extends StatelessWidget {
+  final Event event;
+
+  const _EventItemHeroImage({
+    Key? key,
+    required this.event,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: height * 0.4,
+      child: Hero(
+        tag: eventImgHeroTag(event),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(64),
+          ),
+          child: AppNetworkImage(
+            imgLocation: event.images[0],
+            asCover: true,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -19,19 +19,22 @@ class CosplayRecordUpvote extends StatelessWidget {
                   state.userData.myVoting[record.id]!
               ? Theme.of(context).focusColor
               : null,
-          child: InkWell(
-            onTap: () {
-              BlocProvider.of<UserDataBloc>(context).add(
-                UserDataVoteCosplay(
-                  voteRef: record.voteRef,
-                  cosplayRef: record.id,
-                  vote: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<UserDataBloc>(context).add(
+                  UserDataVoteCosplay(
+                    voteRef: record.voteRef,
+                    cosplayRef: record.id,
+                    vote: true,
+                  ),
+                );
+              },
+              child: const Center(
+                child: Icon(
+                  Icons.thumb_up_alt,
                 ),
-              );
-            },
-            child: const Center(
-              child: Icon(
-                Icons.thumb_up,
               ),
             ),
           ),
@@ -57,19 +60,22 @@ class CosplayRecordDownvote extends StatelessWidget {
                   !state.userData.myVoting[record.id]!
               ? Theme.of(context).focusColor
               : null,
-          child: InkWell(
-            onTap: () {
-              BlocProvider.of<UserDataBloc>(context).add(
-                UserDataVoteCosplay(
-                  voteRef: record.voteRef,
-                  cosplayRef: record.id,
-                  vote: false,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<UserDataBloc>(context).add(
+                  UserDataVoteCosplay(
+                    voteRef: record.voteRef,
+                    cosplayRef: record.id,
+                    vote: false,
+                  ),
+                );
+              },
+              child: const Center(
+                child: Icon(
+                  Icons.thumb_down_alt,
                 ),
-              );
-            },
-            child: const Center(
-              child: Icon(
-                Icons.thumb_down,
               ),
             ),
           ),
@@ -95,20 +101,23 @@ class CosplayRecordNeutral extends StatelessWidget {
                   state.userData.myVoting[record.id] == null
               ? Theme.of(context).focusColor
               : null,
-          child: InkWell(
-            onTap: () {
-              BlocProvider.of<UserDataBloc>(context).add(
-                UserDataVoteCosplay(
-                  voteRef: record.voteRef,
-                  cosplayRef: record.id,
-                  vote: null,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<UserDataBloc>(context).add(
+                  UserDataVoteCosplay(
+                    voteRef: record.voteRef,
+                    cosplayRef: record.id,
+                    vote: null,
+                  ),
+                );
+              },
+              child: Center(
+                child: Text(
+                  '-',
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
-              );
-            },
-            child: Center(
-              child: Text(
-                '-',
-                style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
           ),

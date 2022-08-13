@@ -7,6 +7,7 @@ import 'package:blavapp/views/degustation/degustation_list_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DegustationList extends StatelessWidget {
   const DegustationList({Key? key}) : super(key: key);
@@ -23,31 +24,44 @@ class DegustationList extends StatelessWidget {
               const Divider(),
             ],
             Expanded(
-              child: ImplicitlyAnimatedList<DegusItem>(
-                items: state.degusItemsFiltered,
-                areItemsTheSame: (a, b) => a.id == b.id,
-                updateDuration: const Duration(milliseconds: 200),
-                insertDuration: const Duration(milliseconds: 200),
-                removeDuration: const Duration(milliseconds: 200),
-                itemBuilder: (context, animation, item, index) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(-1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: DegustationItemCard(
-                      item: item,
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        RoutePaths.degustationItem,
-                        arguments: DegustationDetailsArguments(
-                          item: item,
+              child: state.degusItemsFiltered.isNotEmpty
+                  ? ImplicitlyAnimatedList<DegusItem>(
+                      items: state.degusItemsFiltered,
+                      areItemsTheSame: (a, b) => a.id == b.id,
+                      updateDuration: const Duration(milliseconds: 200),
+                      insertDuration: const Duration(milliseconds: 200),
+                      removeDuration: const Duration(milliseconds: 200),
+                      itemBuilder: (context, animation, item, index) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(-1, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: DegustationItemCard(
+                            item: item,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              RoutePaths.degustationItem,
+                              arguments: DegustationDetailsArguments(
+                                item: item,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  // Empty list
+                  : Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .contDegustationListFavoriteEmpty,
+                          style: Theme.of(context).textTheme.headline6,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
             ),
           ],
         );

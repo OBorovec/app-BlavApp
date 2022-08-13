@@ -1,56 +1,40 @@
-import 'package:blavapp/bloc/admin/cosplay_voting_results/cosplay_voting_results_bloc.dart';
-import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
+import 'package:blavapp/bloc/admin/voting_results/voting_results_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
-import 'package:blavapp/services/data_repo.dart';
-import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CosplayResults extends StatelessWidget {
-  final String eventRef;
+class VoteResults extends StatelessWidget {
   final String voteRef;
-  const CosplayResults({
+  const VoteResults({
     Key? key,
-    required this.eventRef,
     required this.voteRef,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CosplayVotingResultsBloc(
-        dataRepo: context.read<DataRepo>(),
-        cosplayBloc: context.read<CosplayBloc>(),
-        eventRef: eventRef,
+      create: (context) => VotingResultsBloc(
+        votingDataBloc: context.read<VotingDataBloc>(),
         voteRef: voteRef,
       ),
-      child: BlocBuilder<CosplayVotingResultsBloc, CosplayVotingResultsState>(
+      child: BlocBuilder<VotingResultsBloc, VotingResultsState>(
         builder: (context, state) {
-          switch (state.status) {
-            case CosplayVotingResultsStatus.ready:
-              return SidePage(
-                titleText:
-                    AppLocalizations.of(context)!.adminCosplayResultsTitle,
-                body: _CosplayResultsList(state: state),
-              );
-            case CosplayVotingResultsStatus.initial:
-              return const BlocLoadingPage();
-            case CosplayVotingResultsStatus.error:
-              return BlocErrorPage(message: state.message);
-          }
+          return SidePage(
+            titleText: AppLocalizations.of(context)!.adminCosplayResultsTitle,
+            body: _VoteResultTable(state: state),
+          );
         },
       ),
     );
   }
 }
 
-class _CosplayResultsList extends StatelessWidget {
-  final CosplayVotingResultsState state;
+class _VoteResultTable extends StatelessWidget {
+  final VotingResultsState state;
 
-  const _CosplayResultsList({
+  const _VoteResultTable({
     Key? key,
     required this.state,
   }) : super(key: key);
@@ -72,7 +56,7 @@ class _CosplayResultsList extends StatelessWidget {
                   flex: 1,
                   child: InkWell(
                     onTap: () =>
-                        BlocProvider.of<CosplayVotingResultsBloc>(context).add(
+                        BlocProvider.of<VotingResultsBloc>(context).add(
                       const ChangeSort(
                         sort: CosplayVotingResultsSort.upVote,
                       ),
@@ -90,7 +74,7 @@ class _CosplayResultsList extends StatelessWidget {
                   flex: 1,
                   child: InkWell(
                     onTap: () =>
-                        BlocProvider.of<CosplayVotingResultsBloc>(context).add(
+                        BlocProvider.of<VotingResultsBloc>(context).add(
                       const ChangeSort(
                         sort: CosplayVotingResultsSort.downVote,
                       ),
@@ -108,7 +92,7 @@ class _CosplayResultsList extends StatelessWidget {
                   flex: 1,
                   child: InkWell(
                     onTap: () =>
-                        BlocProvider.of<CosplayVotingResultsBloc>(context).add(
+                        BlocProvider.of<VotingResultsBloc>(context).add(
                       const ChangeSort(
                         sort: CosplayVotingResultsSort.score,
                       ),
@@ -136,7 +120,7 @@ class _CosplayResultsList extends StatelessWidget {
                         Expanded(
                           flex: 4,
                           child: Text(
-                            t(result.record.name, context),
+                            result.record,
                             style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
@@ -179,12 +163,10 @@ class _CosplayResultsList extends StatelessWidget {
   }
 }
 
-class CosplayVotingResultsArguments {
-  final String eventRef;
+class VoteResultsArguments {
   final String voteRef;
 
-  CosplayVotingResultsArguments({
-    required this.eventRef,
+  VoteResultsArguments({
     required this.voteRef,
   });
 }

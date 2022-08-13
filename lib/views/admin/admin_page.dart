@@ -1,6 +1,5 @@
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/route_generator.dart';
-import 'package:blavapp/views/admin/cosplay_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,15 +22,11 @@ class AdminPage extends StatelessWidget {
             ),
           ),
           _AdminButtonCard(
-            text: AppLocalizations.of(context)!.adminCosplayResultsTitle,
+            text: AppLocalizations.of(context)!.adminVotingTitle,
             icon: Icons.how_to_vote,
             onTap: () => Navigator.pushNamed(
               context,
-              RoutePaths.adminCosplayResults,
-              arguments: CosplayVotingResultsArguments(
-                eventRef: 'test-event',
-                voteRef: 'cosplay-test-event',
-              ),
+              RoutePaths.adminVoting,
             ),
           ),
         ],

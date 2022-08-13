@@ -88,9 +88,9 @@ class _CosplayGallery extends StatelessWidget {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Expanded(child: CosplayRecordUpvote(record: record)),
-                    Expanded(child: CosplayRecordNeutral(record: record)),
                     Expanded(child: CosplayRecordDownvote(record: record)),
+                    Expanded(child: CosplayRecordNeutral(record: record)),
+                    Expanded(child: CosplayRecordUpvote(record: record)),
                   ],
                 ),
               ],

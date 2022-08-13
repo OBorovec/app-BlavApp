@@ -41,7 +41,7 @@ class DegustationDetails extends StatelessWidget {
                   if (item.desc != null)
                     _DegustationItemDescription(item: item),
                   _DegustationItemPlaces(item: item),
-                  _DegustationItemControlBtns(item: item),
+                  _DegustationItemShop(item: item),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -383,10 +383,10 @@ class _DegustationItemRating extends StatelessWidget {
   }
 }
 
-class _DegustationItemControlBtns extends StatelessWidget {
+class _DegustationItemShop extends StatelessWidget {
   final DegusItem item;
 
-  const _DegustationItemControlBtns({
+  const _DegustationItemShop({
     Key? key,
     required this.item,
   }) : super(key: key);

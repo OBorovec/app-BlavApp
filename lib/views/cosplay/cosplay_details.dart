@@ -153,9 +153,9 @@ class _CosplayRecordVoting extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(child: CosplayRecordUpvote(record: record)),
-              Expanded(child: CosplayRecordNeutral(record: record)),
               Expanded(child: CosplayRecordDownvote(record: record)),
+              Expanded(child: CosplayRecordNeutral(record: record)),
+              Expanded(child: CosplayRecordUpvote(record: record)),
             ],
           ),
         ),

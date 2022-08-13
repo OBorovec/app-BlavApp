@@ -16,62 +16,50 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RootPage(
+    return BlocProvider(
+      create: (context) => UserProfileBloc(
+        user: (context.read<AuthBloc>()).state.user!,
+        authRepo: context.read<AuthRepo>(),
+        storageRepo: context.read<StorageRepo>(),
+      ),
+      child: RootPage(
         titleText: AppLocalizations.of(context)!.contProfileTitle,
-        body: BlocProvider(
-          create: (context) => UserProfileBloc(
-            user: (context.read<AuthBloc>()).state.user!,
-            authRepo: context.read<AuthRepo>(),
-            storageRepo: context.read<StorageRepo>(),
-          ),
-          child: BlocListener<UserProfileBloc, UserProfileState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
-            listener: listenUserProfileBlocStatus,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  const _ProfileImage(),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: const [
-                            _ProfileEmail(),
-                            SizedBox(height: 16),
-                            _ProfileNickName(),
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            // _ProfileRefreshButton(),
-                            // SizedBox(height: 8),
-                            _ShowTicketshButton(),
-                            SizedBox(height: 8),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  Column(
-                    children: const [
-                      SizedBox(height: 8),
-                      _PasswordResetButton(),
-                      SizedBox(height: 8),
-                      _SignOutButton(),
-                      SizedBox(height: 8),
-                      _DeleteAccountButton(),
-                      SizedBox(height: 8),
-                    ],
-                  ),
-                ],
-              ),
+        body: BlocListener<UserProfileBloc, UserProfileState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: listenUserProfileBlocStatus,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const _ProfileImage(),
+                const Expanded(
+                  child: _UserProfileInfo(),
+                ),
+                const Divider(),
+                Column(
+                  children: const [
+                    _ShowTicketshButton(),
+                    SizedBox(height: 8),
+                  ],
+                ),
+                const Divider(),
+                Column(
+                  children: const [
+                    SizedBox(height: 8),
+                    _PasswordResetButton(),
+                    SizedBox(height: 8),
+                    _SignOutButton(),
+                    SizedBox(height: 8),
+                    // _DeleteAccountButton(),
+                    // SizedBox(height: 32),
+                  ],
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   void listenUserProfileBlocStatus(context, userEditState) {
@@ -144,8 +132,26 @@ class _ProfileImage extends StatelessWidget {
   }
 }
 
-class _ProfileEmail extends StatelessWidget {
-  const _ProfileEmail({
+class _UserProfileInfo extends StatelessWidget {
+  const _UserProfileInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        _UserProfileInfoEmail(),
+        SizedBox(height: 16),
+        _UserProfileInfoNickName(),
+      ],
+    );
+  }
+}
+
+class _UserProfileInfoEmail extends StatelessWidget {
+  const _UserProfileInfoEmail({
     Key? key,
   }) : super(key: key);
 
@@ -180,14 +186,15 @@ class _ProfileEmail extends StatelessWidget {
   }
 }
 
-class _ProfileNickName extends StatefulWidget {
-  const _ProfileNickName({Key? key}) : super(key: key);
+class _UserProfileInfoNickName extends StatefulWidget {
+  const _UserProfileInfoNickName({Key? key}) : super(key: key);
 
   @override
-  State<_ProfileNickName> createState() => _ProfileNickNameState();
+  State<_UserProfileInfoNickName> createState() =>
+      _UserProfileInfoNickNameState();
 }
 
-class _ProfileNickNameState extends State<_ProfileNickName> {
+class _UserProfileInfoNickNameState extends State<_UserProfileInfoNickName> {
   final _textController = TextEditingController();
 
   @override

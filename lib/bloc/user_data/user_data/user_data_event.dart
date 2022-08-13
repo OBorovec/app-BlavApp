@@ -44,6 +44,14 @@ class UserDataProgMyNotification extends UserDataProgrammeEvent {
       : super(entryId: entryId);
 }
 
+class UserDataDegustationFavorite extends UserDataEvent {
+  final String itemRef;
+
+  const UserDataDegustationFavorite({
+    required this.itemRef,
+  });
+}
+
 class UserDataRateItem extends UserDataEvent {
   final String itemRef;
   final double rating;
@@ -51,14 +59,6 @@ class UserDataRateItem extends UserDataEvent {
   const UserDataRateItem({
     required this.itemRef,
     required this.rating,
-  });
-}
-
-class UserDataDegustationFavorite extends UserDataEvent {
-  final String itemRef;
-
-  const UserDataDegustationFavorite({
-    required this.itemRef,
   });
 }
 
@@ -71,5 +71,19 @@ class UserDataVoteCosplay extends UserDataEvent {
     required this.cosplayRef,
     required this.voteRef,
     required this.vote,
+  });
+}
+
+class UserDataFeedBack extends UserDataEvent {
+  final double rating;
+  final String reference;
+  final String message;
+  final bool signed;
+
+  const UserDataFeedBack({
+    required this.rating,
+    required this.reference,
+    required this.message,
+    this.signed = false,
   });
 }

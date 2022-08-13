@@ -1,6 +1,7 @@
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/model/degustation.dart';
+import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/programme.dart';
 
 enum AppHeros { userAvatar }
@@ -8,6 +9,10 @@ enum AppHeros { userAvatar }
 final Map<AppHeros, String> appHeros = {
   AppHeros.userAvatar: 'appHeroUserAvatar',
 };
+
+String eventImgHeroTag(Event event) {
+  return 'event-img-title-${event.id}';
+}
 
 String programmeEntryImgHeroTag(ProgEntry entry) {
   return 'prog-img-title-${entry.id}';

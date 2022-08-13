@@ -31,6 +31,16 @@ class DrawerEventItems extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
+              if (event.routing.story)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.drawerStory),
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.story,
+                    );
+                  },
+                ),
               if (event.routing.programme)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerProgramme),

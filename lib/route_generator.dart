@@ -1,7 +1,8 @@
 import 'package:blavapp/components/page_hierarchy/redirect_page.dart';
 import 'package:blavapp/views/admin/admin_page.dart';
-import 'package:blavapp/views/admin/cosplay_results.dart';
+import 'package:blavapp/views/admin/vote_results.dart';
 import 'package:blavapp/views/admin/ticket_validation.dart';
+import 'package:blavapp/views/admin/voting_list.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/catering/catering_place_details.dart';
@@ -23,6 +24,7 @@ import 'package:blavapp/views/programme/programme_page.dart';
 import 'package:blavapp/views/settings/settings_page.dart';
 import 'package:blavapp/views/sign_in/signin_page.dart';
 import 'package:blavapp/views/sign_in/signup_page.dart';
+import 'package:blavapp/views/story/story_pape.dart';
 import 'package:blavapp/views/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -41,10 +43,12 @@ class RoutePaths {
   static const String eventDetail = '/eventDetail';
   static const String admin = '/admin';
   static const String adminTicketValidation = '/admin/ticket-validation';
-  static const String adminCosplayResults = '/admin/cosplay-results';
+  static const String adminVoting = '/admin/voting';
+  static const String adminVotingResults = '/admin/voting/results';
   static const String settings = '/setting';
   // Event related route
   static const String eventHome = '/';
+  static const String story = '/story';
   static const String programme = '/programme';
   static const String programmeEntry = '/programme/entry';
   static const String catering = '/catering';
@@ -134,11 +138,14 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => const TicketValidationPage(),
         );
-      case RoutePaths.adminCosplayResults:
-        final args = settings.arguments! as CosplayVotingResultsArguments;
+      case RoutePaths.adminVoting:
         return MaterialPageRoute(
-          builder: (_) => CosplayResults(
-            eventRef: args.eventRef,
+          builder: (_) => const VotingPage(),
+        );
+      case RoutePaths.adminVotingResults:
+        final args = settings.arguments! as VoteResultsArguments;
+        return MaterialPageRoute(
+          builder: (_) => VoteResults(
             voteRef: args.voteRef,
           ),
         );
@@ -158,6 +165,13 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => const ProgrammePage(),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.story:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const StoryPage(),
           ),
           isAuthenticated,
         );

@@ -4,7 +4,7 @@ import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/model/programme.dart';
-import 'package:blavapp/model/support.dart';
+import 'package:blavapp/model/story.dart';
 import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/model/user_perms.dart';
@@ -99,16 +99,6 @@ class DataRepo {
     });
   }
 
-  Future<void> setUserRating({
-    required String userUID,
-    required String itemRef,
-    required double rating,
-  }) {
-    return _userDataCollectionRef
-        .doc(userUID)
-        .update({'myRatings.$itemRef': rating});
-  }
-
   Future<void> addDegustationFavorite(
     String userUID,
     String entryID,
@@ -127,7 +117,17 @@ class DataRepo {
     });
   }
 
-  Future<void> setCosplayVote({
+  Future<void> setUserRating({
+    required String userUID,
+    required String itemRef,
+    required double rating,
+  }) {
+    return _userDataCollectionRef
+        .doc(userUID)
+        .update({'myRatings.$itemRef': rating});
+  }
+
+  Future<void> setUserVote({
     required String userUID,
     required String cosplayRef,
     required bool? vote,
@@ -290,53 +290,102 @@ class DataRepo {
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Support data
+  // Story data
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _cosplayVotesDataRef = FirebaseFirestore.instance
-      .collection('voting')
-      .withConverter<SupportVoting>(
-        fromFirestore: (snapshot, _) =>
-            SupportVoting.fromJson(snapshot.data()!),
-        toFirestore: (entry, _) => entry.toJson(),
-      );
+  final CollectionReference _storyDataRef =
+      FirebaseFirestore.instance.collection('data_story').withConverter<Story>(
+            fromFirestore: (snapshot, _) => Story.fromJson(snapshot.data()!),
+            toFirestore: (entry, _) => entry.toJson(),
+          );
 
-  Stream<SupportVoting> getCosplayVoteStream(String votingRef) {
-    return _cosplayVotesDataRef
-        .doc(votingRef)
+  Stream<Story> getStoryStream(String eventTag) {
+    return _storyDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Story');
+      }
+      return ((snapshot.data() as Story));
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Support data - Voting
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _votingDataRef =
+      FirebaseFirestore.instance.collection('sup_voting');
+  // .withConverter<SupportVoting>(
+  //   fromFirestore: (snapshot, _) =>
+  //       SupportVoting.fromJson(snapshot.data()!),
+  //   toFirestore: (entry, _) => entry.toJson(),
+  // );
+
+  Stream<Map<String, dynamic>> getVotingStream(String eventRef) {
+    return _votingDataRef
+        .doc(eventRef)
         .snapshots(includeMetadataChanges: true)
         .map((snapshot) {
       if (snapshot.data() == null) {
-        throw NullDataException('$votingRef:Voting');
+        throw NullDataException('$eventRef:Voting');
       }
-      return snapshot.data()! as SupportVoting;
+      return snapshot.data()! as Map<String, dynamic>;
     });
   }
 
   Future<void> addVote({
+    required String eventRef,
     required String voteRef,
     required String cosplayRef,
     required String userUID,
     required bool? vote,
   }) {
-    return _cosplayVotesDataRef
-        .doc(voteRef)
-        .update({'votes.$cosplayRef.$userUID': vote});
+    try {
+      return _votingDataRef
+          .doc(eventRef)
+          .update({'$voteRef.$cosplayRef.$userUID': vote});
+    } catch (e) {
+      throw DocUpdateException(
+        '$voteRef.$cosplayRef.$userUID',
+        e.toString(),
+      );
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Support data
+  // Support data - Rating
   //////////////////////////////////////////////////////////////////////////////
 
-  final DocumentReference _ratingsDataRef =
-      FirebaseFirestore.instance.collection('support').doc('ratings');
+  final CollectionReference _ratingDataRef =
+      FirebaseFirestore.instance.collection('sup_rating');
 
   Future<void> addRating({
+    required String eventRef,
     required String userUID,
     required String itemRef,
     required double rating,
   }) {
-    return _ratingsDataRef.update({'$itemRef.$userUID': rating});
+    return _ratingDataRef.doc(eventRef).update({'$itemRef.$userUID': rating});
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+// Support data - Feedback
+//////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _reviewDataRef =
+      FirebaseFirestore.instance.collection('sup_feedback');
+
+  Future<void> addReview({
+    required String eventRef,
+    required String reference,
+    required double rating,
+    required String review,
+  }) {
+    return _reviewDataRef.doc(eventRef).update({
+      reference: {
+        'rating': rating,
+        'review': review,
+      },
+    });
   }
 }
 
@@ -348,10 +397,21 @@ class NullDataException implements Exception {
   final String message;
 
   NullDataException(this.message);
+
+  @override
+  String toString() {
+    return 'DocUpdateException: $message';
+  }
 }
 
-class UnableParseDataException implements Exception {
+class DocUpdateException implements Exception {
+  final String docPath;
   final String message;
 
-  UnableParseDataException(this.message);
+  DocUpdateException(this.docPath, this.message);
+
+  @override
+  String toString() {
+    return 'DocUpdateException: $docPath: $message';
+  }
 }
