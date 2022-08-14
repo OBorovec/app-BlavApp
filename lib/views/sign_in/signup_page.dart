@@ -3,6 +3,7 @@ import 'package:blavapp/bloc/profile/user_signup/user_sign_up_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
+import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class SignUpPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => UserSignUpBloc(
           authRepo: context.read<AuthRepo>(),
+          dataRepo: context.read<DataRepo>(),
           userDataBloc: context.read<UserDataBloc>(),
         ),
         child: BlocListener<UserSignUpBloc, UserSignUpState>(
@@ -84,7 +86,9 @@ class _EmailTextField extends StatelessWidget {
           previous.email != current.email ||
           previous.isEmailValid != current.isEmailValid,
       builder: (context, state) {
-        return TextFormField(
+        return TextField(
+          autocorrect: false,
+          enableSuggestions: false,
           onChanged: (value) => context
               .read<UserSignUpBloc>()
               .add(UserSignUpEmailChanged(email: value)),
@@ -122,7 +126,9 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
           previous.password != current.password ||
           previous.isPasswordValid != current.isPasswordValid,
       builder: (context, state) {
-        return TextFormField(
+        return TextField(
+          autocorrect: false,
+          enableSuggestions: false,
           onChanged: (value) => context.read<UserSignUpBloc>().add(
                 UserSignUpPswChanged(password: value),
               ),
@@ -164,7 +170,9 @@ class _NickTextField extends StatelessWidget {
           previous.nickName != current.nickName ||
           previous.isNickNameValid != current.isNickNameValid,
       builder: (context, state) {
-        return TextFormField(
+        return TextField(
+          autocorrect: false,
+          enableSuggestions: false,
           onChanged: (value) => context
               .read<UserSignUpBloc>()
               .add(UserSignUpNNChanged(nickName: value)),
@@ -195,7 +203,7 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           onPressed: () {
-            context.read<UserSignUpBloc>().add(const UserSignUpFormValidate());
+            context.read<UserSignUpBloc>().add(const UserSignUp());
           },
           child: _signUpStateToButton(context, state.status),
         );

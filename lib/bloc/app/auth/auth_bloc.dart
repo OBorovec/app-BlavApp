@@ -27,8 +27,6 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
     _userSubscription = _authRepo.user.listen(_onUserChanged);
     on<UserActive>(_userActive);
     on<UserInactive>(_userInactive);
-    on<UserAuthDelete>(_userDelete);
-    on<UserAuthSignOut>(_userSignOut);
   }
 
   // Data listeners
@@ -60,22 +58,6 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
         user: null,
       ),
     );
-  }
-
-  FutureOr<void> _userDelete(
-    UserAuthDelete event,
-    Emitter<AuthState> emit,
-  ) {
-    // TODO: Delete user's data
-    // TODO: Delete user's profile picture
-    _authRepo.deleteUser();
-  }
-
-  FutureOr<void> _userSignOut(
-    UserAuthSignOut event,
-    Emitter<AuthState> emit,
-  ) {
-    _authRepo.signOut();
   }
 
   @override

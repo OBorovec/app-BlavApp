@@ -22,6 +22,7 @@ import 'package:blavapp/views/profile/profile_tickets.dart';
 import 'package:blavapp/views/programme/programme_details.dart';
 import 'package:blavapp/views/programme/programme_page.dart';
 import 'package:blavapp/views/settings/settings_page.dart';
+import 'package:blavapp/views/sign_in/password_reset_page.dart';
 import 'package:blavapp/views/sign_in/signin_page.dart';
 import 'package:blavapp/views/sign_in/signup_page.dart';
 import 'package:blavapp/views/story/story_pape.dart';
@@ -32,6 +33,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RoutePaths {
   // UnAuths routes
   static const String signIn = '/signin';
+  static const String signInForgottenPassword = '/forgotten-password';
   static const String signUp = '/signup';
   // User routes
   static const String profile = '/profile';
@@ -84,6 +86,14 @@ class RouteGenerator {
         return unAuthGuard(
           MaterialPageRoute(
             builder: (_) => const SignInPage(),
+          ),
+          isAuthenticated,
+        );
+
+      case RoutePaths.signInForgottenPassword:
+        return unAuthGuard(
+          MaterialPageRoute(
+            builder: (_) => const PasswordResetPage(),
           ),
           isAuthenticated,
         );

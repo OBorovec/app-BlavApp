@@ -34,7 +34,7 @@ class EventCard extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   onPressed: onFocusSelection,
-                  icon: Icon(Icons.arrow_forward),
+                  icon: const Icon(Icons.arrow_forward),
                 ),
               ),
             ],

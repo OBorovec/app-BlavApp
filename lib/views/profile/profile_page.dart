@@ -25,8 +25,9 @@ class UserProfilePage extends StatelessWidget {
       child: RootPage(
         titleText: AppLocalizations.of(context)!.contProfileTitle,
         body: BlocListener<UserProfileBloc, UserProfileState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: listenUserProfileBlocStatus,
+          listenWhen: (previous, current) =>
+              previous.notification != current.notification,
+          listener: userProfileNotifications,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -50,8 +51,8 @@ class UserProfilePage extends StatelessWidget {
                     SizedBox(height: 8),
                     _SignOutButton(),
                     SizedBox(height: 8),
-                    // _DeleteAccountButton(),
-                    // SizedBox(height: 32),
+                    _DeleteAccountButton(),
+                    SizedBox(height: 32),
                   ],
                 ),
               ],
@@ -62,37 +63,39 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
-  void listenUserProfileBlocStatus(context, userEditState) {
-    if (userEditState.status == UserEditStatus.ready) {
-      return;
-    } else if (userEditState.status == UserEditStatus.error) {
-      Toasting.notifyToast(context, userEditState.errorMessage);
-    } else if (userEditState.status == UserEditStatus.emailVerificationSent) {
-      Toasting.notifyToast(
-        context,
-        AppLocalizations.of(context)!.contProfileTEmailVerificationSent,
-      );
-    } else if (userEditState.status ==
-        UserEditStatus.emailVerificationVerified) {
-      Toasting.notifyToast(
-        context,
-        AppLocalizations.of(context)!.contProfileTEmailVerified,
-      );
-    } else if (userEditState.status == UserEditStatus.emailVerificationFailed) {
-      Toasting.notifyToast(
-        context,
-        '${AppLocalizations.of(context)!.contProfileTEmailVerificationFailed}: ${userEditState.errorMessage}',
-      );
-    } else if (userEditState.status == UserEditStatus.passwordEmailSent) {
-      Toasting.notifyToast(
-        context,
-        AppLocalizations.of(context)!.contProfileTPasswordEmailSent,
-      );
-    } else if (userEditState.status == UserEditStatus.passwordEmailFailedSent) {
-      Toasting.notifyToast(
-        context,
-        '${AppLocalizations.of(context)!.contProfileTPasswordEmailFailedSent}: ${userEditState.errorMessage}',
-      );
+  void userProfileNotifications(BuildContext context, UserProfileState state) {
+    switch (state.notification) {
+      case UserProfileNotification.emailVerificationSent:
+        Toasting.notifyToast(
+          context,
+          AppLocalizations.of(context)!.contProfileTEmailVerificationSent,
+        );
+        break;
+      case UserProfileNotification.emailVerificationVerified:
+        Toasting.notifyToast(
+          context,
+          AppLocalizations.of(context)!.contProfileTEmailVerified,
+        );
+        break;
+      case UserProfileNotification.emailVerificationFailed:
+        Toasting.notifyToast(
+          context,
+          '${AppLocalizations.of(context)!.contProfileTEmailVerificationFailed}: ${state.message}',
+        );
+        break;
+      case UserProfileNotification.passwordEmailSent:
+        Toasting.notifyToast(
+          context,
+          AppLocalizations.of(context)!.contProfileTPasswordEmailSent,
+        );
+        break;
+      case UserProfileNotification.passwordEmailFailedSent:
+        Toasting.notifyToast(
+          context,
+          '${AppLocalizations.of(context)!.contProfileTPasswordEmailFailedSent}: ${state.message}',
+        );
+        break;
+      default:
     }
   }
 }
@@ -314,12 +317,7 @@ class _SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        context.read<AuthBloc>().add(const UserAuthSignOut());
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.of(context).popAndPushNamed(RoutePaths.signIn);
-        });
-      },
+      onPressed: () {},
       child: Text(AppLocalizations.of(context)!.contProfileBtnSignOut),
     );
   }

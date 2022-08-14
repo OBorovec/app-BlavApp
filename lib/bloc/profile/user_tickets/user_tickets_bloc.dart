@@ -48,7 +48,6 @@ class UserTicketsBloc extends Bloc<UserTicketsEvent, UserTicketsState> {
       }
     }
     emit(UserTicketsState(
-      status: UserTicketsStatus.ready,
       tickets: ticketData,
       unableToLoad: unableToLoad,
     ));

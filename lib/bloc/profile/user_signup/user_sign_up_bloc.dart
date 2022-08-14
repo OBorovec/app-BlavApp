@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/auth_repo.dart';
+import 'package:blavapp/services/data_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,17 +13,20 @@ part 'user_sign_up_state.dart';
 
 class UserSignUpBloc extends Bloc<UserSignUpEvent, UserSignUpState> {
   final AuthRepo _authRepo;
+  final DataRepo _dataRepo;
   final UserDataBloc _userDataBloc;
   UserSignUpBloc({
     required AuthRepo authRepo,
+    required DataRepo dataRepo,
     required UserDataBloc userDataBloc,
   })  : _authRepo = authRepo,
+        _dataRepo = dataRepo,
         _userDataBloc = userDataBloc,
         super(const UserSignUpState()) {
     on<UserSignUpEmailChanged>(_userEmailChanged);
     on<UserSignUpPswChanged>(_userPasswordChanged);
     on<UserSignUpNNChanged>(_userNickNameChanged);
-    on<UserSignUpFormValidate>(_userFormValidate);
+    on<UserSignUp>(_userFormValidate);
     on<UserSignUpGoogle>(_userGoogleSignUp);
   }
 
@@ -47,7 +52,7 @@ class UserSignUpBloc extends Bloc<UserSignUpEvent, UserSignUpState> {
   }
 
   Future<FutureOr<void>> _userFormValidate(
-    UserSignUpFormValidate event,
+    UserSignUp event,
     Emitter<UserSignUpState> emit,
   ) async {
     if (state.status == SignUpStatus.ready) {
@@ -85,6 +90,7 @@ class UserSignUpBloc extends Bloc<UserSignUpEvent, UserSignUpState> {
               status: SignUpStatus.success,
             ),
           );
+          _dataRepo.initUserData(user.uid, const UserData());
         } catch (e) {
           emit(
             state.copyWith(

@@ -28,8 +28,8 @@ class UserSignUpNNChanged extends UserSignUpEvent {
   });
 }
 
-class UserSignUpFormValidate extends UserSignUpEvent {
-  const UserSignUpFormValidate();
+class UserSignUp extends UserSignUpEvent {
+  const UserSignUp();
 }
 
 class UserSignUpGoogle extends UserSignUpEvent {

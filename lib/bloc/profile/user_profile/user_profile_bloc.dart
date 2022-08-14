@@ -49,19 +49,21 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   ) async {
     if (_user.emailVerified) {
       emit(
-        state.copyWith(status: UserEditStatus.emailVerificationVerified),
+        state.copyWith(
+            notification: UserProfileNotification.emailVerificationVerified),
       );
     } else {
       try {
         await _user.sendEmailVerification();
         emit(
-          state.copyWith(status: UserEditStatus.emailVerificationSent),
+          state.copyWith(
+              notification: UserProfileNotification.emailVerificationSent),
         );
       } catch (e) {
         emit(
           state.copyWith(
-            status: UserEditStatus.emailVerificationFailed,
-            errorMessage: e.toString(),
+            notification: UserProfileNotification.emailVerificationFailed,
+            message: e.toString(),
           ),
         );
       }
@@ -126,12 +128,12 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     try {
       _authRepo.sendPasswordResetEmail(_user.email!);
       emit(
-        state.copyWith(status: UserEditStatus.passwordEmailSent),
+        state.copyWith(notification: UserProfileNotification.passwordEmailSent),
       );
     } catch (e) {
       emit(state.copyWith(
-        status: UserEditStatus.passwordEmailFailedSent,
-        errorMessage: e.toString(),
+        notification: UserProfileNotification.passwordEmailFailedSent,
+        message: e.toString(),
       ));
     }
   }

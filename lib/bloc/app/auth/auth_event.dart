@@ -21,11 +21,3 @@ class UserActive extends UserEvent {
   @override
   List<Object> get props => [user.uid];
 }
-
-class UserAuthDelete extends UserEvent {
-  const UserAuthDelete();
-}
-
-class UserAuthSignOut extends UserEvent {
-  const UserAuthSignOut();
-}

@@ -22,15 +22,50 @@ class UserProfileDeletePage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline4,
               ),
+              _PasswordTextField(),
               ElevatedButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(const UserAuthDelete());
-                },
-                child: Text(
-                    AppLocalizations.of(context)!.contProfileDeleteBtnConfirm),
+                onPressed: () {},
+                child: Text(AppLocalizations.of(context)!.genDelete),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PasswordTextField extends StatefulWidget {
+  @override
+  State<_PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<_PasswordTextField> {
+  String value = '';
+  bool _valueVisible = false;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onChanged: (value) => value = value,
+      obscureText: !_valueVisible,
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.genPassword,
+        hintText: AppLocalizations.of(context)!.genPassword,
+        errorMaxLines: 2,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 15.0,
+          horizontal: 10.0,
+        ),
+        icon: const Icon(Icons.security),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _valueVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: () {
+            setState(() {
+              _valueVisible = !_valueVisible;
+            });
+          },
         ),
       ),
     );

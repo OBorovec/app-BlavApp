@@ -21,32 +21,15 @@ class EventHomePage extends StatelessWidget {
               titleText: t(state.event!.name, context),
               body: SingleChildScrollView(
                 child: Column(children: [
-                  // Event image
                   if (state.event!.images.isNotEmpty)
                     _EventItemHeroImage(event: state.event!),
-                  // Event description
-                  if (state.event!.desc != null)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        t(state.event!.desc!, context),
-                      ),
-                    ),
-                  // Event time
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Column(
                       children: [
-                        _EventDates(
-                          startDate: state.event!.dayStart,
-                          endDate: state.event!.dayEnd,
-                        ),
-                        _CountDownTimer(
-                          duration: state.remainingToStart,
-                          isOngoing: state.isOngoing,
-                        ),
+                        if (state.event!.desc != null)
+                          _EventDescription(state: state),
+                        _EventTimes(state: state),
                       ],
                     ),
                   ),
@@ -64,6 +47,57 @@ class EventHomePage extends StatelessWidget {
             );
         }
       },
+    );
+  }
+}
+
+class _EventTimes extends StatelessWidget {
+  final EventFocusState state;
+  const _EventTimes({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _EventDates(
+              startDate: state.event!.dayStart,
+              endDate: state.event!.dayEnd,
+            ),
+            _CountDownTimer(
+              duration: state.remainingToStart,
+              isOngoing: state.isOngoing,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _EventDescription extends StatelessWidget {
+  final EventFocusState state;
+  const _EventDescription({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Text(
+          t(state.event!.desc!, context),
+        ),
+      ],
     );
   }
 }

@@ -26,19 +26,19 @@ class SignInPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _LogoWidget(),
+                const _LogoWidget(),
                 Column(
-                  children: [
+                  children: const [
                     _EmailTextField(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _PasswordTextField(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _SignInButton(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _ForgottenPasswordButton(),
-                    const SizedBox(height: 16),
-                    const Divider(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
+                    Divider(),
+                    SizedBox(height: 16),
                     _SignUpButton(),
                   ],
                 ),
@@ -76,6 +76,7 @@ class SignInPage extends StatelessWidget {
 }
 
 class _LogoWidget extends StatelessWidget {
+  const _LogoWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: add witcher flare animation
@@ -84,11 +85,14 @@ class _LogoWidget extends StatelessWidget {
 }
 
 class _EmailTextField extends StatelessWidget {
+  const _EmailTextField({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSignInBloc, UserSignInState>(
       builder: (context, state) {
-        return TextFormField(
+        return TextField(
+          autocorrect: false,
+          enableSuggestions: false,
           onChanged: (value) => context.read<UserSignInBloc>().add(
                 UserSignInEmailChanged(email: value),
               ),
@@ -111,11 +115,14 @@ class _EmailTextField extends StatelessWidget {
 }
 
 class _PasswordTextField extends StatelessWidget {
+  const _PasswordTextField({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSignInBloc, UserSignInState>(
       builder: (context, state) {
-        return TextFormField(
+        return TextField(
+          autocorrect: false,
+          enableSuggestions: false,
           onChanged: (value) => context.read<UserSignInBloc>().add(
                 UserSignInPswChanged(password: value),
               ),
@@ -138,11 +145,12 @@ class _PasswordTextField extends StatelessWidget {
 }
 
 class _SignInButton extends StatelessWidget {
+  const _SignInButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        context.read<UserSignInBloc>().add(const UserSignInFormValidate());
+        context.read<UserSignInBloc>().add(const UserSignIn());
       },
       child: Text(AppLocalizations.of(context)!.contSignInBtnSignIn),
     );
@@ -150,18 +158,21 @@ class _SignInButton extends StatelessWidget {
 }
 
 class _ForgottenPasswordButton extends StatelessWidget {
+  const _ForgottenPasswordButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Text(AppLocalizations.of(context)!.contSignInForgotten),
       onTap: () {
-        Navigator.of(context).pushNamed(RoutePaths.profileDelete);
+        Navigator.of(context).pushNamed(RoutePaths.signInForgottenPassword);
       },
     );
   }
 }
 
 class _SignUpButton extends StatelessWidget {
+  const _SignUpButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(

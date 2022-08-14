@@ -21,8 +21,8 @@ class UserSignInPswChanged extends UserSignInEvent {
   });
 }
 
-class UserSignInFormValidate extends UserSignInEvent {
-  const UserSignInFormValidate();
+class UserSignIn extends UserSignInEvent {
+  const UserSignIn();
 }
 
 class UserSignInGoogle extends UserSignInEvent {

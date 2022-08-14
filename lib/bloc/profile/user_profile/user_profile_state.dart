@@ -1,7 +1,12 @@
 part of 'user_profile_bloc.dart';
 
-enum UserEditStatus {
+enum UserProfileStatus {
   ready,
+  error,
+}
+
+enum UserProfileNotification {
+  none,
   emailVerificationSent,
   emailVerificationVerified,
   emailVerificationFailed,
@@ -11,45 +16,49 @@ enum UserEditStatus {
   nicknameNotChanged,
   pictureChanged,
   pictureNotChanged,
-  error,
 }
 
 class UserProfileState extends Equatable {
   final User user;
-  final UserEditStatus status;
+  final UserProfileStatus status;
+  final String message;
+  final UserProfileNotification notification;
   final bool editingNickname;
   final String nickname;
-  final String? errorMessage;
   const UserProfileState({
     required this.user,
-    this.status = UserEditStatus.ready,
+    this.status = UserProfileStatus.ready,
+    this.message = '',
+    this.notification = UserProfileNotification.none,
     this.editingNickname = false,
     required this.nickname,
-    this.errorMessage,
   });
 
   @override
   List<Object> get props => [
         user,
         status,
+        message,
+        notification,
         editingNickname,
         nickname,
       ];
 
   UserProfileState copyWith({
     User? user,
-    UserEditStatus? status,
+    UserProfileStatus? status,
+    String? message,
+    UserProfileNotification? notification,
     bool? editingNickname,
     String? nickname,
-    String? originalNickname,
-    String? errorMessage,
   }) {
     return UserProfileState(
       user: user ?? this.user,
       status: status ?? this.status,
+      message: message ?? this.message,
+      notification: notification ?? this.notification,
       editingNickname: editingNickname ?? this.editingNickname,
       nickname: nickname ?? this.nickname,
-      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }

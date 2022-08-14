@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/profile/user_tickets/user_tickets_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/components/dialogs/qr_scanner_dialog.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
@@ -23,79 +24,41 @@ class ProfileMyTicketsPage extends StatelessWidget {
         titleText: AppLocalizations.of(context)!.contProfileTicketsTitle,
         body: BlocBuilder<UserTicketsBloc, UserTicketsState>(
           builder: (context, state) {
-            switch (state.status) {
-              case UserTicketsStatus.ready:
-                if (state.tickets.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(AppLocalizations.of(context)!
-                            .contProfileTicketsNoTickets),
-                      ],
-                    ),
+            if (state.tickets.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(AppLocalizations.of(context)!
+                        .contProfileTicketsNoTickets),
+                  ],
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: state.tickets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  TicketData ticketData = state.tickets[index];
+                  return _TicketCard(
+                    ticketData: ticketData,
+                    onTap: () => null,
                   );
-                } else {
-                  return ListView.builder(
-                    itemCount: state.tickets.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      TicketData ticketData = state.tickets[index];
-                      return _TicketCard(
-                        ticketData: ticketData,
-                        onTap: () => showDialog(
-                          context: context,
-                          builder: (BuildContext context) => _buildQRCodeDialog(
-                            ticketData,
-                            context,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              case UserTicketsStatus.init:
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text(AppLocalizations.of(context)!.genLoading),
-                    ],
-                  ),
-                );
+                },
+              );
             }
           },
         ),
+        actions: [
+          IconButton(
+              onPressed: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => QRScannerDialog(
+                      onScanned: () => Navigator.pop(context),
+                    ),
+                  ),
+              icon: const Icon(Icons.photo_camera))
+        ],
       ),
-    );
-  }
-
-  AlertDialog _buildQRCodeDialog(TicketData ticketData, BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        t(ticketData.event.name, context),
-      ),
-      // content: Text(
-      //   ticketData.ticket.eventRef,
-      // ),
-      content: SizedBox(
-        width: 300,
-        height: 300,
-        child: Center(
-          child: QrImage(
-            data: ticketData.ticket.value,
-            version: QrVersions.auto,
-            backgroundColor: Colors.white,
-            size: 300,
-          ),
-        ),
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.genDismiss),
-        ),
-      ],
     );
   }
 }

@@ -17,7 +17,7 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
         )) {
     on<UserSignInEmailChanged>(_userSignInEmailChanged);
     on<UserSignInPswChanged>(_userSignInPswChanged);
-    on<UserSignInFormValidate>(_userSignInFormValidate);
+    on<UserSignIn>(_userSignInFormValidate);
     on<UserSignInGoogle>(_signInGoogle);
   }
 
@@ -36,7 +36,7 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
   }
 
   Future<FutureOr<void>> _userSignInFormValidate(
-    UserSignInFormValidate event,
+    UserSignIn event,
     Emitter<UserSignInState> emit,
   ) async {
     if (state.status == SignInStatus.ready) {
