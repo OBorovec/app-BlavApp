@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
-import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

@@ -35,7 +35,7 @@ class PlaceMenuCateringBloc
   ) {
     final List<CaterItem> placeItems = catering.items
         .where(
-          (item) => item.placeRef == placeRef,
+          (item) => item.placeRef.contains(placeRef),
         )
         .toList();
     emit(PlaceMenuCateringState(

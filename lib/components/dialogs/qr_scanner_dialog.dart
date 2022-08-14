@@ -20,7 +20,7 @@ class QRScannerDialog extends StatelessWidget {
       ),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [],
+        children: const [],
       ),
       actions: <Widget>[
         TextButton(

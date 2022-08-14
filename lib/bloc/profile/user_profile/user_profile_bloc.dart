@@ -1,4 +1,5 @@
-import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
+import 'dart:io';
+
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/storage_repo.dart';
 import 'package:blavapp/utils/command_center.dart';
@@ -10,6 +11,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'user_profile_event.dart';
 part 'user_profile_state.dart';
@@ -34,7 +36,6 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     on<UserEditNicknameToggle>(_userEditNicknameToggle);
     on<UserNicknameOnChange>(_userNicknameOnChange);
     on<UserEditNicknameReset>(_userEditNicknameReset);
-    on<UserEditPicture>(_userEditPicture);
     on<UserEditPictureTake>(_userEditPictureTake);
     on<UserEditPictureLoad>(_userEditPictureLoad);
     on<UserProfileRefresh>(_userProfileRefresh);
@@ -99,20 +100,34 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     emit(state.copyWith(nickname: _user.displayName));
   }
 
-  FutureOr<void> _userEditPicture(
-    UserEditPicture event,
-    Emitter<UserProfileState> emit,
-  ) {}
-
-  FutureOr<void> _userEditPictureTake(
+  Future<FutureOr<void>> _userEditPictureTake(
     UserEditPictureTake event,
     Emitter<UserProfileState> emit,
-  ) {}
+  ) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    if (photo != null) {
+      _setUserPhoto(photo);
+    }
+  }
 
-  FutureOr<void> _userEditPictureLoad(
+  Future<FutureOr<void>> _userEditPictureLoad(
     UserEditPictureLoad event,
     Emitter<UserProfileState> emit,
-  ) {}
+  ) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _setUserPhoto(image);
+    }
+  }
+
+  Future<void> _setUserPhoto(XFile image) async {
+    final String photoStorageURL =
+        await _storageRepo.uploadFile(_user.uid, File(image.path));
+    _user.updatePhotoURL(photoStorageURL);
+    _user.reload();
+  }
 
   FutureOr<void> _userProfileRefresh(
     UserProfileRefresh event,

@@ -15,6 +15,8 @@ import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DegustationDetails extends StatelessWidget {
   final DegusItem item;
@@ -41,7 +43,7 @@ class DegustationDetails extends StatelessWidget {
                   if (item.desc != null)
                     _DegustationItemDescription(item: item),
                   _DegustationItemPlaces(item: item),
-                  _DegustationItemShop(item: item),
+                  _DegustationItemControl(item: item),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -125,7 +127,8 @@ class _DegustationItemBaseInfo extends StatelessWidget {
               itemRef: item.id,
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => Share.share(
+                  '${AppLocalizations.of(context)!.shareDegustationItem} ${t(item.name, context)} - ${item.url}'),
               icon: const Icon(Icons.share),
             ),
           ],
@@ -383,10 +386,10 @@ class _DegustationItemRating extends StatelessWidget {
   }
 }
 
-class _DegustationItemShop extends StatelessWidget {
+class _DegustationItemControl extends StatelessWidget {
   final DegusItem item;
 
-  const _DegustationItemShop({
+  const _DegustationItemControl({
     Key? key,
     required this.item,
   }) : super(key: key);
@@ -396,12 +399,16 @@ class _DegustationItemShop extends StatelessWidget {
     return Column(
       children: [
         const Divider(height: 32),
-        ElevatedButton.icon(
-          onPressed: () => null,
-          icon: const Icon(Icons.store),
-          label:
-              Text(AppLocalizations.of(context)!.contDegustationDetailBtnShop),
-        )
+        if (item.url != null)
+          ElevatedButton.icon(
+            onPressed: () => launchUrl(
+              Uri.parse(item.url!),
+            ),
+            icon: const Icon(Icons.store),
+            label: Text(
+              AppLocalizations.of(context)!.contDegustationDetailBtnShop,
+            ),
+          ),
       ],
     );
   }

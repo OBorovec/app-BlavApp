@@ -43,7 +43,7 @@ class CaterItem extends Equatable {
   final Map<String, String> name;
   final CaterItemType type;
   final Map<String, String>? desc;
-  final String? placeRef;
+  final List<String> placeRef;
   final List<int> allergens;
   final bool vegetarian;
   final bool vegan;
@@ -57,7 +57,7 @@ class CaterItem extends Equatable {
     required this.name,
     required this.type,
     this.desc,
-    required this.placeRef,
+    this.placeRef = const [],
     this.allergens = const [],
     this.vegetarian = false,
     this.vegan = false,

@@ -76,8 +76,8 @@ class FilterCateringBloc
     final Set<String> availablePlaces = <String>{};
     for (final CaterItem item in state.cateringItems) {
       availableItemTypes.add(item.type);
-      if (item.placeRef != null) {
-        availablePlaces.add(item.placeRef!);
+      for (String placeRef in item.placeRef) {
+        availablePlaces.add(placeRef);
       }
     }
     emit(

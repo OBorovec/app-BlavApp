@@ -79,11 +79,19 @@ class _CosplayGallery extends StatelessWidget {
                     asCover: true,
                   ),
                 )),
-                Text(
-                  t(record.name, context),
-                  style: Theme.of(context).textTheme.subtitle1,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        t(record.name, context),
+                        style: Theme.of(context).textTheme.subtitle1,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const Icon(Icons.info, size: 16),
+                  ],
                 ),
                 const SizedBox(height: 8),
                 Row(

@@ -21,9 +21,6 @@ class CateringItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CaterPlace? place = BlocProvider.of<CateringBloc>(context)
-        .state
-        .cateringPlaces[item.placeRef];
     return InkWell(
       // onTap: onTap,
       child: Card(
@@ -52,18 +49,7 @@ class CateringItemCard extends StatelessWidget {
               ),
             ),
             const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                (place != null && place.loc != null)
-                    ? IconBtnPushCustomMap(
-                        mapRef: place.loc!.mapRef,
-                        pointRef: place.loc!.pointRef,
-                      )
-                    : const Icon(Icons.location_off),
-                Expanded(child: _CaterPriceWrap(item: item)),
-              ],
-            ),
+            _CaterPriceWrap(item: item),
           ],
         ),
       ),
@@ -104,16 +90,18 @@ class _CateringItemInfo extends StatelessWidget {
                   context,
                 ),
               ),
-              _buildInfoLine(
-                Icons.place_outlined,
-                places.containsKey(item.placeRef)
-                    ? t(places[item.placeRef]!.name, context)
-                    : '?${item.placeRef}?',
-              ),
               if (item.allergens.isNotEmpty)
                 _buildInfoLine(
                   Icons.warning,
                   item.allergens.toString(),
+                ),
+              const Divider(),
+              for (String placeRef in item.placeRef)
+                _buildInfoLine(
+                  Icons.place_outlined,
+                  places.containsKey(placeRef)
+                      ? t(places[placeRef]!.name, context)
+                      : '?$placeRef?',
                 ),
             ],
           ),

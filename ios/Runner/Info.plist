@@ -56,5 +56,12 @@
 		<!-- mobile_scanner -->
 		<key>NSCameraUsageDescription</key>
 		<string>We use the camera to scan barcodes</string>
+		<!-- image_picker -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app would like to access your photo library.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app would like to access your camera.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app would like to access your microphoner.</string>
 	</dict>
 </plist>

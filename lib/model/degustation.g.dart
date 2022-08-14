@@ -63,6 +63,7 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
@@ -80,6 +81,7 @@ Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
       'images': instance.images,
       'origin': instance.origin,
       'similarItems': instance.similarItems,
+      'url': instance.url,
     };
 
 const _$DegusAlcoholTypeEnumMap = {

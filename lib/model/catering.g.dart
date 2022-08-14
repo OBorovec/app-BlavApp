@@ -40,7 +40,10 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      placeRef: json['placeRef'] as String?,
+      placeRef: (json['placeRef'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       allergens: (json['allergens'] as List<dynamic>?)
               ?.map((e) => e as int)
               .toList() ??

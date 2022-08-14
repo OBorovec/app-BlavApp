@@ -39,10 +39,6 @@ class UserEditNicknameReset extends UserProfileEvent {
   const UserEditNicknameReset();
 }
 
-class UserEditPicture extends UserProfileEvent {
-  const UserEditPicture();
-}
-
 class UserEditPictureTake extends UserProfileEvent {
   const UserEditPictureTake();
 }

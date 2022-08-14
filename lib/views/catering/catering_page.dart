@@ -1,7 +1,6 @@
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/bloc/catering/highlight_catering/highlight_catering_bloc.dart';
-import 'package:blavapp/bloc/catering/places_catering/places_catering_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
@@ -68,11 +67,6 @@ class _CateringPageState extends State<CateringPage> {
                 ),
                 BlocProvider(
                   create: (context) => FilterCateringBloc(
-                    cateringBloc: context.read<CateringBloc>(),
-                  ),
-                ),
-                BlocProvider(
-                  create: (context) => PlacesCateringBloc(
                     cateringBloc: context.read<CateringBloc>(),
                   ),
                 ),

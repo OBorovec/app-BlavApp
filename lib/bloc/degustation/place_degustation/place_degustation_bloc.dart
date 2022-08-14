@@ -37,7 +37,7 @@ class PlaceDegustationBloc
   static List<DegustationPlaceInfo> convertDegustationState(
     DegustationState degustationState,
   ) {
-    return degustationState.degustationPlaces.entries.map((e) {
+    return degustationState.degustationPlaces.entries.map((MapEntry e) {
       final List<DegusItem> placeItems = degustationState.degustationItems
           .where((item) => item.placeRef == e.key)
           .toList();

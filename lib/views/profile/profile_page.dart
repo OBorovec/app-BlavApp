@@ -39,6 +39,7 @@ class UserProfilePage extends StatelessWidget {
                 const Divider(),
                 Column(
                   children: const [
+                    SizedBox(height: 8),
                     _ShowTicketshButton(),
                     SizedBox(height: 8),
                   ],
@@ -122,14 +123,68 @@ class _ProfileImage extends StatelessWidget {
               },
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {},
-            ),
-          ),
+          // TODO: Uncomment when user profile image is implemented
+          // Align(
+          //   alignment: Alignment.bottomRight,
+          //   child: IconButton(
+          //     icon: const Icon(Icons.edit),
+          //     onPressed: () => showModalBottomSheet(
+          //       context: context,
+          //       builder: (_) {
+          //         return _ProfileImageModalSelector(
+          //           onTapCamera: () {
+          //             context
+          //                 .read<UserProfileBloc>()
+          //                 .add(const UserEditPictureTake());
+          //             Navigator.pop(context);
+          //           },
+          //           onTapImage: () {
+          //             context
+          //                 .read<UserProfileBloc>()
+          //                 .add(const UserEditPictureLoad());
+          //             Navigator.pop(context);
+          //           },
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
+      ),
+    );
+  }
+}
+
+class _ProfileImageModalSelector extends StatelessWidget {
+  final Function() _onTapCamera;
+  final Function() _onTapImage;
+
+  const _ProfileImageModalSelector({
+    required Function() onTapCamera,
+    required Function() onTapImage,
+    Key? key,
+  })  : _onTapCamera = onTapCamera,
+        _onTapImage = onTapImage,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: _onTapCamera,
+              icon: const Icon(Icons.photo_camera),
+            ),
+            IconButton(
+              onPressed: _onTapImage,
+              icon: const Icon(Icons.image),
+            ),
+          ],
+        ),
       ),
     );
   }

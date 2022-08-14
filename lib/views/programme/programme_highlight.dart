@@ -18,12 +18,14 @@ class ProgrammeHighlight extends StatelessWidget {
         .add(const UpdateViewData());
     return BlocBuilder<HighlightProgrammeBloc, HighlightProgrammeState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            _ProgrammeHighlightOnGoing(state: state),
-            _ProgrammeHighlightUpComing(state: state),
-            _ProgrammeHighlightMyUpComing(state: state),
-          ],
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              _ProgrammeHighlightOnGoing(state: state),
+              _ProgrammeHighlightUpComing(state: state),
+              _ProgrammeHighlightMyUpComing(state: state),
+            ],
+          ),
         );
       },
     );
@@ -104,10 +106,8 @@ class _ProgrammeHighlightMyUpComing extends StatelessWidget {
           title: AppLocalizations.of(context)!.contProgrammeHighlightMyUpcoming,
         ),
         state.upcomingMyEntries.isNotEmpty
-            ? Expanded(
-                child: _VerticalHighlightEntryList(
-                  entries: state.upcomingMyEntries,
-                ),
+            ? _VerticalHighlightEntryList(
+                entries: state.upcomingMyEntries,
               )
             : _HighlightEmpty(
                 text: AppLocalizations.of(context)!

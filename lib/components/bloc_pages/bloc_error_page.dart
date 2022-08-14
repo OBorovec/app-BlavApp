@@ -12,7 +12,6 @@ class BlocErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: finish localization
     // TODO: add a button to report the problem
     return SidePage(
       titleText: AppLocalizations.of(context)!.genError,

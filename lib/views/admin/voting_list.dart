@@ -1,10 +1,8 @@
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/route_generator.dart';
-import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/views/admin/vote_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

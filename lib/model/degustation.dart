@@ -46,6 +46,7 @@ class DegusItem extends Equatable {
   final List<String> images;
   final String? origin;
   final List<String> similarItems;
+  final String? url;
 
   const DegusItem({
     required this.id,
@@ -62,6 +63,7 @@ class DegusItem extends Equatable {
     this.images = const [],
     this.origin,
     this.similarItems = const [],
+    this.url,
   });
 
   @override
@@ -80,6 +82,7 @@ class DegusItem extends Equatable {
         images,
         origin,
         similarItems,
+        url,
       ];
 
   factory DegusItem.fromJson(Map<String, Object?> json) =>
