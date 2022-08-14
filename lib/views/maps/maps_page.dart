@@ -10,6 +10,7 @@ import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({Key? key}) : super(key: key);
@@ -99,7 +100,11 @@ class _MapsMainContent extends StatelessWidget {
           ),
           ...state.realWorldRecords.map((e) => _RealWorldRecordCard(
                 realWorldRecord: e,
-                onTap: () {},
+                onTap: () => MapsLauncher.launchCoordinates(
+                  e.lat,
+                  e.long,
+                  t(e.name, context),
+                ),
               )),
         ],
       ),
