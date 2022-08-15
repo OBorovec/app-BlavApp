@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/route_generator.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,18 +10,25 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
-          const Expanded(
-            child: Center(child: Text('TBD: Some dynamic text')),
+          SizedBox(
+            height: width,
+            width: width,
+            child: const FlareActor("assets/flare/WitcherWolf.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: "compose"),
           ),
           Expanded(
             child: Center(
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state.status == AuthStatus.authenticated) {
-                    Future.delayed(const Duration(seconds: 1), () {
+                    Future.delayed(const Duration(seconds: 2), () {
                       Navigator.popAndPushNamed(context, RoutePaths.eventHome);
                     });
                   }
