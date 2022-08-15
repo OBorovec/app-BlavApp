@@ -1,3 +1,4 @@
+import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/utils/model_icons.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -95,9 +96,11 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
           minScale: widget.initVerticalScale,
           child: Stack(
             children: [
-              Image.asset(
-                widget.mapRecord.image,
-              ),
+              widget.mapRecord.image.startsWith('assets')
+                  ? Image.asset(
+                      widget.mapRecord.image,
+                    )
+                  : AppNetworkImage(imgLocation: widget.mapRecord.image),
               ...widget.mapRecord.points.map(
                 (MapPoint p) {
                   final int index = widget.mapRecord.points.indexOf(p);

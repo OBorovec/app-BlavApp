@@ -1,4 +1,5 @@
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
+import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
 import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
@@ -132,10 +133,15 @@ class _MapRecordCard extends StatelessWidget {
             Positioned.fill(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  mapRecord.image,
-                  fit: BoxFit.cover,
-                ),
+                child: mapRecord.image.startsWith('assets')
+                    ? Image.asset(
+                        mapRecord.image,
+                        fit: BoxFit.cover,
+                      )
+                    : AppNetworkImage(
+                        imgLocation: mapRecord.image,
+                        asCover: true,
+                      ),
               ),
             ),
             Align(
