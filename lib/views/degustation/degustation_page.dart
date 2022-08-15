@@ -1,7 +1,6 @@
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degustation_bloc.dart';
-import 'package:blavapp/bloc/degustation/place_degustation/place_degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
@@ -72,11 +71,6 @@ class _DegustationPageState extends State<DegustationPage> {
                   create: (context) => FilterDegustationBloc(
                     degustationBloc: context.read<DegustationBloc>(),
                     userDataBloc: context.read<UserDataBloc>(),
-                  ),
-                ),
-                BlocProvider(
-                  create: (context) => PlaceDegustationBloc(
-                    degustationBloc: context.read<DegustationBloc>(),
                   ),
                 ),
               ],

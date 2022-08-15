@@ -112,7 +112,9 @@ class FilterCateringBloc
     }
     if (state.placesFilter.isNotEmpty) {
       caterItemsFiltering = caterItemsFiltering.where(
-        (CaterItem item) => state.placesFilter.contains(item.placeRef),
+        (CaterItem item) => item.placeRef.any(
+          (String placeRef) => state.placesFilter.contains(placeRef),
+        ),
       );
     }
     if (state.allergensFilter.isNotEmpty) {
@@ -243,6 +245,7 @@ class FilterCateringBloc
         onlyGlutenFree: event.value,
       ),
     );
+    add(const ApplyCateringFilters());
   }
 
   FutureOr<void> _updateTextFilter(

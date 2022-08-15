@@ -6,7 +6,6 @@ import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_interpreter.dart';
-import 'package:blavapp/views/maps/maps_control_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

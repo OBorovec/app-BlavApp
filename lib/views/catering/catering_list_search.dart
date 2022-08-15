@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
+import 'package:blavapp/constants/icons.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,77 @@ class CateringSearchTile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4),
-            _buildActiveSearchTagWrap(state, context),
+            Wrap(
+              children: [
+                ...state.itemTypeFilter
+                    .map((e) => _buildTypeSearchTag(e, context)),
+                ...state.placesFilter
+                    .map((e) => _buildPlaceSearchTag(e, context)),
+                ...state.allergensFilter
+                    .map((e) => _buildAllergenSearchTag(e, context)),
+                if (state.onlyVegetarian)
+                  _CateringSearchTag(
+                    onPressed: () =>
+                        BlocProvider.of<FilterCateringBloc>(context)
+                            .add(const UseCateringVegetarianFilter(false)),
+                    isOn: (FilterCateringState state) => !state.onlyVegetarian,
+                    text: AppLocalizations.of(context)!
+                        .contCateringListSearchVegetarian,
+                  ),
+                if (state.onlyVegan)
+                  _CateringSearchTag(
+                    onPressed: () =>
+                        BlocProvider.of<FilterCateringBloc>(context)
+                            .add(const UseCateringVeganFilter(false)),
+                    isOn: (FilterCateringState state) => !state.onlyVegan,
+                    text: AppLocalizations.of(context)!
+                        .contCateringListSearchVegetarian,
+                  ),
+                if (state.onlyGlutenFree)
+                  _CateringSearchTag(
+                    onPressed: () =>
+                        BlocProvider.of<FilterCateringBloc>(context)
+                            .add(const UseCateringGlutenFreeFilter(false)),
+                    isOn: (FilterCateringState state) => !state.onlyGlutenFree,
+                    text: AppLocalizations.of(context)!
+                        .contCateringListSearchGlutenFree,
+                  ),
+              ],
+            ),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildTypeSearchTag(CaterItemType type, BuildContext context) {
+    return _CateringSearchTag(
+      onPressed: () => BlocProvider.of<FilterCateringBloc>(context)
+          .add(CateringTypeFilter(type)),
+      isOn: (FilterCateringState state) => !state.itemTypeFilter.contains(type),
+      text: tCaterItemType(type, context),
+    );
+  }
+
+  Widget _buildPlaceSearchTag(String placeRef, BuildContext context) {
+    CateringState prgState = BlocProvider.of<CateringBloc>(context).state;
+    CaterPlace? place = prgState.cateringPlaces[placeRef];
+    return _CateringSearchTag(
+      onPressed: () => BlocProvider.of<FilterCateringBloc>(context)
+          .add(CateringPlaceFilter(placeRef)),
+      isOn: (FilterCateringState state) =>
+          !state.placesFilter.contains(placeRef),
+      text: place != null ? t(place.name, context) : '?$placeRef',
+    );
+  }
+
+  Widget _buildAllergenSearchTag(int allergenNum, BuildContext context) {
+    return _CateringSearchTag(
+      onPressed: () => BlocProvider.of<FilterCateringBloc>(context)
+          .add(CateringAllergenFilter(allergenNum)),
+      isOn: (FilterCateringState state) =>
+          !state.allergensFilter.contains(allergenNum),
+      text: '#$allergenNum',
     );
   }
 
@@ -45,9 +113,9 @@ class CateringSearchTile extends StatelessWidget {
       builder: (_) {
         return BlocProvider.value(
           value: BlocProvider.of<FilterCateringBloc>(context),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -56,37 +124,85 @@ class CateringSearchTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 8),
-                  _buildFilterSubtitle(
+                  _buildModalSubtitle(
                     context,
                     AppLocalizations.of(context)!.contCateringListSearchTypes,
-                    Icons.access_time_outlined,
+                    Icons.category_outlined,
                   ),
+                  const SizedBox(height: 8),
                   Wrap(
+                    alignment: WrapAlignment.center,
                     children: state.availableItemTypes
-                        .map((e) => _CateringTypeSearchTag(itemType: e))
+                        .map((e) => _buildTypeSearchTag(e, context))
                         .toList(),
                   ),
-                  _buildFilterSubtitle(
+                  const SizedBox(height: 8),
+                  _buildModalSubtitle(
                     context,
                     AppLocalizations.of(context)!.contCateringListSearchPlaces,
                     Icons.place_outlined,
                   ),
+                  const SizedBox(height: 8),
                   Wrap(
+                    alignment: WrapAlignment.center,
                     children: state.availablePlaces
-                        .map((e) => _CateringPlaceSearchTag(placeRef: e))
+                        .map((e) => _buildPlaceSearchTag(e, context))
                         .toList(),
                   ),
-                  _buildFilterSubtitle(
+                  const SizedBox(height: 8),
+                  _buildModalSubtitle(
                     context,
                     AppLocalizations.of(context)!
                         .contCateringListSearchAllergens,
-                    Icons.place_outlined,
+                    Icons.warning_outlined,
                   ),
+                  const SizedBox(height: 8),
                   Wrap(
+                    alignment: WrapAlignment.center,
                     children: state.availableAllergens
-                        .map((e) => _CateringAllergenSearchTag(allergenNum: e))
+                        .map((e) => _buildAllergenSearchTag(e, context))
                         .toList(),
                   ),
+                  const SizedBox(height: 8),
+                  _CateringSearchCheckbox(
+                      icon: ImageIcon(
+                        AppIcons.vegetarian,
+                        size: 16,
+                      ),
+                      text: AppLocalizations.of(context)!
+                          .contCateringListSearchVegetarian,
+                      checkboxValue: (FilterCateringState state) =>
+                          state.onlyVegetarian,
+                      onChanged: (value) =>
+                          BlocProvider.of<FilterCateringBloc>(context).add(
+                              UseCateringVegetarianFilter(value ?? false))),
+                  const SizedBox(height: 8),
+                  _CateringSearchCheckbox(
+                      icon: ImageIcon(
+                        AppIcons.vegan,
+                        size: 16,
+                      ),
+                      text: AppLocalizations.of(context)!
+                          .contCateringListSearchVegan,
+                      checkboxValue: (FilterCateringState state) =>
+                          state.onlyVegan,
+                      onChanged: (value) =>
+                          BlocProvider.of<FilterCateringBloc>(context)
+                              .add(UseCateringVeganFilter(value ?? false))),
+                  const SizedBox(height: 8),
+                  _CateringSearchCheckbox(
+                      icon: ImageIcon(
+                        AppIcons.glutenFree,
+                        size: 16,
+                      ),
+                      text: AppLocalizations.of(context)!
+                          .contCateringListSearchGlutenFree,
+                      checkboxValue: (FilterCateringState state) =>
+                          state.onlyGlutenFree,
+                      onChanged: (value) =>
+                          BlocProvider.of<FilterCateringBloc>(context).add(
+                              UseCateringGlutenFreeFilter(value ?? false))),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
@@ -96,34 +212,54 @@ class CateringSearchTile extends StatelessWidget {
     );
   }
 
-  Padding _buildFilterSubtitle(
-      BuildContext context, String text, IconData icon) {
+  Widget _buildModalSubtitle(
+    BuildContext context,
+    String text,
+    IconData icon,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Icon(icon, size: 16),
+          const SizedBox(width: 8),
           Text(
             text,
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          Icon(icon, size: 16),
         ],
       ),
     );
   }
 
-  Widget _buildActiveSearchTagWrap(
-    FilterCateringState state,
+  Widget _buildTextCheckbox(
     BuildContext context,
+    String text,
+    IconData icon,
+    Function(FilterCateringState) checkboxValue,
+    Function(bool?) onChanged,
   ) {
-    return Wrap(
-      children: [
-        ...state.itemTypeFilter.map((e) => _CateringTypeSearchTag(itemType: e)),
-        ...state.placesFilter.map((e) => _CateringPlaceSearchTag(placeRef: e)),
-        ...state.allergensFilter
-            .map((e) => _CateringAllergenSearchTag(allergenNum: e)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          Icon(icon, size: 16),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          Expanded(child: Container()),
+          BlocBuilder<FilterCateringBloc, FilterCateringState>(
+            builder: (context, state) {
+              return Checkbox(
+                value: checkboxValue(state),
+                onChanged: onChanged,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -184,13 +320,17 @@ class __TextSearchLineState extends State<_TextSearchLine> {
   }
 }
 
-abstract class _CateringSearchTag extends StatelessWidget {
-  final FilterCateringEvent onPressedEvent;
+class _CateringSearchTag extends StatelessWidget {
+  final void Function() onPressed;
+  final bool Function(FilterCateringState state) isOn;
+  final String text;
 
-  const _CateringSearchTag({
-    Key? key,
-    required this.onPressedEvent,
-  }) : super(key: key);
+  const _CateringSearchTag(
+      {Key? key,
+      required this.onPressed,
+      required this.isOn,
+      required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -213,14 +353,10 @@ abstract class _CateringSearchTag extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_getLabelText(context)),
+                  Text(text),
                   AddSwitch(
-                    isOn: _isOn(state),
-                    onPressed: () {
-                      BlocProvider.of<FilterCateringBloc>(context).add(
-                        onPressedEvent,
-                      );
-                    },
+                    isOn: isOn(state),
+                    onPressed: onPressed,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                   )
@@ -232,65 +368,44 @@ abstract class _CateringSearchTag extends StatelessWidget {
       },
     );
   }
-
-  bool _isOn(FilterCateringState state);
-
-  String _getLabelText(BuildContext context);
 }
 
-class _CateringTypeSearchTag extends _CateringSearchTag {
-  final CaterItemType itemType;
-
-  _CateringTypeSearchTag({
+class _CateringSearchCheckbox extends StatelessWidget {
+  final Widget icon;
+  final String text;
+  final bool Function(FilterCateringState state) checkboxValue;
+  final void Function(bool?) onChanged;
+  const _CateringSearchCheckbox({
     Key? key,
-    required this.itemType,
-  }) : super(key: key, onPressedEvent: CateringTypeFilter(itemType));
+    required this.icon,
+    required this.text,
+    required this.checkboxValue,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
-  String _getLabelText(BuildContext context) {
-    return tCaterItemType(itemType, context);
-  }
-
-  @override
-  bool _isOn(FilterCateringState state) {
-    return !state.itemTypeFilter.contains(itemType);
-  }
-}
-
-class _CateringPlaceSearchTag extends _CateringSearchTag {
-  final String placeRef;
-  _CateringPlaceSearchTag({
-    Key? key,
-    required this.placeRef,
-  }) : super(key: key, onPressedEvent: CateringPlaceFilter(placeRef));
-
-  @override
-  String _getLabelText(BuildContext context) {
-    CateringState prgState = BlocProvider.of<CateringBloc>(context).state;
-    CaterPlace? place = prgState.cateringPlaces[placeRef];
-    return place != null ? t(place.name, context) : '?$placeRef';
-  }
-
-  @override
-  bool _isOn(FilterCateringState state) {
-    return !state.placesFilter.contains(placeRef);
-  }
-}
-
-class _CateringAllergenSearchTag extends _CateringSearchTag {
-  final int allergenNum;
-  _CateringAllergenSearchTag({
-    Key? key,
-    required this.allergenNum,
-  }) : super(key: key, onPressedEvent: CateringAllergenFilter(allergenNum));
-
-  @override
-  String _getLabelText(BuildContext context) {
-    return '#$allergenNum';
-  }
-
-  @override
-  bool _isOn(FilterCateringState state) {
-    return !state.allergensFilter.contains(allergenNum);
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          icon,
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          Expanded(child: Container()),
+          BlocBuilder<FilterCateringBloc, FilterCateringState>(
+            builder: (context, state) {
+              return Checkbox(
+                value: checkboxValue(state),
+                onChanged: onChanged,
+              );
+            },
+          )
+        ],
+      ),
+    );
   }
 }
