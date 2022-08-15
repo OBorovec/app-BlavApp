@@ -7,6 +7,13 @@ class PrefsRepo {
   static const String keyTheme = 'theme';
   static const String keyEventFocus = 'eventFocus';
   static const String keyUserCurrency = 'userCurrency';
+  static const String keyUserNotificationPush = 'userNotificationPush';
+  static const String keyUserNotificationProgramme =
+      'userNotificationProgramme';
+  static const String keyUserNotificationStory = 'userNotificationStory';
+  static const String keyUserNotification10 = 'userNotification10';
+  static const String keyUserNotification30 = 'userNotification30';
+  static const String keyUserNotification60 = 'userNotification60';
 
   PrefsRepo(SharedPreferences prefs) : _prefsInstance = prefs;
 
@@ -40,5 +47,53 @@ class PrefsRepo {
 
   void saveUserCurrency(String? value) {
     _prefsInstance.setString(keyUserCurrency, value ?? '');
+  }
+
+  bool? loadUserNotificationPush() {
+    return _prefsInstance.getBool(keyUserNotificationPush);
+  }
+
+  void saveUserNotificationPush(bool? value) {
+    _prefsInstance.setBool(keyUserNotificationPush, value ?? true);
+  }
+
+  bool? loadUserNotificationProgramme() {
+    return _prefsInstance.getBool(keyUserNotificationProgramme);
+  }
+
+  void saveUserNotificationProgramme(bool? value) {
+    _prefsInstance.setBool(keyUserNotificationProgramme, value ?? true);
+  }
+
+  bool? loadUserNotificationStory() {
+    return _prefsInstance.getBool(keyUserNotificationStory);
+  }
+
+  void saveUserNotificationStory(bool? value) {
+    _prefsInstance.setBool(keyUserNotificationStory, value ?? true);
+  }
+
+  bool? loadUserNotification10() {
+    return _prefsInstance.getBool(keyUserNotification10);
+  }
+
+  void saveUserNotification10(bool? value) {
+    _prefsInstance.setBool(keyUserNotification10, value ?? false);
+  }
+
+  bool? loadUserNotification30() {
+    return _prefsInstance.getBool(keyUserNotification30);
+  }
+
+  void saveUserNotification30(bool? value) {
+    _prefsInstance.setBool(keyUserNotification30, value ?? false);
+  }
+
+  bool? loadUserNotification60() {
+    return _prefsInstance.getBool(keyUserNotification60);
+  }
+
+  void saveUserNotification60(bool? value) {
+    _prefsInstance.setBool(keyUserNotification60, value ?? false);
   }
 }
