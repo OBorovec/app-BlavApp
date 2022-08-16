@@ -19,6 +19,7 @@
   "compButtonSignIn": "Sign in",
   "compButtonSignOut": "Sign out",
   "compButtonSignUp": "Sign up",
+  "compDialogFeedback": "Feedback",
   "compDialogQRScanner": "QR Scanner",
   "compDialogStarRating": "Rating",
   "compPageDataFail": "Unable to load data:",

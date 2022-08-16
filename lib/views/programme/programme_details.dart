@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/control/rating_bar.dart';
+import 'package:blavapp/components/dialogs/review_dialog.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/views/title_divider.dart';
@@ -224,8 +225,18 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
               _buildBtn(
                 onPressed: () => showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      _ProgrammeFeedbackDialog(reference: entry.id),
+                  builder: (BuildContext context) => ReviewDialog(
+                    title: AppLocalizations.of(context)!
+                        .contProgrammeDetailDiagFeedback,
+                    onSubmit: (rating, message) =>
+                        BlocProvider.of<UserDataBloc>(context).add(
+                      UserDataFeedBack(
+                        rating: rating,
+                        message: message,
+                        reference: entry.id,
+                      ),
+                    ),
+                  ),
                 ),
                 iconData: Icons.feedback,
                 text: AppLocalizations.of(context)!
@@ -306,68 +317,6 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class _ProgrammeFeedbackDialog extends StatefulWidget {
-  final String reference;
-  const _ProgrammeFeedbackDialog({
-    Key? key,
-    required,
-    required this.reference,
-  }) : super(key: key);
-
-  @override
-  State<_ProgrammeFeedbackDialog> createState() =>
-      _ProgrammeFeedbackDialogState();
-}
-
-class _ProgrammeFeedbackDialogState extends State<_ProgrammeFeedbackDialog> {
-  double rating = 0;
-  String message = '';
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        AppLocalizations.of(context)!.contProgrammeDetailDiagFeedback,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AppRatingBar(
-            onRating: (rating) => setState(() => this.rating = rating),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            onChanged: (value) => setState(() {
-              message = value;
-            }),
-            maxLines: 10,
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            BlocProvider.of<UserDataBloc>(context).add(
-              UserDataFeedBack(
-                rating: rating,
-                message: message,
-                reference: widget.reference,
-              ),
-            );
-            Navigator.pop(context);
-          },
-          child: Text(AppLocalizations.of(context)!.genSend),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.genDismiss),
-        ),
-      ],
     );
   }
 }

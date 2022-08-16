@@ -335,11 +335,6 @@ class DataRepo {
 
   final CollectionReference _votingDataRef =
       FirebaseFirestore.instance.collection('sup_voting');
-  // .withConverter<SupportVoting>(
-  //   fromFirestore: (snapshot, _) =>
-  //       SupportVoting.fromJson(snapshot.data()!),
-  //   toFirestore: (entry, _) => entry.toJson(),
-  // );
 
   Stream<Map<String, dynamic>> getVotingStream(String eventRef) {
     return _votingDataRef
@@ -402,10 +397,12 @@ class DataRepo {
     required String review,
   }) {
     return _reviewDataRef.doc(eventRef).update({
-      reference: {
-        'rating': rating,
-        'review': review,
-      },
+      reference: FieldValue.arrayUnion([
+        {
+          'rating': rating,
+          'review': review,
+        }
+      ]),
     });
   }
 }

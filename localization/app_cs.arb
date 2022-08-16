@@ -19,6 +19,7 @@
   "compButtonSignIn": "Přihlásit",
   "compButtonSignOut": "Odhlásit",
   "compButtonSignUp": "Registrovat",
+  "compDialogFeedback": "Zpětná vazba",
   "compDialogQRScanner": "QR Scanner",
   "compDialogStarRating": "Hodnocení",
   "compPageDataFail": "Nepodařilo se načíst data:",
