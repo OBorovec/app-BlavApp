@@ -47,6 +47,7 @@ class _SidePageState extends State<SidePage> {
           ],
         ),
         floatingActionButton: widget.floatingActionButton,
+        resizeToAvoidBottomInset: false,
       ),
     );
   }

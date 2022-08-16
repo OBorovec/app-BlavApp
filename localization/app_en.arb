@@ -141,6 +141,7 @@
   "contSignUpPswError": "Must contain lowercase and uppercase letters, numbers and at least 8 characters.",
   "contSignUpTErrro": "Sign up failed:",
   "contSignUpTitle": "Registration",
+  "contStoryFactionHighlights": "Important",
   "contStoryFactionMembers": "Members",
   "contStoryGroups": "Story groups",
   "contStoryTitle": "Story line",

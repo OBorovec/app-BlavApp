@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_hierarchy/detail_not_found.dart';
@@ -66,10 +64,10 @@ class _FactionDetailContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               children: [
-                _FactionHighlights(faction: faction),
                 _FactionDescription(faction: faction),
-                // if (members != null && members!.isNotEmpty)
-                //   _FactionMembers(members: members),
+                _FactionHighlights(faction: faction),
+                if (members != null && members!.isNotEmpty)
+                  _FactionMembers(members: members),
               ],
             ),
           )
@@ -121,37 +119,40 @@ class _FactionHeader extends StatelessWidget {
                 ),
               ),
             ),
+          if (leader != null)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  side:
+                      BorderSide(color: Theme.of(context).focusColor, width: 5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 10,
+                child: SizedBox(
+                  width: leaderHeight + 10,
+                  child: Column(
+                    children: [
+                      Text(
+                        leader!.name,
+                        style: Theme.of(context).textTheme.headline6,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        t(leader!.type, context),
+                        style: Theme.of(context).textTheme.subtitle1,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
-    );
-  }
-}
-
-class _FactionHighlights extends StatelessWidget {
-  final StoryFaction faction;
-
-  const _FactionHighlights({
-    Key? key,
-    required this.faction,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: faction.highlights
-          .map((e) => Column(
-                children: [
-                  Text(
-                    t(e['key']!, context),
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                  Text(
-                    t(e['value']!, context),
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ],
-              ))
-          .toList(),
     );
   }
 }
@@ -170,6 +171,41 @@ class _FactionDescription extends StatelessWidget {
       children: [
         const SizedBox(height: 8),
         Text(t(faction.desc, context)),
+      ],
+    );
+  }
+}
+
+class _FactionHighlights extends StatelessWidget {
+  final StoryFaction faction;
+
+  const _FactionHighlights({
+    Key? key,
+    required this.faction,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TitleDivider(
+            title: AppLocalizations.of(context)!.contStoryFactionHighlights),
+        Column(
+          children: faction.highlights
+              .map((e) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        '${t(e['key']!, context)}:',
+                      ),
+                      Text(
+                        t(e['value']!, context),
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ))
+              .toList(),
+        ),
       ],
     );
   }
@@ -198,33 +234,50 @@ class _FactionMembers extends StatelessWidget {
               return InkWell(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Hero(
-                        tag: storyEntityImgHeroTag(member!),
-                        child: CircleAvatar(
-                          radius: 32,
-                          backgroundImage: NetworkImage(
-                            member.images[0],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 80,
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              member.name,
-                              style: Theme.of(context).textTheme.subtitle2,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
+                  child: SizedBox(
+                    width: 124,
+                    height: 114,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Hero(
+                            tag: storyEntityImgHeroTag(member!),
+                            child: CircleAvatar(
+                              radius: 57,
+                              backgroundImage: NetworkImage(
+                                member.images[0],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          left: 0,
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Text(
+                                  member.name,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  t(member.type, context),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

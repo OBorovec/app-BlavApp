@@ -52,6 +52,7 @@ class _RootPageState extends State<RootPage> {
         floatingActionButton: widget.floatingActionButton,
         bottomNavigationBar: widget.bottomNavigationBar,
         extendBody: true,
+        resizeToAvoidBottomInset: false,
       ),
     );
   }

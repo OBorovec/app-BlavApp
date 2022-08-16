@@ -42,7 +42,7 @@ class ProgrammeDetails extends StatelessWidget {
                   if (entry.desc != null)
                     _ProgrammeEntryDescription(entry: entry),
                   _ProgrammeEntryControlBtns(entry: entry),
-                  // const SizedBox(height: 32),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
