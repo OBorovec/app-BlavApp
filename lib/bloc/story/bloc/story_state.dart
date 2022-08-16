@@ -16,7 +16,9 @@ class StoryState extends Equatable {
     required this.story,
   });
 
-  List<StoryPart> get storyParts => story.storyUpdates;
+  List<StoryPart> get updates => story.updates;
+  Map<String, StoryFaction> get factions => story.factions;
+  Map<String, StoryEntity> get entities => story.entities;
 
   @override
   List<Object> get props => [status, message, story];

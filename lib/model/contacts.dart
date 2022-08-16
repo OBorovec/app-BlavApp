@@ -7,16 +7,17 @@ part 'contacts.g.dart';
 class Contacts extends Equatable {
   final Map<String, String>? instruction;
   final Map<String, ContactEntity> entities;
-  final Map<String, ContactEntity> stroyEntities;
 
   const Contacts({
     this.instruction,
     this.entities = const {},
-    this.stroyEntities = const {},
   });
 
   @override
-  List<Object?> get props => [instruction, entities, stroyEntities];
+  List<Object?> get props => [
+        instruction,
+        entities,
+      ];
 
   factory Contacts.fromJson(Map<String, Object?> json) =>
       _$ContactsFromJson(json);
@@ -41,6 +42,7 @@ class ContactEntity extends Equatable {
   final List<String> images;
   final List<ContactPlace> commonPlaces;
   final ContactPlace? currentPlaceRef;
+  final List<String> storyEntityRef;
 
   const ContactEntity({
     required this.id,
@@ -58,6 +60,7 @@ class ContactEntity extends Equatable {
     this.images = const [],
     this.commonPlaces = const [],
     this.currentPlaceRef,
+    this.storyEntityRef = const [],
   });
 
   @override
@@ -77,6 +80,7 @@ class ContactEntity extends Equatable {
         images,
         commonPlaces,
         currentPlaceRef,
+        storyEntityRef,
       ];
 
   factory ContactEntity.fromJson(Map<String, Object?> json) =>

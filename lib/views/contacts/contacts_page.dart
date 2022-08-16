@@ -27,23 +27,77 @@ class ContactsPage extends StatelessWidget {
       builder: (context, state) {
         switch (state.status) {
           case DataStatus.loaded:
-            return Builder(builder: (context) {
-              return RootPage(
-                  titleText: AppLocalizations.of(context)!.contContactsTitle,
-                  body: SingleChildScrollView(
+            return RootPage(
+                titleText: AppLocalizations.of(context)!.contContactsTitle,
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Row(
+                          children: [
+                            _RequestHelp(state: state),
+                            if (state.contacts.instruction != null) ...[
+                              const SizedBox(width: 16),
+                              _ContactsInstructions(state: state),
+                            ],
+                          ],
+                        ),
+                        const SizedBox(height: 16),
                         _ContactsList(state: state),
                       ],
                     ),
-                  ));
-            });
+                  ),
+                ));
           case DataStatus.error:
             return DataErrorPage(message: state.message);
           case DataStatus.initial:
             return const DataLoadingPage();
         }
       },
+    );
+  }
+}
+
+class _RequestHelp extends StatelessWidget {
+  final ContactsState state;
+  const _RequestHelp({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: Column(
+        children: [
+          IconButton(
+            onPressed: () => null,
+            icon: const Icon(Icons.help),
+            iconSize: 64,
+          ),
+          Text(AppLocalizations.of(context)!.contContactsReqHelp),
+        ],
+      ),
+    );
+  }
+}
+
+class _ContactsInstructions extends StatelessWidget {
+  final ContactsState state;
+  const _ContactsInstructions({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Text(
+        t(state.contacts.instruction!, context),
+      ),
     );
   }
 }

@@ -15,17 +15,11 @@ Contacts _$ContactsFromJson(Map<String, dynamic> json) => Contacts(
                 MapEntry(k, ContactEntity.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
-      stroyEntities: (json['stroyEntities'] as Map<String, dynamic>?)?.map(
-            (k, e) =>
-                MapEntry(k, ContactEntity.fromJson(e as Map<String, dynamic>)),
-          ) ??
-          const {},
     );
 
 Map<String, dynamic> _$ContactsToJson(Contacts instance) => <String, dynamic>{
       'instruction': instance.instruction,
       'entities': instance.entities,
-      'stroyEntities': instance.stroyEntities,
     };
 
 ContactEntity _$ContactEntityFromJson(Map<String, dynamic> json) =>
@@ -58,6 +52,10 @@ ContactEntity _$ContactEntityFromJson(Map<String, dynamic> json) =>
           ? null
           : ContactPlace.fromJson(
               json['currentPlaceRef'] as Map<String, dynamic>),
+      storyEntityRef: (json['storyEntityRef'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$ContactEntityToJson(ContactEntity instance) =>
@@ -77,6 +75,7 @@ Map<String, dynamic> _$ContactEntityToJson(ContactEntity instance) =>
       'images': instance.images,
       'commonPlaces': instance.commonPlaces,
       'currentPlaceRef': instance.currentPlaceRef,
+      'storyEntityRef': instance.storyEntityRef,
     };
 
 ContactPlace _$ContactPlaceFromJson(Map<String, dynamic> json) => ContactPlace(

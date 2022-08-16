@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/story.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'story_event.dart';
 part 'story_state.dart';
@@ -74,9 +74,9 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     StorySubscriptionFailed event,
     Emitter<StoryState> emit,
   ) {
-    state.copyWith(
+    emit(state.copyWith(
       status: DataStatus.error,
       message: event.message,
-    );
+    ));
   }
 }

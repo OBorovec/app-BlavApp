@@ -27,6 +27,7 @@ import 'package:blavapp/views/settings/settings_page.dart';
 import 'package:blavapp/views/sign_in/password_reset_page.dart';
 import 'package:blavapp/views/sign_in/signin_page.dart';
 import 'package:blavapp/views/sign_in/signup_page.dart';
+import 'package:blavapp/views/story/story_faction_detail.dart';
 import 'package:blavapp/views/story/story_pape.dart';
 import 'package:blavapp/views/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class RoutePaths {
   // Event related route
   static const String eventHome = '/';
   static const String story = '/story';
+  static const String storyFaction = '/story/faction';
   static const String programme = '/programme';
   static const String programmeEntry = '/programme/entry';
   static const String catering = '/catering';
@@ -175,17 +177,25 @@ class RouteGenerator {
           ),
           isAuthenticated,
         );
-      case RoutePaths.programme:
-        return authGuard(
-          MaterialPageRoute(
-            builder: (_) => const ProgrammePage(),
-          ),
-          isAuthenticated,
-        );
       case RoutePaths.story:
         return authGuard(
           MaterialPageRoute(
             builder: (_) => const StoryPage(),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.storyFaction:
+        final args = settings.arguments! as StoryFactionDetailsArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => StoryFactionDetail(factionRef: args.factionRef),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.programme:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const ProgrammePage(),
           ),
           isAuthenticated,
         );

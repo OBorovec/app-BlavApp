@@ -4,6 +4,7 @@ import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/programme.dart';
+import 'package:blavapp/model/story.dart';
 
 enum AppHeros { userAvatar }
 
@@ -41,4 +42,12 @@ String cosplayImgHeroTag(CosplayRecord record) {
 
 String contactImgHeroTag(ContactEntity entity) {
   return 'contact-img-item-${entity.id}';
+}
+
+String storyFactionImgHeroTag(StoryFaction faction) {
+  return 'faction-img-${faction.id}';
+}
+
+String storyEntityImgHeroTag(StoryEntity entity) {
+  return 'story-entity-img-${entity.id}';
 }
