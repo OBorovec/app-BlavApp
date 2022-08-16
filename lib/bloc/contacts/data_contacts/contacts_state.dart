@@ -1,18 +1,18 @@
 part of 'contacts_bloc.dart';
 
-enum DataStatus {
+enum ContactsStatus {
   initial,
   loaded,
   error,
 }
 
 class ContactsState extends Equatable {
-  final DataStatus status;
+  final ContactsStatus status;
   final String message;
   final Contacts contacts;
 
   const ContactsState({
-    this.status = DataStatus.initial,
+    this.status = ContactsStatus.initial,
     this.message = '',
     this.contacts = const Contacts(),
   });
@@ -23,7 +23,7 @@ class ContactsState extends Equatable {
   List<Object> get props => [status, message, contacts];
 
   ContactsState copyWith({
-    DataStatus? status,
+    ContactsStatus? status,
     String? message,
     Contacts? contacts,
   }) {

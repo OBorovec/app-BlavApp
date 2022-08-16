@@ -11,6 +11,7 @@ class UserData extends Equatable {
   final Set<String> favoriteSamples;
   final Map<String, double> myRatings;
   final Map<String, bool?> myVoting;
+  final List<List<String>> supTickets;
 
   const UserData({
     this.tickets = const [],
@@ -19,6 +20,7 @@ class UserData extends Equatable {
     this.favoriteSamples = const {},
     this.myRatings = const {},
     this.myVoting = const {},
+    this.supTickets = const [],
   });
 
   @override
@@ -29,6 +31,7 @@ class UserData extends Equatable {
         favoriteSamples,
         myRatings,
         myVoting,
+        supTickets,
       ];
 
   factory UserData.fromJson(Map<String, Object?> json) =>

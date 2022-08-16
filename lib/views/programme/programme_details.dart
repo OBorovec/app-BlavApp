@@ -1,6 +1,5 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/control/rating_bar.dart';
 import 'package:blavapp/components/dialogs/review_dialog.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
@@ -25,6 +24,9 @@ class ProgrammeDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProgPlace? place = BlocProvider.of<ProgrammeBloc>(context)
+        .state
+        .programmePlaces[entry.placeRef];
     return SidePage(
       titleText: t(entry.name, context),
       body: SingleChildScrollView(
@@ -36,7 +38,7 @@ class ProgrammeDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  _ProgrammeEntryBaseInfo(entry: entry),
+                  _ProgrammeEntryBaseInfo(entry: entry, place: place),
                   if (entry.desc != null)
                     _ProgrammeEntryDescription(entry: entry),
                   _ProgrammeEntryControlBtns(entry: entry),
@@ -47,6 +49,14 @@ class ProgrammeDetails extends StatelessWidget {
           ],
         ),
       ),
+      actions: [
+        (place != null && place.loc != null)
+            ? IconBtnPushCustomMap(
+                mapRef: place.loc!.mapRef,
+                pointRef: place.loc!.pointRef,
+              )
+            : const Icon(Icons.location_off)
+      ],
     );
   }
 }
@@ -82,17 +92,16 @@ class _ProgrammeEntryHeroImage extends StatelessWidget {
 
 class _ProgrammeEntryBaseInfo extends StatelessWidget {
   final ProgEntry entry;
+  final ProgPlace? place;
 
   const _ProgrammeEntryBaseInfo({
     Key? key,
     required this.entry,
+    required this.place,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ProgPlace? place = BlocProvider.of<ProgrammeBloc>(context)
-        .state
-        .programmePlaces[entry.placeRef];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -116,7 +125,7 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
             ),
             _buildInfoLine(
               Icons.place_outlined,
-              place != null ? t(place.name, context) : '?${entry.placeRef}?',
+              place != null ? t(place!.name, context) : '?${entry.placeRef}?',
               context,
             ),
             _buildInfoLine(
@@ -132,20 +141,6 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
               children: [
                 ProgrammeEntryNotification(entryId: entry.id),
                 ProgrammeEntryMyProgramme(entryId: entry.id),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.share),
-                ),
-                (place != null && place.loc != null)
-                    ? IconBtnPushCustomMap(
-                        mapRef: place.loc!.mapRef,
-                        pointRef: place.loc!.pointRef,
-                      )
-                    : const Icon(Icons.location_off)
               ],
             ),
           ],

@@ -40,6 +40,8 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<UserDataRateItem>(_rateItem);
     on<UserDataVoteCosplay>(_voteCosplay);
     on<UserDataFeedBack>(_feedBack);
+    on<UserDataHelp>(_helpTicketInit);
+    on<UserDataHelpResponse>(_responseTicket);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -192,5 +194,20 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
         review: event.message + (event.signed ? user.uid : ''),
       );
     }
+  }
+
+  FutureOr<void> _helpTicketInit(
+    UserDataHelp event,
+    Emitter<UserDataState> emit,
+  ) {
+    final User? user = _authBloc.state.user;
+    // TODO: init user support ticket and set it as pending for admins
+  }
+
+  FutureOr<void> _responseTicket(
+    UserDataHelpResponse event,
+    Emitter<UserDataState> emit,
+  ) {
+    // TODO: add response to a ticket and set it as pending for admins
   }
 }

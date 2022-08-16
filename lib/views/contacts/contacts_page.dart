@@ -1,4 +1,6 @@
 import 'package:blavapp/bloc/contacts/data_contacts/contacts_bloc.dart';
+import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
+import 'package:blavapp/components/dialogs/support_dialog.dart';
 import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
 import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
@@ -20,13 +22,13 @@ class ContactsPage extends StatelessWidget {
     return BlocConsumer<ContactsBloc, ContactsState>(
       listenWhen: (previous, current) => previous.message != current.message,
       listener: (context, state) {
-        if (state.status == DataStatus.error) {
+        if (state.status == ContactsStatus.error) {
           Toasting.notifyToast(context, state.message);
         }
       },
       builder: (context, state) {
         switch (state.status) {
-          case DataStatus.loaded:
+          case ContactsStatus.loaded:
             return RootPage(
                 titleText: AppLocalizations.of(context)!.contContactsTitle,
                 body: Padding(
@@ -49,9 +51,9 @@ class ContactsPage extends StatelessWidget {
                     ),
                   ),
                 ));
-          case DataStatus.error:
+          case ContactsStatus.error:
             return DataErrorPage(message: state.message);
-          case DataStatus.initial:
+          case ContactsStatus.initial:
             return const DataLoadingPage();
         }
       },
@@ -73,7 +75,19 @@ class _RequestHelp extends StatelessWidget {
       child: Column(
         children: [
           IconButton(
-            onPressed: () => null,
+            onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context) => SupportDialog(
+                title: AppLocalizations.of(context)!.contContactsDiagHelp,
+                onSubmit: (title, message) =>
+                    BlocProvider.of<UserDataBloc>(context).add(
+                  UserDataHelp(
+                    title: title,
+                    message: message,
+                  ),
+                ),
+              ),
+            ),
             icon: const Icon(Icons.help),
             iconSize: 64,
           ),

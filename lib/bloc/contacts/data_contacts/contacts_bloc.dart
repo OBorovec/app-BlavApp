@@ -65,12 +65,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
   ) {
     try {
       emit(ContactsState(
-        status: DataStatus.loaded,
+        status: ContactsStatus.loaded,
         contacts: event.contacts,
       ));
     } on Exception catch (e) {
       emit(ContactsState(
-        status: DataStatus.error,
+        status: ContactsStatus.error,
         message: e.toString(),
       ));
     }
@@ -81,7 +81,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     Emitter<ContactsState> emit,
   ) {
     emit(ContactsState(
-      status: DataStatus.error,
+      status: ContactsStatus.error,
       message: event.message,
     ));
   }

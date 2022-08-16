@@ -87,3 +87,23 @@ class UserDataFeedBack extends UserDataEvent {
     this.signed = false,
   });
 }
+
+class UserDataHelp extends UserDataEvent {
+  final String title;
+  final String message;
+
+  const UserDataHelp({
+    required this.title,
+    required this.message,
+  });
+}
+
+class UserDataHelpResponse extends UserDataEvent {
+  final String id;
+  final String message;
+
+  const UserDataHelpResponse({
+    required this.id,
+    required this.message,
+  });
+}

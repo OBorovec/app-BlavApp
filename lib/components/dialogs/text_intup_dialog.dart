@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SupportDialog extends StatefulWidget {
-  final Function(String title, String message) onSubmit;
+class TextInputDialog extends StatefulWidget {
+  final Function(String message) onSubmit;
   final String? title;
-  const SupportDialog({
+  const TextInputDialog({
     Key? key,
     this.title,
     required this.onSubmit,
   }) : super(key: key);
 
   @override
-  State<SupportDialog> createState() => _SupportDialogState();
+  State<TextInputDialog> createState() => _TextInputDialogState();
 }
 
-class _SupportDialogState extends State<SupportDialog> {
-  String title = '';
+class _TextInputDialogState extends State<TextInputDialog> {
   String message = '';
   @override
   Widget build(BuildContext context) {
@@ -30,13 +29,6 @@ class _SupportDialogState extends State<SupportDialog> {
         children: [
           TextField(
             onChanged: (value) => setState(() {
-              title = value;
-            }),
-            maxLines: 1,
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            onChanged: (value) => setState(() {
               message = value;
             }),
             maxLines: 10,
@@ -46,7 +38,7 @@ class _SupportDialogState extends State<SupportDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            widget.onSubmit(title, message);
+            widget.onSubmit(message);
             Navigator.pop(context);
           },
           child: Text(AppLocalizations.of(context)!.genSend),
