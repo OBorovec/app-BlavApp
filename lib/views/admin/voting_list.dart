@@ -1,6 +1,6 @@
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/views/admin/vote_results.dart';
@@ -24,9 +24,9 @@ class VotingPage extends StatelessWidget {
               body: _VotingList(state: state),
             );
           case DataStatus.initial:
-            return const BlocLoadingPage();
+            return const DataLoadingPage();
           case DataStatus.error:
-            return BlocErrorPage(message: state.message);
+            return DataErrorPage(message: state.message);
         }
       },
     );

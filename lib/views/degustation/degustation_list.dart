@@ -27,6 +27,7 @@ class DegustationList extends StatelessWidget {
               child: state.degusItemsFiltered.isNotEmpty
                   ? ImplicitlyAnimatedList<DegusItem>(
                       items: state.degusItemsFiltered,
+                      padding: const EdgeInsets.only(bottom: 64.0),
                       areItemsTheSame: (a, b) => a.id == b.id,
                       updateDuration: const Duration(milliseconds: 200),
                       insertDuration: const Duration(milliseconds: 200),

@@ -122,7 +122,7 @@ class _EventItemHeroImage extends StatelessWidget {
             bottomRight: Radius.circular(64),
           ),
           child: AppNetworkImage(
-            imgLocation: event.images[0],
+            url: event.images[0],
             asCover: true,
           ),
         ),

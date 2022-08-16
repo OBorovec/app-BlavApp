@@ -17,10 +17,7 @@ class DrawerGeneralItems extends StatelessWidget {
         ListTile(
           title: Text(AppLocalizations.of(context)!.contEventsTitle),
           onTap: () {
-            Navigator.pushReplacementNamed(
-              context,
-              RoutePaths.events,
-            );
+            Navigator.popAndPushNamed(context, RoutePaths.events);
           },
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -38,16 +35,13 @@ class DrawerGeneralItems extends StatelessWidget {
           ListTile(
             title: Text(AppLocalizations.of(context)!.adminTitle),
             onTap: () {
-              Navigator.pushReplacementNamed(
-                context,
-                RoutePaths.admin,
-              );
+              Navigator.popAndPushNamed(context, RoutePaths.admin);
             },
           ),
         ListTile(
           title: Text(AppLocalizations.of(context)!.settingsTitle),
           onTap: () {
-            Navigator.pushReplacementNamed(
+            Navigator.popAndPushNamed(
               context,
               RoutePaths.settings,
             );

@@ -73,7 +73,7 @@ Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
       'desc': instance.desc,
       'rating': instance.rating,
       'alcoholVolume': instance.alcoholVolume,
-      'alcoholType': _$DegusAlcoholTypeEnumMap[instance.alcoholType],
+      'alcoholType': _$DegusAlcoholTypeEnumMap[instance.alcoholType]!,
       'subType': instance.subType,
       'dSubType': instance.dSubType,
       'price': instance.price,

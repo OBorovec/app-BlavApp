@@ -2,20 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class AppNetworkImage extends StatelessWidget {
-  final String imgLocation;
+  final String url;
   final bool asCover;
 
   const AppNetworkImage({
     Key? key,
-    required this.imgLocation,
+    required this.url,
     this.asCover = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      cacheKey: imgLocation,
-      imageUrl: imgLocation,
+      cacheKey: url,
+      imageUrl: url,
       imageBuilder: asCover
           ? (context, imageProvider) => Container(
                 decoration: BoxDecoration(

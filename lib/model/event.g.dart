@@ -43,6 +43,7 @@ Routing _$RoutingFromJson(Map<String, dynamic> json) => Routing(
       maps: json['maps'] as bool? ?? false,
       programme: json['programme'] as bool? ?? false,
       story: json['story'] as bool? ?? false,
+      contacts: json['contacts'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$RoutingToJson(Routing instance) => <String, dynamic>{
@@ -53,4 +54,5 @@ Map<String, dynamic> _$RoutingToJson(Routing instance) => <String, dynamic>{
       'maps': instance.maps,
       'programme': instance.programme,
       'story': instance.story,
+      'contacts': instance.contacts,
     };

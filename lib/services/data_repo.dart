@@ -1,4 +1,5 @@
 import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/contacts.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
@@ -266,6 +267,26 @@ class DataRepo {
         throw NullDataException('$eventTag:Maps');
       }
       return ((snapshot.data() as Maps));
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Contacts data
+  //////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _contactsDataRef = FirebaseFirestore.instance
+      .collection('data_contacts')
+      .withConverter<Contacts>(
+        fromFirestore: (snapshot, _) => Contacts.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Stream<Contacts> getContactsStream(String eventTag) {
+    return _contactsDataRef.doc(eventTag).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$eventTag:Contacts');
+      }
+      return ((snapshot.data() as Contacts));
     });
   }
 

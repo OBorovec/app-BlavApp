@@ -22,8 +22,7 @@ class DrawerEventItems extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, RoutePaths.eventHome);
+            Navigator.popAndPushNamed(context, RoutePaths.eventHome);
           },
         ),
         const Divider(),
@@ -35,10 +34,7 @@ class DrawerEventItems extends StatelessWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerStory),
                   onTap: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutePaths.story,
-                    );
+                    Navigator.popAndPushNamed(context, RoutePaths.story);
                   },
                 ),
               if (event.routing.programme)
@@ -55,40 +51,35 @@ class DrawerEventItems extends StatelessWidget {
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerCatering),
                   onTap: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutePaths.catering,
-                    );
+                    Navigator.popAndPushNamed(context, RoutePaths.catering);
                   },
                 ),
               if (event.routing.degustation)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerDegustation),
                   onTap: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutePaths.degustation,
-                    );
+                    Navigator.popAndPushNamed(context, RoutePaths.degustation);
                   },
                 ),
               if (event.routing.maps)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerMaps),
                   onTap: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutePaths.maps,
-                    );
+                    Navigator.popAndPushNamed(context, RoutePaths.maps);
                   },
                 ),
               if (event.routing.cosplay)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.drawerCosplay),
                   onTap: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      RoutePaths.cosplay,
-                    );
+                    Navigator.popAndPushNamed(context, RoutePaths.cosplay);
+                  },
+                ),
+              if (event.routing.contacts)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.drawerContacts),
+                  onTap: () {
+                    Navigator.popAndPushNamed(context, RoutePaths.contacts);
                   },
                 ),
             ],

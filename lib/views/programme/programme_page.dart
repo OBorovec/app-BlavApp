@@ -6,8 +6,8 @@ import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agen
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/programme/programme_highlight.dart';
@@ -93,9 +93,9 @@ class _ProgrammePageState extends State<ProgrammePage> {
               }),
             );
           case ProgrammeStatus.error:
-            return BlocErrorPage(message: state.message);
+            return DataErrorPage(message: state.message);
           case ProgrammeStatus.initial:
-            return const BlocLoadingPage();
+            return const DataLoadingPage();
         }
       },
     );

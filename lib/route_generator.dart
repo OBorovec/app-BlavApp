@@ -6,6 +6,8 @@ import 'package:blavapp/views/admin/voting_list.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
 import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/catering/catering_place_details.dart';
+import 'package:blavapp/views/contacts/contact_detail.dart';
+import 'package:blavapp/views/contacts/contacts_page.dart';
 import 'package:blavapp/views/cosplay/cosplay_details.dart';
 import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
@@ -63,6 +65,8 @@ class RoutePaths {
   static const String cosplayRecord = '/cosplay/record';
   static const String maps = '/maps';
   static const String mapView = '/map/view';
+  static const String contacts = '/contacts';
+  static const String contactEntity = '/contacts/entity';
 }
 
 class RouteGenerator {
@@ -251,6 +255,22 @@ class RouteGenerator {
         return authGuard(
           MaterialPageRoute(
             builder: (_) => CosplayDetails(record: args.record),
+          ),
+          isAuthenticated,
+        );
+
+      case RoutePaths.contacts:
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => const ContactsPage(),
+          ),
+          isAuthenticated,
+        );
+      case RoutePaths.contactEntity:
+        final args = settings.arguments! as ContactDetailsArguments;
+        return authGuard(
+          MaterialPageRoute(
+            builder: (_) => ContactDetails(entityRef: args.entityRef),
           ),
           isAuthenticated,
         );

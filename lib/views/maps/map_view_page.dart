@@ -1,6 +1,6 @@
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -53,9 +53,9 @@ class MapViewPage extends StatelessWidget {
               );
             }
           case MapsStatus.error:
-            return BlocErrorPage(message: state.message);
+            return DataErrorPage(message: state.message);
           case MapsStatus.initial:
-            return const BlocLoadingPage();
+            return const DataLoadingPage();
         }
       },
     );

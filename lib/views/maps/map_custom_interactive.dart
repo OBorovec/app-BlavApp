@@ -100,7 +100,7 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
                   ? Image.asset(
                       widget.mapRecord.image,
                     )
-                  : AppNetworkImage(imgLocation: widget.mapRecord.image),
+                  : AppNetworkImage(url: widget.mapRecord.image),
               ...widget.mapRecord.points.map(
                 (MapPoint p) {
                   final int index = widget.mapRecord.points.indexOf(p);

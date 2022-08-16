@@ -31,6 +31,7 @@ class ProgrammeList extends StatelessWidget {
               child: state.programmeEntriesFiltered.isNotEmpty
                   ? ImplicitlyAnimatedList<ProgEntry>(
                       items: state.programmeEntriesFiltered,
+                      padding: const EdgeInsets.only(bottom: 64.0),
                       areItemsTheSame: (a, b) => a.id == b.id,
                       updateDuration: const Duration(milliseconds: 200),
                       insertDuration: const Duration(milliseconds: 200),

@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
+import 'package:blavapp/bloc/contacts/data_contacts/contacts_bloc.dart';
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
@@ -166,6 +167,13 @@ class _BlavAppState extends State<BlavApp> {
                                   providers: [
                                     BlocProvider(
                                       create: (context) => CateringBloc(
+                                        dataRepo: context.read<DataRepo>(),
+                                        eventFocusBloc:
+                                            context.read<EventFocusBloc>(),
+                                      ),
+                                    ),
+                                    BlocProvider(
+                                      create: (context) => ContactsBloc(
                                         dataRepo: context.read<DataRepo>(),
                                         eventFocusBloc:
                                             context.read<EventFocusBloc>(),

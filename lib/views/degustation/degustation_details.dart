@@ -78,7 +78,7 @@ class _DegustationItemHeroImage extends StatelessWidget {
             bottomRight: Radius.circular(64),
           ),
           child: AppNetworkImage(
-            imgLocation: item.images[0],
+            url: item.images[0],
             asCover: true,
           ),
         ),

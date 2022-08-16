@@ -67,7 +67,7 @@ class _CosplayCarouselGallery extends StatelessWidget {
       child: CarouselSlider(
         items: record.images
             .map((String url) => AppNetworkImage(
-                  imgLocation: url,
+                  url: url,
                   asCover: true,
                 ))
             .toList(),

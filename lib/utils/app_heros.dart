@@ -1,4 +1,5 @@
 import 'package:blavapp/model/catering.dart';
+import 'package:blavapp/model/contacts.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/model/event.dart';
@@ -36,4 +37,8 @@ String degusItemPlaceHeroTag(DegusPlace place) {
 
 String cosplayImgHeroTag(CosplayRecord record) {
   return 'cosplay-img-item-${record.id}';
+}
+
+String contactImgHeroTag(ContactEntity entity) {
+  return 'contact-img-item-${entity.id}';
 }

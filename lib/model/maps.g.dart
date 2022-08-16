@@ -58,7 +58,7 @@ MapPoint _$MapPointFromJson(Map<String, dynamic> json) => MapPoint(
 
 Map<String, dynamic> _$MapPointToJson(MapPoint instance) => <String, dynamic>{
       'id': instance.id,
-      'type': _$MapPointTypeEnumMap[instance.type],
+      'type': _$MapPointTypeEnumMap[instance.type]!,
       'x': instance.x,
       'y': instance.y,
       'name': instance.name,

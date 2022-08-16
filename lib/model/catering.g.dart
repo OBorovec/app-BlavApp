@@ -65,7 +65,7 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
 Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'type': _$CaterItemTypeEnumMap[instance.type],
+      'type': _$CaterItemTypeEnumMap[instance.type]!,
       'desc': instance.desc,
       'placeRef': instance.placeRef,
       'allergens': instance.allergens,

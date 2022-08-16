@@ -4,8 +4,8 @@ import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degusta
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/degustation/degustation_list.dart';
@@ -84,9 +84,9 @@ class _DegustationPageState extends State<DegustationPage> {
               }),
             );
           case DegustationStatus.error:
-            return BlocErrorPage(message: state.message);
+            return DataErrorPage(message: state.message);
           case DegustationStatus.initial:
-            return const BlocLoadingPage();
+            return const DataLoadingPage();
         }
       },
     );

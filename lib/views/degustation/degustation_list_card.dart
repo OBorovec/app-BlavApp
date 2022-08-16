@@ -114,7 +114,7 @@ class _DegusItemHeroImage extends StatelessWidget {
     return Hero(
       tag: degusItemImgHeroTag(item),
       child: AppNetworkImage(
-        imgLocation: item.images[0],
+        url: item.images[0],
         asCover: true,
       ),
     );

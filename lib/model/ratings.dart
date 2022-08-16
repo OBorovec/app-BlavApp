@@ -12,7 +12,7 @@ class Ratings extends Equatable {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ratings];
 
   factory Ratings.fromJson(Map<String, Object?> json) =>
       _$RatingsFromJson(json);

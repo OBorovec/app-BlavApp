@@ -69,7 +69,7 @@ ProgEntry _$ProgEntryFromJson(Map<String, dynamic> json) => ProgEntry(
 Map<String, dynamic> _$ProgEntryToJson(ProgEntry instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'type': _$ProgEntryTypeEnumMap[instance.type],
+      'type': _$ProgEntryTypeEnumMap[instance.type]!,
       'desc': instance.desc,
       'sDesc': instance.sDesc,
       'placeRef': instance.placeRef,

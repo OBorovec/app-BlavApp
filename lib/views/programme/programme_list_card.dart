@@ -184,7 +184,7 @@ class _ProgrammeEntryHeroImage extends StatelessWidget {
     return Hero(
       tag: programmeEntryImgHeroTag(entry),
       child: AppNetworkImage(
-        imgLocation: entry.images[0],
+        url: entry.images[0],
         asCover: true,
       ),
     );

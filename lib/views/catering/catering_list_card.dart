@@ -189,7 +189,7 @@ class _CateringItemHeroImage extends StatelessWidget {
     return Hero(
       tag: caterItemImgHeroTag(item),
       child: AppNetworkImage(
-        imgLocation: item.images[0],
+        url: item.images[0],
         asCover: true,
       ),
     );

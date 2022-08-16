@@ -1,8 +1,8 @@
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_error_page.dart';
-import 'package:blavapp/components/bloc_pages/bloc_loading_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
+import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/app_heros.dart';
@@ -38,9 +38,9 @@ class CosplayPage extends StatelessWidget {
               );
             });
           case CosplayStatus.error:
-            return BlocErrorPage(message: state.message);
+            return DataErrorPage(message: state.message);
           case CosplayStatus.initial:
-            return const BlocLoadingPage();
+            return const DataLoadingPage();
         }
       },
     );
@@ -75,7 +75,7 @@ class _CosplayGallery extends StatelessWidget {
                     child: Hero(
                   tag: cosplayImgHeroTag(record),
                   child: AppNetworkImage(
-                    imgLocation: record.profileImage,
+                    url: record.profileImage,
                     asCover: true,
                   ),
                 )),

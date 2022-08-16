@@ -25,6 +25,7 @@ class CateringList extends StatelessWidget {
             Expanded(
               child: ImplicitlyAnimatedList<CaterItem>(
                 items: state.cateringItemsFiltered,
+                padding: const EdgeInsets.only(bottom: 64.0),
                 areItemsTheSame: (a, b) => a.id == b.id,
                 updateDuration: const Duration(milliseconds: 200),
                 insertDuration: const Duration(milliseconds: 200),

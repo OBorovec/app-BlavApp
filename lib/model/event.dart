@@ -53,6 +53,7 @@ class Routing extends Equatable {
   final bool maps;
   final bool programme;
   final bool story;
+  final bool contacts;
 
   const Routing({
     this.catering = false,
@@ -62,6 +63,7 @@ class Routing extends Equatable {
     this.maps = false,
     this.programme = false,
     this.story = false,
+    this.contacts = false,
   });
 
   @override

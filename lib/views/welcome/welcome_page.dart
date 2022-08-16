@@ -45,7 +45,8 @@ class WelcomePage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(RoutePaths.signIn);
+                            Navigator.of(context)
+                                .popAndPushNamed(RoutePaths.signIn);
                           },
                           child: Text(AppLocalizations.of(context)!
                               .contWelcomeBtnGoToSignIn),

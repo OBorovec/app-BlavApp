@@ -45,7 +45,7 @@ Map<String, dynamic> _$CosplayRecordToJson(CosplayRecord instance) =>
       'voteRef': instance.voteRef,
       'desc': instance.desc,
       'links': instance.links
-          .map((k, e) => MapEntry(_$CosplayRecordLinkEnumMap[k], e)),
+          .map((k, e) => MapEntry(_$CosplayRecordLinkEnumMap[k]!, e)),
       'profileImage': instance.profileImage,
       'images': instance.images,
     };
