@@ -44,11 +44,11 @@ class ProgEntry extends Equatable {
   final String id;
   final Map<String, String> name;
   final ProgEntryType type;
-  final Map<String, String>? desc;
-  final Map<String, String>? sDesc;
   final String? placeRef;
   final DateTime timestamp;
   final int duration;
+  final Map<String, String>? desc;
+  final Map<String, String>? sDesc;
   final bool allDayEntry;
   final int? price;
   final String? performing;
@@ -67,11 +67,11 @@ class ProgEntry extends Equatable {
     required this.id,
     required this.name,
     required this.type,
-    this.desc,
-    this.sDesc,
     required this.placeRef,
     required this.timestamp,
     required this.duration,
+    this.desc,
+    this.sDesc,
     this.allDayEntry = false,
     this.price,
     this.performing,
@@ -92,11 +92,11 @@ class ProgEntry extends Equatable {
         id,
         name,
         type,
-        desc,
-        sDesc,
         placeRef,
         timestamp,
         duration,
+        desc,
+        sDesc,
         allDayEntry,
         price,
         performing,
@@ -165,7 +165,7 @@ class ProgNotification extends Equatable {
   final Map<String, String> message;
 
   const ProgNotification({
-    required this.parrentEntry,
+    this.parrentEntry,
     required this.timestamp,
     required this.message,
   });

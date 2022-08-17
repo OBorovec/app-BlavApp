@@ -33,16 +33,15 @@ enum DegusAlcoholType {
 @JsonSerializable()
 class DegusItem extends Equatable {
   final String id;
-  final List<String> placeRef;
   final Map<String, String> name;
+  final DegusAlcoholType type;
+  final List<DegusVolume> volumes;
   final Map<String, String>? desc;
+  final List<String> placeRef;
   final double rating;
   final double? alcoholVolume;
-  final DegusAlcoholType alcoholType;
   final String? subType;
   final Map<String, String>? dSubType;
-  final int price;
-  final List<DegusVolume> volumes;
   final List<String> images;
   final String? origin;
   final List<String> similarItems;
@@ -51,15 +50,14 @@ class DegusItem extends Equatable {
   const DegusItem({
     required this.id,
     required this.name,
+    required this.type,
+    required this.volumes,
     this.desc,
+    this.placeRef = const [],
     this.rating = -1,
     this.alcoholVolume,
-    required this.placeRef,
-    required this.alcoholType,
     this.subType,
     this.dSubType,
-    required this.price,
-    this.volumes = const [],
     this.images = const [],
     this.origin,
     this.similarItems = const [],
@@ -74,10 +72,9 @@ class DegusItem extends Equatable {
         rating,
         alcoholVolume,
         placeRef,
-        alcoholType,
+        type,
         subType,
         dSubType,
-        price,
         volumes,
         images,
         origin,

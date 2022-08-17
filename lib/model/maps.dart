@@ -77,22 +77,26 @@ class MapPoint extends Equatable {
 @JsonSerializable()
 class RealWorldRecord extends Equatable {
   final Map<String, String> name;
-  final Map<String, String>? desc;
-  final String? image;
   final double lat;
   final double long;
+  final Map<String, String>? desc;
+  final String? image;
 
   const RealWorldRecord({
     required this.name,
-    this.desc,
-    this.image,
     required this.lat,
     required this.long,
+    this.desc,
+    this.image,
   });
 
   @override
   List<Object?> get props => [
         name,
+        lat,
+        long,
+        desc,
+        image,
       ];
 
   factory RealWorldRecord.fromJson(Map<String, Object?> json) =>

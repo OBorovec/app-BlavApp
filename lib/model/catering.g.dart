@@ -37,6 +37,9 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
       id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
       type: $enumDecode(_$CaterItemTypeEnumMap, json['type']),
+      volumes: (json['volumes'] as List<dynamic>)
+          .map((e) => CaterVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -55,9 +58,6 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      volumes: (json['volumes'] as List<dynamic>)
-          .map((e) => CaterVolume.fromJson(e as Map<String, dynamic>))
-          .toList(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet() ??
           const {},
     );
@@ -66,6 +66,7 @@ Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'type': _$CaterItemTypeEnumMap[instance.type]!,
+      'volumes': instance.volumes,
       'desc': instance.desc,
       'placeRef': instance.placeRef,
       'allergens': instance.allergens,
@@ -73,7 +74,6 @@ Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
       'vegan': instance.vegan,
       'glutenFree': instance.glutenFree,
       'images': instance.images,
-      'volumes': instance.volumes,
       'tags': instance.tags.toList(),
     };
 

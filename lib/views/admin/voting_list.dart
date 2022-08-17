@@ -3,6 +3,7 @@ import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
 import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
 import 'package:blavapp/components/page_hierarchy/side_page.dart';
 import 'package:blavapp/route_generator.dart';
+import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/admin/vote_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,17 +16,23 @@ class VotingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VotingDataBloc, VotingDataState>(
+    return BlocConsumer<VotingDataBloc, VotingDataState>(
+      listenWhen: (previous, current) => previous.message != current.message,
+      listener: (context, state) {
+        if (state.status == VotingDataStatus.error) {
+          Toasting.notifyToast(context, state.message);
+        }
+      },
       builder: (context, state) {
         switch (state.status) {
-          case DataStatus.loaded:
+          case VotingDataStatus.loaded:
             return SidePage(
               titleText: AppLocalizations.of(context)!.adminVotingTitle,
               body: _VotingList(state: state),
             );
-          case DataStatus.initial:
+          case VotingDataStatus.initial:
             return const DataLoadingPage();
-          case DataStatus.error:
+          case VotingDataStatus.error:
             return DataErrorPage(message: state.message);
         }
       },

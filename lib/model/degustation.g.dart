@@ -37,23 +37,23 @@ Map<String, dynamic> _$DegustationToJson(Degustation instance) =>
 DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
       id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
+      type: $enumDecode(_$DegusAlcoholTypeEnumMap, json['type']),
+      volumes: (json['volumes'] as List<dynamic>)
+          .map((e) => DegusVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
+      placeRef: (json['placeRef'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       rating: (json['rating'] as num?)?.toDouble() ?? -1,
       alcoholVolume: (json['alcoholVolume'] as num?)?.toDouble(),
-      placeRef:
-          (json['placeRef'] as List<dynamic>).map((e) => e as String).toList(),
-      alcoholType: $enumDecode(_$DegusAlcoholTypeEnumMap, json['alcoholType']),
       subType: json['subType'] as String?,
       dSubType: (json['dSubType'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      price: json['price'] as int,
-      volumes: (json['volumes'] as List<dynamic>?)
-              ?.map((e) => DegusVolume.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -68,16 +68,15 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
 
 Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
       'id': instance.id,
-      'placeRef': instance.placeRef,
       'name': instance.name,
+      'type': _$DegusAlcoholTypeEnumMap[instance.type]!,
+      'volumes': instance.volumes,
       'desc': instance.desc,
+      'placeRef': instance.placeRef,
       'rating': instance.rating,
       'alcoholVolume': instance.alcoholVolume,
-      'alcoholType': _$DegusAlcoholTypeEnumMap[instance.alcoholType]!,
       'subType': instance.subType,
       'dSubType': instance.dSubType,
-      'price': instance.price,
-      'volumes': instance.volumes,
       'images': instance.images,
       'origin': instance.origin,
       'similarItems': instance.similarItems,

@@ -12,6 +12,7 @@ part 'cosplay_state.dart';
 class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Cosplay>? _cosplayStream;
 
   CosplayBloc({
@@ -31,6 +32,7 @@ class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_cosplayStream != null) {
       _cosplayStream!.cancel();
     }
@@ -77,7 +79,7 @@ class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
     emit(
       CosplayState(
         status: CosplayStatus.error,
-        message: event.message,
+        message: 'Cosplay: $eventRef --- ${event.message}',
       ),
     );
   }

@@ -15,7 +15,8 @@ class DataErrorPage extends StatelessWidget {
     // TODO: add a button to report the problem
     return SidePage(
       titleText: AppLocalizations.of(context)!.genError,
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

@@ -259,7 +259,7 @@ class _DegustationItemHighlightCard extends StatelessWidget {
               itemSize: 16,
             ),
             Text(
-              tDegusAlcoholType(item.alcoholType, context),
+              tDegusAlcoholType(item.type, context),
             ),
             if (item.subType != null)
               Text(

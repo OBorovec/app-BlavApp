@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'voting_data_event.dart';
 part 'voting_data_state.dart';
@@ -11,6 +11,7 @@ part 'voting_data_state.dart';
 class VotingDataBloc extends Bloc<VotingDataEvent, VotingDataState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Map<String, dynamic>>? _votingStream;
 
   VotingDataBloc({
@@ -31,6 +32,7 @@ class VotingDataBloc extends Bloc<VotingDataEvent, VotingDataState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_votingStream != null) {
       _votingStream!.cancel();
     }
@@ -65,13 +67,13 @@ class VotingDataBloc extends Bloc<VotingDataEvent, VotingDataState> {
   ) {
     try {
       emit(VotingDataState(
-        status: DataStatus.loaded,
+        status: VotingDataStatus.loaded,
         data: event.votingData,
       ));
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          status: DataStatus.error,
+          status: VotingDataStatus.error,
           message: e.toString(),
         ),
       );
@@ -83,8 +85,8 @@ class VotingDataBloc extends Bloc<VotingDataEvent, VotingDataState> {
     Emitter<VotingDataState> emit,
   ) {
     state.copyWith(
-      status: DataStatus.error,
-      message: event.message,
+      status: VotingDataStatus.error,
+      message: 'Voting: $eventRef --- ${event.message}',
     );
   }
 }

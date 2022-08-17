@@ -1,18 +1,18 @@
 part of 'voting_data_bloc.dart';
 
-enum DataStatus {
+enum VotingDataStatus {
   initial,
   loaded,
   error,
 }
 
 class VotingDataState extends Equatable {
-  final DataStatus status;
+  final VotingDataStatus status;
   final String message;
   final Map<String, dynamic> data;
 
   const VotingDataState({
-    this.status = DataStatus.initial,
+    this.status = VotingDataStatus.initial,
     this.message = '',
     this.data = const {},
   });
@@ -25,7 +25,7 @@ class VotingDataState extends Equatable {
       ];
 
   VotingDataState copyWith({
-    DataStatus? status,
+    VotingDataStatus? status,
     String? message,
     Map<String, Map<String, Map<String, String>>>? data,
   }) {

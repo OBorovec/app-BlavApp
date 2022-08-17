@@ -42,6 +42,7 @@ class CaterItem extends Equatable {
   final String id;
   final Map<String, String> name;
   final CaterItemType type;
+  final List<CaterVolume> volumes;
   final Map<String, String>? desc;
   final List<String> placeRef;
   final List<int> allergens;
@@ -49,13 +50,13 @@ class CaterItem extends Equatable {
   final bool vegan;
   final bool glutenFree;
   final List<String> images;
-  final List<CaterVolume> volumes;
   final Set<String> tags;
 
   const CaterItem({
     required this.id,
     required this.name,
     required this.type,
+    required this.volumes,
     this.desc,
     this.placeRef = const [],
     this.allergens = const [],
@@ -63,7 +64,6 @@ class CaterItem extends Equatable {
     this.vegan = false,
     this.glutenFree = false,
     this.images = const [],
-    required this.volumes,
     this.tags = const {},
   });
 

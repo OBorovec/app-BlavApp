@@ -14,7 +14,7 @@ class Story extends Equatable {
   final Map<String, StoryEntity> entities;
 
   const Story({
-    this.name = const {},
+    required this.name,
     this.story,
     this.image,
     this.updates = const [],
@@ -42,14 +42,14 @@ class Story extends Equatable {
 @JsonSerializable()
 class StoryPart extends Equatable {
   final Map<String, String> title;
-  final Map<String, String> text;
+  final Map<String, String>? text;
   final String? image;
   final List<String> factionRef;
   final List<String> entityRef;
 
   const StoryPart({
-    this.title = const {},
-    this.text = const {},
+    required this.title,
+    this.text,
     this.image,
     this.factionRef = const [],
     this.entityRef = const [],

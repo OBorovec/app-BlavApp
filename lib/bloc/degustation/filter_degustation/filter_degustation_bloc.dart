@@ -100,7 +100,7 @@ class FilterDegustationBloc
     final Set<String> availableOrigins = <String>{};
     final Set<String> availablePlaces = <String>{};
     for (final DegusItem item in state.degusItems) {
-      availableAlcoholTypes.add(item.alcoholType);
+      availableAlcoholTypes.add(item.type);
       if (item.origin != null) availableOrigins.add(item.origin!);
       for (final String place in item.placeRef) {
         availablePlaces.add(place);
@@ -125,7 +125,7 @@ class FilterDegustationBloc
     }
     if (state.alcoholTypeFilter.isNotEmpty) {
       itemFiltering = itemFiltering.where(
-        (DegusItem item) => state.alcoholTypeFilter.contains(item.alcoholType),
+        (DegusItem item) => state.alcoholTypeFilter.contains(item.type),
       );
     }
     if (state.originFilter.isNotEmpty) {

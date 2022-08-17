@@ -12,6 +12,7 @@ part 'catering_state.dart';
 class CateringBloc extends Bloc<CateringEvent, CateringState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Catering>? _cateringStream;
 
   CateringBloc({
@@ -31,6 +32,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_cateringStream != null) {
       _cateringStream!.cancel();
     }
@@ -81,7 +83,7 @@ class CateringBloc extends Bloc<CateringEvent, CateringState> {
     emit(
       state.copyWith(
         status: CateringStatus.error,
-        message: event.message,
+        message: 'Catering: $eventRef --- ${event.message}',
       ),
     );
   }

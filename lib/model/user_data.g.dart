@@ -31,6 +31,11 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
             (k, e) => MapEntry(k, e as bool?),
           ) ??
           const {},
+      supTickets: (json['supTickets'] as List<dynamic>?)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
@@ -40,4 +45,5 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'favoriteSamples': instance.favoriteSamples.toList(),
       'myRatings': instance.myRatings,
       'myVoting': instance.myVoting,
+      'supTickets': instance.supTickets,
     };

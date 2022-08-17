@@ -156,13 +156,6 @@ class DataRepo {
     return events;
   }
 
-  Future<Event> getEvent(String eventID) {
-    return _eventsCollectionRef
-        .doc(eventID)
-        .get()
-        .then((value) => value.data()! as Event);
-  }
-
   Stream<Event> getEventStream(String eventTag) {
     return _eventsCollectionRef.doc(eventTag).snapshots().map((snapshot) {
       if (snapshot.data() == null) {
@@ -224,6 +217,7 @@ class DataRepo {
 
   Stream<Degustation> getDegustationStream(String eventTag) {
     return _degustationDataRef.doc(eventTag).snapshots().map((snapshot) {
+      print(snapshot);
       if (snapshot.data() == null) {
         throw NullDataException('$eventTag:Degustation');
       }
@@ -431,5 +425,20 @@ class DocUpdateException implements Exception {
   @override
   String toString() {
     return 'DocUpdateException: $docPath: $message';
+  }
+}
+
+class AppFirebaseException implements Exception {
+  final String docPath;
+  final String code;
+  final String message;
+
+  AppFirebaseException(this.docPath, FirebaseException e)
+      : code = e.code,
+        message = e.message ?? '';
+
+  @override
+  String toString() {
+    return 'FirebaseException: $docPath: ($code) $message';
   }
 }

@@ -11,6 +11,7 @@ part 'story_state.dart';
 class StoryBloc extends Bloc<StoryEvent, StoryState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Story>? _storyStream;
 
   StoryBloc({
@@ -19,7 +20,7 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
   })  : _dataRepo = dataRepo,
         super(const StoryState(
           status: DataStatus.initial,
-          story: Story(),
+          story: Story(name: {}),
         )) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
         (EventFocusState eventFocusState) =>
@@ -33,6 +34,7 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_storyStream != null) {
       _storyStream!.cancel();
     }
@@ -76,7 +78,7 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
   ) {
     emit(state.copyWith(
       status: DataStatus.error,
-      message: event.message,
+      message: 'Story: $eventRef --- ${event.message}',
     ));
   }
 }

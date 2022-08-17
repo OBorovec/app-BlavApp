@@ -26,18 +26,18 @@ enum CosplayRecordLink { face, insta, twitter }
 class CosplayRecord extends Equatable {
   final String id;
   final Map<String, String> name;
+  final String profileImage;
   final String voteRef;
   final Map<String, String> desc;
   final Map<CosplayRecordLink, String> links;
-  final String profileImage;
   final List<String> images;
 
   const CosplayRecord({
     required this.id,
     required this.name,
+    required this.profileImage,
     required this.voteRef,
     this.desc = const {},
-    required this.profileImage,
     this.links = const {},
     this.images = const [],
   });

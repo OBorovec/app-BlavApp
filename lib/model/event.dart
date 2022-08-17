@@ -11,8 +11,8 @@ class Event extends Equatable {
   final Map<String, String>? desc;
   final DateTime dayStart;
   final DateTime dayEnd;
-  final List<String> images;
   final Routing routing;
+  final List<String> images;
   final bool canBeFocused;
 
   const Event({
@@ -22,8 +22,8 @@ class Event extends Equatable {
     required this.desc,
     required this.dayStart,
     required this.dayEnd,
-    this.images = const [],
     required this.routing,
+    this.images = const [],
     this.canBeFocused = false,
   });
 

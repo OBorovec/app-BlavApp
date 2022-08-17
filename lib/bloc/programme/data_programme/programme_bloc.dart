@@ -11,6 +11,7 @@ part 'programme_state.dart';
 class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Programme>? _programmeStream;
 
   ProgrammeBloc({
@@ -35,6 +36,7 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_programmeStream != null) {
       _programmeStream!.cancel();
     }
@@ -78,7 +80,7 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
     emit(
       state.copyWith(
         status: ProgrammeStatus.error,
-        message: event.message,
+        message: 'Programme: $eventRef --- ${event.message}',
       ),
     );
   }

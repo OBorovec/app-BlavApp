@@ -39,7 +39,7 @@ class PlaceMenuDegustationBloc
             (type) => MenuSec(
               type: type,
               items: placeItems
-                  .where((DegusItem item) => item.alcoholType == type)
+                  .where((DegusItem item) => item.type == type)
                   .toList(),
             ),
           )

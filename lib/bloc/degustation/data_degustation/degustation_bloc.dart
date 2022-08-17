@@ -11,6 +11,7 @@ part 'degustation_state.dart';
 class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Degustation>? _degustationStream;
 
   DegustationBloc({
@@ -30,6 +31,7 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_degustationStream != null) {
       _degustationStream!.cancel();
     }
@@ -83,7 +85,7 @@ class DegustationBloc extends Bloc<DegustationEvent, DegustationState> {
     emit(
       state.copyWith(
         status: DegustationStatus.error,
-        message: event.message,
+        message: 'Degustation: $eventRef --- ${event.message}',
       ),
     );
   }

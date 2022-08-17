@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'maps_event.dart';
@@ -12,6 +12,7 @@ part 'maps_state.dart';
 class MapsBloc extends Bloc<MapsEvent, MapsState> {
   final DataRepo _dataRepo;
   late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  String? eventRef;
   StreamSubscription<Maps>? _mapsStream;
 
   MapsBloc({
@@ -31,6 +32,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   }
 
   void createDataStream({required String eventTag}) {
+    eventRef = eventTag;
     if (_mapsStream != null) {
       _mapsStream!.cancel();
     }
@@ -75,7 +77,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     emit(
       state.copyWith(
         status: MapsStatus.error,
-        message: event.message,
+        message: 'Maps: $eventRef --- ${event.message}',
       ),
     );
   }

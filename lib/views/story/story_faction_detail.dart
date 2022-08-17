@@ -140,12 +140,13 @@ class _FactionHeader extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        t(leader!.type, context),
-                        style: Theme.of(context).textTheme.subtitle1,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      if (leader!.type != null)
+                        Text(
+                          t(leader!.type!, context),
+                          style: Theme.of(context).textTheme.subtitle1,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                     ],
                   ),
                 ),
@@ -265,13 +266,15 @@ class _FactionMembers extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center,
                                 ),
-                                Text(
-                                  t(member.type, context),
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
+                                if (member.type != null)
+                                  Text(
+                                    t(member.type!, context),
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                  ),
                               ],
                             ),
                           ),

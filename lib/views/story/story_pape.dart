@@ -197,13 +197,14 @@ class _StoryUpdates extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    t(part.text, context),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
+                                if (part.text != null)
+                                  Expanded(
+                                    child: Text(
+                                      t(part.text!, context),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                ),
                                 if (part.image != null)
                                   Expanded(
                                     child: AppNetworkImage(url: part.image!),

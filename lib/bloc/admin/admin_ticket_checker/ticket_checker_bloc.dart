@@ -40,7 +40,7 @@ class TicketCheckerBloc extends Bloc<TicketCheckerEvent, TicketCheckerState> {
     if (event.barcodeValue != null) {
       try {
         final Ticket ticket = await _dataRepo.getTicket(event.barcodeValue!);
-        final Event? eventRecord = _events.firstWhere(
+        final Event eventRecord = _events.firstWhere(
           (Event e) => e.id == ticket.eventRef,
         );
         emit(TicketCheckerState(
@@ -52,7 +52,7 @@ class TicketCheckerBloc extends Bloc<TicketCheckerEvent, TicketCheckerState> {
       } catch (e) {
         emit(TicketCheckerState(
           status: TicketCheckerStatus.failed,
-          message: 'Unable to aload ticket ${event.barcodeValue}',
+          message: 'Unable to load ticket ${event.barcodeValue}',
         ));
       }
     }
