@@ -31,6 +31,7 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
   Animation<Matrix4> _mapMatrixAnimation =
       AlwaysStoppedAnimation(Matrix4.identity());
   late final AnimationController _mapAnimationController;
+  bool animate = true;
 
   final CarouselController _carouselController = CarouselController();
   int _carouselIndex = 0;
@@ -109,11 +110,20 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
                     top: p.y.toDouble() - _MapMarker.offset,
                     child: _MapMarker(
                       mapPoint: p,
-                      onTap: () => _carouselController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                      ),
+                      onTap: () {
+                        _animateMove(widget.mapRecord.points[index]);
+                        setState(() {
+                          animate = false;
+                        });
+                        _carouselController.animateToPage(
+                          index,
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                        );
+                        setState(() {
+                          animate = true;
+                        });
+                      },
                       isSelected: _carouselIndex == index,
                     ),
                   );
