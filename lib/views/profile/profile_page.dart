@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/profile/user_profile/user_profile_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/dialogs/info_dialog.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/user/user_avatar.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
@@ -22,41 +23,50 @@ class UserProfilePage extends StatelessWidget {
         authRepo: context.read<AuthRepo>(),
         storageRepo: context.read<StorageRepo>(),
       ),
-      child: RootPage(
-        titleText: AppLocalizations.of(context)!.contProfileTitle,
-        body: BlocListener<UserProfileBloc, UserProfileState>(
-          listenWhen: (previous, current) =>
-              previous.notification != current.notification,
-          listener: userProfileNotifications,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const _ProfileImage(),
-                const Expanded(
-                  child: _UserProfileInfo(),
-                ),
-                const Divider(),
-                Column(
-                  children: const [
-                    SizedBox(height: 8),
-                    _ShowTicketshButton(),
-                    SizedBox(height: 8),
-                  ],
-                ),
-                const Divider(),
-                Column(
-                  children: const [
-                    SizedBox(height: 8),
-                    _PasswordResetButton(),
-                    SizedBox(height: 8),
-                    _SignOutButton(),
-                    SizedBox(height: 8),
-                    _DeleteAccountButton(),
-                    SizedBox(height: 32),
-                  ],
-                ),
-              ],
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          // TODO: make it ro restart and toggle user nickname textfield
+        },
+        child: RootPage(
+          titleText: AppLocalizations.of(context)!.contProfileTitle,
+          body: BlocListener<UserProfileBloc, UserProfileState>(
+            listener: userProfileNotifications,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const _ProfileImage(),
+                  const _UserProfileInfo(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Column(
+                      children: const [
+                        SizedBox(height: 8),
+                        _ShowTicketshButton(),
+                        SizedBox(height: 8),
+                        _ShowSupportTicketshButton(),
+                        SizedBox(height: 8),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Column(
+                      children: const [
+                        SizedBox(height: 8),
+                        Divider(),
+                        SizedBox(height: 8),
+                        _SignOutButton(),
+                        SizedBox(height: 8),
+                        _AccoutOptionsButton(),
+                        SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -65,6 +75,9 @@ class UserProfilePage extends StatelessWidget {
   }
 
   void userProfileNotifications(BuildContext context, UserProfileState state) {
+    if (state.status == UserProfileStatus.signedOut) {
+      Navigator.popAndPushNamed(context, RoutePaths.welcome);
+    }
     switch (state.notification) {
       case UserProfileNotification.emailVerificationSent:
         Toasting.notifyToast(
@@ -202,7 +215,7 @@ class _UserProfileInfo extends StatelessWidget {
       children: const [
         _UserProfileInfoEmail(),
         SizedBox(height: 16),
-        _UserProfileInfoNickName(),
+        _UserProfileNickName(),
       ],
     );
   }
@@ -223,20 +236,21 @@ class _UserProfileInfoEmail extends StatelessWidget {
           decoration: InputDecoration(
             labelText: AppLocalizations.of(context)!.genEmail,
             icon: const Icon(Icons.mail),
-            suffixIcon: IconButton(
-              icon: Icon(
-                state.user.emailVerified
-                    ? Icons.verified_user
-                    : Icons.outgoing_mail,
-              ),
-              onPressed: state.user.emailVerified
-                  ? null
-                  : () {
-                      context.read<UserProfileBloc>().add(
-                            const UserEmailVerification(),
-                          );
-                    },
-            ),
+            // NOTE: Uncomment when user email verification is useful
+            // suffixIcon: IconButton(
+            //   icon: Icon(
+            //     state.user.emailVerified
+            //         ? Icons.verified_user
+            //         : Icons.outgoing_mail,
+            //   ),
+            //   onPressed: state.user.emailVerified
+            //       ? null
+            //       : () {
+            //           context.read<UserProfileBloc>().add(
+            //                 const UserEmailVerification(),
+            //               );
+            //         },
+            // ),
           ),
         );
       },
@@ -244,15 +258,14 @@ class _UserProfileInfoEmail extends StatelessWidget {
   }
 }
 
-class _UserProfileInfoNickName extends StatefulWidget {
-  const _UserProfileInfoNickName({Key? key}) : super(key: key);
+class _UserProfileNickName extends StatefulWidget {
+  const _UserProfileNickName({Key? key}) : super(key: key);
 
   @override
-  State<_UserProfileInfoNickName> createState() =>
-      _UserProfileInfoNickNameState();
+  State<_UserProfileNickName> createState() => _UserProfileNickNameState();
 }
 
-class _UserProfileInfoNickNameState extends State<_UserProfileInfoNickName> {
+class _UserProfileNickNameState extends State<_UserProfileNickName> {
   final _textController = TextEditingController();
 
   @override
@@ -284,23 +297,21 @@ class _UserProfileInfoNickNameState extends State<_UserProfileInfoNickName> {
               children: [
                 if (state.editingNickname)
                   IconButton(
-                    icon: const Icon(
-                      Icons.cancel,
-                    ),
+                    icon: const Icon(Icons.restart_alt),
                     onPressed: () {
-                      context.read<UserProfileBloc>().add(
-                            const UserEditNicknameReset(),
-                          );
+                      context
+                          .read<UserProfileBloc>()
+                          .add(const UserEditNicknameReset());
                     },
                   ),
                 IconButton(
                   icon: Icon(
-                    state.editingNickname ? Icons.save : Icons.edit,
+                    state.editingNickname ? Icons.check : Icons.edit,
                   ),
                   onPressed: () {
-                    context.read<UserProfileBloc>().add(
-                          UserEditNicknameToggle(context: context),
-                        );
+                    context
+                        .read<UserProfileBloc>()
+                        .add(UserEditNicknameToggle(context: context));
                   },
                 ),
               ],
@@ -333,7 +344,113 @@ class _ShowTicketshButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => Navigator.pushNamed(context, RoutePaths.myTickets),
-      child: Text(AppLocalizations.of(context)!.contProfileBtnProfileTickets),
+      child: Row(
+        children: [
+          const Icon(Icons.qr_code),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.contProfileBtnProfileTickets,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShowSupportTicketshButton extends StatelessWidget {
+  const _ShowSupportTicketshButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () =>
+          Navigator.pushNamed(context, RoutePaths.mySupportTickets),
+      child: Row(
+        children: [
+          const Icon(Icons.contact_support),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+                AppLocalizations.of(context)!.contProfileBtnSupportTickets,
+                textAlign: TextAlign.center),
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+    );
+  }
+}
+
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<UserProfileBloc>().add(const UserSignOut());
+      },
+      child: BlocBuilder<UserProfileBloc, UserProfileState>(
+        builder: (context, state) {
+          return Row(
+            children: [
+              const Icon(Icons.logout),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                    state.isSigningOut
+                        ? AppLocalizations.of(context)!.genProcessing
+                        : AppLocalizations.of(context)!.contProfileBtnSignOut,
+                    textAlign: TextAlign.center),
+              ),
+              const SizedBox(width: 8),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _AccoutOptionsButton extends StatelessWidget {
+  const _AccoutOptionsButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => InfoDialog(
+          title: AppLocalizations.of(context)!.contProfileBtnOptions,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              _ProfileRefreshButton(),
+              _PasswordResetButton(),
+              _DeleteAccountButton(),
+            ],
+          ),
+        ),
+      ),
+      child: BlocBuilder<UserProfileBloc, UserProfileState>(
+        builder: (context, state) {
+          return Row(
+            children: [
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(AppLocalizations.of(context)!.contProfileBtnOptions,
+                    textAlign: TextAlign.center),
+              ),
+              const SizedBox(width: 8),
+            ],
+          );
+        },
+      ),
     );
   }
 }
@@ -362,18 +479,6 @@ class _PasswordResetButton extends StatelessWidget {
         context.read<UserProfileBloc>().add(const UserPasswordReset());
       },
       child: Text(AppLocalizations.of(context)!.contProfileBtnResetPsw),
-    );
-  }
-}
-
-class _SignOutButton extends StatelessWidget {
-  const _SignOutButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(AppLocalizations.of(context)!.contProfileBtnSignOut),
     );
   }
 }

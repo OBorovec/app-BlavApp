@@ -16,17 +16,13 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
   AuthBloc({
     required AuthRepo authRepo,
   })  : _authRepo = authRepo,
-        super(authRepo.isSignedIn()
-            ? AuthState(
-                status: AuthStatus.authenticated,
-                user: authRepo.getCurrentUser()!)
-            : const AuthState(
-                status: AuthStatus.unauthenticated,
-                user: null,
-              )) {
+        super(const AuthState()) {
     _userSubscription = _authRepo.user.listen(_onUserChanged);
     on<UserActive>(_userActive);
     on<UserInactive>(_userInactive);
+    on<LoadUser>(_loadUser);
+    // Init
+    // add(const LoadUser());
   }
 
   // Data listeners
@@ -34,15 +30,21 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
     if (user != null) {
       add(UserActive(user, null));
     } else {
-      add(UserInactive());
+      add(const UserInactive());
     }
+  }
+
+  @override
+  Future<void> close() {
+    _userSubscription.cancel();
+    return super.close();
   }
 
   // Event functions
   Future<void> _userActive(UserActive event, emit) async {
     emit(
       AuthState(
-        status: AuthStatus.authenticated,
+        status: AuthStatus.auth,
         user: event.user,
       ),
     );
@@ -54,15 +56,26 @@ class AuthBloc extends Bloc<UserEvent, AuthState> {
   ) {
     emit(
       const AuthState(
-        status: AuthStatus.unauthenticated,
+        status: AuthStatus.unauth,
         user: null,
       ),
     );
   }
 
-  @override
-  Future<void> close() {
-    _userSubscription.cancel();
-    return super.close();
+  FutureOr<void> _loadUser(
+    LoadUser event,
+    Emitter<AuthState> emit,
+  ) {
+    if (_authRepo.isSignedIn()) {
+      emit(AuthState(
+        status: AuthStatus.auth,
+        user: _authRepo.getCurrentUser()!,
+      ));
+    } else {
+      emit(const AuthState(
+        status: AuthStatus.unauth,
+        user: null,
+      ));
+    }
   }
 }

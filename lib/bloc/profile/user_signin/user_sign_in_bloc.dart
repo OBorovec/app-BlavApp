@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:blavapp/services/auth_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_sign_in_event.dart';
 part 'user_sign_in_state.dart';
@@ -17,8 +17,9 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
         )) {
     on<UserSignInEmailChanged>(_userSignInEmailChanged);
     on<UserSignInPswChanged>(_userSignInPswChanged);
-    on<UserSignIn>(_userSignInFormValidate);
+    on<UserSignIn>(_userSignIn);
     on<UserSignInGoogle>(_signInGoogle);
+    on<UserSignInSoftReset>(_userSignInSoftReset);
   }
 
   FutureOr<void> _userSignInEmailChanged(
@@ -35,7 +36,7 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
     emit(state.copyWith(password: event.password));
   }
 
-  Future<FutureOr<void>> _userSignInFormValidate(
+  Future<FutureOr<void>> _userSignIn(
     UserSignIn event,
     Emitter<UserSignInState> emit,
   ) async {
@@ -71,12 +72,8 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
               message: e.toString(),
             ),
           );
-          Future.delayed(const Duration(seconds: 3), () {
-            emit(
-              state.copyWith(
-                status: SignInStatus.ready,
-              ),
-            );
+          Future.delayed(const Duration(seconds: 1), () {
+            add(const UserSignInSoftReset());
           });
         }
       } else {
@@ -96,4 +93,13 @@ class UserSignInBloc extends Bloc<UserSignInEvent, UserSignInState> {
     UserSignInGoogle event,
     Emitter<UserSignInState> emit,
   ) {}
+
+  FutureOr<void> _userSignInSoftReset(
+    UserSignInSoftReset event,
+    Emitter<UserSignInState> emit,
+  ) {
+    emit(state.copyWith(
+      status: SignInStatus.ready,
+    ));
+  }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,20 +10,20 @@ part 'voting_data_state.dart';
 
 class VotingDataBloc extends Bloc<VotingDataEvent, VotingDataState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  late final StreamSubscription<EventState> _eventFocusBlocSubscription;
   String? eventRef;
   StreamSubscription<Map<String, dynamic>>? _votingStream;
 
   VotingDataBloc({
     required DataRepo dataRepo,
-    required EventFocusBloc eventFocusBloc,
+    required EventBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const VotingDataState()) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
-      (EventFocusState eventFocusState) =>
+      (EventState eventFocusState) =>
           createDataStream(eventTag: eventFocusState.eventTag),
     );
-    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+    if (eventFocusBloc.state.status == EventStatus.selected) {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
     // Event listeners

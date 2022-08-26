@@ -1,12 +1,11 @@
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
-import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,13 +25,7 @@ class _MapsPageState extends State<MapsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MapsBloc, MapsState>(
-      listenWhen: (previous, current) => previous.message != current.message,
-      listener: (context, state) {
-        if (state.status == MapsStatus.error) {
-          Toasting.notifyToast(context, state.message);
-        }
-      },
+    return BlocBuilder<MapsBloc, MapsState>(
       builder: (context, state) {
         switch (state.status) {
           case MapsStatus.loaded:

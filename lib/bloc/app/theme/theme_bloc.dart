@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 
+// TODO: Implement a withcer theme using COURGETTE google font and pergamen card background
+
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final PrefsRepo _prefs;
 

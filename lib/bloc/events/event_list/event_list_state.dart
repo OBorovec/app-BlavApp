@@ -1,15 +1,15 @@
-part of 'events_bloc.dart';
+part of 'event_list_bloc.dart';
 
-abstract class EventsState extends Equatable {
-  const EventsState();
+abstract class EventListState extends Equatable {
+  const EventListState();
 
   @override
   List<Object> get props => [];
 }
 
-class EventsInitial extends EventsState {}
+class EventsInitial extends EventListState {}
 
-class EventsFailState extends EventsState {
+class EventsFailState extends EventListState {
   final String message;
 
   const EventsFailState(this.message);
@@ -18,7 +18,7 @@ class EventsFailState extends EventsState {
   List<Object> get props => [message];
 }
 
-class EventsLoadedState extends EventsState {
+class EventsLoadedState extends EventListState {
   final List<Event> upComingEvents;
   final List<Event> pastEvents;
 

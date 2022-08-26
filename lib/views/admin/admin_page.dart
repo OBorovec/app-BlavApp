@@ -1,4 +1,4 @@
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

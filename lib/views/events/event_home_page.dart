@@ -1,6 +1,7 @@
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
@@ -13,10 +14,10 @@ class EventHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventFocusBloc, EventFocusState>(
+    return BlocBuilder<EventBloc, EventState>(
       builder: (context, state) {
         switch (state.status) {
-          case EventFocusStatus.focused:
+          case EventStatus.selected:
             return RootPage(
               titleText: t(state.event!.name, context),
               body: SingleChildScrollView(
@@ -36,7 +37,10 @@ class EventHomePage extends StatelessWidget {
                 ]),
               ),
             );
-          case EventFocusStatus.empty:
+          case EventStatus.init:
+            return const DataLoadingPage();
+          case EventStatus.empty:
+            // TODO: add page localizations
             return RootPage(
               titleText: 'You still need to pick an event',
               body: Column(
@@ -52,7 +56,7 @@ class EventHomePage extends StatelessWidget {
 }
 
 class _EventTimes extends StatelessWidget {
-  final EventFocusState state;
+  final EventState state;
   const _EventTimes({
     Key? key,
     required this.state,
@@ -83,7 +87,7 @@ class _EventTimes extends StatelessWidget {
 }
 
 class _EventDescription extends StatelessWidget {
-  final EventFocusState state;
+  final EventState state;
   const _EventDescription({
     Key? key,
     required this.state,

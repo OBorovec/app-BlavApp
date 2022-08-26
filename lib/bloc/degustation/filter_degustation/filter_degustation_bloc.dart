@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
-import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'filter_degustation_event.dart';
 part 'filter_degustation_state.dart';

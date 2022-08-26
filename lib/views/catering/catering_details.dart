@@ -1,4 +1,4 @@
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';

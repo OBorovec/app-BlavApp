@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:blavapp/services/prefs_repo.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'user_local_prefs_event.dart';
 part 'user_local_prefs_state.dart';
+
+const UserCurrencyPref defCurrency = UserCurrencyPref.czk;
 
 class UserLocalPrefsBloc
     extends Bloc<UserLocalPrefsEvent, UserLocalPrefsState> {
@@ -38,10 +40,9 @@ class UserLocalPrefsBloc
         currency: UserCurrencyPref.eur,
       );
     } else {
-      state = state.copyWith(
-        currency: UserCurrencyPref.czk,
-      );
+      state = state.copyWith(currency: defCurrency);
     }
+
     final bool? allowPushNotifications = prefs.loadUserNotificationPush();
     final bool? allowProgrammeNotifications =
         prefs.loadUserNotificationProgramme();

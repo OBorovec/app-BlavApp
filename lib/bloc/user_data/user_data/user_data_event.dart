@@ -7,7 +7,9 @@ abstract class UserDataEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class EmptyUserData extends UserDataEvent {}
+class EmptyUserData extends UserDataEvent {
+  const EmptyUserData();
+}
 
 class InitUserData extends UserDataEvent {
   final User user;

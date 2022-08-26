@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:blavapp/model/degustation.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'place_menu_degustation_event.dart';
 part 'place_menu_degustation_state.dart';

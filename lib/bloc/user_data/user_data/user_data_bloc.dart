@@ -1,13 +1,13 @@
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_data_event.dart';
 part 'user_data_state.dart';
@@ -15,14 +15,14 @@ part 'user_data_state.dart';
 class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   final DataRepo _dataRepo;
   final AuthBloc _authBloc;
-  final EventFocusBloc _eventFocusBloc;
+  final EventBloc _eventFocusBloc;
   late final StreamSubscription _authBlocSub;
   late StreamSubscription<UserData> _userDataSubscription;
 
   UserDataBloc({
     required DataRepo dataRepo,
     required AuthBloc authBloc,
-    required EventFocusBloc eventFocusBloc,
+    required EventBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         _authBloc = authBloc,
         _eventFocusBloc = eventFocusBloc,
@@ -45,12 +45,12 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   }
 
   void _onAuthBlocChange(AuthState state) {
-    if (state.status == AuthStatus.authenticated) {
+    if (state.status == AuthStatus.auth) {
       _userDataSubscription = _dataRepo
           .getUserDataStream(state.user!.uid)
           .listen(_onUserDataChanged);
     } else {
-      add(EmptyUserData());
+      add(const EmptyUserData());
     }
   }
 

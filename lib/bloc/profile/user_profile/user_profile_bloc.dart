@@ -39,6 +39,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     on<UserEditPictureLoad>(_userEditPictureLoad);
     on<UserProfileRefresh>(_userProfileRefresh);
     on<UserPasswordReset>(_userPasswordReset);
+    on<UserSignOut>(_userSignOut);
     // Init events
     add(const UserEditNicknameReset());
   }
@@ -103,8 +104,8 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     UserEditPictureTake event,
     Emitter<UserProfileState> emit,
   ) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
     if (photo != null) {
       _setUserPhoto(photo);
     }
@@ -114,8 +115,8 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     UserEditPictureLoad event,
     Emitter<UserProfileState> emit,
   ) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       _setUserPhoto(image);
     }
@@ -147,6 +148,27 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     } catch (e) {
       emit(state.copyWith(
         notification: UserProfileNotification.passwordEmailFailedSent,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  Future<FutureOr<void>> _userSignOut(
+    UserSignOut event,
+    Emitter<UserProfileState> emit,
+  ) async {
+    emit(state.copyWith(
+      isSigningOut: true,
+    ));
+    try {
+      await _authRepo.signOut();
+      emit(state.copyWith(
+        isSigningOut: true,
+        status: UserProfileStatus.signedOut,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isSigningOut: false,
         message: e.toString(),
       ));
     }

@@ -4,8 +4,8 @@ import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/model_helper.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'highlight_catering_event.dart';
 part 'highlight_catering_state.dart';

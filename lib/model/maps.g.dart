@@ -76,19 +76,19 @@ const _$MapPointTypeEnumMap = {
 RealWorldRecord _$RealWorldRecordFromJson(Map<String, dynamic> json) =>
     RealWorldRecord(
       name: Map<String, String>.from(json['name'] as Map),
+      lat: (json['lat'] as num).toDouble(),
+      long: (json['long'] as num).toDouble(),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
       image: json['image'] as String?,
-      lat: (json['lat'] as num).toDouble(),
-      long: (json['long'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$RealWorldRecordToJson(RealWorldRecord instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'desc': instance.desc,
-      'image': instance.image,
       'lat': instance.lat,
       'long': instance.long,
+      'desc': instance.desc,
+      'image': instance.image,
     };

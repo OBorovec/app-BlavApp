@@ -42,6 +42,19 @@ class $AssetsMapsGen {
       const AssetGenImage('assets/maps/tabor_mlyn.png');
 }
 
+class $AssetsRiveGen {
+  const $AssetsRiveGen();
+
+  /// File path: assets/rive/BlaviconIcon.riv
+  String get blaviconIcon => 'assets/rive/BlaviconIcon.riv';
+
+  /// File path: assets/rive/BlaviconIconDark.riv
+  String get blaviconIconDark => 'assets/rive/BlaviconIconDark.riv';
+
+  /// File path: assets/rive/BlaviconIconLight.riv
+  String get blaviconIconLight => 'assets/rive/BlaviconIconLight.riv';
+}
+
 class Assets {
   Assets._();
 
@@ -50,6 +63,7 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const AssetGenImage launcher = AssetGenImage('assets/launcher.png');
   static const $AssetsMapsGen maps = $AssetsMapsGen();
+  static const $AssetsRiveGen rive = $AssetsRiveGen();
 }
 
 class AssetGenImage {

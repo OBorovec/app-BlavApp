@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:blavapp/bloc/profile/user_signin/user_sign_in_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/control/text_field.dart';
+import 'package:blavapp/components/pages/page_plain.dart';
+import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/utils/toasting.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,46 +17,71 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RootPage(
-      titleText: AppLocalizations.of(context)!.contSignInTitle,
-      body: BlocProvider(
-        create: (context) => UserSignInBloc(
-          authRepo: context.read<AuthRepo>(),
-        ),
-        child: BlocListener<UserSignInBloc, UserSignInState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: userSignInListener,
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const _LogoWidget(),
-                Column(
-                  children: const [
-                    _EmailTextField(),
-                    SizedBox(height: 16),
-                    _PasswordTextField(),
-                    SizedBox(height: 16),
-                    _SignInButton(),
-                    SizedBox(height: 16),
-                    _ForgottenPasswordButton(),
-                    SizedBox(height: 16),
-                    Divider(),
-                    SizedBox(height: 16),
-                    _SignUpButton(),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(AppLocalizations.of(context)!.contSignInProviders),
-                    const SizedBox(height: 16),
-                    _SignInWithGoogleButton(),
-                  ],
-                ),
-              ],
+    return BlocProvider(
+      create: (context) => UserSignInBloc(
+        authRepo: context.read<AuthRepo>(),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: PlainPage(
+          titleText: AppLocalizations.of(context)!.contSignInTitle,
+          body: BlocListener<UserSignInBloc, UserSignInState>(
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
+            listener: userSignInListener,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: const [
+                      _EmailTextField(),
+                      SizedBox(height: 16),
+                      _PasswordTextField(),
+                      SizedBox(height: 4),
+                      _ForgottenPasswordButton(),
+                      SizedBox(height: 16),
+                      _SignInButton(),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      TitleDivider(
+                        title: AppLocalizations.of(context)!.genOr,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      const SizedBox(height: 16),
+                      _SignInWithGoogleButton(),
+                      const SizedBox(height: 16),
+                      _SignInWithFacebookButton(),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      TitleDivider(
+                        title:
+                            AppLocalizations.of(context)!.contSignInNoAccount,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      const SizedBox(height: 16),
+                      const _SignUpButton(),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => exit(0),
+            ),
+          ],
         ),
       ),
     );
@@ -62,8 +92,8 @@ class SignInPage extends StatelessWidget {
     UserSignInState state,
   ) {
     if (state.status == SignInStatus.success) {
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.popAndPushNamed(context, RoutePaths.profile);
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.popAndPushNamed(context, RoutePaths.welcome);
       });
     }
     if (state.status == SignInStatus.fail) {
@@ -75,39 +105,20 @@ class SignInPage extends StatelessWidget {
   }
 }
 
-class _LogoWidget extends StatelessWidget {
-  const _LogoWidget({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    // TODO: add witcher flare animation
-    return Container();
-  }
-}
-
 class _EmailTextField extends StatelessWidget {
   const _EmailTextField({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSignInBloc, UserSignInState>(
+      buildWhen: (previous, current) =>
+          previous.email != current.email ||
+          previous.isEmailValid != current.isEmailValid,
       builder: (context, state) {
-        return TextField(
-          autocorrect: false,
-          enableSuggestions: false,
-          onChanged: (value) => context.read<UserSignInBloc>().add(
-                UserSignInEmailChanged(email: value),
-              ),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.genEmail,
-            hintText: AppLocalizations.of(context)!.genEmail,
-            errorText: !state.isEmailValid
-                ? AppLocalizations.of(context)!.contSignInEmailError
-                : null,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0,
-              horizontal: 10.0,
-            ),
-          ),
+        return EmailTextField(
+          onChange: (value) => context
+              .read<UserSignInBloc>()
+              .add(UserSignInEmailChanged(email: value)),
+          isValid: state.isEmailValid,
         );
       },
     );
@@ -116,29 +127,37 @@ class _EmailTextField extends StatelessWidget {
 
 class _PasswordTextField extends StatelessWidget {
   const _PasswordTextField({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSignInBloc, UserSignInState>(
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.isPasswordValid != current.isPasswordValid,
       builder: (context, state) {
-        return TextField(
-          autocorrect: false,
-          enableSuggestions: false,
-          onChanged: (value) => context.read<UserSignInBloc>().add(
-                UserSignInPswChanged(password: value),
-              ),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.genPassword,
-            hintText: AppLocalizations.of(context)!.genPassword,
-            errorText: !state.isPasswordValid
-                ? AppLocalizations.of(context)!.contSignInPswError
-                : null,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0,
-              horizontal: 10.0,
-            ),
-          ),
+        return PasswordTextField(
+          onChange: (value) => context
+              .read<UserSignInBloc>()
+              .add(UserSignInPswChanged(password: value)),
+          isValid: state.isPasswordValid,
         );
+      },
+    );
+  }
+}
+
+class _ForgottenPasswordButton extends StatelessWidget {
+  const _ForgottenPasswordButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Text(
+        AppLocalizations.of(context)!.contSignInForgotten,
+        textAlign: TextAlign.end,
+      ),
+      onTap: () {
+        Navigator.of(context).pushNamed(RoutePaths.signInForgottenPassword);
       },
     );
   }
@@ -152,21 +171,80 @@ class _SignInButton extends StatelessWidget {
       onPressed: () {
         context.read<UserSignInBloc>().add(const UserSignIn());
       },
-      child: Text(AppLocalizations.of(context)!.contSignInBtnSignIn),
+      child: Row(
+        children: [
+          const Icon(Icons.login),
+          const SizedBox(width: 8),
+          Expanded(
+            child: BlocBuilder<UserSignInBloc, UserSignInState>(
+              builder: (context, state) {
+                return Text(
+                  _btnText(context, state),
+                  textAlign: TextAlign.center,
+                );
+              },
+            ),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
+    );
+  }
+
+  String _btnText(BuildContext context, UserSignInState state) {
+    switch (state.status) {
+      case SignInStatus.success:
+        return AppLocalizations.of(context)!.genSuccess;
+      case SignInStatus.fail:
+        return AppLocalizations.of(context)!.genFail;
+      case SignInStatus.ready:
+        return AppLocalizations.of(context)!.contSignInBtnSingIn;
+      case SignInStatus.loading:
+        return AppLocalizations.of(context)!.genProcessing;
+    }
+  }
+}
+
+class _SignInWithGoogleButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {},
+      child: Row(
+        children: [
+          const Icon(EvaIcons.google),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.contSignInBtnGoogle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
     );
   }
 }
 
-class _ForgottenPasswordButton extends StatelessWidget {
-  const _ForgottenPasswordButton({Key? key}) : super(key: key);
-
+class _SignInWithFacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Text(AppLocalizations.of(context)!.contSignInForgotten),
-      onTap: () {
-        Navigator.of(context).pushNamed(RoutePaths.signInForgottenPassword);
-      },
+    return ElevatedButton(
+      onPressed: () {},
+      child: Row(
+        children: [
+          const Icon(EvaIcons.facebook),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.contSignInBtnFacebook,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
     );
   }
 }
@@ -179,14 +257,19 @@ class _SignUpButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushNamed(context, RoutePaths.signUp);
       },
-      child: Text(AppLocalizations.of(context)!.contSignInBtnSignUp),
+      child: Row(
+        children: [
+          const Icon(Icons.person_add),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.contSignInBtnSignUp,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
     );
-  }
-}
-
-class _SignInWithGoogleButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

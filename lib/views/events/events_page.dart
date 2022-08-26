@@ -1,11 +1,12 @@
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
-import 'package:blavapp/bloc/events/event_list/events_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
+import 'package:blavapp/bloc/events/event_list/event_list_bloc.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/data_repo.dart';
+import 'package:blavapp/utils/datetime_formatter.dart';
+import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/toasting.dart';
-import 'package:blavapp/views/events/event_card.dart';
 import 'package:blavapp/views/events/event_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,10 +20,10 @@ class EventsPage extends StatelessWidget {
     return RootPage(
       titleText: AppLocalizations.of(context)!.contEventsTitle,
       body: BlocProvider(
-        create: (context) => EventsBloc(
+        create: (context) => EventListBloc(
           dataRepo: context.read<DataRepo>(),
-        )..add(LoadEvents()),
-        child: BlocConsumer<EventsBloc, EventsState>(
+        ),
+        child: BlocConsumer<EventListBloc, EventListState>(
           listener: (context, state) {
             if (state is EventsFailState) {
               Toasting.notifyToast(context, state.message);
@@ -34,32 +35,43 @@ class EventsPage extends StatelessWidget {
                 child: Column(
                   children: [
                     ...state.upComingEvents.map(
-                      (Event event) => EventCard(
-                          event: event,
-                          onTap: () => _navigateToDetails(
-                                event,
-                                context,
-                              ),
-                          onFocusSelection: () {
-                            context.read<EventFocusBloc>().add(
-                                  EventFocusChanged(eventID: event.id),
-                                );
-                            Navigator.popAndPushNamed(
-                                context, RoutePaths.eventHome);
-                          }),
+                      (Event event) => _EventCard(
+                        event: event,
+                        onTap: () => _navigateToDetails(
+                          event,
+                          context,
+                        ),
+                        onFocusSelection: event.canBeFocused
+                            ? () {
+                                context.read<EventBloc>().add(
+                                      EventSelected(eventID: event.id),
+                                    );
+                                Navigator.popAndPushNamed(
+                                    context, RoutePaths.eventHome);
+                              }
+                            : null,
+                      ),
                     ),
                     const Divider(),
                     Text(
                       AppLocalizations.of(context)!.contEventsPastEvents,
                     ),
                     ...state.pastEvents.map(
-                      (Event event) => EventCard(
+                      (Event event) => _EventCard(
                         event: event,
                         onTap: () => _navigateToDetails(
                           event,
                           context,
                         ),
-                        onFocusSelection: null,
+                        onFocusSelection: event.canBeFocused
+                            ? () {
+                                context.read<EventBloc>().add(
+                                      EventSelected(eventID: event.id),
+                                    );
+                                Navigator.popAndPushNamed(
+                                    context, RoutePaths.eventHome);
+                              }
+                            : null,
                       ),
                     ),
                   ],
@@ -89,6 +101,48 @@ class EventsPage extends StatelessWidget {
       RoutePaths.eventDetail,
       arguments: EventDetailsArguments(
         event: event,
+      ),
+    );
+  }
+}
+
+class _EventCard extends StatelessWidget {
+  final Event event;
+  final Function() onTap;
+  final Function()? onFocusSelection;
+  const _EventCard({
+    Key? key,
+    required this.event,
+    required this.onTap,
+    required this.onFocusSelection,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListTile(
+                title: Text(t(event.name, context)),
+                subtitle: Text(
+                  formatTimeRange(
+                    event.dayStart,
+                    event.dayEnd,
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: onFocusSelection,
+                  icon: const Icon(Icons.arrow_forward),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

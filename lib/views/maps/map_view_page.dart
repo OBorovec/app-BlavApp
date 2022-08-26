@@ -1,7 +1,7 @@
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/toasting.dart';

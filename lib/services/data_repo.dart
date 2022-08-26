@@ -217,7 +217,6 @@ class DataRepo {
 
   Stream<Degustation> getDegustationStream(String eventTag) {
     return _degustationDataRef.doc(eventTag).snapshots().map((snapshot) {
-      print(snapshot);
       if (snapshot.data() == null) {
         throw NullDataException('$eventTag:Degustation');
       }

@@ -1,7 +1,7 @@
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/admin/vote_results.dart';

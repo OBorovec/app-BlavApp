@@ -1,15 +1,16 @@
 part of 'user_perms_bloc.dart';
 
 class UserPermsState extends Equatable {
-  final UserPerms userPrems;
+  final UserPerms userPerms;
 
   const UserPermsState({
-    required this.userPrems,
+    required this.userPerms,
   });
 
-  Roles get roles => userPrems.roles;
-  bool get hasAdmin => userPrems.hasAdmin;
+  Roles get roles => userPerms.roles;
+  bool get isAdmin => userPerms.isAdmin;
+  bool get isStaff => userPerms.isStaff;
 
   @override
-  List<Object> get props => [userPrems];
+  List<Object> get props => [userPerms];
 }

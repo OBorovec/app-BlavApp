@@ -1,5 +1,5 @@
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/components/user/user_avatar.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/utils/app_heros.dart';

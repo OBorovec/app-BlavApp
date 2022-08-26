@@ -28,3 +28,7 @@ class UserSignIn extends UserSignInEvent {
 class UserSignInGoogle extends UserSignInEvent {
   const UserSignInGoogle();
 }
+
+class UserSignInSoftReset extends UserSignInEvent {
+  const UserSignInSoftReset();
+}

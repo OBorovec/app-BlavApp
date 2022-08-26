@@ -1,5 +1,5 @@
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
-import 'package:blavapp/bloc/events/event_list/events_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
+import 'package:blavapp/bloc/events/event_list/event_list_bloc.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
@@ -14,10 +14,10 @@ class DrawerEventPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EventsBloc(
+      create: (context) => EventListBloc(
         dataRepo: context.read<DataRepo>(),
       )..add(LoadEvents()),
-      child: BlocConsumer<EventsBloc, EventsState>(
+      child: BlocConsumer<EventListBloc, EventListState>(
         listener: (context, state) {
           if (state is EventsFailState) {
             Toasting.notifyToast(context, state.message);
@@ -46,8 +46,8 @@ class DrawerEventPicker extends StatelessWidget {
             return DrawerEventCard(
               event: events[index],
               onTap: () => {
-                context.read<EventFocusBloc>().add(
-                      EventFocusChanged(eventID: events[index].id),
+                context.read<EventBloc>().add(
+                      EventSelected(eventID: events[index].id),
                     )
               },
             );

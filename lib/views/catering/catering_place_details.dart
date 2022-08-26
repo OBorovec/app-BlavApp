@@ -2,7 +2,7 @@ import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/place_menu/place_menu_catering_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/catering.dart';
 import 'package:blavapp/utils/app_heros.dart';

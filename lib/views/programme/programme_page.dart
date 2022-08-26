@@ -1,15 +1,14 @@
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/bloc/programme/filter_programme/filter_programme_bloc.dart';
 import 'package:blavapp/bloc/programme/highlight_programme/highlight_programme_bloc.dart';
 import 'package:blavapp/bloc/programme/user_programme_agenda/user_programme_agenda_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
+import 'package:blavapp/components/pages/aspects/bottom_navigation.dart';
+import 'package:blavapp/components/pages/page_root.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/programme/programme_highlight.dart';
 import 'package:blavapp/views/programme/programme_agenda.dart';
 import 'package:blavapp/views/programme/programme_list.dart';
@@ -51,13 +50,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProgrammeBloc, ProgrammeState>(
-      listenWhen: (previous, current) => previous.message != current.message,
-      listener: (context, state) {
-        if (state.status == ProgrammeStatus.error) {
-          Toasting.notifyToast(context, state.message);
-        }
-      },
+    return BlocBuilder<ProgrammeBloc, ProgrammeState>(
       builder: (context, state) {
         switch (state.status) {
           case ProgrammeStatus.loaded:
@@ -79,7 +72,7 @@ class _ProgrammePageState extends State<ProgrammePage> {
                   create: (context) => UserProgrammeAgendaBloc(
                     programmeBloc: context.read<ProgrammeBloc>(),
                     userDataBloc: context.read<UserDataBloc>(),
-                    event: context.read<EventFocusBloc>().state.event!,
+                    event: context.read<EventBloc>().state.event!,
                   ),
                 ),
               ],
@@ -146,9 +139,9 @@ class _ProgrammePageState extends State<ProgrammePage> {
   AppBottomNavigationBar _buildBottomNavigation(BuildContext context) {
     return AppBottomNavigationBar(
       items: const [
-        Icons.amp_stories,
+        Icons.info,
         Icons.list,
-        Icons.event_available,
+        Icons.bookmark,
         Icons.view_agenda,
       ],
       onTap: (index) {

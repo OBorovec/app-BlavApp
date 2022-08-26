@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -11,19 +11,19 @@ part 'cosplay_state.dart';
 
 class CosplayBloc extends Bloc<CosplayEvent, CosplayState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  late final StreamSubscription<EventState> _eventFocusBlocSubscription;
   String? eventRef;
   StreamSubscription<Cosplay>? _cosplayStream;
 
   CosplayBloc({
     required DataRepo dataRepo,
-    required EventFocusBloc eventFocusBloc,
+    required EventBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const CosplayState()) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
-        (EventFocusState eventFocusState) =>
+        (EventState eventFocusState) =>
             createDataStream(eventTag: eventFocusState.eventTag));
-    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+    if (eventFocusBloc.state.status == EventStatus.selected) {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
     // Event listeners

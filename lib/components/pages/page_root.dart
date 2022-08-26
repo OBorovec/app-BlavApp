@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:blavapp/components/page_hierarchy/appbar_extention.dart';
-import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/drawer/drawer_main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'aspects/appbar_extention.dart';
 
 class RootPage extends StatefulWidget {
   final String titleText;
@@ -73,10 +72,10 @@ class _RootPageState extends State<RootPage> {
     final DateTime now = DateTime.now();
     if (now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Toasting.notifyToast(
-        context,
-        AppLocalizations.of(context)!.toatingDoubleTapExit,
-      );
+      // Toasting.notifyToast(
+      //   context,
+      //   AppLocalizations.of(context)!.toatingDoubleTapExit,
+      // );
       _scaffoldKey.currentState?.openDrawer();
       return Future.value(false);
     }

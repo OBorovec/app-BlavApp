@@ -12,7 +12,7 @@ class BlavDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        bool isAuthenticated = state.status == AuthStatus.authenticated;
+        bool isAuthenticated = state.status == AuthStatus.auth;
         return InkWell(
           onTap: () {
             Navigator.popAndPushNamed(

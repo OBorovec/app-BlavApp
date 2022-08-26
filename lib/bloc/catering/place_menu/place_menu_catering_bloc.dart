@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:blavapp/model/catering.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'place_menu_catering_event.dart';
 part 'place_menu_catering_state.dart';

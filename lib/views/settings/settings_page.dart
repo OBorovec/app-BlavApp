@@ -1,7 +1,7 @@
 import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/views/title_divider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   const _LanguageOptions(),
                   const _ThemeOptions(),
-                  const _CurrenryOptions(),
+                  // NOTE: Uncomment in the next versions so that the user can change their currency preference.
+                  // const _CurrenryOptions(),
                   TitleDivider(
                     title: AppLocalizations.of(context)!.settingsNotification,
                   ),
@@ -306,15 +307,17 @@ class _Signature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
       child: Row(
         children: [
-          Text(
-            AppLocalizations.of(context)!.aboutDevBy,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption,
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.aboutDevBy,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.caption,
+              maxLines: 3,
+            ),
           ),
-          Expanded(child: Container()),
           IconButton(
             onPressed: () => launchUrl(
               Uri.parse('https://github.com/OBorovec/BlavApp'),

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/model/catering.dart';
-import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'filter_catering_event.dart';
 part 'filter_catering_state.dart';

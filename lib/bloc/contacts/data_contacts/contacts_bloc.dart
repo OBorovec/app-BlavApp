@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blavapp/bloc/app/event_focus/event_focus_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/model/contacts.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -11,18 +11,18 @@ part 'contacts_state.dart';
 
 class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
   final DataRepo _dataRepo;
-  late final StreamSubscription<EventFocusState> _eventFocusBlocSubscription;
+  late final StreamSubscription<EventState> _eventFocusBlocSubscription;
   StreamSubscription<Contacts>? _contactsStream;
 
   ContactsBloc({
     required DataRepo dataRepo,
-    required EventFocusBloc eventFocusBloc,
+    required EventBloc eventFocusBloc,
   })  : _dataRepo = dataRepo,
         super(const ContactsState()) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
-        (EventFocusState eventFocusState) =>
+        (EventState eventFocusState) =>
             createDataStream(eventTag: eventFocusState.eventTag));
-    if (eventFocusBloc.state.status == EventFocusStatus.focused) {
+    if (eventFocusBloc.state.status == EventStatus.selected) {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
     // Event listeners
@@ -42,7 +42,6 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
           ),
         )..onError(
         (error) {
-          print('error');
           if (error is NullDataException) {
             add(ContactsSubscriptionFailed(message: error.message));
           } else {

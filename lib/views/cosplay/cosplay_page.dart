@@ -1,13 +1,12 @@
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/model/cosplay.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
-import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/cosplay/cosplay_bloc_widgets.dart';
 import 'package:blavapp/views/cosplay/cosplay_details.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +18,7 @@ class CosplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CosplayBloc, CosplayState>(
-      listenWhen: (previous, current) => previous.message != current.message,
-      listener: (context, state) {
-        if (state.status == CosplayStatus.error) {
-          Toasting.notifyToast(context, state.message);
-        }
-      },
+    return BlocBuilder<CosplayBloc, CosplayState>(
       builder: (context, state) {
         switch (state.status) {
           case CosplayStatus.loaded:

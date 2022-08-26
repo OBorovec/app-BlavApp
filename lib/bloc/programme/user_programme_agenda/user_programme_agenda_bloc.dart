@@ -4,7 +4,7 @@ import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/programme.dart';
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'user_programme_agenda_event.dart';

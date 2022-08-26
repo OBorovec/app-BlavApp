@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'ticket_checker_event.dart';
 part 'ticket_checker_state.dart';

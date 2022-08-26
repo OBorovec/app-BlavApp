@@ -1,5 +1,6 @@
-import 'package:blavapp/components/page_hierarchy/appbar_extention.dart';
 import 'package:flutter/material.dart';
+
+import 'aspects/appbar_extention.dart';
 
 class SidePage extends StatefulWidget {
   final String titleText;

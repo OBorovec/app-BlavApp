@@ -7,10 +7,7 @@ part of 'story.dart';
 // **************************************************************************
 
 Story _$StoryFromJson(Map<String, dynamic> json) => Story(
-      name: (json['name'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
-          ) ??
-          const {},
+      name: Map<String, String>.from(json['name'] as Map),
       story: (json['story'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -46,14 +43,10 @@ Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
     };
 
 StoryPart _$StoryPartFromJson(Map<String, dynamic> json) => StoryPart(
-      title: (json['title'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
-          ) ??
-          const {},
+      title: Map<String, String>.from(json['title'] as Map),
       text: (json['text'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
-          ) ??
-          const {},
+        (k, e) => MapEntry(k, e as String),
+      ),
       image: json['image'] as String?,
       factionRef: (json['factionRef'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -75,10 +68,7 @@ Map<String, dynamic> _$StoryPartToJson(StoryPart instance) => <String, dynamic>{
 
 StoryFaction _$StoryFactionFromJson(Map<String, dynamic> json) => StoryFaction(
       id: json['id'] as String,
-      name: (json['name'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
-          ) ??
-          const {},
+      name: Map<String, String>.from(json['name'] as Map),
       leaderRef: json['leaderRef'] as String?,
       memberRef: (json['memberRef'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -111,7 +101,9 @@ Map<String, dynamic> _$StoryFactionToJson(StoryFaction instance) =>
 StoryEntity _$StoryEntityFromJson(Map<String, dynamic> json) => StoryEntity(
       id: json['id'] as String,
       name: json['name'] as String,
-      type: Map<String, String>.from(json['type'] as Map),
+      type: (json['type'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),

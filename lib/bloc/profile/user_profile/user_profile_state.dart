@@ -3,6 +3,7 @@ part of 'user_profile_bloc.dart';
 enum UserProfileStatus {
   ready,
   error,
+  signedOut,
 }
 
 enum UserProfileNotification {
@@ -25,6 +26,8 @@ class UserProfileState extends Equatable {
   final UserProfileNotification notification;
   final bool editingNickname;
   final String nickname;
+  final bool isSigningOut;
+
   const UserProfileState({
     required this.user,
     this.status = UserProfileStatus.ready,
@@ -32,6 +35,7 @@ class UserProfileState extends Equatable {
     this.notification = UserProfileNotification.none,
     this.editingNickname = false,
     required this.nickname,
+    this.isSigningOut = false,
   });
 
   @override
@@ -42,6 +46,7 @@ class UserProfileState extends Equatable {
         notification,
         editingNickname,
         nickname,
+        isSigningOut,
       ];
 
   UserProfileState copyWith({
@@ -51,6 +56,7 @@ class UserProfileState extends Equatable {
     UserProfileNotification? notification,
     bool? editingNickname,
     String? nickname,
+    bool? isSigningOut,
   }) {
     return UserProfileState(
       user: user ?? this.user,
@@ -59,6 +65,7 @@ class UserProfileState extends Equatable {
       notification: notification ?? this.notification,
       editingNickname: editingNickname ?? this.editingNickname,
       nickname: nickname ?? this.nickname,
+      isSigningOut: isSigningOut ?? this.isSigningOut,
     );
   }
 }

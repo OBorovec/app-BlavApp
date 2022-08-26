@@ -5,7 +5,7 @@ class PrefsRepo {
 
   static const String keyLang = 'lang';
   static const String keyTheme = 'theme';
-  static const String keyEventFocus = 'eventFocus';
+  static const String keyEventFocus = 'event';
   static const String keyUserCurrency = 'userCurrency';
   static const String keyUserNotificationPush = 'userNotificationPush';
   static const String keyUserNotificationProgramme =
@@ -33,11 +33,11 @@ class PrefsRepo {
     _prefsInstance.setString(keyTheme, value ?? '');
   }
 
-  String? loadEventFocus() {
+  String? loadEvent() {
     return _prefsInstance.getString(keyEventFocus);
   }
 
-  void saveEventFocus(String? value) {
+  void saveEvent(String? value) {
     _prefsInstance.setString(keyEventFocus, value ?? '');
   }
 

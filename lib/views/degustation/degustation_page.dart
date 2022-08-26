@@ -2,12 +2,11 @@ import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart'
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degustation_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/bottom_navigation.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
+import 'package:blavapp/components/pages/aspects/bottom_navigation.dart';
+import 'package:blavapp/components/pages/page_root.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/utils/toasting.dart';
 import 'package:blavapp/views/degustation/degustation_list.dart';
 import 'package:blavapp/views/degustation/degustation_highlight.dart';
 import 'package:flutter/material.dart';
@@ -49,13 +48,7 @@ class _DegustationPageState extends State<DegustationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DegustationBloc, DegustationState>(
-      listenWhen: (previous, current) => previous.message != current.message,
-      listener: (context, state) {
-        if (state.status == DegustationStatus.error) {
-          Toasting.notifyToast(context, state.message);
-        }
-      },
+    return BlocBuilder<DegustationBloc, DegustationState>(
       builder: (context, state) {
         switch (state.status) {
           case DegustationStatus.loaded:
@@ -132,7 +125,7 @@ class _DegustationPageState extends State<DegustationPage> {
   AppBottomNavigationBar _buildBottomNavigation(BuildContext context) {
     return AppBottomNavigationBar(
       items: const [
-        Icons.amp_stories,
+        Icons.info,
         Icons.local_bar,
         Icons.favorite,
       ],

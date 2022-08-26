@@ -68,7 +68,6 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
   }
 
   void _mapAnimationListener() {
-    // print(MatrixUtils.transformPoint(_mapMatrixAnimation.value, Offset.zero));
     _mapTransformationController.value = _mapMatrixAnimation.value;
   }
 

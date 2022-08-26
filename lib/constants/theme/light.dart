@@ -1,4 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = FlexThemeData.light(
@@ -15,7 +16,7 @@ ThemeData lightTheme = FlexThemeData.light(
   lightIsWhite: false,
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   // To use playground font, add GoogleFonts package and uncomment:
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
+  // fontFamily: GoogleFonts.courgette().fontFamily,
   subThemesData: const FlexSubThemesData(
     useTextTheme: true,
     fabUseShape: false,

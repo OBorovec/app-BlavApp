@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/profile/user_signup/user_sign_up_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/control/text_field.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/data_repo.dart';
@@ -14,45 +15,51 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SidePage(
-      titleText: AppLocalizations.of(context)!.contSignUpTitle,
-      // body: Container(),
-      body: BlocProvider(
-        create: (context) => UserSignUpBloc(
-          authRepo: context.read<AuthRepo>(),
-          dataRepo: context.read<DataRepo>(),
-          userDataBloc: context.read<UserDataBloc>(),
-        ),
-        child: BlocListener<UserSignUpBloc, UserSignUpState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: userSignUpListener,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: SidePage(
+        titleText: AppLocalizations.of(context)!.contSignUpTitle,
+        // body: Container(),
+        body: BlocProvider(
+          create: (context) => UserSignUpBloc(
+            authRepo: context.read<AuthRepo>(),
+            dataRepo: context.read<DataRepo>(),
+            userDataBloc: context.read<UserDataBloc>(),
+          ),
+          child: BlocListener<UserSignUpBloc, UserSignUpState>(
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
+            listener: userSignUpListener,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _EmailTextField(),
+                        const SizedBox(height: 16),
+                        const _PasswordTextField(),
+                        const SizedBox(height: 16),
+                        _NickTextField(),
+                        const SizedBox(height: 16),
+                        _SignUpButton(),
+                      ],
+                    ),
+                  ),
+                  Column(
                     children: [
-                      _EmailTextField(),
+                      Text(AppLocalizations.of(context)!.contSignUnProviders),
                       const SizedBox(height: 16),
-                      _PasswordTextField(),
-                      const SizedBox(height: 16),
-                      _NickTextField(),
-                      const SizedBox(height: 16),
-                      _SignUpButton(),
+                      _SignUpWithGoogleButton(),
                     ],
                   ),
-                ),
-                Column(
-                  children: [
-                    Text(AppLocalizations.of(context)!.contSignUnProviders),
-                    const SizedBox(height: 16),
-                    _SignUpWithGoogleButton(),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -65,8 +72,8 @@ class SignUpPage extends StatelessWidget {
     UserSignUpState state,
   ) {
     if (state.status == SignUpStatus.success) {
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.popAndPushNamed(context, RoutePaths.profile);
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.popAndPushNamed(context, RoutePaths.welcome);
       });
     }
     if (state.status == SignUpStatus.fail) {
@@ -86,39 +93,20 @@ class _EmailTextField extends StatelessWidget {
           previous.email != current.email ||
           previous.isEmailValid != current.isEmailValid,
       builder: (context, state) {
-        return TextField(
-          autocorrect: false,
-          enableSuggestions: false,
-          onChanged: (value) => context
+        return EmailTextField(
+          onChange: (value) => context
               .read<UserSignUpBloc>()
               .add(UserSignUpEmailChanged(email: value)),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.genEmail,
-            hintText: AppLocalizations.of(context)!.genEmail,
-            errorText: !state.isEmailValid
-                ? AppLocalizations.of(context)!.contSignUpEmailError
-                : null,
-            errorMaxLines: 2,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0,
-              horizontal: 10.0,
-            ),
-            icon: const Icon(Icons.mail),
-          ),
+          isValid: state.isEmailValid,
         );
       },
     );
   }
 }
 
-class _PasswordTextField extends StatefulWidget {
-  @override
-  State<_PasswordTextField> createState() => _PasswordTextFieldState();
-}
+class _PasswordTextField extends StatelessWidget {
+  const _PasswordTextField({Key? key}) : super(key: key);
 
-class _PasswordTextFieldState extends State<_PasswordTextField> {
-  bool _valueVisible = false;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserSignUpBloc, UserSignUpState>(
@@ -126,36 +114,11 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
           previous.password != current.password ||
           previous.isPasswordValid != current.isPasswordValid,
       builder: (context, state) {
-        return TextField(
-          autocorrect: false,
-          enableSuggestions: false,
-          onChanged: (value) => context.read<UserSignUpBloc>().add(
-                UserSignUpPswChanged(password: value),
-              ),
-          obscureText: !_valueVisible,
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.genPassword,
-            hintText: AppLocalizations.of(context)!.genPassword,
-            errorText: !state.isPasswordValid
-                ? AppLocalizations.of(context)!.contSignUpPswError
-                : null,
-            errorMaxLines: 2,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0,
-              horizontal: 10.0,
-            ),
-            icon: const Icon(Icons.security),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _valueVisible ? Icons.visibility : Icons.visibility_off,
-              ),
-              onPressed: () {
-                setState(() {
-                  _valueVisible = !_valueVisible;
-                });
-              },
-            ),
-          ),
+        return PasswordTextField(
+          onChange: (value) => context
+              .read<UserSignUpBloc>()
+              .add(UserSignUpPswChanged(password: value)),
+          isValid: state.isPasswordValid,
         );
       },
     );
@@ -170,25 +133,11 @@ class _NickTextField extends StatelessWidget {
           previous.nickName != current.nickName ||
           previous.isNickNameValid != current.isNickNameValid,
       builder: (context, state) {
-        return TextField(
-          autocorrect: false,
-          enableSuggestions: false,
-          onChanged: (value) => context
+        return NickTextField(
+          onChange: (value) => context
               .read<UserSignUpBloc>()
               .add(UserSignUpNNChanged(nickName: value)),
-          decoration: InputDecoration(
-            labelText: AppLocalizations.of(context)!.genNick,
-            hintText: AppLocalizations.of(context)!.genNick,
-            errorText: !state.isNickNameValid
-                ? AppLocalizations.of(context)!.contSignUpNickError
-                : null,
-            errorMaxLines: 2,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0,
-              horizontal: 10.0,
-            ),
-            icon: const Icon(Icons.perm_identity),
-          ),
+          isValid: state.isNickNameValid,
         );
       },
     );

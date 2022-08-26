@@ -15,11 +15,11 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       ),
       dayStart: DateTime.parse(json['dayStart'] as String),
       dayEnd: DateTime.parse(json['dayEnd'] as String),
+      routing: Routing.fromJson(json['routing'] as Map<String, dynamic>),
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      routing: Routing.fromJson(json['routing'] as Map<String, dynamic>),
       canBeFocused: json['canBeFocused'] as bool? ?? false,
     );
 
@@ -30,8 +30,8 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'desc': instance.desc,
       'dayStart': instance.dayStart.toIso8601String(),
       'dayEnd': instance.dayEnd.toIso8601String(),
-      'images': instance.images,
       'routing': instance.routing,
+      'images': instance.images,
       'canBeFocused': instance.canBeFocused,
     };
 

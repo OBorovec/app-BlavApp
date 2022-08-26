@@ -1,6 +1,6 @@
 import 'package:blavapp/bloc/contacts/data_contacts/contacts_bloc.dart';
-import 'package:blavapp/components/page_hierarchy/detail_not_found.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/page_content/detail_not_found.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/model/contacts.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:flutter/material.dart';

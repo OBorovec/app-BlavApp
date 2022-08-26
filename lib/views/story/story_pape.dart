@@ -1,8 +1,8 @@
 import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/data_error_page.dart';
-import 'package:blavapp/components/page_hierarchy/data_loading_page.dart';
-import 'package:blavapp/components/page_hierarchy/root_page.dart';
+import 'package:blavapp/components/page_content/data_error_page.dart';
+import 'package:blavapp/components/page_content/data_loading_page.dart';
+import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/story.dart';
 import 'package:blavapp/route_generator.dart';
@@ -19,13 +19,7 @@ class StoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StoryBloc, StoryState>(
-      listenWhen: (previous, current) => previous.message != current.message,
-      listener: (context, state) {
-        if (state.status == DataStatus.error) {
-          Toasting.notifyToast(context, state.message);
-        }
-      },
+    return BlocBuilder<StoryBloc, StoryState>(
       builder: (context, state) {
         switch (state.status) {
           case DataStatus.loaded:

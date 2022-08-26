@@ -8,8 +8,7 @@ abstract class UserEvent extends Equatable {
 }
 
 class UserInactive extends UserEvent {
-  @override
-  List<Object> get props => [];
+  const UserInactive();
 }
 
 class UserActive extends UserEvent {
@@ -20,4 +19,8 @@ class UserActive extends UserEvent {
 
   @override
   List<Object> get props => [user.uid];
+}
+
+class LoadUser extends UserEvent {
+  const LoadUser();
 }

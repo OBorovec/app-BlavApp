@@ -2,7 +2,7 @@ import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart'
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/control/rating_bar.dart';
 import 'package:blavapp/components/images/app_network_image.dart';
-import 'package:blavapp/components/page_hierarchy/side_page.dart';
+import 'package:blavapp/components/pages/page_side.dart';
 import 'package:blavapp/components/views/rating_indicator.dart';
 import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/degustation.dart';

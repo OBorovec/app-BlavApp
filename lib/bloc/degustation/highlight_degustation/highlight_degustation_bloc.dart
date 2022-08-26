@@ -4,8 +4,8 @@ import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart'
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/model_helper.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'highlight_degustation_event.dart';
 part 'highlight_degustation_state.dart';

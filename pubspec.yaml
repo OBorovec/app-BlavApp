@@ -39,6 +39,7 @@ dependencies:
   maps_launcher: ^2.0.1
   mobile_scanner: ^2.0.0
   qr_flutter: ^4.0.0
+  rive: ^0.9.1
   share_plus: ^4.0.10+1
   shared_preferences: ^2.0.13
   syncfusion_flutter_calendar: ^20.2.36
@@ -65,6 +66,7 @@ flutter:
     - assets/icons/
     - assets/maps/
     - assets/flare/
+    - assets/rive/
 
 # flutter packages pub run build_runner build
 flutter_gen:

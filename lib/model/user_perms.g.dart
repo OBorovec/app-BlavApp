@@ -10,12 +10,14 @@ UserPerms _$UserPermsFromJson(Map<String, dynamic> json) => UserPerms(
       roles: json['roles'] == null
           ? const Roles()
           : Roles.fromJson(json['roles'] as Map<String, dynamic>),
-      hasAdmin: json['hasAdmin'] as bool? ?? false,
+      isStaff: json['isStaff'] as bool? ?? false,
+      isAdmin: json['isAdmin'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserPermsToJson(UserPerms instance) => <String, dynamic>{
       'roles': instance.roles,
-      'hasAdmin': instance.hasAdmin,
+      'isStaff': instance.isStaff,
+      'isAdmin': instance.isAdmin,
     };
 
 Roles _$RolesFromJson(Map<String, dynamic> json) => Roles(

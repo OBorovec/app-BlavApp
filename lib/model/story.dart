@@ -78,7 +78,7 @@ class StoryFaction extends Equatable {
 
   const StoryFaction({
     required this.id,
-    this.name = const {},
+    required this.name,
     this.leaderRef,
     this.memberRef = const [],
     this.highlights = const [],
@@ -100,7 +100,7 @@ class StoryFaction extends Equatable {
 class StoryEntity extends Equatable {
   final String id;
   final String name;
-  final Map<String, String> type;
+  final Map<String, String>? type;
   final Map<String, String>? desc;
   final List<String> images;
   final List<String> contactEntityRef;
@@ -108,7 +108,7 @@ class StoryEntity extends Equatable {
   const StoryEntity({
     required this.id,
     required this.name,
-    required this.type,
+    this.type,
     this.desc,
     this.images = const [],
     this.contactEntityRef = const [],

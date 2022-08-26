@@ -4,9 +4,9 @@ import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/data_repo.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_sign_up_event.dart';
 part 'user_sign_up_state.dart';

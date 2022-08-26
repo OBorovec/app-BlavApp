@@ -6,40 +6,38 @@ import 'package:blavapp/services/prefs_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'event_focus_event.dart';
-part 'event_focus_state.dart';
+part 'event_event.dart';
+part 'event_state.dart';
 
-class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
+class EventBloc extends Bloc<EventEvent, EventState> {
   final PrefsRepo _prefs;
   final DataRepo _dataRepo;
   StreamSubscription<Event>? _eventStream;
 
-  EventFocusBloc({
+  EventBloc({
     required PrefsRepo prefs,
     required DataRepo dataRepo,
   })  : _prefs = prefs,
         _dataRepo = dataRepo,
-        super(const EventFocusState(
-          status: EventFocusStatus.empty,
-          eventTag: '',
-          event: null,
-        )) {
+        super(const EventState()) {
     // Stream listeners
     on<EventStreamChanged>(_onEventStreamChange);
     on<EventSubscriptionFailed>(_onEventSubscriptionFailed);
     // Event listeners
-    on<EventFocusLoad>(_initState);
-    on<EventFocusChanged>(_eventFocusChange);
-    on<EventFocusClear>(_clearEventFocus);
+    on<EventLoad>(_loadState);
+    on<EventSelected>(_eventSelected);
+    on<EventClear>(_eventClear);
+    // Init
+    // add(const EventLoad());
   }
 
   FutureOr<void> _onEventStreamChange(
     EventStreamChanged event,
-    Emitter<EventFocusState> emit,
+    Emitter<EventState> emit,
   ) {
     final Event eventData = event.event;
-    emit(EventFocusState(
-      status: EventFocusStatus.focused,
+    emit(EventState(
+      status: EventStatus.selected,
       eventTag: eventData.id,
       event: eventData,
       remainingToStart: DateTime.now().isBefore(eventData.dayStart)
@@ -52,10 +50,10 @@ class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
 
   FutureOr<void> _onEventSubscriptionFailed(
     EventSubscriptionFailed event,
-    Emitter<EventFocusState> emit,
+    Emitter<EventState> emit,
   ) {
-    emit(const EventFocusState(
-      status: EventFocusStatus.empty,
+    emit(const EventState(
+      status: EventStatus.empty,
       eventTag: '',
     ));
   }
@@ -66,11 +64,29 @@ class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
     return super.close();
   }
 
-  Future<void> _eventFocusChange(EventFocusChanged event, emit) async {
-    _prefs.saveEventFocus(event.eventID ?? '');
+  Future<void> _loadState(
+    _,
+    Emitter<EventState> emit,
+  ) async {
+    final String? eventID = _prefs.loadEvent();
+    add(EventSelected(eventID: eventID));
+  }
+
+  Future<void> _eventClear(
+    _,
+    Emitter<EventState> emit,
+  ) async {
+    add(const EventSelected(eventID: null));
+  }
+
+  FutureOr<void> _eventSelected(
+    EventSelected event,
+    Emitter<EventState> emit,
+  ) {
+    _prefs.saveEvent(event.eventID ?? '');
     if (event.eventID == null || event.eventID == '') {
-      emit(const EventFocusState(
-        status: EventFocusStatus.empty,
+      emit(const EventState(
+        status: EventStatus.empty,
         eventTag: '',
         event: null,
       ));
@@ -94,14 +110,5 @@ class EventFocusBloc extends Bloc<EventFocus, EventFocusState> {
           },
         );
     }
-  }
-
-  Future<void> _initState(EventFocusLoad event, emit) async {
-    final String? eventID = _prefs.loadEventFocus();
-    add(EventFocusChanged(eventID: eventID));
-  }
-
-  Future<void> _clearEventFocus(_, emit) async {
-    add(const EventFocusChanged(eventID: null));
   }
 }

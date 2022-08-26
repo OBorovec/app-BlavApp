@@ -3,16 +3,18 @@ import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'events_event.dart';
-part 'events_state.dart';
+part 'event_list_event.dart';
+part 'event_list_state.dart';
 
-class EventsBloc extends Bloc<EventsEvent, EventsState> {
+class EventListBloc extends Bloc<EventListEvent, EventListState> {
   final DataRepo _dataRepo;
-  EventsBloc({
+  EventListBloc({
     required DataRepo dataRepo,
   })  : _dataRepo = dataRepo,
         super(EventsInitial()) {
     on<LoadEvents>(_loadEvents);
+    // Init
+    add(LoadEvents());
   }
 
   Future<void> _loadEvents(_, emit) async {
