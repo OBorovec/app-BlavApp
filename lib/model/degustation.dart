@@ -28,6 +28,10 @@ class Degustation extends Equatable {
 
 enum DegusAlcoholType {
   mead,
+  whisky,
+  wine,
+  bourbon,
+  spirit,
 }
 
 @JsonSerializable()

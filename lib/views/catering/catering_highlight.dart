@@ -24,9 +24,10 @@ class CateringOverview extends StatelessWidget {
                     Expanded(
                       child: _CateringHeader(state: state),
                     ),
-                  Expanded(
-                    child: _DegustaionNumbers(state: state),
-                  ),
+                  // TODO: come up with a better stats
+                  // Expanded(
+                  //   child: _CateringNumbers(state: state),
+                  // ),
                 ],
               ),
               _CateringPlaceList(state: state),
@@ -55,17 +56,17 @@ class _CateringHeader extends StatelessWidget {
       ),
       child: Text(
         t(state.headerText!, context),
-        maxLines: 12,
+        maxLines: 10,
         overflow: TextOverflow.ellipsis,
       ),
     );
   }
 }
 
-class _DegustaionNumbers extends StatelessWidget {
+class _CateringNumbers extends StatelessWidget {
   final HighlightCateringState state;
 
-  const _DegustaionNumbers({
+  const _CateringNumbers({
     Key? key,
     required this.state,
   }) : super(key: key);
@@ -122,10 +123,11 @@ class _CateringPlaceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         TitleDivider(
           title: AppLocalizations.of(context)!.contCateringHighlightPlaceList,
         ),
+        const SizedBox(height: 8),
         Column(
           children: state.placeCardData
               .map((HighlightPlaceCardData data) => _CateringHighlightPlaceCard(

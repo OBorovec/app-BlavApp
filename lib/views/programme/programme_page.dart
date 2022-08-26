@@ -15,6 +15,7 @@ import 'package:blavapp/views/programme/programme_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 class ProgrammePage extends StatefulWidget {
   const ProgrammePage({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ enum ProgrammePageContent { highlight, list, mylist, agenda }
 class _ProgrammePageState extends State<ProgrammePage> {
   late String titleText;
   ProgrammePageContent content = ProgrammePageContent.highlight;
+  int tabIndex = 0;
 
   final programmeContent = [
     const ProgrammeHighlight(),
@@ -45,6 +47,41 @@ class _ProgrammePageState extends State<ProgrammePage> {
         return 1;
       case ProgrammePageContent.agenda:
         return 2;
+    }
+  }
+
+  void _indexChange(int index, BuildContext context) {
+    if (index < 0 || index > 3) {
+      return;
+    }
+    tabIndex = index;
+    switch (index) {
+      case 0:
+        setState(() {
+          content = ProgrammePageContent.highlight;
+        });
+        break;
+      case 1:
+        setState(() {
+          content = ProgrammePageContent.list;
+        });
+        context
+            .read<FilterProgrammeBloc>()
+            .add(const UseMyProgrammeFilter(false));
+        break;
+      case 2:
+        setState(() {
+          content = ProgrammePageContent.mylist;
+        });
+        context
+            .read<FilterProgrammeBloc>()
+            .add(const UseMyProgrammeFilter(true));
+        break;
+      case 3:
+        setState(() {
+          content = ProgrammePageContent.agenda;
+        });
+        break;
     }
   }
 
@@ -77,11 +114,16 @@ class _ProgrammePageState extends State<ProgrammePage> {
                 ),
               ],
               child: Builder(builder: (context) {
-                return RootPage(
-                  titleText: _pageTitle(),
-                  body: _buildContent(),
-                  actions: _buildActions(),
-                  bottomNavigationBar: _buildBottomNavigation(context),
+                return SwipeDetector(
+                  onSwipeLeft: (offset) => _indexChange(tabIndex += 1, context),
+                  onSwipeRight: (offset) =>
+                      _indexChange(tabIndex -= 1, context),
+                  child: RootPage(
+                    titleText: _pageTitle(),
+                    body: _buildContent(),
+                    actions: _buildActions(),
+                    bottomNavigationBar: _buildBottomNavigation(context),
+                  ),
                 );
               }),
             );
@@ -138,42 +180,14 @@ class _ProgrammePageState extends State<ProgrammePage> {
 
   AppBottomNavigationBar _buildBottomNavigation(BuildContext context) {
     return AppBottomNavigationBar(
+      index: tabIndex,
       items: const [
         Icons.info,
         Icons.list,
         Icons.bookmark,
         Icons.view_agenda,
       ],
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            setState(() {
-              content = ProgrammePageContent.highlight;
-            });
-            break;
-          case 1:
-            setState(() {
-              content = ProgrammePageContent.list;
-            });
-            context
-                .read<FilterProgrammeBloc>()
-                .add(const UseMyProgrammeFilter(false));
-            break;
-          case 2:
-            setState(() {
-              content = ProgrammePageContent.mylist;
-            });
-            context
-                .read<FilterProgrammeBloc>()
-                .add(const UseMyProgrammeFilter(true));
-            break;
-          case 3:
-            setState(() {
-              content = ProgrammePageContent.agenda;
-            });
-            break;
-        }
-      },
+      onTap: (index) => _indexChange(index, context),
     );
   }
 }

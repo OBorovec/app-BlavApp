@@ -12,6 +12,7 @@ import 'package:blavapp/views/degustation/degustation_highlight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 
 class DegustationPage extends StatefulWidget {
   const DegustationPage({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ enum DegustationPageContent {
 class _DegustationPageState extends State<DegustationPage> {
   late String titleText;
   DegustationPageContent content = DegustationPageContent.highlight;
+  int tabIndex = 0;
 
   final degustationContent = [
     const DegustationHighlight(),
@@ -43,6 +45,36 @@ class _DegustationPageState extends State<DegustationPage> {
         return 1;
       case DegustationPageContent.favoriteList:
         return 1;
+    }
+  }
+
+  void _indexChange(int index, BuildContext context) {
+    if (index < 0 || index > 2) {
+      return;
+    }
+    tabIndex = index;
+    switch (index) {
+      case 0:
+        setState(() {
+          content = DegustationPageContent.highlight;
+        });
+        break;
+      case 1:
+        setState(() {
+          content = DegustationPageContent.list;
+        });
+        context
+            .read<FilterDegustationBloc>()
+            .add(const UseMyFavoriteFilter(false));
+        break;
+      case 2:
+        setState(() {
+          content = DegustationPageContent.favoriteList;
+        });
+        context
+            .read<FilterDegustationBloc>()
+            .add(const UseMyFavoriteFilter(true));
+        break;
     }
   }
 
@@ -68,11 +100,16 @@ class _DegustationPageState extends State<DegustationPage> {
                 ),
               ],
               child: Builder(builder: (context) {
-                return RootPage(
-                  titleText: _pageTitle(),
-                  body: _buildContent(),
-                  actions: _buildActions(),
-                  bottomNavigationBar: _buildBottomNavigation(context),
+                return SwipeDetector(
+                  onSwipeLeft: (offset) => _indexChange(tabIndex += 1, context),
+                  onSwipeRight: (offset) =>
+                      _indexChange(tabIndex -= 1, context),
+                  child: RootPage(
+                    titleText: _pageTitle(),
+                    body: _buildContent(),
+                    actions: _buildActions(),
+                    bottomNavigationBar: _buildBottomNavigation(context),
+                  ),
                 );
               }),
             );
@@ -124,36 +161,13 @@ class _DegustationPageState extends State<DegustationPage> {
 
   AppBottomNavigationBar _buildBottomNavigation(BuildContext context) {
     return AppBottomNavigationBar(
+      index: tabIndex,
       items: const [
         Icons.info,
         Icons.local_bar,
         Icons.favorite,
       ],
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            setState(() {
-              content = DegustationPageContent.highlight;
-            });
-            break;
-          case 1:
-            setState(() {
-              content = DegustationPageContent.list;
-            });
-            context
-                .read<FilterDegustationBloc>()
-                .add(const UseMyFavoriteFilter(false));
-            break;
-          case 2:
-            setState(() {
-              content = DegustationPageContent.favoriteList;
-            });
-            context
-                .read<FilterDegustationBloc>()
-                .add(const UseMyFavoriteFilter(true));
-            break;
-        }
-      },
+      onTap: (index) => _indexChange(index, context),
     );
   }
 }

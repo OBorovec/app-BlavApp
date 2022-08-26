@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class ButtonSwitch extends StatelessWidget {
   final bool isOn;
+  final Color? onColor;
   final Function() onPressed;
   final IconData onIconData;
   final IconData offIconData;
@@ -12,6 +13,7 @@ abstract class ButtonSwitch extends StatelessWidget {
   const ButtonSwitch({
     Key? key,
     required this.isOn,
+    this.onColor,
     required this.onPressed,
     required this.onIconData,
     required this.offIconData,
@@ -27,6 +29,7 @@ abstract class ButtonSwitch extends StatelessWidget {
       icon: Icon(
         isOn ? onIconData : offIconData,
         size: iconSize,
+        color: isOn ? onColor : null,
       ),
       padding: padding ?? const EdgeInsets.all(8.0),
       constraints: constraints,
@@ -38,6 +41,7 @@ class BookmarkSwitch extends ButtonSwitch {
   const BookmarkSwitch({
     Key? key,
     required bool isOn,
+    Color? onColor,
     required Function() onPressed,
     double? iconSize,
     EdgeInsetsGeometry? padding,
@@ -45,6 +49,7 @@ class BookmarkSwitch extends ButtonSwitch {
   }) : super(
           key: key,
           isOn: isOn,
+          onColor: onColor,
           onPressed: onPressed,
           onIconData: Icons.bookmark_added,
           offIconData: Icons.bookmark_add,
@@ -98,6 +103,7 @@ class NotificationSwitch extends ButtonSwitch {
   const NotificationSwitch({
     Key? key,
     required bool isOn,
+    Color? onColor,
     required Function() onPressed,
     double? iconSize,
     EdgeInsetsGeometry? padding,
@@ -105,6 +111,7 @@ class NotificationSwitch extends ButtonSwitch {
   }) : super(
           key: key,
           isOn: isOn,
+          onColor: onColor,
           onPressed: onPressed,
           onIconData: Icons.notifications_active,
           offIconData: Icons.notification_add,
@@ -158,6 +165,7 @@ class FavoriteSwitch extends ButtonSwitch {
   const FavoriteSwitch({
     Key? key,
     required bool isOn,
+    Color? onColor,
     required Function() onPressed,
     double? iconSize,
     EdgeInsetsGeometry? padding,
@@ -165,6 +173,7 @@ class FavoriteSwitch extends ButtonSwitch {
   }) : super(
           key: key,
           isOn: isOn,
+          onColor: onColor,
           onPressed: onPressed,
           onIconData: Icons.favorite,
           offIconData: Icons.favorite_border,

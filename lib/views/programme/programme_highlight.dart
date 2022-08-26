@@ -127,14 +127,17 @@ class _HighlightEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-          child: Text(
-            text,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.subtitle2,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
           ),
         ),
       ),

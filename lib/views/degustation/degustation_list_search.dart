@@ -36,86 +36,6 @@ class DegustationSearchTile extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _showSearchOptions(
-    BuildContext context,
-    FilterDegustationState state,
-  ) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return BlocProvider.value(
-          value: BlocProvider.of<FilterDegustationBloc>(context),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .contDegustationListSearchPredef,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contDegustationListSearchTypes,
-                    Icons.access_time_outlined,
-                  ),
-                  Wrap(
-                    children: state.availableAlcoholTypes
-                        .map((e) => _DegustationAlcTypeSearchTag(type: e))
-                        .toList(),
-                  ),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contDegustationListSearchOrigin,
-                    Icons.place_outlined,
-                  ),
-                  Wrap(
-                    children: state.availableOrigins
-                        .map((e) => _DegustationOriginSearchTag(origin: e))
-                        .toList(),
-                  ),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contDegustationListSearchPlaces,
-                    Icons.place_outlined,
-                  ),
-                  Wrap(
-                    children: state.availablePlaces
-                        .map((e) => _DegustationPlaceSearchTag(placeRef: e))
-                        .toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Padding _buildFilterSubtitle(
-      BuildContext context, String text, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Icon(icon, size: 16),
-        ],
-      ),
-    );
-  }
-
   Widget _buildActiveSearchTagWrap(
     FilterDegustationState state,
     BuildContext context,
@@ -134,6 +54,81 @@ class DegustationSearchTile extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<dynamic> _showSearchOptions(
+  BuildContext context,
+  FilterDegustationState state,
+) {
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      return BlocProvider.value(
+        value: BlocProvider.of<FilterDegustationBloc>(context),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.contDegustationListSearchPredef,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const SizedBox(height: 8),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!.contDegustationListSearchTypes,
+                  Icons.access_time_outlined,
+                ),
+                Wrap(
+                  children: state.availableAlcoholTypes
+                      .map((e) => _DegustationAlcTypeSearchTag(type: e))
+                      .toList(),
+                ),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!.contDegustationListSearchOrigin,
+                  Icons.place_outlined,
+                ),
+                Wrap(
+                  children: state.availableOrigins
+                      .map((e) => _DegustationOriginSearchTag(origin: e))
+                      .toList(),
+                ),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!.contDegustationListSearchPlaces,
+                  Icons.place_outlined,
+                ),
+                Wrap(
+                  children: state.availablePlaces
+                      .map((e) => _DegustationPlaceSearchTag(placeRef: e))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Padding _buildModalSubtitle(BuildContext context, String text, IconData icon) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Row(
+      children: [
+        Icon(icon, size: 16),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      ],
+    ),
+  );
 }
 
 class _TextSearchLine extends StatefulWidget {

@@ -28,7 +28,7 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     if (eventFocusBloc.state.status == EventStatus.selected) {
       createDataStream(eventTag: eventFocusBloc.state.eventTag);
     }
-    // Event listeners
+    // Stream listeners
     on<StoryStreamChanged>(_onDataStoryStreamChanged);
     on<StorySubscriptionFailed>(_onDataStorySubscriptionFailed);
   }
@@ -55,13 +55,6 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
           );
   }
 
-  @override
-  Future<void> close() {
-    _storyStream?.cancel();
-    _eventFocusBlocSubscription.cancel();
-    return super.close();
-  }
-
   FutureOr<void> _onDataStoryStreamChanged(
     StoryStreamChanged event,
     Emitter<StoryState> emit,
@@ -80,5 +73,12 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
       status: DataStatus.error,
       message: 'Story: $eventRef --- ${event.message}',
     ));
+  }
+
+  @override
+  Future<void> close() {
+    _storyStream?.cancel();
+    _eventFocusBlocSubscription.cancel();
+    return super.close();
   }
 }

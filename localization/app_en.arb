@@ -41,6 +41,7 @@
   "contCateringPlaceDetailsMenu": "Menu",
   "contCateringPlaceTitle": "Catering places",
   "contContactDetailNotFound": "Contact not found",
+  "contContactEntryStory": "My story parts",
   "contContactsDiagHelp": "Do you need a help?",
   "contContactsList": "List of all contacts",
   "contContactsReqHelp": "Ask for help",
@@ -193,7 +194,11 @@
   "genOr": "or",
   "genPassword": "Password",
   "genProcessing": "Processing",
+  "genRequest": "Request",
   "genSend": "Send",
+  "genShowLess": "Show less",
+  "genShowMore": "Show more",
+  "genSubject": "Subject",
   "genSuccess": "Success",
   "modelCateringTypeDesert": "Desert",
   "modelCateringTypeDrink": "Drink",
@@ -233,5 +238,8 @@
   "settingsTheme": "Dark theme",
   "settingsTitle": "Settings",
   "shareDegustationItem": "Just tasted the best mead.",
-  "toatingDoubleTapExit": "Double tap to exit"
+  "toastingDoubleTapExit": "Double tap to exit",
+  "toastingProgrammeNotificationAdded": "Notification for this event added.",
+  "toastingProgrammeNotificationChanged": "Registered notification preference for the event.",
+  "toastingProgrammeNotificationRemoved": "Notification for this event removed."
 }

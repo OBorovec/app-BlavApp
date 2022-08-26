@@ -1,7 +1,9 @@
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/control/button_switch.dart';
+import 'package:blavapp/utils/toasting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeEntryNotification extends StatelessWidget {
   final String entryId;
@@ -21,6 +23,11 @@ class ProgrammeEntryNotification extends StatelessWidget {
               UserDataProgMyNotification(
                 entryId: entryId,
               ),
+            );
+            Toasting.notifyToast(
+              context,
+              AppLocalizations.of(context)!
+                  .toastingProgrammeNotificationChanged,
             );
           },
         );

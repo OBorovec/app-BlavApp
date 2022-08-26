@@ -27,18 +27,31 @@ class _SupportDialogState extends State<SupportDialog> {
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            AppLocalizations.of(context)!.genSubject,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          const SizedBox(height: 4),
           TextField(
             onChanged: (value) => setState(() {
               title = value;
             }),
+            autocorrect: false,
             maxLines: 1,
           ),
           const SizedBox(height: 16),
+          Text(
+            AppLocalizations.of(context)!.genRequest,
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          const SizedBox(height: 4),
           TextField(
             onChanged: (value) => setState(() {
               message = value;
             }),
+            autocorrect: false,
             maxLines: 10,
           ),
         ],

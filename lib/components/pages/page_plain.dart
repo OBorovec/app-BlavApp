@@ -75,11 +75,10 @@ class _PlainPageState extends State<PlainPage> {
       currentBackPressTime = now;
       Toasting.notifyToast(
         context,
-        AppLocalizations.of(context)!.toatingDoubleTapExit,
+        AppLocalizations.of(context)!.toastingDoubleTapExit,
       );
       return Future.value(false);
     }
     exit(0);
-    // return Future.value(true);
   }
 }

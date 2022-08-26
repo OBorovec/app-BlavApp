@@ -28,6 +28,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppRatingBar(
             onRating: ((rating) => setState(() => this.rating = rating)),

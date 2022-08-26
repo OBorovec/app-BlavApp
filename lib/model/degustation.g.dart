@@ -85,6 +85,10 @@ Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
 
 const _$DegusAlcoholTypeEnumMap = {
   DegusAlcoholType.mead: 'mead',
+  DegusAlcoholType.whisky: 'whisky',
+  DegusAlcoholType.wine: 'wine',
+  DegusAlcoholType.bourbon: 'bourbon',
+  DegusAlcoholType.spirit: 'spirit',
 };
 
 DegusVolume _$DegusVolumeFromJson(Map<String, dynamic> json) => DegusVolume(

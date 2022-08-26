@@ -41,6 +41,7 @@
   "contCateringPlaceDetailsMenu": "Jídelní lístek",
   "contCateringPlaceTitle": "Seznam míst občerstvení",
   "contContactDetailNotFound": "Kontakt nebyl nalezen",
+  "contContactEntryStory": "Moje příběhové postavy",
   "contContactsDiagHelp": "Potřebuješ pomoc?",
   "contContactsList": "Seznam všech kontaktů",
   "contContactsReqHelp": "Požádat o pomoc",
@@ -193,7 +194,11 @@
   "genOr": "nebo",
   "genPassword": "Heslo",
   "genProcessing": "Zpracovávám",
+  "genRequest": "Žádost",
   "genSend": "Odeslat",
+  "genShowLess": "Ukázat méně",
+  "genShowMore": "Ukázat více",
+  "genSubject": "Předmět",
   "genSuccess": "Úspěch",
   "modelCateringTypeDesert": "Zákusek",
   "modelCateringTypeDrink": "Pití",
@@ -233,5 +238,8 @@
   "settingsTheme": "Tmavý vzhled",
   "settingsTitle": "Nastavení",
   "shareDegustationItem": "Právě jsem ochutnal tu nejlepší medovinu.",
-  "toatingDoubleTapExit": "Dvojkliknutím zavřete aplikaci"
+  "toastingDoubleTapExit": "Dvojkliknutím zavřete aplikaci",
+  "toastingProgrammeNotificationAdded": "Notifikace na tuto událost přidána.",
+  "toastingProgrammeNotificationChanged": "Změna upozornění na událost registrována.",
+  "toastingProgrammeNotificationRemoved": "Notifikace na tuto událost odebrána."
 }

@@ -46,8 +46,9 @@ class UserProfilePage extends StatelessWidget {
                         SizedBox(height: 8),
                         _ShowTicketshButton(),
                         SizedBox(height: 8),
-                        _ShowSupportTicketshButton(),
-                        SizedBox(height: 8),
+                        // NOTE: Uncomment when user support ticket system is ready
+                        // _ShowSupportTicketshButton(),
+                        // SizedBox(height: 8),
                       ],
                     ),
                   ),
@@ -59,8 +60,9 @@ class UserProfilePage extends StatelessWidget {
                         Divider(),
                         SizedBox(height: 8),
                         _SignOutButton(),
-                        SizedBox(height: 8),
-                        _AccoutOptionsButton(),
+                        // NOTE: Uncomment sure all functionality is ready
+                        // SizedBox(height: 8),
+                        // _AccoutOptionsButton(),
                         SizedBox(height: 32),
                       ],
                     ),

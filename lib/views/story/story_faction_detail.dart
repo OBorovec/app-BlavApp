@@ -6,6 +6,7 @@ import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/story.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_localization.dart';
+import 'package:blavapp/views/story/story_bloc_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,7 +32,10 @@ class StoryFactionDetail extends StatelessWidget {
           return SidePage(
             titleText: t(faction.name, context),
             body: _FactionDetailContent(
-                faction: faction, leader: leader, members: members),
+              faction: faction,
+              leader: leader,
+              members: members,
+            ),
           );
         } else {
           return DetailNotFoundPage(
@@ -232,58 +236,7 @@ class _FactionMembers extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: members!.map((member) {
-              return InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 124,
-                    height: 114,
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Hero(
-                            tag: storyEntityImgHeroTag(member!),
-                            child: CircleAvatar(
-                              radius: 57,
-                              backgroundImage: NetworkImage(
-                                member.images[0],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          left: 0,
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Text(
-                                  member.name,
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
-                                if (member.type != null)
-                                  Text(
-                                    t(member.type!, context),
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+              return StoryEntityAvatar(entityRef: member!.id);
             }).toList(),
           ),
         ),

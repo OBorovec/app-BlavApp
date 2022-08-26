@@ -126,11 +126,11 @@ class _DegustationItemBaseInfo extends StatelessWidget {
             DegustationFavoriteSwitch(
               itemRef: item.id,
             ),
-            IconButton(
-              onPressed: () => Share.share(
-                  '${AppLocalizations.of(context)!.shareDegustationItem} ${t(item.name, context)} - ${item.url}'),
-              icon: const Icon(Icons.share),
-            ),
+            // IconButton(
+            //   onPressed: () => Share.share(
+            //       '${AppLocalizations.of(context)!.shareDegustationItem} ${t(item.name, context)} - ${item.url}'),
+            //   icon: const Icon(Icons.share),
+            // ),
           ],
         ),
       ],

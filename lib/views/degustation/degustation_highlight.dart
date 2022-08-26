@@ -38,6 +38,7 @@ class DegustationHighlight extends StatelessWidget {
                 _DegustationHighlightRecommendation(state: state),
               if (state.similarToLiked.isNotEmpty)
                 _DegustationHighlightSimilarToLiked(state: state),
+              const SizedBox(height: 64),
             ],
           ),
         );

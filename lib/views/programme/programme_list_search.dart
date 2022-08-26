@@ -37,85 +37,6 @@ class ProgrammeSearchTile extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _showSearchOptions(
-    BuildContext context,
-    FilterProgrammeState state,
-  ) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return BlocProvider.value(
-          value: BlocProvider.of<FilterProgrammeBloc>(context),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.contProgrammeListSearchPredef,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contProgrammeListSearchAvailableDates,
-                    Icons.access_time_outlined,
-                  ),
-                  Wrap(
-                    children: state.availableDates
-                        .map((e) => _ProgrammeDateSearchTag(date: e))
-                        .toList(),
-                  ),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contProgrammeListSearchAvailableCategs,
-                    Icons.place_outlined,
-                  ),
-                  Wrap(
-                    children: state.availableEntryTypes
-                        .map((e) => _ProgrammeTypeSearchTag(type: e))
-                        .toList(),
-                  ),
-                  _buildFilterSubtitle(
-                    context,
-                    AppLocalizations.of(context)!
-                        .contProgrammeListSearchAvailablePlaces,
-                    Icons.category_outlined,
-                  ),
-                  Wrap(
-                    children: state.availableEntryPlaces
-                        .map((e) => _ProgrammePlaceSearchTag(placeRef: e ?? ''))
-                        .toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Padding _buildFilterSubtitle(
-      BuildContext context, String text, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          Icon(icon, size: 16),
-        ],
-      ),
-    );
-  }
-
   Widget _buildActiveSearchTagWrap(
     FilterProgrammeState state,
     BuildContext context,
@@ -129,6 +50,88 @@ class ProgrammeSearchTile extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<dynamic> _showSearchOptions(
+  BuildContext context,
+  FilterProgrammeState state,
+) {
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) {
+      return BlocProvider.value(
+        value: BlocProvider.of<FilterProgrammeBloc>(context),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.contProgrammeListSearchPredef,
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                const SizedBox(height: 8),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!
+                      .contProgrammeListSearchAvailableDates,
+                  Icons.access_time_outlined,
+                ),
+                Wrap(
+                  children: state.availableDates
+                      .map((e) => _ProgrammeDateSearchTag(date: e))
+                      .toList(),
+                ),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!
+                      .contProgrammeListSearchAvailableCategs,
+                  Icons.place_outlined,
+                ),
+                Wrap(
+                  children: state.availableEntryTypes
+                      .map((e) => _ProgrammeTypeSearchTag(type: e))
+                      .toList(),
+                ),
+                _buildModalSubtitle(
+                  context,
+                  AppLocalizations.of(context)!
+                      .contProgrammeListSearchAvailablePlaces,
+                  Icons.category_outlined,
+                ),
+                Wrap(
+                  children: state.availableEntryPlaces
+                      .map((e) => _ProgrammePlaceSearchTag(placeRef: e ?? ''))
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Padding _buildModalSubtitle(
+  BuildContext context,
+  String text,
+  IconData icon,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Row(
+      children: [
+        Icon(icon, size: 16),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      ],
+    ),
+  );
 }
 
 class _TextSearchLine extends StatefulWidget {

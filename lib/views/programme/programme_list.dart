@@ -42,27 +42,28 @@ class ProgrammeList extends StatelessWidget {
                             begin: const Offset(-1, 0),
                             end: Offset.zero,
                           ).animate(animation),
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              extentRatio: 2 /
-                                  3, // Goes with the current entry card setup
-                              motion: const DrawerMotion(),
-                              children: _buildSlidableActions(
-                                item,
-                                context,
-                              ),
-                            ),
-                            child: ProgrammeEntryCard(
-                              entry: item,
-                              onTap: () => Navigator.pushNamed(
-                                context,
-                                RoutePaths.programmeEntry,
-                                arguments: ProgrammeDetailsArguments(
-                                  entry: item,
-                                ),
+                          // NOTE: Uncomment to have more interactive behaviour, but it breaks the gesture to change tabs
+                          // child: Slidable(
+                          //   endActionPane: ActionPane(
+                          //     extentRatio: 2 /
+                          //         3, // Goes with the current entry card setup
+                          //     motion: const DrawerMotion(),
+                          //     children: _buildSlidableActions(
+                          //       item,
+                          //       context,
+                          //     ),
+                          //   ),
+                          child: ProgrammeEntryCard(
+                            entry: item,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              RoutePaths.programmeEntry,
+                              arguments: ProgrammeDetailsArguments(
+                                entry: item,
                               ),
                             ),
                           ),
+                          // ),
                         );
                       },
                     )
