@@ -28,13 +28,12 @@ class Catering extends Equatable {
   Map<String, Object?> toJson() => _$CateringToJson(this);
 }
 
-enum CaterItemType {
+enum MealItemType {
   starter,
   soup,
   snack,
   main,
   side,
-  drink,
   desert,
   other,
 }
@@ -43,7 +42,7 @@ enum CaterItemType {
 class MealItem extends Equatable {
   final String id;
   final Map<String, String> name;
-  final CaterItemType type;
+  final MealItemType type;
   final List<CaterVolume> volumes;
   final Map<String, String>? desc;
   final List<String> placeRef;
@@ -90,11 +89,22 @@ class MealItem extends Equatable {
   Map<String, Object?> toJson() => _$MealItemToJson(this);
 }
 
+enum BeverageItemType {
+  soft,
+  beer,
+  wine,
+  spirit,
+  mix,
+  tea,
+  coffee,
+  other,
+}
+
 @JsonSerializable()
 class BeverageItem extends Equatable {
   final String id;
   final Map<String, String> name;
-  final CaterItemType type;
+  final BeverageItemType type;
   final List<CaterVolume> volumes;
   final Map<String, String>? desc;
   final List<String> placeRef;

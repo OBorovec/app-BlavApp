@@ -53,7 +53,7 @@ class MealItemCard extends StatelessWidget {
                           children: [
                             _buildInfoLine(
                               Icons.category_outlined,
-                              tCaterItemType(item.type, context),
+                              tMealItemType(item.type, context),
                             ),
                             if (item.allergens.isNotEmpty)
                               _buildInfoLine(

@@ -42,6 +42,10 @@ class BeverageItemCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         _buildInfoLine(
+                          Icons.category_outlined,
+                          tBeverageItemType(item.type, context),
+                        ),
+                        _buildInfoLine(
                           item.alcoholic
                               ? Icons.local_bar
                               : Icons.local_bar_outlined,

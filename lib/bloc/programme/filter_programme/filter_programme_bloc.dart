@@ -20,7 +20,7 @@ class FilterProgrammeBloc
     required UserDataBloc userDataBloc,
   }) : super(FilterProgrammeState(
           programmeEntries: programmeBloc.state.programmeEntries,
-          programmeEntriesFiltered: programmeBloc.state.programmeEntries,
+          programmeEntriesFiltered: const [],
           myProgrammeEntryIds: userDataBloc.state.userData.myProgramme,
         )) {
     _programmeBlocSubscription = programmeBloc.stream.listen(
@@ -54,6 +54,7 @@ class FilterProgrammeBloc
     on<ProgrammeTextFilterClear>(_clearTextFilter);
     // Initialise the filters
     add(const SetAvailableFilters());
+    add(const ApplyProgrammeFilters());
   }
 
   FutureOr<void> _updateProgrammeEntries(
@@ -158,6 +159,9 @@ class FilterProgrammeBloc
         ),
       );
     }
+    // Sort by timestamp
+    programmeFiltering = programmeFiltering.toList()
+      ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
     emit(
       state.copyWith(
         programmeEntriesFiltered: programmeFiltering.toList(),

@@ -73,12 +73,12 @@ class MealSearch extends StatelessWidget {
     );
   }
 
-  Widget _buildTypeSearchTag(CaterItemType type, BuildContext context) {
+  Widget _buildTypeSearchTag(MealItemType type, BuildContext context) {
     return _SearchTag(
-      onPressed: () => BlocProvider.of<FilterMealsBloc>(context)
-          .add(CateringTypeFilter(type)),
+      onPressed: () =>
+          BlocProvider.of<FilterMealsBloc>(context).add(MealTypeFilter(type)),
       isOn: (FilterMealsState state) => !state.itemTypeFilter.contains(type),
-      text: tCaterItemType(type, context),
+      text: tMealItemType(type, context),
     );
   }
 
@@ -125,7 +125,7 @@ class MealSearch extends StatelessWidget {
                   const SizedBox(height: 8),
                   _buildModalSubtitle(
                     context,
-                    AppLocalizations.of(context)!.contCaterinListSearchTypes,
+                    AppLocalizations.of(context)!.contCateringListSearchTypes,
                     Icons.category_outlined,
                   ),
                   const SizedBox(height: 8),

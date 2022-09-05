@@ -31,6 +31,12 @@ class ResetBeverageFilters extends FilterBeverageEvent {
   const ResetBeverageFilters();
 }
 
+class BeverageTypeFilter extends FilterBeverageEvent {
+  final BeverageItemType type;
+
+  const BeverageTypeFilter(this.type);
+}
+
 class BeveragePlaceFilter extends FilterBeverageEvent {
   final String place;
 

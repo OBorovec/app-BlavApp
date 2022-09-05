@@ -6,11 +6,11 @@ class FilterMealsState extends Equatable {
   // Control
   final bool searchActive;
   // Programme filter options
-  final Set<CaterItemType> availableItemTypes;
+  final Set<MealItemType> availableItemTypes;
   final Set<String> availablePlaces;
   final Set<int> availableAllergens;
   // Filters
-  final Set<CaterItemType> itemTypeFilter;
+  final Set<MealItemType> itemTypeFilter;
   final Set<String> placesFilter;
   final Set<int> allergensFilter;
   final bool onlyVegetarian;
@@ -22,10 +22,10 @@ class FilterMealsState extends Equatable {
     this.items = const <MealItem>[],
     this.itemsFiltered = const <MealItem>[],
     this.searchActive = false,
-    this.availableItemTypes = const <CaterItemType>{},
+    this.availableItemTypes = const <MealItemType>{},
     this.availablePlaces = const <String>{},
     this.availableAllergens = const <int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-    this.itemTypeFilter = const <CaterItemType>{},
+    this.itemTypeFilter = const <MealItemType>{},
     this.placesFilter = const <String>{},
     this.allergensFilter = const <int>{},
     this.onlyVegetarian = false,
@@ -52,10 +52,10 @@ class FilterMealsState extends Equatable {
     List<MealItem>? cateringItems,
     List<MealItem>? cateringItemsFiltered,
     bool? searchActive,
-    Set<CaterItemType>? availableItemTypes,
+    Set<MealItemType>? availableItemTypes,
     Set<String>? availablePlaces,
     Set<int>? availableAllergens,
-    Set<CaterItemType>? itemTypeFilter,
+    Set<MealItemType>? itemTypeFilter,
     Set<String>? placesFilter,
     Set<int>? allergensFilter,
     bool? onlyVegetarian,

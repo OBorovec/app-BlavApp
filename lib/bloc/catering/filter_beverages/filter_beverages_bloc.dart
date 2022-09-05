@@ -34,6 +34,7 @@ class FilterBeveragesBloc
     on<SetBeverageAvailableFilters>(_setAvailableFilters);
     on<ApplyBeverageFilters>(_applyAllFilters);
     on<ResetBeverageFilters>(_resetFilters);
+    on<BeverageTypeFilter>(_updateTypeFilter);
     on<BeveragePlaceFilter>(_updatePlaceFilter);
     on<BeverageHotFilter>(_useHotFilter);
     on<BeverageAlcoholicFilter>(_useAlcoholFilter);
@@ -77,7 +78,7 @@ class FilterBeveragesBloc
     SetBeverageAvailableFilters event,
     Emitter<FilterBeveragesState> emit,
   ) {
-    final Set<CaterItemType> availableItemTypes = <CaterItemType>{};
+    final Set<BeverageItemType> availableItemTypes = <BeverageItemType>{};
     final Set<String> availablePlaces = <String>{};
     for (final BeverageItem item in state.items) {
       availableItemTypes.add(item.type);
@@ -108,6 +109,11 @@ class FilterBeveragesBloc
     if (state.onlyNonAlcoholic) {
       beverageItemsFiltering = beverageItemsFiltering.where(
         (BeverageItem item) => !item.alcoholic,
+      );
+    }
+    if (state.itemTypeFilter.isNotEmpty) {
+      beverageItemsFiltering = beverageItemsFiltering.where(
+        (BeverageItem item) => state.itemTypeFilter.contains(item.type),
       );
     }
     if (state.placesFilter.isNotEmpty) {
@@ -141,13 +147,31 @@ class FilterBeveragesBloc
   ) {
     emit(state.copyWith(
       itemsFiltered: state.items,
-      itemTypeFilter: <CaterItemType>{},
       placesFilter: <String>{},
       onlyHot: false,
       onlyAlcoholic: false,
       onlyNonAlcoholic: false,
       queryString: '',
     ));
+  }
+
+  FutureOr<void> _updateTypeFilter(
+    BeverageTypeFilter event,
+    Emitter<FilterBeveragesState> emit,
+  ) {
+    final Set<BeverageItemType> typeFilter =
+        Set<BeverageItemType>.from(state.itemTypeFilter);
+    if (typeFilter.contains(event.type)) {
+      typeFilter.remove(event.type);
+    } else {
+      typeFilter.add(event.type);
+    }
+    emit(
+      state.copyWith(
+        itemTypeFilter: typeFilter,
+      ),
+    );
+    add(const ApplyBeverageFilters());
   }
 
   FutureOr<void> _updatePlaceFilter(

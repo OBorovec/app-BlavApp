@@ -31,10 +31,10 @@ class ResetMealFilters extends FilterMealEvent {
   const ResetMealFilters();
 }
 
-class CateringTypeFilter extends FilterMealEvent {
-  final CaterItemType type;
+class MealTypeFilter extends FilterMealEvent {
+  final MealItemType type;
 
-  const CateringTypeFilter(this.type);
+  const MealTypeFilter(this.type);
 }
 
 class MealPlaceFilter extends FilterMealEvent {

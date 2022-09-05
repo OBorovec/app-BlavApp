@@ -33,7 +33,7 @@ class FilterMealsBloc extends Bloc<FilterMealEvent, FilterMealsState> {
     on<SetMealAvailableFilters>(_setAvailableFilters);
     on<ApplyMealFilters>(_applyAllFilters);
     on<ResetMealFilters>(_resetAllFilters);
-    on<CateringTypeFilter>(_updateTypeFilter);
+    on<MealTypeFilter>(_updateTypeFilter);
     on<MealPlaceFilter>(_updatePlaceFilter);
     on<MealAllergenFilter>(_updateAllergenFilter);
     on<MealVegetarianFilter>(_useVegetarianFilter);
@@ -77,7 +77,7 @@ class FilterMealsBloc extends Bloc<FilterMealEvent, FilterMealsState> {
     SetMealAvailableFilters event,
     Emitter<FilterMealsState> emit,
   ) {
-    final Set<CaterItemType> availableItemTypes = <CaterItemType>{};
+    final Set<MealItemType> availableItemTypes = <MealItemType>{};
     final Set<String> availablePlaces = <String>{};
     for (final MealItem item in state.items) {
       availableItemTypes.add(item.type);
@@ -152,7 +152,7 @@ class FilterMealsBloc extends Bloc<FilterMealEvent, FilterMealsState> {
   ) {
     emit(state.copyWith(
       cateringItemsFiltered: state.items,
-      itemTypeFilter: <CaterItemType>{},
+      itemTypeFilter: <MealItemType>{},
       placesFilter: <String>{},
       allergensFilter: <int>{},
       onlyVegetarian: false,
@@ -163,11 +163,11 @@ class FilterMealsBloc extends Bloc<FilterMealEvent, FilterMealsState> {
   }
 
   FutureOr<void> _updateTypeFilter(
-    CateringTypeFilter event,
+    MealTypeFilter event,
     Emitter<FilterMealsState> emit,
   ) {
-    final Set<CaterItemType> typeFilter =
-        Set<CaterItemType>.from(state.itemTypeFilter);
+    final Set<MealItemType> typeFilter =
+        Set<MealItemType>.from(state.itemTypeFilter);
     if (typeFilter.contains(event.type)) {
       typeFilter.remove(event.type);
     } else {

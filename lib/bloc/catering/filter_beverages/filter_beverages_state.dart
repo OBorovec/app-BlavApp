@@ -6,9 +6,10 @@ class FilterBeveragesState extends Equatable {
   // Control
   final bool searchActive;
   // Programme filter options
-  final Set<CaterItemType> availableItemTypes;
+  final Set<BeverageItemType> availableItemTypes;
   final Set<String> availablePlaces;
   // Filters
+  final Set<BeverageItemType> itemTypeFilter;
   final Set<String> placesFilter;
   final bool onlyHot;
   final bool onlyAlcoholic;
@@ -16,12 +17,13 @@ class FilterBeveragesState extends Equatable {
   final String queryString;
 
   const FilterBeveragesState({
-    this.items = const <BeverageItem>[],
-    this.itemsFiltered = const <BeverageItem>[],
+    this.items = const [],
+    this.itemsFiltered = const [],
     this.searchActive = false,
-    this.availableItemTypes = const <CaterItemType>{},
-    this.availablePlaces = const <String>{},
-    this.placesFilter = const <String>{},
+    this.availableItemTypes = const {},
+    this.availablePlaces = const {},
+    this.itemTypeFilter = const {},
+    this.placesFilter = const {},
     this.onlyHot = false,
     this.onlyAlcoholic = false,
     this.onlyNonAlcoholic = false,
@@ -33,6 +35,7 @@ class FilterBeveragesState extends Equatable {
         items,
         searchActive,
         itemsFiltered,
+        itemTypeFilter,
         placesFilter,
         onlyHot,
         onlyAlcoholic,
@@ -44,9 +47,9 @@ class FilterBeveragesState extends Equatable {
     List<BeverageItem>? items,
     List<BeverageItem>? itemsFiltered,
     bool? searchActive,
-    Set<CaterItemType>? availableItemTypes,
+    Set<BeverageItemType>? availableItemTypes,
     Set<String>? availablePlaces,
-    Set<CaterItemType>? itemTypeFilter,
+    Set<BeverageItemType>? itemTypeFilter,
     Set<String>? placesFilter,
     bool? onlyHot,
     bool? onlyAlcoholic,
@@ -59,6 +62,7 @@ class FilterBeveragesState extends Equatable {
       searchActive: searchActive ?? this.searchActive,
       availableItemTypes: availableItemTypes ?? this.availableItemTypes,
       availablePlaces: availablePlaces ?? this.availablePlaces,
+      itemTypeFilter: itemTypeFilter ?? this.itemTypeFilter,
       placesFilter: placesFilter ?? this.placesFilter,
       onlyHot: onlyHot ?? this.onlyHot,
       onlyAlcoholic: onlyAlcoholic ?? this.onlyAlcoholic,

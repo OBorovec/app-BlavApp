@@ -40,6 +40,7 @@ class BeverageSearch extends StatelessWidget {
       FilterBeveragesState state, BuildContext context) {
     return Wrap(
       children: [
+        ...state.itemTypeFilter.map((e) => _buildTypeSearchTag(e, context)),
         ...state.placesFilter.map((e) => _buildPlaceSearchTag(e, context)),
         if (state.onlyHot)
           _SearchTag(
@@ -64,6 +65,16 @@ class BeverageSearch extends StatelessWidget {
             text: AppLocalizations.of(context)!.contCateringBeverageNonAlcohol,
           )
       ],
+    );
+  }
+
+  Widget _buildTypeSearchTag(BeverageItemType type, BuildContext context) {
+    return _SearchTag(
+      onPressed: () => BlocProvider.of<FilterBeveragesBloc>(context)
+          .add(BeverageTypeFilter(type)),
+      isOn: (FilterBeveragesState state) =>
+          !state.itemTypeFilter.contains(type),
+      text: tBeverageItemType(type, context),
     );
   }
 
@@ -97,6 +108,19 @@ class BeverageSearch extends StatelessWidget {
                   Text(
                     AppLocalizations.of(context)!.contCateringSearchPredef,
                     style: Theme.of(context).textTheme.headline5,
+                  ),
+                  const SizedBox(height: 8),
+                  _buildModalSubtitle(
+                    context,
+                    AppLocalizations.of(context)!.contCateringListSearchTypes,
+                    Icons.category_outlined,
+                  ),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    children: state.availableItemTypes
+                        .map((e) => _buildTypeSearchTag(e, context))
+                        .toList(),
                   ),
                   const SizedBox(height: 8),
                   _buildModalSubtitle(

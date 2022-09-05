@@ -172,7 +172,7 @@ class _MenuSection extends StatelessWidget {
     return Column(
       children: [
         Text(
-          tCaterItemType(section.type, context),
+          tMealItemType(section.type, context),
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.subtitle2,
         ),
