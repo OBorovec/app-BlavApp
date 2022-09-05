@@ -3,7 +3,6 @@ import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/model/event.dart';
-import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +22,13 @@ class EventHomePage extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Column(children: [
                   if (state.event!.images.isNotEmpty)
-                    _EventItemHeroImage(event: state.event!),
+                    _EventImage(event: state.event!),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
+                        if (state.event!.sDesc != null)
+                          _EventSubDescription(state: state),
                         if (state.event!.desc != null)
                           _EventDescription(state: state),
                         _EventTimes(state: state),
@@ -86,6 +87,28 @@ class _EventTimes extends StatelessWidget {
   }
 }
 
+class _EventSubDescription extends StatelessWidget {
+  final EventState state;
+  const _EventSubDescription({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Text(
+          t(state.event!.sDesc!, context),
+          style: Theme.of(context).textTheme.subtitle1,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
 class _EventDescription extends StatelessWidget {
   final EventState state;
   const _EventDescription({
@@ -106,10 +129,10 @@ class _EventDescription extends StatelessWidget {
   }
 }
 
-class _EventItemHeroImage extends StatelessWidget {
+class _EventImage extends StatelessWidget {
   final Event event;
 
-  const _EventItemHeroImage({
+  const _EventImage({
     Key? key,
     required this.event,
   }) : super(key: key);
@@ -119,16 +142,13 @@ class _EventItemHeroImage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return SizedBox(
       height: height * 0.4,
-      child: Hero(
-        tag: eventImgHeroTag(event),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            bottomRight: Radius.circular(64),
-          ),
-          child: AppNetworkImage(
-            url: event.images[0],
-            asCover: true,
-          ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          bottomRight: Radius.circular(64),
+        ),
+        child: AppNetworkImage(
+          url: event.images[0],
+          asCover: true,
         ),
       ),
     );

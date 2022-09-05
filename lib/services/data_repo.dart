@@ -6,6 +6,7 @@ import 'package:blavapp/model/event.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/model/story.dart';
+import 'package:blavapp/model/support_ticket.dart';
 import 'package:blavapp/model/ticket.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/model/user_perms.dart';
@@ -138,6 +139,24 @@ class DataRepo {
         .update({'myVoting.$cosplayRef': vote});
   }
 
+  Future<void> addSupportTicket({
+    required String userUID,
+    required String ticketRef,
+  }) {
+    return _userDataCollectionRef.doc(userUID).update({
+      'supTickets': FieldValue.arrayUnion([ticketRef])
+    });
+  }
+
+  Future<void> removeSupportTicket({
+    required String userUID,
+    required String ticketRef,
+  }) {
+    return _userDataCollectionRef.doc(userUID).update({
+      'supTickets': FieldValue.arrayRemove([ticketRef])
+    });
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Events
   //////////////////////////////////////////////////////////////////////////////
@@ -169,11 +188,12 @@ class DataRepo {
   // Tickets
   //////////////////////////////////////////////////////////////////////////////
 
-  final CollectionReference _ticketsCollectionRef =
-      FirebaseFirestore.instance.collection('tickets').withConverter<Ticket>(
-            fromFirestore: (snapshot, _) => Ticket.fromJson(snapshot.data()!),
-            toFirestore: (entry, _) => entry.toJson(),
-          );
+  final CollectionReference _ticketsCollectionRef = FirebaseFirestore.instance
+      .collection('admin_tickets')
+      .withConverter<Ticket>(
+        fromFirestore: (snapshot, _) => Ticket.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
 
   Future<Ticket> getTicket(String ticketId) {
     return _ticketsCollectionRef.doc(ticketId).get().then((value) {
@@ -396,6 +416,36 @@ class DataRepo {
           'review': review,
         }
       ]),
+    });
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+// Support tickets
+//////////////////////////////////////////////////////////////////////////////
+
+  final CollectionReference _supTicketsRef = FirebaseFirestore.instance
+      .collection('sup_tickets')
+      .withConverter<SupportTicket>(
+        fromFirestore: (snapshot, _) =>
+            SupportTicket.fromJson(snapshot.data()!),
+        toFirestore: (entry, _) => entry.toJson(),
+      );
+
+  Future<String> initSuportTicket({
+    required SupportTicket ticket,
+  }) async {
+    DocumentReference ticketRef = await _supTicketsRef.add(ticket);
+    return ticketRef.id;
+  }
+
+  Stream<SupportTicket> getSupportTicketStream({
+    required String ticketRef,
+  }) {
+    return _supTicketsRef.doc(ticketRef).snapshots().map((snapshot) {
+      if (snapshot.data() == null) {
+        throw NullDataException('$ticketRef:SupportTicket');
+      }
+      return ((snapshot.data() as SupportTicket));
     });
   }
 }

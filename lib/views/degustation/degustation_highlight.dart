@@ -27,6 +27,7 @@ class DegustationHighlight extends StatelessWidget {
                     Expanded(
                       child: _DegustationHeader(state: state),
                     ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: _DegustaionNumbers(state: state),
                   ),
@@ -179,24 +180,27 @@ class _DegustationHighlightPlaceCard extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              if (data.place.loc != null)
-                IconBtnPushCustomMap(
-                  mapRef: data.place.loc!.mapRef,
-                  pointRef: data.place.loc!.pointRef,
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                if (data.place.loc != null)
+                  IconBtnPushCustomMap(
+                    mapRef: data.place.loc!.mapRef,
+                    pointRef: data.place.loc!.pointRef,
+                  ),
+                const VerticalDivider(),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    t(data.place.name, context),
+                    style: Theme.of(context).textTheme.subtitle1,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  t(data.place.name, context),
-                  style: Theme.of(context).textTheme.subtitle1,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (data.place.open != null) _buildOpeningIndicator(context),
-            ],
+                if (data.place.open != null) _buildOpeningIndicator(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -264,7 +268,7 @@ class _DegustationItemHighlightCard extends StatelessWidget {
             ),
             if (item.subType != null)
               Text(
-                tDegusSubAlcoholType(item.subType!, context),
+                t(item.subType!, context),
               ),
           ],
         ),

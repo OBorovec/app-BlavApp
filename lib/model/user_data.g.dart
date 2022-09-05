@@ -32,8 +32,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
           ) ??
           const {},
       supTickets: (json['supTickets'] as List<dynamic>?)
-              ?.map(
-                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
+              ?.map((e) => e as String)
               .toList() ??
           const [],
     );

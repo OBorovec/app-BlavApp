@@ -21,6 +21,7 @@ class UserPermsBloc extends Bloc<UserPermsEvent, UserPermsState> {
     _authBlocSub = authBloc.stream.listen(_onAuthBlocChange);
     on<EmptyUserPerms>(_emptyUserPerms);
     on<LoadUserPerms>(_loadUserPerms);
+    on<ToggleDevMode>(_toggleDevMode);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -58,5 +59,14 @@ class UserPermsBloc extends Bloc<UserPermsEvent, UserPermsState> {
   Future<void> close() {
     _authBlocSub.cancel();
     return super.close();
+  }
+
+  FutureOr<void> _toggleDevMode(
+    ToggleDevMode event,
+    Emitter<UserPermsState> emit,
+  ) {
+    emit(state.copyWith(
+      devMode: !state.devMode,
+    ));
   }
 }

@@ -164,24 +164,27 @@ class _CateringHighlightPlaceCard extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              if (data.place.loc != null)
-                IconBtnPushCustomMap(
-                  mapRef: data.place.loc!.mapRef,
-                  pointRef: data.place.loc!.pointRef,
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                if (data.place.loc != null)
+                  IconBtnPushCustomMap(
+                    mapRef: data.place.loc!.mapRef,
+                    pointRef: data.place.loc!.pointRef,
+                  ),
+                const VerticalDivider(),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    t(data.place.name, context),
+                    style: Theme.of(context).textTheme.subtitle1,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  t(data.place.name, context),
-                  style: Theme.of(context).textTheme.subtitle1,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (data.place.open != null) _buildOpeningIndicator(context),
-            ],
+                if (data.place.open != null) _buildOpeningIndicator(context),
+              ],
+            ),
           ),
         ),
       ),

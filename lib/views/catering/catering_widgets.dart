@@ -3,7 +3,7 @@ import 'package:blavapp/model/catering.dart';
 import 'package:flutter/material.dart';
 
 class CateringAttIcons extends StatelessWidget {
-  final CaterItem item;
+  final MealItem item;
   final double? size;
   const CateringAttIcons({
     Key? key,

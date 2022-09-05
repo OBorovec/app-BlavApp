@@ -20,7 +20,11 @@ String programmeEntryImgHeroTag(ProgEntry entry) {
   return 'prog-img-title-${entry.id}';
 }
 
-String caterItemImgHeroTag(CaterItem item) {
+String caterMealItemImgHeroTag(MealItem item) {
+  return 'cater-img-item-${item.id}';
+}
+
+String caterBeverageItemImgHeroTag(BeverageItem item) {
   return 'cater-img-item-${item.id}';
 }
 

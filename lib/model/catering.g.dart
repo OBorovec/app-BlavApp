@@ -10,10 +10,15 @@ Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      items: (json['items'] as List<dynamic>?)
-              ?.map((e) => CaterItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      meals: (json['meals'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, MealItem.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      beverages: (json['beverages'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, BeverageItem.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       places: (json['places'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, CaterPlace.fromJson(e as Map<String, dynamic>)),
@@ -28,12 +33,13 @@ Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
 
 Map<String, dynamic> _$CateringToJson(Catering instance) => <String, dynamic>{
       'desc': instance.desc,
-      'items': instance.items,
+      'meals': instance.meals,
+      'beverages': instance.beverages,
       'places': instance.places,
       'notifications': instance.notifications,
     };
 
-CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
+MealItem _$MealItemFromJson(Map<String, dynamic> json) => MealItem(
       id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
       type: $enumDecode(_$CaterItemTypeEnumMap, json['type']),
@@ -62,7 +68,7 @@ CaterItem _$CaterItemFromJson(Map<String, dynamic> json) => CaterItem(
           const {},
     );
 
-Map<String, dynamic> _$CaterItemToJson(CaterItem instance) => <String, dynamic>{
+Map<String, dynamic> _$MealItemToJson(MealItem instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'type': _$CaterItemTypeEnumMap[instance.type]!,
@@ -88,11 +94,51 @@ const _$CaterItemTypeEnumMap = {
   CaterItemType.other: 'other',
 };
 
+BeverageItem _$BeverageItemFromJson(Map<String, dynamic> json) => BeverageItem(
+      id: json['id'] as String,
+      name: Map<String, String>.from(json['name'] as Map),
+      type: $enumDecode(_$CaterItemTypeEnumMap, json['type']),
+      volumes: (json['volumes'] as List<dynamic>)
+          .map((e) => CaterVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      placeRef: (json['placeRef'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      hot: json['hot'] as bool? ?? false,
+      alcoholic: json['alcoholic'] as bool? ?? false,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet() ??
+          const {},
+    );
+
+Map<String, dynamic> _$BeverageItemToJson(BeverageItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'type': _$CaterItemTypeEnumMap[instance.type]!,
+      'volumes': instance.volumes,
+      'desc': instance.desc,
+      'placeRef': instance.placeRef,
+      'hot': instance.hot,
+      'alcoholic': instance.alcoholic,
+      'images': instance.images,
+      'tags': instance.tags.toList(),
+    };
+
 CaterVolume _$CaterVolumeFromJson(Map<String, dynamic> json) => CaterVolume(
       price: (json['price'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, (e as num).toDouble()),
       ),
-      desc: Map<String, String>.from(json['desc'] as Map),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
     );
 
 Map<String, dynamic> _$CaterVolumeToJson(CaterVolume instance) =>
@@ -104,6 +150,9 @@ Map<String, dynamic> _$CaterVolumeToJson(CaterVolume instance) =>
 CaterPlace _$CaterPlaceFromJson(Map<String, dynamic> json) => CaterPlace(
       id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       loc: json['loc'] == null
           ? null
           : CaterPlaceLoc.fromJson(json['loc'] as Map<String, dynamic>),
@@ -120,6 +169,7 @@ Map<String, dynamic> _$CaterPlaceToJson(CaterPlace instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'desc': instance.desc,
       'loc': instance.loc,
       'open': instance.open,
       'images': instance.images,

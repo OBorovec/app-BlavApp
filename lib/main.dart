@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
@@ -13,24 +15,42 @@ import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
+import 'package:blavapp/constants/colors.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/data_repo.dart';
+import 'package:blavapp/services/local_notification_service.dart';
 import 'package:blavapp/services/prefs_repo.dart';
+import 'package:blavapp/services/push_notification_service.dart';
 import 'package:blavapp/services/storage_repo.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService().init();
+  _configureLocalTimeZone();
   Bloc.observer = AppBlocObserver();
   runApp(const BlavApp());
+}
+
+Future<void> _configureLocalTimeZone() async {
+  if (kIsWeb || Platform.isLinux) {
+    return;
+  }
+  tz.initializeTimeZones();
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
 }
 
 class AppBlocObserver extends BlocObserver {
@@ -72,6 +92,7 @@ class _BlavAppState extends State<BlavApp> {
         if (snapshot.hasError) {
           return _buildMaterialError(snapshot.error.toString());
         } else if (snapshot.connectionState == ConnectionState.done) {
+          PushNotificationService().init();
           final SharedPreferences sharedPreferences =
               snapshot.requireData[0] as SharedPreferences;
           // final FirebaseApp firebaseApp =
@@ -246,8 +267,12 @@ class _BlavAppState extends State<BlavApp> {
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Container(
+              color: AppColors.scaffoldLight,
+            ),
           );
         }
       },
@@ -272,6 +297,7 @@ class _BlavAppState extends State<BlavApp> {
     ]);
     return MaterialApp(
       title: 'BlavApp',
+      debugShowCheckedModeBanner: false,
       theme: themeState.themeData,
       locale: localizationState.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

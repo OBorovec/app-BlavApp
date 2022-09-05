@@ -116,7 +116,7 @@ class _DegustationItemBaseInfo extends StatelessWidget {
             if (item.subType != null)
               _buildInfoLine(
                 Icons.subject_outlined,
-                tDegusSubAlcoholType(item.subType!, context),
+                t(item.subType!, context),
                 context,
               ),
           ],

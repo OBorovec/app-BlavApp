@@ -7,10 +7,11 @@ part of 'programme.dart';
 // **************************************************************************
 
 Programme _$ProgrammeFromJson(Map<String, dynamic> json) => Programme(
-      entries: (json['entries'] as List<dynamic>?)
-              ?.map((e) => ProgEntry.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      entries: (json['entries'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ProgEntry.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       places: (json['places'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, ProgPlace.fromJson(e as Map<String, dynamic>)),
@@ -100,7 +101,6 @@ const _$ProgEntryTypeEnumMap = {
   ProgEntryType.degustation: 'degustation',
   ProgEntryType.discussion: 'discussion',
   ProgEntryType.gaming: 'gaming',
-  ProgEntryType.photo: 'photo',
   ProgEntryType.cosplay: 'cosplay',
   ProgEntryType.other: 'other',
 };

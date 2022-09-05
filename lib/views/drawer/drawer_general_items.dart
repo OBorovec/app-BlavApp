@@ -15,29 +15,36 @@ class DrawerGeneralItems extends StatelessWidget {
     return Column(
       children: [
         // NOTE: Uncomment in the next versions so that the user can change the event focus.
-        // ListTile(
-        //   title: Text(AppLocalizations.of(context)!.contEventsTitle),
-        //   onTap: () {
-        //     Navigator.popAndPushNamed(context, RoutePaths.events);
-        //   },
-        //   trailing: Row(
-        //     mainAxisSize: MainAxisSize.min,
-        //     children: [
-        //       const VerticalDivider(),
-        //       IconButton(
-        //         icon: const Icon(Icons.change_circle),
-        //         onPressed: () =>
-        //             context.read<EventBloc>().add(const EventClear()),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        ListTile(
+          title: Text(AppLocalizations.of(context)!.contEventsTitle),
+          onTap: () {
+            Navigator.popAndPushNamed(context, RoutePaths.events);
+          },
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const VerticalDivider(),
+              IconButton(
+                icon: const Icon(Icons.change_circle),
+                onPressed: () =>
+                    context.read<EventBloc>().add(const EventClear()),
+              ),
+            ],
+          ),
+        ),
         if (context.read<UserPermsBloc>().state.isStaff ||
             context.read<UserPermsBloc>().state.isAdmin)
           ListTile(
             title: Text(AppLocalizations.of(context)!.adminTitle),
             onTap: () {
               Navigator.popAndPushNamed(context, RoutePaths.admin);
+            },
+          ),
+        if (context.read<UserPermsBloc>().state.devMode)
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.drawerDevelopment),
+            onTap: () {
+              Navigator.popAndPushNamed(context, RoutePaths.development);
             },
           ),
         ListTile(

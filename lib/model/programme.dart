@@ -5,12 +5,12 @@ part 'programme.g.dart';
 
 @JsonSerializable()
 class Programme extends Equatable {
-  final List<ProgEntry> entries;
+  final Map<String, ProgEntry> entries;
   final Map<String, ProgPlace> places;
   final List<ProgNotification> notifications;
 
   const Programme({
-    this.entries = const [],
+    this.entries = const {},
     this.places = const {},
     this.notifications = const [],
   });
@@ -34,7 +34,6 @@ enum ProgEntryType {
   degustation,
   discussion,
   gaming,
-  photo,
   cosplay,
   other,
 }

@@ -33,7 +33,7 @@ class PlaceMenuCateringBloc
     UpdateMenu event,
     Emitter<PlaceMenuCateringState> emit,
   ) {
-    final List<CaterItem> placeItems = catering.items
+    final List<MealItem> placeItems = catering.meals.values
         .where(
           (item) => item.placeRef.contains(placeRef),
         )

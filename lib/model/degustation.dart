@@ -6,13 +6,13 @@ part 'degustation.g.dart';
 @JsonSerializable()
 class Degustation extends Equatable {
   final Map<String, String>? desc;
-  final List<DegusItem> items;
+  final Map<String, DegusItem> items;
   final Map<String, DegusPlace> places;
   final List<DegusNotification> notifications;
 
   const Degustation({
     this.desc,
-    this.items = const [],
+    this.items = const {},
     this.places = const {},
     this.notifications = const [],
   });
@@ -44,10 +44,11 @@ class DegusItem extends Equatable {
   final List<String> placeRef;
   final double rating;
   final double? alcoholVolume;
-  final String? subType;
+  final Map<String, String>? subType;
   final Map<String, String>? dSubType;
   final List<String> images;
   final String? origin;
+  final String? producer;
   final List<String> similarItems;
   final String? url;
 
@@ -64,6 +65,7 @@ class DegusItem extends Equatable {
     this.dSubType,
     this.images = const [],
     this.origin,
+    this.producer,
     this.similarItems = const [],
     this.url,
   });
@@ -82,6 +84,7 @@ class DegusItem extends Equatable {
         volumes,
         images,
         origin,
+        producer,
         similarItems,
         url,
       ];

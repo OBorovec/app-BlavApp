@@ -19,6 +19,7 @@ dependencies:
   eva_icons_flutter: ^3.1.0
   firebase_auth: ^3.6.3
   firebase_core: ^1.20.1
+  firebase_messaging: ^13.0.0
   firebase_storage: ^10.3.5
   flare_flutter: ^3.0.2
   flex_color_scheme: ^5.0.0
@@ -26,8 +27,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_local_notifications: ^9.9.0
   flutter_localizations:
     sdk: flutter
+  flutter_native_timezone: ^2.0.0
   flutter_rating_bar: ^4.0.1
   flutter_slidable: ^2.0.0
   flutter_swipe_detector: ^2.0.0
@@ -65,6 +68,8 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/icons/catering/
+    - assets/icons/programme/
     - assets/maps/
     - assets/flare/
     - assets/rive/
@@ -91,6 +96,8 @@ flutter_icons:
   android: launcher_icon
   ios: true
   image_path: assets/launcher.png
+  adaptive_icon_foreground: assets/launcher.png
+  adaptive_icon_background: "#8D7F7D"
 
 # flutter pub run flutter_native_splash:create
 flutter_native_splash:

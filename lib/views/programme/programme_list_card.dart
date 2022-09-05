@@ -109,12 +109,13 @@ class _ProgrammeEntryInfo extends StatelessWidget {
           '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
         ),
         // Entry place
-        _buildInfoLine(
-          Icons.place_outlined,
-          places.containsKey(entry.placeRef)
-              ? t(places[entry.placeRef]!.name, context)
-              : '?${entry.placeRef}?',
-        ),
+        if (entry.placeRef != null)
+          _buildInfoLine(
+            Icons.place_outlined,
+            places.containsKey(entry.placeRef)
+                ? t(places[entry.placeRef]!.name, context)
+                : '?${entry.placeRef}?',
+          ),
         // Entry category
         _buildInfoLine(
           Icons.category_outlined,

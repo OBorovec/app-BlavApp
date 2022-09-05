@@ -176,7 +176,7 @@ class _MenuSection extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.subtitle2,
         ),
-        ...section.items.map((CaterItem item) {
+        ...section.items.map((MealItem item) {
           return Row(
             children: [
               Expanded(
@@ -206,7 +206,7 @@ class _MenuSection extends StatelessWidget {
                       children: item.volumes
                           .map(
                             (pv) => Text(
-                              '${prefCurrency(state.currency, pv.price, context)} / ${t(pv.desc, context)}',
+                              '${prefCurrency(state.currency, pv.price, context)} / ${pv.desc != null ? t(pv.desc!, context) : ''}',
                               textAlign: TextAlign.end,
                             ),
                           )

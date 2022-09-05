@@ -6,19 +6,21 @@ part 'catering.g.dart';
 @JsonSerializable()
 class Catering extends Equatable {
   final Map<String, String>? desc;
-  final List<CaterItem> items;
+  final Map<String, MealItem> meals;
+  final Map<String, BeverageItem> beverages;
   final Map<String, CaterPlace> places;
   final List<CaterNotification> notifications;
 
   const Catering({
     this.desc,
-    this.items = const [],
+    this.meals = const {},
+    this.beverages = const {},
     this.places = const {},
     this.notifications = const [],
   });
 
   @override
-  List<Object?> get props => [items, places, notifications];
+  List<Object?> get props => [meals, beverages, places, notifications];
 
   factory Catering.fromJson(Map<String, Object?> json) =>
       _$CateringFromJson(json);
@@ -38,7 +40,7 @@ enum CaterItemType {
 }
 
 @JsonSerializable()
-class CaterItem extends Equatable {
+class MealItem extends Equatable {
   final String id;
   final Map<String, String> name;
   final CaterItemType type;
@@ -52,7 +54,7 @@ class CaterItem extends Equatable {
   final List<String> images;
   final Set<String> tags;
 
-  const CaterItem({
+  const MealItem({
     required this.id,
     required this.name,
     required this.type,
@@ -83,15 +85,60 @@ class CaterItem extends Equatable {
         tags,
       ];
 
-  factory CaterItem.fromJson(Map<String, Object?> json) =>
-      _$CaterItemFromJson(json);
-  Map<String, Object?> toJson() => _$CaterItemToJson(this);
+  factory MealItem.fromJson(Map<String, Object?> json) =>
+      _$MealItemFromJson(json);
+  Map<String, Object?> toJson() => _$MealItemToJson(this);
+}
+
+@JsonSerializable()
+class BeverageItem extends Equatable {
+  final String id;
+  final Map<String, String> name;
+  final CaterItemType type;
+  final List<CaterVolume> volumes;
+  final Map<String, String>? desc;
+  final List<String> placeRef;
+  final bool hot;
+  final bool alcoholic;
+  final List<String> images;
+  final Set<String> tags;
+
+  const BeverageItem({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.volumes,
+    this.desc,
+    this.placeRef = const [],
+    this.hot = false,
+    this.alcoholic = false,
+    this.images = const [],
+    this.tags = const {},
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        type,
+        desc,
+        placeRef,
+        hot,
+        alcoholic,
+        images,
+        volumes,
+        tags,
+      ];
+
+  factory BeverageItem.fromJson(Map<String, Object?> json) =>
+      _$BeverageItemFromJson(json);
+  Map<String, Object?> toJson() => _$BeverageItemToJson(this);
 }
 
 @JsonSerializable()
 class CaterVolume extends Equatable {
   final Map<String, double> price;
-  final Map<String, String> desc;
+  final Map<String, String>? desc;
 
   const CaterVolume({
     required this.price,
@@ -110,6 +157,7 @@ class CaterVolume extends Equatable {
 class CaterPlace extends Equatable {
   final String id;
   final Map<String, String> name;
+  final Map<String, String>? desc;
   final CaterPlaceLoc? loc;
   final Map<String, String>? open;
   final List<String> images;
@@ -117,6 +165,7 @@ class CaterPlace extends Equatable {
   const CaterPlace({
     required this.id,
     required this.name,
+    this.desc,
     required this.loc,
     required this.open,
     this.images = const [],
@@ -126,6 +175,7 @@ class CaterPlace extends Equatable {
   List<Object?> get props => [
         id,
         name,
+        desc,
         loc,
         open,
         images,

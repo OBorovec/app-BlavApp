@@ -3,6 +3,8 @@ import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/views/title_divider.dart';
+import 'package:blavapp/utils/notifications_local.dart';
+import 'package:blavapp/utils/notifications_push.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,32 +48,36 @@ class _SettingsPageState extends State<SettingsPage> {
                         AppLocalizations.of(context)!.settingsNotificationPush,
                     value: (UserLocalPrefsState state) =>
                         state.allowPushNotifications,
-                    onChanged: (bool? value) =>
-                        BlocProvider.of<UserLocalPrefsBloc>(context).add(
-                      AllowUserPushNotification(value),
-                    ),
+                    onChanged: (bool? value) {
+                      BlocProvider.of<UserLocalPrefsBloc>(context).add(
+                        AllowUserPushNotification(value),
+                      );
+                      pushNotificationToggle(value, context);
+                    },
                   ),
                   _CheckboxOption(
                     text: AppLocalizations.of(context)!
                         .settingsNotificationProgramme,
                     value: (UserLocalPrefsState state) =>
                         state.allowProgrammeNotifications,
-                    onChanged: (bool? value) =>
-                        BlocProvider.of<UserLocalPrefsBloc>(context).add(
-                      AllowUserProgrammeNotification(value),
-                    ),
-                  ),
-                  _CheckboxOption(
-                    text:
-                        AppLocalizations.of(context)!.settingsNotificationStory,
-                    value: (UserLocalPrefsState state) =>
-                        state.allowStoryNotifications,
-                    onChanged: (bool? value) =>
-                        BlocProvider.of<UserLocalPrefsBloc>(context).add(
-                      AllowUserStoryNotification(value),
-                    ),
+                    onChanged: (bool? value) {
+                      BlocProvider.of<UserLocalPrefsBloc>(context).add(
+                        AllowUserProgrammeNotification(value),
+                      );
+                      localNotificationToggle(value, context);
+                    },
                   ),
                   const _UserNotificationIntervals(),
+                  // _CheckboxOption(
+                  //   text:
+                  //       AppLocalizations.of(context)!.settingsNotificationStory,
+                  //   value: (UserLocalPrefsState state) =>
+                  //       state.allowStoryNotifications,
+                  //   onChanged: (bool? value) =>
+                  //       BlocProvider.of<UserLocalPrefsBloc>(context).add(
+                  //     AllowUserStoryNotification(value),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -209,40 +215,63 @@ class _UserNotificationIntervals extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserLocalPrefsBloc, UserLocalPrefsState>(
       builder: (context, state) {
-        return Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: _buildIntervalBtn(
-                  context,
-                  state.notify10min,
-                  AppLocalizations.of(context)!.settingsNotificationInterval10,
-                  (() => BlocProvider.of<UserLocalPrefsBloc>(context)
-                      .add(const Toggle10minNotification())),
-                ),
-              ),
-              Expanded(
-                child: _buildIntervalBtn(
-                  context,
-                  state.notify30min,
-                  AppLocalizations.of(context)!.settingsNotificationInterval30,
-                  (() => BlocProvider.of<UserLocalPrefsBloc>(context)
-                      .add(const Toggle30minNotification())),
-                ),
-              ),
-              Expanded(
-                child: _buildIntervalBtn(
-                  context,
-                  state.notify60min,
-                  AppLocalizations.of(context)!.settingsNotificationInterval60,
-                  (() => BlocProvider.of<UserLocalPrefsBloc>(context)
-                      .add(const Toggle60minNotification())),
-                ),
-              ),
-            ],
-          ),
-        );
+        return state.allowProgrammeNotifications
+            ? Column(
+                children: [
+                  Text(AppLocalizations.of(context)!
+                      .settingsNotificationIntervas),
+                  const SizedBox(height: 4),
+                  Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: _buildIntervalBtn(
+                            context,
+                            state.notify10min,
+                            '10',
+                            (() {
+                              BlocProvider.of<UserLocalPrefsBloc>(context)
+                                  .add(const Toggle10minNotification());
+                              localNotificationToggle(true, context);
+                            }),
+                          ),
+                        ),
+                        const SizedBox(width: 1),
+                        Expanded(
+                          child: _buildIntervalBtn(
+                            context,
+                            state.notify30min,
+                            '30',
+                            (() {
+                              BlocProvider.of<UserLocalPrefsBloc>(context)
+                                  .add(const Toggle30minNotification());
+                              localNotificationToggle(true, context);
+                            }),
+                          ),
+                        ),
+                        const SizedBox(width: 1),
+                        Expanded(
+                          child: _buildIntervalBtn(
+                            context,
+                            state.notify60min,
+                            '60',
+                            (() {
+                              BlocProvider.of<UserLocalPrefsBloc>(context)
+                                  .add(const Toggle60minNotification());
+                              localNotificationToggle(true, context);
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(AppLocalizations.of(context)!
+                      .settingsNotificationIntervasUnits),
+                ],
+              )
+            : Container();
       },
     );
   }
@@ -312,7 +341,7 @@ class _Signature extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              AppLocalizations.of(context)!.aboutDevBy,
+              AppLocalizations.of(context)!.aboutProject,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
               maxLines: 3,

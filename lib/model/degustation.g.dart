@@ -10,10 +10,11 @@ Degustation _$DegustationFromJson(Map<String, dynamic> json) => Degustation(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      items: (json['items'] as List<dynamic>?)
-              ?.map((e) => DegusItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      items: (json['items'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, DegusItem.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       places: (json['places'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, DegusPlace.fromJson(e as Map<String, dynamic>)),
@@ -50,7 +51,9 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
           const [],
       rating: (json['rating'] as num?)?.toDouble() ?? -1,
       alcoholVolume: (json['alcoholVolume'] as num?)?.toDouble(),
-      subType: json['subType'] as String?,
+      subType: (json['subType'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       dSubType: (json['dSubType'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -59,6 +62,7 @@ DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(
               .toList() ??
           const [],
       origin: json['origin'] as String?,
+      producer: json['producer'] as String?,
       similarItems: (json['similarItems'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -79,6 +83,7 @@ Map<String, dynamic> _$DegusItemToJson(DegusItem instance) => <String, dynamic>{
       'dSubType': instance.dSubType,
       'images': instance.images,
       'origin': instance.origin,
+      'producer': instance.producer,
       'similarItems': instance.similarItems,
       'url': instance.url,
     };

@@ -19,3 +19,7 @@ class LoadUserPerms extends UserPermsEvent {
   @override
   List<Object> get props => [uid];
 }
+
+class ToggleDevMode extends UserPermsEvent {
+  const ToggleDevMode();
+}

@@ -17,9 +17,11 @@ class ProgrammeState extends Equatable {
     required this.programme,
   });
 
-  List<ProgEntry> get programmeEntries => programme.entries;
+  Map<String, ProgEntry> get entries => programme.entries;
   Map<String, ProgPlace> get programmePlaces => programme.places;
   List<ProgNotification> get programmeNotifications => programme.notifications;
+
+  List<ProgEntry> get programmeEntries => entries.values.toList();
 
   @override
   List<Object> get props => [

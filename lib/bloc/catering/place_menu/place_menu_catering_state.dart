@@ -2,7 +2,7 @@ part of 'place_menu_catering_bloc.dart';
 
 class MenuSec extends Equatable {
   final CaterItemType type;
-  final List<CaterItem> items;
+  final List<MealItem> items;
 
   const MenuSec({
     required this.type,

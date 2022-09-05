@@ -32,14 +32,12 @@ class EventSelected extends EventEvent {
 
 class EventLoad extends EventEvent {
   const EventLoad();
-
-  @override
-  List<Object> get props => [];
 }
 
 class EventClear extends EventEvent {
   const EventClear();
+}
 
-  @override
-  List<Object> get props => [];
+class EventSetDefault extends EventEvent {
+  const EventSetDefault();
 }

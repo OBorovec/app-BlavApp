@@ -10,6 +10,9 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       id: json['id'] as String,
       location: json['location'] as String,
       name: Map<String, String>.from(json['name'] as Map),
+      sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -21,18 +24,21 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
               .toList() ??
           const [],
       canBeFocused: json['canBeFocused'] as bool? ?? false,
+      isVisible: json['isVisible'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'id': instance.id,
       'location': instance.location,
       'name': instance.name,
+      'sDesc': instance.sDesc,
       'desc': instance.desc,
       'dayStart': instance.dayStart.toIso8601String(),
       'dayEnd': instance.dayEnd.toIso8601String(),
       'routing': instance.routing,
       'images': instance.images,
       'canBeFocused': instance.canBeFocused,
+      'isVisible': instance.isVisible,
     };
 
 Routing _$RoutingFromJson(Map<String, dynamic> json) => Routing(

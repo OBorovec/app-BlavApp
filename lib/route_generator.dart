@@ -7,7 +7,6 @@ import 'package:blavapp/views/admin/vote_results.dart';
 import 'package:blavapp/views/admin/ticket_validation.dart';
 import 'package:blavapp/views/admin/voting_list.dart';
 import 'package:blavapp/views/catering/catering_page.dart';
-import 'package:blavapp/views/catering/catering_details.dart';
 import 'package:blavapp/views/catering/catering_place_details.dart';
 import 'package:blavapp/views/contacts/contact_detail.dart';
 import 'package:blavapp/views/contacts/contacts_page.dart';
@@ -16,6 +15,7 @@ import 'package:blavapp/views/cosplay/cosplay_page.dart';
 import 'package:blavapp/views/degustation/degustation_details.dart';
 import 'package:blavapp/views/degustation/degustation_page.dart';
 import 'package:blavapp/views/degustation/degustation_place_details.dart';
+import 'package:blavapp/views/development/development_page.dart';
 import 'package:blavapp/views/events/event_details.dart';
 import 'package:blavapp/views/events/event_home_page.dart';
 import 'package:blavapp/views/events/events_page.dart';
@@ -32,7 +32,7 @@ import 'package:blavapp/views/sign_in/password_reset_page.dart';
 import 'package:blavapp/views/sign_in/signin_page.dart';
 import 'package:blavapp/views/sign_in/signup_page.dart';
 import 'package:blavapp/views/story/story_faction_detail.dart';
-import 'package:blavapp/views/story/story_pape.dart';
+import 'package:blavapp/views/story/story_page.dart';
 import 'package:blavapp/views/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 
@@ -54,6 +54,7 @@ class RoutePaths {
   static const String adminTicketValidation = '/admin/ticket-validation';
   static const String adminVoting = '/admin/voting';
   static const String adminVotingResults = '/admin/voting/results';
+  static const String development = '/development';
   static const String settings = '/setting';
   // Event related route
   static const String eventHome = '/event';
@@ -89,6 +90,7 @@ const List<String> allPaths = [
   RoutePaths.adminTicketValidation,
   RoutePaths.adminVoting,
   RoutePaths.adminVotingResults,
+  RoutePaths.development,
   RoutePaths.settings,
   RoutePaths.eventHome,
   RoutePaths.story,
@@ -147,14 +149,20 @@ class RouteGenerator {
     // Getting arguments passed in while calling Navigator.pushNamed
     // final args = settings.arguments;
     debugPrint('--- Navigating to ${settings.name} ---');
+    // Path with no restrictions
     if (allPaths.contains(settings.name)) {
       switch (settings.name) {
         case RoutePaths.welcome:
           return MaterialPageRoute(
             builder: (_) => const WelcomePage(),
           );
+        case RoutePaths.development:
+          return MaterialPageRoute(
+            builder: (_) => const DevelopmentPage(),
+          );
       }
       if (isAuthenticated) {
+        // Paths only accessible to authenticated users
         switch (settings.name) {
           case RoutePaths.profile:
             return MaterialPageRoute(
@@ -185,6 +193,7 @@ class RouteGenerator {
             return MaterialPageRoute(
               builder: (_) => const SettingsPage(),
             );
+          // Restriction if accessing unauth routes while authenticated
           case RoutePaths.signUp:
           case RoutePaths.signIn:
           case RoutePaths.signInForgottenPassword:
@@ -194,6 +203,7 @@ class RouteGenerator {
         }
         if (eventPaths.contains(settings.name)) {
           if (hasEvent) {
+            // Paths only accessible to authenticated users with an event
             switch (settings.name) {
               case RoutePaths.eventHome:
                 return MaterialPageRoute(
@@ -222,11 +232,6 @@ class RouteGenerator {
               case RoutePaths.catering:
                 return MaterialPageRoute(
                   builder: (_) => const CateringPage(),
-                );
-              case RoutePaths.cateringItem:
-                final args = settings.arguments! as CateringDetailsArguments;
-                return MaterialPageRoute(
-                  builder: (_) => CateringDetails(item: args.item),
                 );
               case RoutePaths.cateringPlace:
                 final args =
@@ -281,6 +286,7 @@ class RouteGenerator {
                 );
             }
           } else {
+            // Restiction if accessing event paths without an event
             return MaterialPageRoute(
               builder: (_) => const RestrictNoEvent(),
             );
@@ -288,6 +294,7 @@ class RouteGenerator {
         }
         if (staffPaths.contains(settings.name)) {
           if (isAdmin) {
+            // Paths only accessible to authenticated admin users
             switch (settings.name) {
               case RoutePaths.admin:
                 return MaterialPageRoute(
@@ -316,6 +323,7 @@ class RouteGenerator {
           }
         }
       } else {
+        // Path only accessible to unauthenticated users
         switch (settings.name) {
           case RoutePaths.signUp:
             return MaterialPageRoute(

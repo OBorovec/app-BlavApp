@@ -90,21 +90,21 @@ class UserDataFeedBack extends UserDataEvent {
   });
 }
 
-class UserDataHelp extends UserDataEvent {
+class UserSupportTicket extends UserDataEvent {
   final String title;
   final String message;
 
-  const UserDataHelp({
+  const UserSupportTicket({
     required this.title,
     required this.message,
   });
 }
 
-class UserDataHelpResponse extends UserDataEvent {
+class UserSupportResponse extends UserDataEvent {
   final String id;
   final String message;
 
-  const UserDataHelpResponse({
+  const UserSupportResponse({
     required this.id,
     required this.message,
   });

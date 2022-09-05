@@ -43,12 +43,13 @@ class UserProfilePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
                     child: Column(
                       children: const [
-                        SizedBox(height: 8),
-                        _ShowTicketshButton(),
-                        SizedBox(height: 8),
-                        // NOTE: Uncomment when user support ticket system is ready
-                        // _ShowSupportTicketshButton(),
+                        // NOTE: Uncomment when user event ticket system is ready
                         // SizedBox(height: 8),
+                        // _ShowTicketshButton(),
+                        // NOTE: Uncomment when user support ticket system is ready
+                        // SizedBox(height: 8),
+                        // _ShowSupportTicketshButton(),
+                        SizedBox(height: 8),
                       ],
                     ),
                   ),

@@ -38,8 +38,6 @@ String tProgEntryType(ProgEntryType type, BuildContext context) {
       return AppLocalizations.of(context)!.modelProgrammeTypeDiscussion;
     case ProgEntryType.gaming:
       return AppLocalizations.of(context)!.modelProgrammeTypeGaming;
-    case ProgEntryType.photo:
-      return AppLocalizations.of(context)!.modelProgrammeTypePhoto;
     case ProgEntryType.cosplay:
       return AppLocalizations.of(context)!.modelProgrammeTypeCosplay;
     case ProgEntryType.other:
@@ -74,14 +72,5 @@ String tDegusAlcoholType(DegusAlcoholType type, BuildContext context) {
       return AppLocalizations.of(context)!.modelDegustationTypeMead;
     default:
       return 'Unknown';
-  }
-}
-
-String tDegusSubAlcoholType(String type, BuildContext context) {
-  switch (type) {
-    case 'lip':
-      return AppLocalizations.of(context)!.modelDegustationTypeSubLip;
-    default:
-      return type;
   }
 }

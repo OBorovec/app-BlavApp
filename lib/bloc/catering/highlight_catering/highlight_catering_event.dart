@@ -9,12 +9,12 @@ abstract class HighlightCateringEvent extends Equatable {
 
 class UpdateCatering extends HighlightCateringEvent {
   final Map<String, String>? desc;
-  final List<CaterItem> cateringItems;
+  final List<MealItem> mealItems;
   final Map<String, CaterPlace> caterPlaces;
 
   const UpdateCatering({
     this.desc,
-    required this.cateringItems,
+    required this.mealItems,
     required this.caterPlaces,
   });
 }

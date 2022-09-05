@@ -8,23 +8,27 @@ class Event extends Equatable {
   final String id;
   final String location;
   final Map<String, String> name;
+  final Map<String, String>? sDesc;
   final Map<String, String>? desc;
   final DateTime dayStart;
   final DateTime dayEnd;
   final Routing routing;
   final List<String> images;
   final bool canBeFocused;
+  final bool isVisible;
 
   const Event({
     required this.id,
     required this.location,
     required this.name,
+    required this.sDesc,
     required this.desc,
     required this.dayStart,
     required this.dayEnd,
     required this.routing,
     this.images = const [],
     this.canBeFocused = false,
+    this.isVisible = true,
   });
 
   @override
@@ -32,12 +36,14 @@ class Event extends Equatable {
         id,
         location,
         name,
+        sDesc,
         desc,
         dayStart,
         dayEnd,
         images,
         routing,
-        canBeFocused
+        canBeFocused,
+        isVisible
       ];
 
   factory Event.fromJson(Map<String, Object?> json) => _$EventFromJson(json);

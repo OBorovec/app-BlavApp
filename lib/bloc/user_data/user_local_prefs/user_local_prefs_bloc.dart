@@ -46,10 +46,16 @@ class UserLocalPrefsBloc
     final bool? allowPushNotifications = prefs.loadUserNotificationPush();
     final bool? allowProgrammeNotifications =
         prefs.loadUserNotificationProgramme();
+    final bool? notify10min = prefs.loadUserNotification10();
+    final bool? notify30min = prefs.loadUserNotification30();
+    final bool? notify60min = prefs.loadUserNotification60();
     final bool? allowStoryNotifications = prefs.loadUserNotificationStory();
     state = state.copyWith(
       allowPushNotifications: allowPushNotifications ?? true,
       allowProgrammeNotifications: allowProgrammeNotifications ?? true,
+      notify10min: notify10min ?? true,
+      notify30min: notify30min ?? false,
+      notify60min: notify60min ?? false,
       allowStoryNotifications: allowStoryNotifications ?? true,
     );
     return state;
