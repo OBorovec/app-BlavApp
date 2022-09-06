@@ -6,6 +6,7 @@ import 'package:blavapp/model/common.dart';
 part 'programme.g.dart';
 
 // Final structure to be used in the app
+@JsonSerializable()
 class ProgrammeEntry extends Equatable {
   final String id;
   final DateTime timestamp;
@@ -90,6 +91,10 @@ class ProgrammeEntry extends Equatable {
         tags: entry.tags,
         notifications: entry.notifications,
       );
+  factory ProgrammeEntry.fromJson(Map<String, Object?> json) =>
+      _$ProgrammeEntryFromJson(json);
+
+  Map<String, Object?> toJson() => _$ProgrammeEntryToJson(this);
 }
 
 @JsonSerializable()

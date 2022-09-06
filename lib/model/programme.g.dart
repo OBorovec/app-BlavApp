@@ -6,6 +6,83 @@ part of 'programme.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ProgrammeEntry _$ProgrammeEntryFromJson(Map<String, dynamic> json) =>
+    ProgrammeEntry(
+      id: json['id'] as String,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+      duration: json['duration'] as int,
+      name: Map<String, String>.from(json['name'] as Map),
+      subTitle: (json['subTitle'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      type: $enumDecode(_$ProgEntryTypeEnumMap, json['type']),
+      lang: $enumDecodeNullable(_$ProgEntryLangEnumMap, json['lang']) ??
+          ProgEntryLang.cs,
+      placeRef: json['placeRef'] as String?,
+      acting: (json['acting'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      requireSignUp: json['requireSignUp'] as bool? ?? false,
+      price: json['price'] as int?,
+      capacity: json['capacity'] as int?,
+      occupancy: json['occupancy'] as int?,
+      vipOnly: json['vipOnly'] as bool? ?? false,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet() ??
+          const {},
+      notifications: (json['notifications'] as List<dynamic>?)
+              ?.map((e) => ProgNotification.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$ProgrammeEntryToJson(ProgrammeEntry instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'timestamp': instance.timestamp.toIso8601String(),
+      'duration': instance.duration,
+      'name': instance.name,
+      'subTitle': instance.subTitle,
+      'desc': instance.desc,
+      'type': _$ProgEntryTypeEnumMap[instance.type]!,
+      'lang': _$ProgEntryLangEnumMap[instance.lang]!,
+      'placeRef': instance.placeRef,
+      'acting': instance.acting,
+      'requireSignUp': instance.requireSignUp,
+      'price': instance.price,
+      'capacity': instance.capacity,
+      'occupancy': instance.occupancy,
+      'vipOnly': instance.vipOnly,
+      'images': instance.images,
+      'tags': instance.tags.toList(),
+      'notifications': instance.notifications,
+    };
+
+const _$ProgEntryTypeEnumMap = {
+  ProgEntryType.concert: 'concert',
+  ProgEntryType.storyline: 'storyline',
+  ProgEntryType.workshop: 'workshop',
+  ProgEntryType.lecture: 'lecture',
+  ProgEntryType.tournament: 'tournament',
+  ProgEntryType.show: 'show',
+  ProgEntryType.degustation: 'degustation',
+  ProgEntryType.discussion: 'discussion',
+  ProgEntryType.gaming: 'gaming',
+  ProgEntryType.cosplay: 'cosplay',
+  ProgEntryType.other: 'other',
+};
+
+const _$ProgEntryLangEnumMap = {
+  ProgEntryLang.cs: 'cs',
+  ProgEntryLang.en: 'en',
+};
+
 Programme _$ProgrammeFromJson(Map<String, dynamic> json) => Programme(
       entries: (json['entries'] as Map<String, dynamic>?)?.map(
             (k, e) =>
@@ -77,25 +154,6 @@ Map<String, dynamic> _$ProgEntryToJson(ProgEntry instance) => <String, dynamic>{
       'tags': instance.tags.toList(),
       'notifications': instance.notifications,
     };
-
-const _$ProgEntryTypeEnumMap = {
-  ProgEntryType.concert: 'concert',
-  ProgEntryType.storyline: 'storyline',
-  ProgEntryType.workshop: 'workshop',
-  ProgEntryType.lecture: 'lecture',
-  ProgEntryType.tournament: 'tournament',
-  ProgEntryType.show: 'show',
-  ProgEntryType.degustation: 'degustation',
-  ProgEntryType.discussion: 'discussion',
-  ProgEntryType.gaming: 'gaming',
-  ProgEntryType.cosplay: 'cosplay',
-  ProgEntryType.other: 'other',
-};
-
-const _$ProgEntryLangEnumMap = {
-  ProgEntryLang.cs: 'cs',
-  ProgEntryLang.en: 'en',
-};
 
 ProgEntryRun _$ProgEntryRunFromJson(Map<String, dynamic> json) => ProgEntryRun(
       id: json['id'] as String,

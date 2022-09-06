@@ -151,7 +151,7 @@ class FilterProgrammeBloc
     if (state.queryString.isNotEmpty) {
       programmeFiltering = programmeFiltering.where(
         (e) => removeDiacritics(
-          e.toString().toLowerCase(),
+          e.toJson().toString().toLowerCase(),
         ).contains(
           removeDiacritics(
             state.queryString.toLowerCase(),
