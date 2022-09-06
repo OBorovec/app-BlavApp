@@ -12,8 +12,21 @@ const List<MealItemType> menuOrder = [
   MealItemType.soup,
   MealItemType.main,
   MealItemType.side,
+  MealItemType.other,
   MealItemType.desert,
   MealItemType.snack,
+];
+
+const List<BeverageItemType> beverageOrder = [
+  BeverageItemType.soft,
+  BeverageItemType.beer,
+  BeverageItemType.wine,
+  BeverageItemType.spirit,
+  BeverageItemType.mix,
+  BeverageItemType.tea,
+  BeverageItemType.mix,
+  BeverageItemType.coffee,
+  BeverageItemType.other,
 ];
 
 class PlaceMenuCateringBloc
@@ -32,20 +45,37 @@ class PlaceMenuCateringBloc
     UpdateMenu event,
     Emitter<PlaceMenuCateringState> emit,
   ) {
-    final List<MealItem> placeItems = catering.meals.values
-        .where(
-          (item) => item.placeRef.contains(placeRef),
-        )
+    final List<MealItem> placeMealItems = catering.meals.values
+        .where((item) => item.placeRef.contains(placeRef))
+        .toList();
+    final List<BeverageItem> placeBeverageItems = catering.beverages.values
+        .where((item) => item.placeRef.contains(placeRef))
         .toList();
     emit(PlaceMenuCateringState(
-      sections: menuOrder
-          .map(
-            (type) => MenuSec(
-              type: type,
-              items: placeItems.where((item) => item.type == type).toList(),
-            ),
-          )
-          .toList(),
+      hasMeals: placeMealItems.isNotEmpty,
+      mealSections: menuOrder.map(
+        (type) {
+          final List<MealItem> items =
+              placeMealItems.where((item) => item.type == type).toList();
+          items.sort((a, b) => a.id.compareTo(b.id));
+          return MenuMealSec(
+            type: type,
+            items: items,
+          );
+        },
+      ).toList(),
+      hasBeverages: placeBeverageItems.isNotEmpty,
+      beverageSections: beverageOrder.map(
+        (type) {
+          final List<BeverageItem> items =
+              placeBeverageItems.where((item) => item.type == type).toList();
+          items.sort((a, b) => a.id.compareTo(b.id));
+          return MenuBeverageSec(
+            type: type,
+            items: items,
+          );
+        },
+      ).toList(),
     ));
   }
 }

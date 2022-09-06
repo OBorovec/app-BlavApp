@@ -60,8 +60,8 @@ String tMealItemType(MealItemType itemType, BuildContext context) {
       return AppLocalizations.of(context)!.modelMealTypeSide;
     case MealItemType.desert:
       return AppLocalizations.of(context)!.modelMealTypeDesert;
-    default:
-      return 'Unknown';
+    case MealItemType.other:
+      return AppLocalizations.of(context)!.modelMealTypeOther;
   }
 }
 
@@ -83,8 +83,6 @@ String tBeverageItemType(BeverageItemType itemType, BuildContext context) {
       return AppLocalizations.of(context)!.modelBeverageTypeCoffee;
     case BeverageItemType.other:
       return AppLocalizations.of(context)!.modelBeverageTypeOther;
-    default:
-      return 'Unknown';
   }
 }
 

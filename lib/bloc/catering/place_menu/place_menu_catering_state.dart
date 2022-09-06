@@ -1,10 +1,31 @@
 part of 'place_menu_catering_bloc.dart';
 
-class MenuSec extends Equatable {
+class PlaceMenuCateringState extends Equatable {
+  final bool hasMeals;
+  final List<MenuMealSec> mealSections;
+  final bool hasBeverages;
+  final List<MenuBeverageSec> beverageSections;
+  const PlaceMenuCateringState({
+    this.hasMeals = false,
+    this.mealSections = const [],
+    this.hasBeverages = false,
+    this.beverageSections = const [],
+  });
+
+  @override
+  List<Object> get props => [
+        hasMeals,
+        mealSections,
+        hasBeverages,
+        beverageSections,
+      ];
+}
+
+class MenuMealSec extends Equatable {
   final MealItemType type;
   final List<MealItem> items;
 
-  const MenuSec({
+  const MenuMealSec({
     required this.type,
     required this.items,
   });
@@ -13,12 +34,15 @@ class MenuSec extends Equatable {
   List<Object> get props => [type, items];
 }
 
-class PlaceMenuCateringState extends Equatable {
-  final List<MenuSec> sections;
-  const PlaceMenuCateringState({
-    this.sections = const [],
+class MenuBeverageSec extends Equatable {
+  final BeverageItemType type;
+  final List<BeverageItem> items;
+
+  const MenuBeverageSec({
+    required this.type,
+    required this.items,
   });
 
   @override
-  List<Object> get props => [sections];
+  List<Object> get props => [type, items];
 }

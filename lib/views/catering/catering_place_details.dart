@@ -9,7 +9,6 @@ import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/model_helper.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/utils/pref_interpreter.dart';
-import 'package:blavapp/views/catering/catering_widgets.dart';
 import 'package:blavapp/views/maps/maps_control_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,35 +23,56 @@ class CateringPlaceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SidePage(
-      // titleText: t(place.name, context),
-      titleText: AppLocalizations.of(context)!.contCateringDetailPlaceTitle,
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            if (place.images.isNotEmpty) _CateringPlaceHeroImage(place: place),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  _PlaceTitle(place: place),
-                  if (place.open != null) _CateringPlaceOpenInfo(place: place),
-                  _CateringPlaceMenu(place: place),
-                  const SizedBox(height: 32),
-                ],
-              ),
-            ),
-          ],
-        ),
+    return BlocProvider(
+      create: (context) => PlaceMenuCateringBloc(
+        catering: context.read<CateringBloc>().state.catering,
+        placeRef: place.id,
       ),
-      actions: [
-        if (place.loc != null)
-          IconBtnPushCustomMap(
-            mapRef: place.loc!.mapRef,
-            pointRef: place.loc!.pointRef,
+      child: SidePage(
+        // titleText: t(place.name, context),
+        titleText: AppLocalizations.of(context)!.contCateringDetailPlaceTitle,
+        body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            children: [
+              if (place.images.isNotEmpty)
+                _CateringPlaceHeroImage(place: place),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    BlocBuilder<PlaceMenuCateringBloc, PlaceMenuCateringState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        _PlaceTitle(place: place),
+                        if (place.open != null)
+                          _CateringPlaceOpenInfo(place: place),
+                        if (state.hasMeals) ...[
+                          _MealPlaceMenu(
+                            place: place,
+                            mealSections: state.mealSections,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (state.hasBeverages)
+                          _BeveragePlaceMenu(place: place),
+                        const SizedBox(height: 32),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-      ],
+        ),
+        actions: [
+          if (place.loc != null)
+            IconBtnPushCustomMap(
+              mapRef: place.loc!.mapRef,
+              pointRef: place.loc!.pointRef,
+            ),
+        ],
+      ),
     );
   }
 }
@@ -143,12 +163,14 @@ class _CateringPlaceOpenInfo extends StatelessWidget {
   }
 }
 
-class _CateringPlaceMenu extends StatelessWidget {
+class _MealPlaceMenu extends StatelessWidget {
   final CaterPlace place;
+  final List<MenuMealSec> mealSections;
 
-  const _CateringPlaceMenu({
+  const _MealPlaceMenu({
     Key? key,
     required this.place,
+    required this.mealSections,
   }) : super(key: key);
 
   @override
@@ -159,84 +181,159 @@ class _CateringPlaceMenu extends StatelessWidget {
         TitleDivider(
           title: AppLocalizations.of(context)!.contCateringPlaceDetailsMenu,
         ),
-        BlocProvider(
-          create: (context) => PlaceMenuCateringBloc(
-            catering: context.read<CateringBloc>().state.catering,
-            placeRef: place.id,
-          ),
-          child: BlocBuilder<PlaceMenuCateringBloc, PlaceMenuCateringState>(
-            builder: (context, state) {
-              return Column(
-                children: state.sections.map((MenuSec section) {
-                  return section.items.isNotEmpty
-                      ? _MenuSection(section: section)
-                      : Container();
-                }).toList(),
-              );
-            },
-          ),
+        const SizedBox(height: 16),
+        Column(
+          children: mealSections.map((MenuMealSec section) {
+            return section.items.isNotEmpty
+                ? _MealMenuSection(section: section)
+                : Container();
+          }).toList(),
         ),
       ],
     );
   }
 }
 
-class _MenuSection extends StatelessWidget {
-  final MenuSec section;
-  const _MenuSection({
+class _MealMenuSection extends StatelessWidget {
+  final MenuMealSec section;
+  const _MealMenuSection({
     Key? key,
     required this.section,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    UserCurrencyPref curPref =
+        BlocProvider.of<UserLocalPrefsBloc>(context).state.currency;
     return Column(
       children: [
+        const SizedBox(height: 8),
         Text(
           tMealItemType(section.type, context),
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.headline6,
         ),
+        const SizedBox(height: 4),
         ...section.items.map((MealItem item) {
-          return Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      t(item.name, context),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                    ),
-                    // CateringAttIcons(
-                    //   item: item,
-                    //   size: 16,
-                    // ),
-                  ],
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    t(item.name, context),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: BlocBuilder<UserLocalPrefsBloc, UserLocalPrefsState>(
-                  builder: (context, state) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: item.volumes
-                          .map(
-                            (pv) => Text(
-                              '${prefCurrency(state.currency, pv.price, context)}  ${pv.desc != null ? '/${t(pv.desc!, context)}' : ''}',
-                              textAlign: TextAlign.end,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  },
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: item.volumes
+                        .map(
+                          (pv) => Text(
+                            '${prefCurrency(curPref, pv.price, context)}  ${pv.desc != null ? '/${t(pv.desc!, context)}' : ''}',
+                            textAlign: TextAlign.end,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+}
+
+class _BeveragePlaceMenu extends StatelessWidget {
+  final CaterPlace place;
+
+  const _BeveragePlaceMenu({
+    Key? key,
+    required this.place,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        TitleDivider(
+          title: AppLocalizations.of(context)!.contCateringPlaceDetailsBeverage,
+        ),
+        const SizedBox(height: 16),
+        BlocBuilder<PlaceMenuCateringBloc, PlaceMenuCateringState>(
+          builder: (context, state) {
+            return Column(
+              children: state.beverageSections.map((MenuBeverageSec section) {
+                return section.items.isNotEmpty
+                    ? __BeverageMenuSection(section: section)
+                    : Container();
+              }).toList(),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class __BeverageMenuSection extends StatelessWidget {
+  final MenuBeverageSec section;
+  const __BeverageMenuSection({
+    Key? key,
+    required this.section,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    UserCurrencyPref curPref =
+        BlocProvider.of<UserLocalPrefsBloc>(context).state.currency;
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        Text(
+          tBeverageItemType(section.type, context),
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        const SizedBox(height: 4),
+        ...section.items.map((BeverageItem item) {
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    t(item.name, context),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: item.volumes
+                        .map(
+                          (pv) => Text(
+                            '${prefCurrency(curPref, pv.price, context)}  ${pv.desc != null ? '/${t(pv.desc!, context)}' : ''}',
+                            textAlign: TextAlign.end,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
+            ),
           );
         }),
       ],

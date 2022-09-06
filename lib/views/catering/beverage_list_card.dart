@@ -62,7 +62,8 @@ class BeverageItemCard extends StatelessWidget {
                               : AppLocalizations.of(context)!
                                   .modelCateringBeverageCold,
                         ),
-                        if (item.placeRef.isNotEmpty) ...[
+                        if (item.placeRef.isNotEmpty &&
+                            item.placeRef.length < 3) ...[
                           const Divider(),
                           for (String placeRef in item.placeRef)
                             _buildInfoLine(
