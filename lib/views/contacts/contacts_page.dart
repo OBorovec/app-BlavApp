@@ -74,7 +74,7 @@ class _RequestHelp extends StatelessWidget {
                 title: AppLocalizations.of(context)!.contContactsDiagHelp,
                 onSubmit: (title, message) =>
                     BlocProvider.of<UserDataBloc>(context).add(
-                  UserDataHelp(
+                  UserSupportTicket(
                     title: title,
                     message: message,
                   ),

@@ -11,7 +11,7 @@ class UserData extends Equatable {
   final Set<String> favoriteSamples;
   final Map<String, double> myRatings;
   final Map<String, bool?> myVoting;
-  final List<List<String>> supTickets;
+  final List<String> supTickets;
 
   const UserData({
     this.tickets = const [],

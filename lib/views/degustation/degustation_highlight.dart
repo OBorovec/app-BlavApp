@@ -1,6 +1,9 @@
+import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degustation_bloc.dart';
+import 'package:blavapp/components/views/collapsable_text_section.dart';
 import 'package:blavapp/components/views/rating_indicator.dart';
 import 'package:blavapp/components/views/title_divider.dart';
+import 'package:blavapp/model/common.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -11,35 +14,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DegustationHighlight extends StatelessWidget {
+class DegustationHighlight extends StatefulWidget {
   const DegustationHighlight({Key? key}) : super(key: key);
 
   @override
+  State<DegustationHighlight> createState() => _DegustationHighlightState();
+}
+
+class _DegustationHighlightState extends State<DegustationHighlight> {
+  List<bool> showFullExtrasText = [];
+  @override
   Widget build(BuildContext context) {
+    List<Extras> extras =
+        BlocProvider.of<DegustationBloc>(context).state.degustation.extras;
+    if (showFullExtrasText.isEmpty) {
+      showFullExtrasText = List<bool>.filled(
+        extras.length,
+        false,
+      );
+    }
     return BlocBuilder<HighlightDegustationBloc, HighlightDegustationState>(
       builder: (context, state) {
         return SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  if (state.headerText != null)
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    if (state.headerText != null)
+                      Expanded(
+                        child: _DegustationHeader(state: state),
+                      ),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: _DegustationHeader(state: state),
+                      child: _DegustaionNumbers(state: state),
                     ),
-                  Expanded(
-                    child: _DegustaionNumbers(state: state),
-                  ),
-                ],
-              ),
-              _DegustationPlaceList(state: state),
-              _DegustationHighlightBestRated(state: state),
-              if (state.recommendations.isNotEmpty)
-                _DegustationHighlightRecommendation(state: state),
-              if (state.similarToLiked.isNotEmpty)
-                _DegustationHighlightSimilarToLiked(state: state),
-              const SizedBox(height: 64),
-            ],
+                  ],
+                ),
+                _DegustationPlaceList(state: state),
+                _DegustationHighlightBestRated(state: state),
+                if (state.recommendations.isNotEmpty)
+                  _DegustationHighlightRecommendation(state: state),
+                if (state.similarToLiked.isNotEmpty)
+                  _DegustationHighlightSimilarToLiked(state: state),
+                const SizedBox(height: 8),
+                ...extras.map(
+                  (Extras e) {
+                    int index = extras.indexOf(e);
+                    return CollapsableTextSection(
+                      title: t(e.title, context),
+                      body: t(e.body, context),
+                      isExpanded: showFullExtrasText[index],
+                      onToggle: () => setState(() {
+                        showFullExtrasText[index] = !showFullExtrasText[index];
+                      }),
+                    );
+                  },
+                ).toList(),
+                const SizedBox(height: 64),
+              ],
+            ),
           ),
         );
       },
@@ -179,24 +214,27 @@ class _DegustationHighlightPlaceCard extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              if (data.place.loc != null)
-                IconBtnPushCustomMap(
-                  mapRef: data.place.loc!.mapRef,
-                  pointRef: data.place.loc!.pointRef,
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                if (data.place.loc != null)
+                  IconBtnPushCustomMap(
+                    mapRef: data.place.loc!.mapRef,
+                    pointRef: data.place.loc!.pointRef,
+                  ),
+                const VerticalDivider(),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    t(data.place.name, context),
+                    style: Theme.of(context).textTheme.subtitle1,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  t(data.place.name, context),
-                  style: Theme.of(context).textTheme.subtitle1,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (data.place.open != null) _buildOpeningIndicator(context),
-            ],
+                if (data.place.open != null) _buildOpeningIndicator(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -264,7 +302,7 @@ class _DegustationItemHighlightCard extends StatelessWidget {
             ),
             if (item.subType != null)
               Text(
-                tDegusSubAlcoholType(item.subType!, context),
+                t(item.subType!, context),
               ),
           ],
         ),

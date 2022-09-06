@@ -28,7 +28,7 @@ class PlaceMenuDegustationBloc
     UpdateMenu event,
     Emitter<PlaceMenuDegustationState> emit,
   ) {
-    final List<DegusItem> placeItems = degustation.items
+    final List<DegusItem> placeItems = degustation.items.values
         .where(
           (DegusItem item) => item.placeRef.contains(placeRef),
         )

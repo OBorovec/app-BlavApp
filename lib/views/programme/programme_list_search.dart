@@ -275,7 +275,7 @@ class _ProgrammeTypeSearchTag extends _ProgrammeSearchTag {
 
   @override
   String _getLabelText(BuildContext context) {
-    return tProgEntryType(type, context);
+    return tProgrammeEntryType(type, context);
   }
 
   @override

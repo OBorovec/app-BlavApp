@@ -2,12 +2,12 @@ part of 'filter_programme_bloc.dart';
 
 class FilterProgrammeState extends Equatable {
   // Bloc data
-  final List<ProgEntry> programmeEntries;
+  final List<ProgrammeEntry> programmeEntries;
   final Set<String> myProgrammeEntryIds;
   // Control
   final bool searchActive;
   //Filtered entry list
-  final List<ProgEntry> programmeEntriesFiltered;
+  final List<ProgrammeEntry> programmeEntriesFiltered;
   // Programme filter options
   final Set<DateTime> availableDates;
   final Set<ProgEntryType> availableEntryTypes;
@@ -20,8 +20,8 @@ class FilterProgrammeState extends Equatable {
   final String queryString;
 
   const FilterProgrammeState({
-    this.programmeEntries = const <ProgEntry>[],
-    this.programmeEntriesFiltered = const <ProgEntry>[],
+    this.programmeEntries = const <ProgrammeEntry>[],
+    this.programmeEntriesFiltered = const <ProgrammeEntry>[],
     this.searchActive = false,
     this.availableDates = const <DateTime>{},
     this.availableEntryTypes = const <ProgEntryType>{},
@@ -51,10 +51,10 @@ class FilterProgrammeState extends Equatable {
       ];
 
   FilterProgrammeState copyWith({
-    List<ProgEntry>? programmeEntries,
+    List<ProgrammeEntry>? programmeEntries,
     Set<String>? myProgrammeEntryIds,
     bool? searchActive,
-    List<ProgEntry>? programmeEntriesFiltered,
+    List<ProgrammeEntry>? programmeEntriesFiltered,
     Set<DateTime>? availableDates,
     Set<ProgEntryType>? availableEntryTypes,
     Set<String?>? availableEntryPlaces,

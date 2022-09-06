@@ -40,6 +40,13 @@ class DrawerGeneralItems extends StatelessWidget {
               Navigator.popAndPushNamed(context, RoutePaths.admin);
             },
           ),
+        if (context.read<UserPermsBloc>().state.devMode)
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.drawerDevelopment),
+            onTap: () {
+              Navigator.popAndPushNamed(context, RoutePaths.development);
+            },
+          ),
         ListTile(
           title: Text(AppLocalizations.of(context)!.settingsTitle),
           onTap: () {

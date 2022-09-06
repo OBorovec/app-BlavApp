@@ -43,12 +43,13 @@ class UserProfilePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
                     child: Column(
                       children: const [
-                        SizedBox(height: 8),
-                        _ShowTicketshButton(),
-                        SizedBox(height: 8),
-                        // NOTE: Uncomment when user support ticket system is ready
-                        // _ShowSupportTicketshButton(),
+                        // NOTE: Uncomment when user event ticket system is ready
                         // SizedBox(height: 8),
+                        // _ShowTicketshButton(),
+                        // NOTE: Uncomment when user support ticket system is ready
+                        // SizedBox(height: 8),
+                        // _ShowSupportTicketshButton(),
+                        SizedBox(height: 8),
                       ],
                     ),
                   ),
@@ -60,9 +61,8 @@ class UserProfilePage extends StatelessWidget {
                         Divider(),
                         SizedBox(height: 8),
                         _SignOutButton(),
-                        // NOTE: Uncomment sure all functionality is ready
-                        // SizedBox(height: 8),
-                        // _AccoutOptionsButton(),
+                        SizedBox(height: 8),
+                        _AccoutOptionsButton(),
                         SizedBox(height: 32),
                       ],
                     ),
@@ -432,8 +432,8 @@ class _AccoutOptionsButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
-              _ProfileRefreshButton(),
-              _PasswordResetButton(),
+              // _ProfileRefreshButton(),
+              // _PasswordResetButton(),
               _DeleteAccountButton(),
             ],
           ),

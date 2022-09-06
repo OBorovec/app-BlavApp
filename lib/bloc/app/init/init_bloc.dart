@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/app/event/event_bloc.dart';
-import 'package:blavapp/model/event.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,17 +52,8 @@ class InitBloc extends Bloc<InitEvent, InitState> {
     EventState state,
   ) async {
     if (state.status == EventStatus.empty) {
-      List<Event> events = await _dataRepo.getEvents();
-      events.sort((a, b) => a.dayStart.compareTo(b.dayStart));
-      final DateTime now = DateTime.now();
-      final Event event = events.firstWhere(
-        (Event e) => e.dayStart.isAfter(now),
-        orElse: () => events.last,
-      );
       _eventBloc.add(
-        EventSelected(
-          eventID: event.id,
-        ),
+        const EventSetDefault(),
       );
     } else if (state.status == EventStatus.selected) {
       add(const EventChanged(

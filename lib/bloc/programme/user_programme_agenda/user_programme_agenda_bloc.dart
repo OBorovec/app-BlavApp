@@ -25,7 +25,7 @@ class UserProgrammeAgendaBloc
           event: event,
           agendaData: programmeBloc.state.programmeEntries
               .where(
-                (ProgEntry entry) =>
+                (ProgrammeEntry entry) =>
                     userDataBloc.state.userData.myProgramme.contains(entry.id),
               )
               .toList(),
@@ -85,7 +85,8 @@ class UserProgrammeAgendaBloc
     emit(state.copyWith(
       agendaData: state.programmeEntries
           .where(
-            (ProgEntry entry) => state.myProgrammeEntryIds.contains(entry.id),
+            (ProgrammeEntry entry) =>
+                state.myProgrammeEntryIds.contains(entry.id),
           )
           .toList(),
     ));

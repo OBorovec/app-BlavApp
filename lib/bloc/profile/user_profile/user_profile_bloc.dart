@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:blavapp/services/auth_repo.dart';
 import 'package:blavapp/services/storage_repo.dart';
-import 'package:blavapp/utils/command_center.dart';
+import 'package:blavapp/utils/cmd.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

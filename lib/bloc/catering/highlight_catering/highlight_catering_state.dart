@@ -12,7 +12,7 @@ class HighlightPlaceCardData {
 
 class HighlightCateringState extends Equatable {
   // Bloc data
-  final List<CaterItem> cateringItems;
+  final List<MealItem> mealItems;
   final Map<String, CaterPlace> cateringPlaces;
   final Set<String> myFavorite;
   // Computed data
@@ -23,7 +23,7 @@ class HighlightCateringState extends Equatable {
   final List<HighlightPlaceCardData> placeCardData;
 
   const HighlightCateringState({
-    this.cateringItems = const <CaterItem>[],
+    this.mealItems = const <MealItem>[],
     this.cateringPlaces = const <String, CaterPlace>{},
     this.myFavorite = const <String>{},
     this.headerText,
@@ -34,7 +34,7 @@ class HighlightCateringState extends Equatable {
 
   @override
   List<Object> get props => [
-        cateringItems,
+        mealItems,
         cateringPlaces,
         myFavorite,
         totalPlaces,
@@ -43,7 +43,7 @@ class HighlightCateringState extends Equatable {
       ];
 
   HighlightCateringState copyWith({
-    List<CaterItem>? cateringItems,
+    List<MealItem>? cateringItems,
     Map<String, CaterPlace>? cateringPlaces,
     Set<String>? myFavorite,
     Map<String, String>? headerText,
@@ -52,7 +52,7 @@ class HighlightCateringState extends Equatable {
     List<HighlightPlaceCardData>? placeCardData,
   }) {
     return HighlightCateringState(
-      cateringItems: cateringItems ?? this.cateringItems,
+      mealItems: cateringItems ?? this.mealItems,
       cateringPlaces: cateringPlaces ?? this.cateringPlaces,
       myFavorite: myFavorite ?? this.myFavorite,
       headerText: headerText ?? this.headerText,

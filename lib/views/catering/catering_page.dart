@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
-import 'package:blavapp/bloc/catering/filter_catering/filter_catering_bloc.dart';
+import 'package:blavapp/bloc/catering/filter_beverages/filter_beverages_bloc.dart';
+import 'package:blavapp/bloc/catering/filter_meals/filter_meals_bloc.dart';
 import 'package:blavapp/bloc/catering/highlight_catering/highlight_catering_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/pages/aspects/bottom_navigation.dart';
@@ -7,7 +8,8 @@ import 'package:blavapp/components/page_content/data_error_page.dart';
 import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/control/button_switch.dart';
-import 'package:blavapp/views/catering/catering_list.dart';
+import 'package:blavapp/views/catering/beverage_list.dart';
+import 'package:blavapp/views/catering/meal_list.dart';
 import 'package:blavapp/views/catering/catering_highlight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +25,8 @@ class CateringPage extends StatefulWidget {
 
 enum CateringPageContent {
   highlight,
-  list,
+  meals,
+  beverages,
 }
 
 class _CateringPageState extends State<CateringPage> {
@@ -33,20 +36,23 @@ class _CateringPageState extends State<CateringPage> {
 
   final cateringContent = [
     const CateringOverview(),
-    const CateringList(),
+    const MealList(),
+    const BeverageList(),
   ];
 
   int contentIndex() {
     switch (content) {
       case CateringPageContent.highlight:
         return 0;
-      case CateringPageContent.list:
+      case CateringPageContent.meals:
         return 1;
+      case CateringPageContent.beverages:
+        return 2;
     }
   }
 
   void _indexChange(int index, BuildContext context) {
-    if (index < 0 || index > 1) {
+    if (index < 0 || index > 2) {
       return;
     }
     tabIndex = index;
@@ -58,7 +64,12 @@ class _CateringPageState extends State<CateringPage> {
         break;
       case 1:
         setState(() {
-          content = CateringPageContent.list;
+          content = CateringPageContent.meals;
+        });
+        break;
+      case 2:
+        setState(() {
+          content = CateringPageContent.beverages;
         });
         break;
     }
@@ -79,7 +90,12 @@ class _CateringPageState extends State<CateringPage> {
                   ),
                 ),
                 BlocProvider(
-                  create: (context) => FilterCateringBloc(
+                  create: (context) => FilterMealsBloc(
+                    cateringBloc: context.read<CateringBloc>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => FilterBeveragesBloc(
                     cateringBloc: context.read<CateringBloc>(),
                   ),
                 ),
@@ -111,8 +127,10 @@ class _CateringPageState extends State<CateringPage> {
     switch (content) {
       case CateringPageContent.highlight:
         return AppLocalizations.of(context)!.contCateringHighlightTitle;
-      case CateringPageContent.list:
-        return AppLocalizations.of(context)!.contCateringListTitle;
+      case CateringPageContent.meals:
+        return AppLocalizations.of(context)!.contCateringMealListTitle;
+      case CateringPageContent.beverages:
+        return AppLocalizations.of(context)!.contCateringBeverageListTitle;
     }
   }
 
@@ -125,15 +143,29 @@ class _CateringPageState extends State<CateringPage> {
 
   List<Widget> _buildActions() {
     switch (content) {
-      case CateringPageContent.list:
+      case CateringPageContent.meals:
         return [
-          BlocBuilder<FilterCateringBloc, FilterCateringState>(
+          BlocBuilder<FilterMealsBloc, FilterMealsState>(
             builder: (context, state) {
               return SearchSwitch(
                 isOn: !state.searchActive,
                 onPressed: () {
-                  BlocProvider.of<FilterCateringBloc>(context)
-                      .add(const ToggleSearch());
+                  BlocProvider.of<FilterMealsBloc>(context)
+                      .add(const ToggleMealSearch());
+                },
+              );
+            },
+          ),
+        ];
+      case CateringPageContent.beverages:
+        return [
+          BlocBuilder<FilterBeveragesBloc, FilterBeveragesState>(
+            builder: (context, state) {
+              return SearchSwitch(
+                isOn: !state.searchActive,
+                onPressed: () {
+                  BlocProvider.of<FilterBeveragesBloc>(context)
+                      .add(const ToggleBeverageSearch());
                 },
               );
             },
@@ -149,7 +181,8 @@ class _CateringPageState extends State<CateringPage> {
       index: tabIndex,
       items: const [
         Icons.info,
-        Icons.list,
+        Icons.restaurant_menu,
+        Icons.coffee,
       ],
       onTap: (index) => _indexChange(index, context),
     );

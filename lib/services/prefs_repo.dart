@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:blavapp/model/user_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsRepo {
@@ -14,6 +17,7 @@ class PrefsRepo {
   static const String keyUserNotification10 = 'userNotification10';
   static const String keyUserNotification30 = 'userNotification30';
   static const String keyUserNotification60 = 'userNotification60';
+  static const String keyUsetDataLocal = 'userDataLocal';
 
   PrefsRepo(SharedPreferences prefs) : _prefsInstance = prefs;
 
@@ -95,5 +99,19 @@ class PrefsRepo {
 
   void saveUserNotification60(bool? value) {
     _prefsInstance.setBool(keyUserNotification60, value ?? false);
+  }
+
+  UserDataLocal? loadUserDataLocal() {
+    final String? data = _prefsInstance.getString(keyUsetDataLocal);
+    if (data != null) {
+      return UserDataLocal.fromJson(jsonDecode(data));
+    }
+    return null;
+  }
+
+  void saveUserDataLocal(UserDataLocal? value) {
+    if (value != null) {
+      _prefsInstance.setString(keyUsetDataLocal, jsonEncode(value.toJson()));
+    }
   }
 }

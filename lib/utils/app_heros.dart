@@ -16,11 +16,15 @@ String eventImgHeroTag(Event event) {
   return 'event-img-title-${event.id}';
 }
 
-String programmeEntryImgHeroTag(ProgEntry entry) {
+String programmeEntryImgHeroTag(ProgrammeEntry entry) {
   return 'prog-img-title-${entry.id}';
 }
 
-String caterItemImgHeroTag(CaterItem item) {
+String caterMealItemImgHeroTag(MealItem item) {
+  return 'cater-img-item-${item.id}';
+}
+
+String caterBeverageItemImgHeroTag(BeverageItem item) {
   return 'cater-img-item-${item.id}';
 }
 

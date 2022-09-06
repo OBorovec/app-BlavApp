@@ -22,6 +22,7 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
           const ProgrammeState(
             status: ProgrammeStatus.initial,
             programme: Programme(),
+            entries: {},
           ),
         ) {
     _eventFocusBlocSubscription = eventFocusBloc.stream.listen(
@@ -67,10 +68,17 @@ class ProgrammeBloc extends Bloc<ProgrammeEvent, ProgrammeState> {
 
   Future<void> _onProgrammeStreamChanged(
       ProgrammeStreamChanged event, emit) async {
+    Map<String, ProgrammeEntry> entries = {};
+    for (ProgEntry entry in event.programme.entries.values) {
+      for (ProgEntryRun run in entry.entryRuns.values) {
+        entries[run.id] = ProgrammeEntry.structure(entry, run);
+      }
+    }
     emit(
       ProgrammeState(
         status: ProgrammeStatus.loaded,
         programme: event.programme,
+        entries: entries,
       ),
     );
   }

@@ -8,14 +8,15 @@ import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/utils/app_heros.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
 import 'package:blavapp/utils/model_localization.dart';
+import 'package:blavapp/utils/notifications_local.dart';
+import 'package:blavapp/utils/notifications_push.dart';
 import 'package:blavapp/views/maps/maps_control_widgets.dart';
-import 'package:blavapp/views/programme/programme_bloc_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeDetails extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const ProgrammeDetails({
     Key? key,
@@ -28,7 +29,8 @@ class ProgrammeDetails extends StatelessWidget {
         .state
         .programmePlaces[entry.placeRef];
     return SidePage(
-      titleText: t(entry.name, context),
+      // titleText: t(entry.name, context),
+      titleText: AppLocalizations.of(context)!.contProgrammeDetailTitle,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -38,6 +40,9 @@ class ProgrammeDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  const SizedBox(height: 16),
+                  _ProgrammeEntryName(entry: entry),
+                  const SizedBox(height: 16),
                   _ProgrammeEntryBaseInfo(entry: entry, place: place),
                   if (entry.desc != null)
                     _ProgrammeEntryDescription(entry: entry),
@@ -62,7 +67,7 @@ class ProgrammeDetails extends StatelessWidget {
 }
 
 class _ProgrammeEntryHeroImage extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryHeroImage({
     Key? key,
@@ -90,8 +95,32 @@ class _ProgrammeEntryHeroImage extends StatelessWidget {
   }
 }
 
+class _ProgrammeEntryName extends StatelessWidget {
+  final ProgrammeEntry entry;
+
+  const _ProgrammeEntryName({
+    Key? key,
+    required this.entry,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          t(entry.name, context),
+          style: Theme.of(context).textTheme.headline5,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
 class _ProgrammeEntryBaseInfo extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
   final ProgPlace? place;
 
   const _ProgrammeEntryBaseInfo({
@@ -102,48 +131,27 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            Text(
-              t(entry.name, context),
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            _buildInfoLine(
-              Icons.access_time_outlined,
-              '${datetimeToDateShort(entry.timestamp, context)}-${datetimeToHours(entry.timestamp, context)}',
-              context,
-            ),
-            _buildInfoLine(
-              Icons.timelapse_outlined,
-              '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
-              context,
-            ),
-            _buildInfoLine(
-              Icons.place_outlined,
-              place != null ? t(place!.name, context) : '?${entry.placeRef}?',
-              context,
-            ),
-            _buildInfoLine(
-              Icons.category_outlined,
-              tProgEntryType(entry.type, context),
-              context,
-            ),
-          ],
+        _buildInfoLine(
+          Icons.access_time_outlined,
+          '${datetimeToDateShort(entry.timestamp, context)}-${datetimeToHours(entry.timestamp, context)}',
+          context,
         ),
-        Row(
-          children: [
-            Column(
-              children: [
-                ProgrammeEntryNotification(entryId: entry.id),
-                ProgrammeEntryMyProgramme(entryId: entry.id),
-              ],
-            ),
-          ],
+        _buildInfoLine(
+          Icons.timelapse_outlined,
+          '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
+          context,
+        ),
+        _buildInfoLine(
+          Icons.place_outlined,
+          place != null ? t(place!.name, context) : '?${entry.placeRef}?',
+          context,
+        ),
+        _buildInfoLine(
+          Icons.category_outlined,
+          tProgrammeEntryType(entry.type, context),
+          context,
         ),
       ],
     );
@@ -156,7 +164,6 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
   ) {
     return IntrinsicHeight(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Icon(
             iconData,
@@ -174,7 +181,7 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
 }
 
 class _ProgrammeEntryDescription extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryDescription({
     Key? key,
@@ -196,7 +203,7 @@ class _ProgrammeEntryDescription extends StatelessWidget {
 }
 
 class _ProgrammeEntryControlBtns extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryControlBtns({
     Key? key,
@@ -254,11 +261,18 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
                   final bool isIn =
                       state.userData.myProgramme.contains(entry.id);
                   return _buildBtn(
-                    onPressed: () => BlocProvider.of<UserDataBloc>(context).add(
-                      UserDataMyProgramme(
+                    onPressed: () {
+                      BlocProvider.of<UserDataBloc>(context).add(
+                        UserDataMyProgramme(
+                          entryId: entry.id,
+                        ),
+                      );
+                      programmeEntryPushNotificationToggle(
+                        value: !isIn,
                         entryId: entry.id,
-                      ),
-                    ),
+                        context: context,
+                      );
+                    },
                     iconData: isIn ? Icons.bookmark_remove : Icons.bookmark_add,
                     text: isIn
                         ? AppLocalizations.of(context)!
@@ -275,11 +289,18 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
                   final bool isIn =
                       state.userData.myNotifications.contains(entry.id);
                   return _buildBtn(
-                    onPressed: () => BlocProvider.of<UserDataBloc>(context).add(
-                      UserDataProgMyNotification(
+                    onPressed: () {
+                      BlocProvider.of<UserDataBloc>(context).add(
+                        UserDataProgMyNotification(
+                          entryId: entry.id,
+                        ),
+                      );
+                      programmeEntryNotificationToggle(
+                        value: !isIn,
                         entryId: entry.id,
-                      ),
-                    ),
+                        context: context,
+                      );
+                    },
                     iconData:
                         isIn ? Icons.notifications_on : Icons.notifications_off,
                     text: isIn
@@ -317,7 +338,7 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
 }
 
 class ProgrammeDetailsArguments {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   ProgrammeDetailsArguments({required this.entry});
 }

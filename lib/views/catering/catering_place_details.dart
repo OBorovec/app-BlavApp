@@ -25,7 +25,8 @@ class CateringPlaceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidePage(
-      titleText: t(place.name, context),
+      // titleText: t(place.name, context),
+      titleText: AppLocalizations.of(context)!.contCateringDetailPlaceTitle,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -35,6 +36,7 @@ class CateringPlaceDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  _PlaceTitle(place: place),
                   if (place.open != null) _CateringPlaceOpenInfo(place: place),
                   _CateringPlaceMenu(place: place),
                   const SizedBox(height: 32),
@@ -84,6 +86,26 @@ class _CateringPlaceHeroImage extends StatelessWidget {
   }
 }
 
+class _PlaceTitle extends StatelessWidget {
+  const _PlaceTitle({
+    Key? key,
+    required this.place,
+  }) : super(key: key);
+
+  final CaterPlace place;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      t(place.name, context),
+      style: Theme.of(context).textTheme.headline5,
+      maxLines: 2,
+      overflow: TextOverflow.clip,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
 class _CateringPlaceOpenInfo extends StatelessWidget {
   final CaterPlace place;
 
@@ -98,10 +120,9 @@ class _CateringPlaceOpenInfo extends StatelessWidget {
     final String openTo = place.open!['to']!;
     final bool isOpen = isOpenCal(place.open!);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.watch_later_outlined),
             const SizedBox(width: 8),
@@ -172,11 +193,11 @@ class _MenuSection extends StatelessWidget {
     return Column(
       children: [
         Text(
-          tCaterItemType(section.type, context),
+          tMealItemType(section.type, context),
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.subtitle2,
         ),
-        ...section.items.map((CaterItem item) {
+        ...section.items.map((MealItem item) {
           return Row(
             children: [
               Expanded(
@@ -190,10 +211,10 @@ class _MenuSection extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.start,
                     ),
-                    CateringAttIcons(
-                      item: item,
-                      size: 16,
-                    ),
+                    // CateringAttIcons(
+                    //   item: item,
+                    //   size: 16,
+                    // ),
                   ],
                 ),
               ),
@@ -206,7 +227,7 @@ class _MenuSection extends StatelessWidget {
                       children: item.volumes
                           .map(
                             (pv) => Text(
-                              '${prefCurrency(state.currency, pv.price, context)} / ${t(pv.desc, context)}',
+                              '${prefCurrency(state.currency, pv.price, context)}  ${pv.desc != null ? '/${t(pv.desc!, context)}' : ''}',
                               textAlign: TextAlign.end,
                             ),
                           )

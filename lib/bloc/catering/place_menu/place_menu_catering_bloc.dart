@@ -7,14 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'place_menu_catering_event.dart';
 part 'place_menu_catering_state.dart';
 
-const List<CaterItemType> menuOrder = [
-  CaterItemType.starter,
-  CaterItemType.soup,
-  CaterItemType.main,
-  CaterItemType.side,
-  CaterItemType.desert,
-  CaterItemType.snack,
-  CaterItemType.drink,
+const List<MealItemType> menuOrder = [
+  MealItemType.starter,
+  MealItemType.soup,
+  MealItemType.main,
+  MealItemType.side,
+  MealItemType.desert,
+  MealItemType.snack,
 ];
 
 class PlaceMenuCateringBloc
@@ -33,7 +32,7 @@ class PlaceMenuCateringBloc
     UpdateMenu event,
     Emitter<PlaceMenuCateringState> emit,
   ) {
-    final List<CaterItem> placeItems = catering.items
+    final List<MealItem> placeItems = catering.meals.values
         .where(
           (item) => item.placeRef.contains(placeRef),
         )

@@ -1,5 +1,6 @@
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/app/event/event_bloc.dart';
+import 'package:blavapp/model/support_ticket.dart';
 import 'package:blavapp/model/user_data.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -34,14 +35,14 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     on<InitUserData>(_initUserData);
     on<EmptyUserData>(_emptyUserData);
     on<SetUserData>(_setUserData);
-    on<UserDataMyProgramme>(_progEntryToggleUserData);
-    on<UserDataProgMyNotification>(_progNotificationToggleUserData);
+    on<UserDataMyProgramme>(_myProgrammeToggle);
+    on<UserDataProgMyNotification>(_progNotificationToggle);
     on<UserDataDegustationFavorite>(_degustationFavoriteToggle);
     on<UserDataRateItem>(_rateItem);
     on<UserDataVoteCosplay>(_voteCosplay);
     on<UserDataFeedBack>(_feedBack);
-    on<UserDataHelp>(_helpTicketInit);
-    on<UserDataHelpResponse>(_responseTicket);
+    on<UserSupportTicket>(_supportTicketInit);
+    on<UserSupportResponse>(_responseTicket);
   }
 
   void _onAuthBlocChange(AuthState state) {
@@ -92,7 +93,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     ));
   }
 
-  FutureOr<void> _progEntryToggleUserData(
+  FutureOr<void> _myProgrammeToggle(
     UserDataMyProgramme event,
     Emitter<UserDataState> emit,
   ) {
@@ -100,13 +101,15 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
       final User user = _authBloc.state.user!;
       if (state.userData.myProgramme.contains(event.entryId)) {
         _dataRepo.removeMyProgrammeEntry(user.uid, event.entryId);
+        _dataRepo.removeProgrammeEntryNotification(user.uid, event.entryId);
       } else {
         _dataRepo.addMyProgrammeEntry(user.uid, event.entryId);
+        _dataRepo.addProgrammeEntryNotification(user.uid, event.entryId);
       }
     }
   }
 
-  FutureOr<void> _progNotificationToggleUserData(
+  FutureOr<void> _progNotificationToggle(
     UserDataProgMyNotification event,
     Emitter<UserDataState> emit,
   ) {
@@ -196,16 +199,27 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     }
   }
 
-  FutureOr<void> _helpTicketInit(
-    UserDataHelp event,
+  Future<FutureOr<void>> _supportTicketInit(
+    UserSupportTicket event,
     Emitter<UserDataState> emit,
-  ) {
+  ) async {
     final User? user = _authBloc.state.user;
-    // TODO: init user support ticket and set it as pending for admins
+    final SupportTicket ticket = SupportTicket(
+      creatorId: user!.uid,
+      title: event.title,
+      content: [event.message],
+    );
+    String ticketRef = await _dataRepo.initSuportTicket(
+      ticket: ticket,
+    );
+    _dataRepo.addSupportTicket(
+      ticketRef: ticketRef,
+      userUID: user.uid,
+    );
   }
 
   FutureOr<void> _responseTicket(
-    UserDataHelpResponse event,
+    UserSupportResponse event,
     Emitter<UserDataState> emit,
   ) {
     // TODO: add response to a ticket and set it as pending for admins

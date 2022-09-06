@@ -15,7 +15,7 @@ class UserLocalPrefsState extends Equatable {
     this.allowPushNotifications = true,
     this.allowProgrammeNotifications = true,
     this.allowStoryNotifications = true,
-    this.notify10min = true,
+    this.notify10min = false,
     this.notify30min = false,
     this.notify60min = false,
   });

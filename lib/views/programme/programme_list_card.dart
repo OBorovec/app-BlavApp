@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeEntryCard extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
   final Function() onTap;
 
   const ProgrammeEntryCard({
@@ -80,7 +80,7 @@ class _ProgrammeEntryInfo extends StatelessWidget {
     required this.entry,
   }) : super(key: key);
 
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   @override
   Widget build(BuildContext context) {
@@ -109,16 +109,17 @@ class _ProgrammeEntryInfo extends StatelessWidget {
           '${entry.duration} ${AppLocalizations.of(context)!.genMinutes}',
         ),
         // Entry place
-        _buildInfoLine(
-          Icons.place_outlined,
-          places.containsKey(entry.placeRef)
-              ? t(places[entry.placeRef]!.name, context)
-              : '?${entry.placeRef}?',
-        ),
+        if (entry.placeRef != null)
+          _buildInfoLine(
+            Icons.place_outlined,
+            places.containsKey(entry.placeRef)
+                ? t(places[entry.placeRef]!.name, context)
+                : '?${entry.placeRef}?',
+          ),
         // Entry category
         _buildInfoLine(
           Icons.category_outlined,
-          tProgEntryType(
+          tProgrammeEntryType(
             entry.type,
             context,
           ),
@@ -149,7 +150,7 @@ class _ProgrammeEntryInfo extends StatelessWidget {
 }
 
 class _ProgrammeEntryUserData extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryUserData({
     Key? key,
@@ -177,7 +178,7 @@ class _ProgrammeEntryHeroImage extends StatelessWidget {
     required this.entry,
   }) : super(key: key);
 
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   @override
   Widget build(BuildContext context) {

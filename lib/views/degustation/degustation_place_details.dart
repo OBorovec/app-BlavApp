@@ -24,7 +24,8 @@ class DegustationPlaceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidePage(
-      titleText: t(place.name, context),
+      // titleText: t(place.name, context),
+      titleText: AppLocalizations.of(context)!.contDegustationDetailPlaceTitle,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -35,6 +36,7 @@ class DegustationPlaceDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  _PlaceTitle(place: place),
                   if (place.open != null)
                     _DegustationPlaceOpenInfo(place: place),
                   _DegustationPlaceMenu(place: place),
@@ -85,6 +87,26 @@ class _DegustationPlaceHeroImage extends StatelessWidget {
   }
 }
 
+class _PlaceTitle extends StatelessWidget {
+  const _PlaceTitle({
+    Key? key,
+    required this.place,
+  }) : super(key: key);
+
+  final DegusPlace place;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      t(place.name, context),
+      style: Theme.of(context).textTheme.headline5,
+      maxLines: 2,
+      overflow: TextOverflow.clip,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
 class _DegustationPlaceOpenInfo extends StatelessWidget {
   final DegusPlace place;
 
@@ -99,10 +121,9 @@ class _DegustationPlaceOpenInfo extends StatelessWidget {
     final String openTo = place.open!['to']!;
     final bool isOpen = isOpenCal(place.open!);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.watch_later_outlined),
             const SizedBox(width: 8),

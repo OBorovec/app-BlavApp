@@ -69,15 +69,15 @@ class HighlightProgrammeBloc
   ) {
     final DateTime now = DateTime.now();
     // Filter ongoing programme entries
-    final List<ProgEntry> ongoingEntries =
-        state.programmeEntries.where((ProgEntry entry) {
+    final List<ProgrammeEntry> ongoingEntries =
+        state.programmeEntries.where((ProgrammeEntry entry) {
       final DateTime start = entry.timestamp;
       final DateTime end = start.add(Duration(minutes: entry.duration));
       return start.isBefore(now) && end.isAfter(now);
     }).toList();
     // Filter upcoming programme entries
-    final List<ProgEntry> allTodayUpcomingEntries =
-        state.programmeEntries.where((ProgEntry entry) {
+    final List<ProgrammeEntry> allTodayUpcomingEntries =
+        state.programmeEntries.where((ProgrammeEntry entry) {
       // Date time tomorrow 6 am
       final DateTime endLimit = DateTime(
         now.year,
@@ -86,28 +86,29 @@ class HighlightProgrammeBloc
         6,
       );
       return entry.timestamp.isBefore(endLimit);
-    }).where((ProgEntry entry) {
+    }).where((ProgrammeEntry entry) {
       return entry.timestamp.isAfter(now);
     }).toList();
     allTodayUpcomingEntries.sort(
       ((a, b) => a.timestamp.compareTo(b.timestamp)),
     );
-    final List<ProgEntry> upcomingEntries =
+    final List<ProgrammeEntry> upcomingEntries =
         allTodayUpcomingEntries.take(6).toList();
     // Filter upcoming programme entries for my programme entries
-    final List<ProgEntry> allUpcomingMyEntries = state.programmeEntries
+    final List<ProgrammeEntry> allUpcomingMyEntries = state.programmeEntries
         .where(
-          (ProgEntry entry) => state.myProgrammeEntryIds.contains(entry.id),
+          (ProgrammeEntry entry) =>
+              state.myProgrammeEntryIds.contains(entry.id),
         )
         .where(
-          (ProgEntry entry) => entry.timestamp.isAfter(now),
+          (ProgrammeEntry entry) => entry.timestamp.isAfter(now),
         )
         .take(6)
         .toList();
     allUpcomingMyEntries.sort(
       ((a, b) => a.timestamp.compareTo(b.timestamp)),
     );
-    final List<ProgEntry> upcomingMyEntries =
+    final List<ProgrammeEntry> upcomingMyEntries =
         allUpcomingMyEntries.take(6).toList();
     // Emit results
     emit(state.copyWith(

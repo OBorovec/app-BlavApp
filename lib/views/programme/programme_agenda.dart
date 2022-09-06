@@ -47,7 +47,7 @@ class ProgrammeAgenda extends StatelessWidget {
 
   Widget appointmentBuilder(BuildContext context,
       CalendarAppointmentDetails calendarAppointmentDetails) {
-    final ProgEntry entry = calendarAppointmentDetails.appointments.first;
+    final ProgrammeEntry entry = calendarAppointmentDetails.appointments.first;
     return InkWell(
       onTap: () => Navigator.pushNamed(
         context,
@@ -71,7 +71,7 @@ class ProgrammeAgenda extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
-                Text(tProgEntryType(entry.type, context)),
+                Text(tProgrammeEntryType(entry.type, context)),
               ],
             ),
           ),
@@ -82,7 +82,7 @@ class ProgrammeAgenda extends StatelessWidget {
 }
 
 class AgendaDataSource extends CalendarDataSource {
-  List<ProgEntry> programmeEntries;
+  List<ProgrammeEntry> programmeEntries;
   final AppLang lang;
   final BuildContext context;
 
@@ -114,7 +114,7 @@ class AgendaDataSource extends CalendarDataSource {
 
   @override
   String getNotes(int index) {
-    return tProgEntryType(programmeEntries[index].type, context);
+    return tProgrammeEntryType(programmeEntries[index].type, context);
   }
 
   @override

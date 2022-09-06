@@ -11,7 +11,9 @@ IconData mapPointTypeIcon(MapPointType type) {
       return Icons.event;
     case MapPointType.shop:
       return Icons.store;
-    default:
+    case MapPointType.wc:
+      return Icons.wc;
+    case MapPointType.other:
       return Icons.location_on;
   }
 }

@@ -2,21 +2,21 @@ part of 'highlight_programme_bloc.dart';
 
 class HighlightProgrammeState extends Equatable {
   // Bloc data
-  final List<ProgEntry> programmeEntries;
+  final List<ProgrammeEntry> programmeEntries;
   final Set<String> myProgrammeEntryIds;
   // View Data
   final List<ProgNotification> notifications;
-  final List<ProgEntry> ongoingEntries;
-  final List<ProgEntry> upcomingEntries;
-  final List<ProgEntry> upcomingMyEntries;
+  final List<ProgrammeEntry> ongoingEntries;
+  final List<ProgrammeEntry> upcomingEntries;
+  final List<ProgrammeEntry> upcomingMyEntries;
 
   const HighlightProgrammeState({
-    this.programmeEntries = const <ProgEntry>[],
+    this.programmeEntries = const <ProgrammeEntry>[],
     this.myProgrammeEntryIds = const <String>{},
     this.notifications = const <ProgNotification>[],
-    this.ongoingEntries = const <ProgEntry>[],
-    this.upcomingEntries = const <ProgEntry>[],
-    this.upcomingMyEntries = const <ProgEntry>[],
+    this.ongoingEntries = const <ProgrammeEntry>[],
+    this.upcomingEntries = const <ProgrammeEntry>[],
+    this.upcomingMyEntries = const <ProgrammeEntry>[],
   });
 
   @override
@@ -28,11 +28,11 @@ class HighlightProgrammeState extends Equatable {
       ];
 
   HighlightProgrammeState copyWith({
-    List<ProgEntry>? programmeEntries,
+    List<ProgrammeEntry>? programmeEntries,
     Set<String>? myProgrammeEntryIds,
-    List<ProgEntry>? ongoingEntries,
-    List<ProgEntry>? upcomingEntries,
-    List<ProgEntry>? upcomingMyEntries,
+    List<ProgrammeEntry>? ongoingEntries,
+    List<ProgrammeEntry>? upcomingEntries,
+    List<ProgrammeEntry>? upcomingMyEntries,
   }) {
     return HighlightProgrammeState(
       programmeEntries: programmeEntries ?? this.programmeEntries,

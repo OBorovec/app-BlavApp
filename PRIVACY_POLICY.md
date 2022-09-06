@@ -1,4 +1,4 @@
-# BlavApp/Blapka privacy policy
+# BlavApp/Blappka privacy policy
 
 ## Introduction
 

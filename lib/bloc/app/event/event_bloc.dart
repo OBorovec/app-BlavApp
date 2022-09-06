@@ -27,6 +27,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<EventLoad>(_loadState);
     on<EventSelected>(_eventSelected);
     on<EventClear>(_eventClear);
+    on<EventSetDefault>(_eventSetDefault);
     // Init
     // add(const EventLoad());
   }
@@ -110,5 +111,23 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           },
         );
     }
+  }
+
+  Future<FutureOr<void>> _eventSetDefault(
+    EventSetDefault event,
+    Emitter<EventState> emit,
+  ) async {
+    List<Event> events = await _dataRepo.getEvents();
+    events.sort((a, b) => a.dayStart.compareTo(b.dayStart));
+    final DateTime now = DateTime.now();
+    final Event event = events.firstWhere(
+      (Event e) => e.dayStart.isAfter(now),
+      orElse: () => events.last,
+    );
+    add(
+      EventSelected(
+        eventID: event.id,
+      ),
+    );
   }
 }

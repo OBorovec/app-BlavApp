@@ -22,16 +22,8 @@ class $AssetsFlareGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  /// File path: assets/icons/gluten-free.png
-  AssetGenImage get glutenFree =>
-      const AssetGenImage('assets/icons/gluten-free.png');
-
-  /// File path: assets/icons/vegan.png
-  AssetGenImage get vegan => const AssetGenImage('assets/icons/vegan.png');
-
-  /// File path: assets/icons/vegetarian.png
-  AssetGenImage get vegetarian =>
-      const AssetGenImage('assets/icons/vegetarian.png');
+  $AssetsIconsCateringGen get catering => const $AssetsIconsCateringGen();
+  $AssetsIconsProgrammeGen get programme => const $AssetsIconsProgrammeGen();
 }
 
 class $AssetsMapsGen {
@@ -55,10 +47,71 @@ class $AssetsRiveGen {
   String get blaviconIconLight => 'assets/rive/BlaviconIconLight.riv';
 }
 
+class $AssetsIconsCateringGen {
+  const $AssetsIconsCateringGen();
+
+  /// File path: assets/icons/catering/gluten-free.png
+  AssetGenImage get glutenFree =>
+      const AssetGenImage('assets/icons/catering/gluten-free.png');
+
+  /// File path: assets/icons/catering/vegan.png
+  AssetGenImage get vegan =>
+      const AssetGenImage('assets/icons/catering/vegan.png');
+
+  /// File path: assets/icons/catering/vegetarian.png
+  AssetGenImage get vegetarian =>
+      const AssetGenImage('assets/icons/catering/vegetarian.png');
+}
+
+class $AssetsIconsProgrammeGen {
+  const $AssetsIconsProgrammeGen();
+
+  /// File path: assets/icons/programme/concert.png
+  AssetGenImage get concert =>
+      const AssetGenImage('assets/icons/programme/concert.png');
+
+  /// File path: assets/icons/programme/cosplay.png
+  AssetGenImage get cosplay =>
+      const AssetGenImage('assets/icons/programme/cosplay.png');
+
+  /// File path: assets/icons/programme/crafting.png
+  AssetGenImage get crafting =>
+      const AssetGenImage('assets/icons/programme/crafting.png');
+
+  /// File path: assets/icons/programme/degustation.png
+  AssetGenImage get degustation =>
+      const AssetGenImage('assets/icons/programme/degustation.png');
+
+  /// File path: assets/icons/programme/discussion.png
+  AssetGenImage get discussion =>
+      const AssetGenImage('assets/icons/programme/discussion.png');
+
+  /// File path: assets/icons/programme/gaming.png
+  AssetGenImage get gaming =>
+      const AssetGenImage('assets/icons/programme/gaming.png');
+
+  /// File path: assets/icons/programme/lecture.png
+  AssetGenImage get lecture =>
+      const AssetGenImage('assets/icons/programme/lecture.png');
+
+  /// File path: assets/icons/programme/show.png
+  AssetGenImage get show =>
+      const AssetGenImage('assets/icons/programme/show.png');
+
+  /// File path: assets/icons/programme/storyline.png
+  AssetGenImage get storyline =>
+      const AssetGenImage('assets/icons/programme/storyline.png');
+
+  /// File path: assets/icons/programme/tournament.png
+  AssetGenImage get tournament =>
+      const AssetGenImage('assets/icons/programme/tournament.png');
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsFlareGen flare = $AssetsFlareGen();
+  static const String icLauncher = 'assets/ic_launcher.zip';
   static const AssetGenImage icon = AssetGenImage('assets/icon.png');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const AssetGenImage launcher = AssetGenImage('assets/launcher.png');

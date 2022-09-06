@@ -17,10 +17,12 @@ class DegustationState extends Equatable {
     this.degustation = const Degustation(),
   });
 
-  List<DegusItem> get degustationItems => degustation.items;
+  Map<String, DegusItem> get degustations => degustation.items;
   Map<String, DegusPlace> get degustationPlaces => degustation.places;
   List<DegusNotification> get degustationNotifications =>
       degustation.notifications;
+
+  List<DegusItem> get degustationItems => degustations.values.toList();
 
   @override
   List<Object> get props => [

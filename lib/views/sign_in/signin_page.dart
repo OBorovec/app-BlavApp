@@ -47,19 +47,20 @@ class SignInPage extends StatelessWidget {
                       _SignInButton(),
                     ],
                   ),
-                  Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      TitleDivider(
-                        title: AppLocalizations.of(context)!.genOr,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                      const SizedBox(height: 16),
-                      _SignInWithGoogleButton(),
-                      const SizedBox(height: 16),
-                      _SignInWithFacebookButton(),
-                    ],
-                  ),
+                  // NOTE: Uncomment to enable third-party sign in buttons.
+                  // Column(
+                  //   children: [
+                  //     const SizedBox(height: 16),
+                  //     TitleDivider(
+                  //       title: AppLocalizations.of(context)!.genOr,
+                  //       style: Theme.of(context).textTheme.subtitle2,
+                  //     ),
+                  //     const SizedBox(height: 16),
+                  //     _SignInWithGoogleButton(),
+                  //     const SizedBox(height: 16),
+                  //     _SignInWithFacebookButton(),
+                  //   ],
+                  // ),
                   Column(
                     children: [
                       const SizedBox(height: 16),

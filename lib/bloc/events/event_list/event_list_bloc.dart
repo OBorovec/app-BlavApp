@@ -19,7 +19,8 @@ class EventListBloc extends Bloc<EventListEvent, EventListState> {
 
   Future<void> _loadEvents(_, emit) async {
     try {
-      final List<Event> events = await _dataRepo.getEvents();
+      List<Event> events = await _dataRepo.getEvents();
+      events = events.where((event) => event.isVisible).toList();
       final List<Event> upComingEvents = events.where((event) {
         return event.dayEnd.isAfter(DateTime.now());
       }).toList();

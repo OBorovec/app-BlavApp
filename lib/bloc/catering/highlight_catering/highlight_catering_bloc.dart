@@ -20,7 +20,7 @@ class HighlightCateringBloc
     required UserDataBloc userDataBloc,
   }) : super(HighlightCateringState(
           headerText: cateringBloc.state.catering.desc,
-          cateringItems: cateringBloc.state.cateringItems,
+          mealItems: cateringBloc.state.mealItems,
           cateringPlaces: cateringBloc.state.cateringPlaces,
           myFavorite: userDataBloc.state.myFavorite,
         )) {
@@ -28,7 +28,7 @@ class HighlightCateringBloc
       (CateringState state) {
         add(
           UpdateCatering(
-            cateringItems: state.cateringItems,
+            mealItems: state.mealItems,
             caterPlaces: state.cateringPlaces,
           ),
         );
@@ -61,7 +61,7 @@ class HighlightCateringBloc
     Emitter<HighlightCateringState> emit,
   ) {
     emit(state.copyWith(
-      cateringItems: event.cateringItems,
+      cateringItems: event.mealItems,
       headerText: event.desc,
     ));
     add(const UpdateViewData());
@@ -91,7 +91,7 @@ class HighlightCateringBloc
       );
     });
     emit(state.copyWith(
-      totalItems: state.cateringItems.length,
+      totalItems: state.mealItems.length,
       totalPlaces: state.cateringPlaces.length,
       placeCardData: placeCardData,
     ));

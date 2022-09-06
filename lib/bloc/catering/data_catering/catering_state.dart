@@ -17,9 +17,13 @@ class CateringState extends Equatable {
     this.catering = const Catering(),
   });
 
-  List<CaterItem> get cateringItems => catering.items;
+  Map<String, MealItem> get meals => catering.meals;
+  Map<String, BeverageItem> get beverages => catering.beverages;
   Map<String, CaterPlace> get cateringPlaces => catering.places;
   List<CaterNotification> get cateringNotifications => catering.notifications;
+
+  List<MealItem> get mealItems => meals.values.toList();
+  List<BeverageItem> get beverageItems => beverages.values.toList();
 
   @override
   List<Object> get props => [
