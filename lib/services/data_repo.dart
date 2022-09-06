@@ -393,7 +393,9 @@ class DataRepo {
     required String itemRef,
     required double rating,
   }) {
-    return _ratingDataRef.doc(eventRef).update({'$itemRef.$userUID': rating});
+    return _ratingDataRef.doc(eventRef).update({
+      itemRef: {userUID: rating}
+    });
   }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -171,7 +171,6 @@ class _EventBoardState extends State<_EventBoard> {
               (BoardNote note) => !state.hiddenBoardNotes.contains(note.id),
             )
             .toList();
-        print(notes);
         return Column(
           children: [
             const SizedBox(height: 16),

@@ -61,9 +61,8 @@ class UserProfilePage extends StatelessWidget {
                         Divider(),
                         SizedBox(height: 8),
                         _SignOutButton(),
-                        // NOTE: Uncomment sure all functionality is ready
-                        // SizedBox(height: 8),
-                        // _AccoutOptionsButton(),
+                        SizedBox(height: 8),
+                        _AccoutOptionsButton(),
                         SizedBox(height: 32),
                       ],
                     ),
@@ -433,8 +432,8 @@ class _AccoutOptionsButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
-              _ProfileRefreshButton(),
-              _PasswordResetButton(),
+              // _ProfileRefreshButton(),
+              // _PasswordResetButton(),
               _DeleteAccountButton(),
             ],
           ),
