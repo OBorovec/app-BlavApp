@@ -5,6 +5,7 @@ import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/services/local_notification_service.dart';
 import 'package:blavapp/utils/model_helper.dart';
 import 'package:blavapp/utils/model_localization.dart';
+import 'package:blavapp/utils/toasting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,19 +23,29 @@ void localNotificationToggle(bool? value, BuildContext context) {
       localPrefs: BlocProvider.of<UserLocalPrefsBloc>(context).state,
       context: context,
     );
+    Toasting.notifyToast(
+      context,
+      AppLocalizations.of(context)!.toastingProgrammeNotificationIntervalSet,
+    );
+  } else {
+    Toasting.notifyToast(
+      context,
+      AppLocalizations.of(context)!
+          .toastingProgrammeNotificationIntervalRemoved,
+    );
   }
 }
 
 void addAllProgrammeNotification({
   required Set<String> userNotifications,
   required Set<String> userProgramme,
-  required Map<String, ProgEntry> entries,
+  required Map<String, ProgrammeEntry> entries,
   required UserLocalPrefsState localPrefs,
   required BuildContext context,
 }) {
   for (String entryId in userNotifications) {
     if (entries.containsKey(entryId)) {
-      final ProgEntry entry = entries[entryId]!;
+      final ProgrammeEntry entry = entries[entryId]!;
       if (entry.timestamp.isAfter(DateTime.now())) {
         _addProgrammeEntryNotification(
           entry: entry,
@@ -52,10 +63,10 @@ void programmeEntryNotificationToggle({
   required BuildContext context,
   bool? value,
 }) {
-  Map<String, ProgEntry> entries =
+  Map<String, ProgrammeEntry> entries =
       BlocProvider.of<ProgrammeBloc>(context).state.entries;
   if (entries.containsKey(entryId)) {
-    final ProgEntry entry = entries[entryId]!;
+    final ProgrammeEntry entry = entries[entryId]!;
     Set<String> userNotifications =
         BlocProvider.of<UserDataBloc>(context).state.userData.myNotifications;
     Set<String> userProgramme =
@@ -94,7 +105,7 @@ int _programmeEntryNotificationId(String entryId, int offset) {
 }
 
 void _addProgrammeEntryNotification({
-  required ProgEntry entry,
+  required ProgrammeEntry entry,
   required bool inUserProgramme,
   required UserLocalPrefsState localPrefs,
   required BuildContext context,
@@ -126,7 +137,7 @@ void _addProgrammeEntryNotification({
 }
 
 void _removeProgrammeEntryNotification({
-  required ProgEntry entry,
+  required ProgrammeEntry entry,
 }) {
   LocalNotificationService().cancelNotification(
     _programmeEntryNotificationId(entry.id, 10),

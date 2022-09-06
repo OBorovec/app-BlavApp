@@ -8,7 +8,7 @@ abstract class FilterProgrammeEvent extends Equatable {
 }
 
 class UpdateProgrammeEntries extends FilterProgrammeEvent {
-  final List<ProgEntry> programmeEntries;
+  final List<ProgrammeEntry> programmeEntries;
 
   const UpdateProgrammeEntries({
     required this.programmeEntries,

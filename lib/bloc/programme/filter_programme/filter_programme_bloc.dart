@@ -102,7 +102,7 @@ class FilterProgrammeBloc
     final Set<DateTime> availableDates = <DateTime>{};
     final Set<ProgEntryType> availableEventTypes = <ProgEntryType>{};
     final Set<String> availableEventPlaces = <String>{};
-    for (final ProgEntry entry in state.programmeEntries) {
+    for (final ProgrammeEntry entry in state.programmeEntries) {
       availableDates.add(
         DateTime(
           entry.timestamp.year,
@@ -123,10 +123,10 @@ class FilterProgrammeBloc
   }
 
   Future<void> _applyAllFilters(event, emit) async {
-    Iterable<ProgEntry> programmeFiltering = state.programmeEntries;
+    Iterable<ProgrammeEntry> programmeFiltering = state.programmeEntries;
     if (state.onlyMyProgramme) {
       programmeFiltering = programmeFiltering.where(
-        (ProgEntry entry) => state.myProgrammeEntryIds.contains(entry.id),
+        (ProgrammeEntry entry) => state.myProgrammeEntryIds.contains(entry.id),
       );
     }
     if (state.entryTypeFilter.isNotEmpty) {
@@ -151,7 +151,7 @@ class FilterProgrammeBloc
     if (state.queryString.isNotEmpty) {
       programmeFiltering = programmeFiltering.where(
         (e) => removeDiacritics(
-          e.toJson().toString().toLowerCase(),
+          e.toString().toLowerCase(),
         ).contains(
           removeDiacritics(
             state.queryString.toLowerCase(),

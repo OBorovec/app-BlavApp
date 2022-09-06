@@ -25,6 +25,10 @@ Degustation _$DegustationFromJson(Map<String, dynamic> json) => Degustation(
                   (e) => DegusNotification.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      extras: (json['extras'] as List<dynamic>?)
+              ?.map((e) => Extras.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$DegustationToJson(Degustation instance) =>
@@ -33,6 +37,7 @@ Map<String, dynamic> _$DegustationToJson(Degustation instance) =>
       'items': instance.items,
       'places': instance.places,
       'notifications': instance.notifications,
+      'extras': instance.extras,
     };
 
 DegusItem _$DegusItemFromJson(Map<String, dynamic> json) => DegusItem(

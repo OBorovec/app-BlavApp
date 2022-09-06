@@ -12,6 +12,7 @@ import 'package:blavapp/bloc/app/event/event_bloc.dart';
 import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
+import 'package:blavapp/bloc/user_data/local_user_data/local_user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_local_prefs/user_local_prefs_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_perms/user_perms_bloc.dart';
@@ -153,6 +154,12 @@ class _BlavAppState extends State<BlavApp> {
                       authBloc: context.read<AuthBloc>(),
                       dataRepo: context.read<DataRepo>(),
                       eventFocusBloc: context.read<EventBloc>(),
+                    ),
+                  ),
+                  BlocProvider(
+                    lazy: false,
+                    create: (context) => LocalUserDataBloc(
+                      prefs: context.read<PrefsRepo>(),
                     ),
                   ),
                   BlocProvider(

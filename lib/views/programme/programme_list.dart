@@ -29,7 +29,7 @@ class ProgrammeList extends StatelessWidget {
             ],
             Expanded(
               child: state.programmeEntriesFiltered.isNotEmpty
-                  ? ImplicitlyAnimatedList<ProgEntry>(
+                  ? ImplicitlyAnimatedList<ProgrammeEntry>(
                       items: state.programmeEntriesFiltered,
                       padding: const EdgeInsets.only(bottom: 64.0),
                       areItemsTheSame: (a, b) => a.id == b.id,
@@ -98,7 +98,7 @@ class ProgrammeList extends StatelessWidget {
   }
 
   List<Widget> _buildSlidableActions(
-    ProgEntry entry,
+    ProgrammeEntry entry,
     BuildContext context,
   ) {
     return [

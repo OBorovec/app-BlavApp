@@ -29,6 +29,7 @@ MapRecord _$MapRecordFromJson(Map<String, dynamic> json) => MapRecord(
       image: json['image'] as String,
       w: json['w'] as int,
       h: json['h'] as int,
+      focusZoom: (json['focusZoom'] as num).toDouble(),
       points: (json['points'] as List<dynamic>?)
               ?.map((e) => MapPoint.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -41,6 +42,7 @@ Map<String, dynamic> _$MapRecordToJson(MapRecord instance) => <String, dynamic>{
       'image': instance.image,
       'w': instance.w,
       'h': instance.h,
+      'focusZoom': instance.focusZoom,
       'points': instance.points,
     };
 
@@ -70,6 +72,7 @@ const _$MapPointTypeEnumMap = {
   MapPointType.degustation: 'degustation',
   MapPointType.programme: 'programme',
   MapPointType.shop: 'shop',
+  MapPointType.wc: 'wc',
   MapPointType.other: 'other',
 };
 

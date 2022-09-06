@@ -29,6 +29,10 @@ Catering _$CateringFromJson(Map<String, dynamic> json) => Catering(
                   (e) => CaterNotification.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      extras: (json['extras'] as List<dynamic>?)
+              ?.map((e) => Extras.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$CateringToJson(Catering instance) => <String, dynamic>{
@@ -37,6 +41,7 @@ Map<String, dynamic> _$CateringToJson(Catering instance) => <String, dynamic>{
       'beverages': instance.beverages,
       'places': instance.places,
       'notifications': instance.notifications,
+      'extras': instance.extras,
     };
 
 MealItem _$MealItemFromJson(Map<String, dynamic> json) => MealItem(

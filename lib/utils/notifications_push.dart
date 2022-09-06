@@ -20,11 +20,11 @@ void pushNotificationToggle(bool? value, BuildContext context) {
 void addAllProgrammeSubscriptions({
   required AppLang appLang,
   required Set<String> userProgramme,
-  required Map<String, ProgEntry> entries,
+  required Map<String, ProgrammeEntry> entries,
 }) {
   for (String entryId in userProgramme) {
     if (entries.containsKey(entryId)) {
-      final ProgEntry entry = entries[entryId]!;
+      final ProgrammeEntry entry = entries[entryId]!;
       _programmeEntrySubscribe(
         appLang: appLang,
         entryId: entry.id,
@@ -38,12 +38,12 @@ void programmeEntryPushNotificationToggle({
   required BuildContext context,
   bool? value,
 }) {
-  Map<String, ProgEntry> entries =
+  Map<String, ProgrammeEntry> entries =
       BlocProvider.of<ProgrammeBloc>(context).state.entries;
   AppLang appLang = BlocProvider.of<LocalizationBloc>(context).state.appLang;
 
   if (entries.containsKey(entryId)) {
-    final ProgEntry entry = entries[entryId]!;
+    final ProgrammeEntry entry = entries[entryId]!;
     Set<String> userProgramme =
         BlocProvider.of<UserDataBloc>(context).state.userData.myProgramme;
     bool actionAdd = value ?? userProgramme.contains(entry.id);

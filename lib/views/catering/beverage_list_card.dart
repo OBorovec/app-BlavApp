@@ -29,7 +29,6 @@ class BeverageItemCard extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

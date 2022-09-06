@@ -11,6 +11,10 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       story: (json['story'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
+      extras: (json['extras'] as List<dynamic>?)
+              ?.map((e) => Extras.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       image: json['image'] as String?,
       updates: (json['updates'] as List<dynamic>?)
               ?.map((e) => StoryPart.fromJson(e as Map<String, dynamic>))
@@ -35,6 +39,7 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
 Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'name': instance.name,
       'story': instance.story,
+      'extras': instance.extras,
       'image': instance.image,
       'updates': instance.updates,
       'factionGroupName': instance.factionGroupName,

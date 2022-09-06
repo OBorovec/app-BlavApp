@@ -27,6 +27,7 @@ class MapRecord extends Equatable {
   final String image;
   final int w;
   final int h;
+  final double focusZoom;
   final List<MapPoint> points;
 
   const MapRecord({
@@ -35,6 +36,7 @@ class MapRecord extends Equatable {
     required this.image,
     required this.w,
     required this.h,
+    required this.focusZoom,
     this.points = const [],
   });
 
@@ -46,7 +48,7 @@ class MapRecord extends Equatable {
   Map<String, Object?> toJson() => _$MapRecordToJson(this);
 }
 
-enum MapPointType { catering, degustation, programme, shop, other }
+enum MapPointType { catering, degustation, programme, shop, wc, other }
 
 @JsonSerializable()
 class MapPoint extends Equatable {

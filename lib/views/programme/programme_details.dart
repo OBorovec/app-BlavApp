@@ -1,4 +1,3 @@
-import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/dialogs/review_dialog.dart';
@@ -17,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProgrammeDetails extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const ProgrammeDetails({
     Key? key,
@@ -30,7 +29,8 @@ class ProgrammeDetails extends StatelessWidget {
         .state
         .programmePlaces[entry.placeRef];
     return SidePage(
-      titleText: t(entry.name, context),
+      // titleText: t(entry.name, context),
+      titleText: AppLocalizations.of(context)!.contProgrammeDetailTitle,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -40,8 +40,8 @@ class ProgrammeDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  // const SizedBox(height: 16),
-                  // _ProgrammeEntryName(entry: entry),
+                  const SizedBox(height: 16),
+                  _ProgrammeEntryName(entry: entry),
                   const SizedBox(height: 16),
                   _ProgrammeEntryBaseInfo(entry: entry, place: place),
                   if (entry.desc != null)
@@ -67,7 +67,7 @@ class ProgrammeDetails extends StatelessWidget {
 }
 
 class _ProgrammeEntryHeroImage extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryHeroImage({
     Key? key,
@@ -96,7 +96,7 @@ class _ProgrammeEntryHeroImage extends StatelessWidget {
 }
 
 class _ProgrammeEntryName extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryName({
     Key? key,
@@ -112,6 +112,7 @@ class _ProgrammeEntryName extends StatelessWidget {
           style: Theme.of(context).textTheme.headline5,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
         ),
       ],
     );
@@ -119,7 +120,7 @@ class _ProgrammeEntryName extends StatelessWidget {
 }
 
 class _ProgrammeEntryBaseInfo extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
   final ProgPlace? place;
 
   const _ProgrammeEntryBaseInfo({
@@ -149,7 +150,7 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
         ),
         _buildInfoLine(
           Icons.category_outlined,
-          tProgEntryType(entry.type, context),
+          tProgrammeEntryType(entry.type, context),
           context,
         ),
       ],
@@ -180,7 +181,7 @@ class _ProgrammeEntryBaseInfo extends StatelessWidget {
 }
 
 class _ProgrammeEntryDescription extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryDescription({
     Key? key,
@@ -202,7 +203,7 @@ class _ProgrammeEntryDescription extends StatelessWidget {
 }
 
 class _ProgrammeEntryControlBtns extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   const _ProgrammeEntryControlBtns({
     Key? key,
@@ -337,7 +338,7 @@ class _ProgrammeEntryControlBtns extends StatelessWidget {
 }
 
 class ProgrammeDetailsArguments {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
 
   ProgrammeDetailsArguments({required this.entry});
 }

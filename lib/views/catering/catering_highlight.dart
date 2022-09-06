@@ -1,5 +1,8 @@
+import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/catering/highlight_catering/highlight_catering_bloc.dart';
+import 'package:blavapp/components/views/collapsable_text_section.dart';
 import 'package:blavapp/components/views/title_divider.dart';
+import 'package:blavapp/model/common.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:blavapp/views/catering/catering_place_details.dart';
@@ -8,30 +11,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CateringOverview extends StatelessWidget {
+class CateringOverview extends StatefulWidget {
   const CateringOverview({Key? key}) : super(key: key);
 
   @override
+  State<CateringOverview> createState() => _CateringOverviewState();
+}
+
+class _CateringOverviewState extends State<CateringOverview> {
+  List<bool> showFullExtrasText = [];
+  @override
   Widget build(BuildContext context) {
+    List<Extras> extras =
+        BlocProvider.of<CateringBloc>(context).state.catering.extras;
+    if (showFullExtrasText.isEmpty) {
+      showFullExtrasText = List<bool>.filled(
+        extras.length,
+        false,
+      );
+    }
     return BlocBuilder<HighlightCateringBloc, HighlightCateringState>(
       builder: (context, state) {
         return SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  if (state.headerText != null)
-                    Expanded(
-                      child: _CateringHeader(state: state),
-                    ),
-                  // TODO: come up with a better stats
-                  // Expanded(
-                  //   child: _CateringNumbers(state: state),
-                  // ),
-                ],
-              ),
-              _CateringPlaceList(state: state),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    if (state.headerText != null)
+                      Expanded(
+                        child: _CateringHeader(state: state),
+                      ),
+                    // TODO: come up with a better stats
+                    // Expanded(
+                    //   child: _CateringNumbers(state: state),
+                    // ),
+                  ],
+                ),
+                _CateringPlaceList(state: state),
+                const SizedBox(height: 8),
+                ...extras.map(
+                  (Extras e) {
+                    int index = extras.indexOf(e);
+                    return CollapsableTextSection(
+                      title: t(e.title, context),
+                      body: t(e.body, context),
+                      isExpanded: showFullExtrasText[index],
+                      onToggle: () => setState(() {
+                        showFullExtrasText[index] = !showFullExtrasText[index];
+                      }),
+                    );
+                  },
+                ).toList(),
+                const SizedBox(height: 64),
+              ],
+            ),
           ),
         );
       },

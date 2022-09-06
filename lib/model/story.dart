@@ -1,3 +1,4 @@
+import 'package:blavapp/model/common.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,6 +8,7 @@ part 'story.g.dart';
 class Story extends Equatable {
   final Map<String, String> name;
   final Map<String, String>? story;
+  final List<Extras> extras;
   final String? image;
   final List<StoryPart> updates;
   final Map<String, String>? factionGroupName;
@@ -16,6 +18,7 @@ class Story extends Equatable {
   const Story({
     required this.name,
     this.story,
+    this.extras = const [],
     this.image,
     this.updates = const [],
     this.factionGroupName,
@@ -27,6 +30,7 @@ class Story extends Equatable {
   List<Object?> get props => [
         name,
         story,
+        extras,
         image,
         updates,
         factionGroupName,

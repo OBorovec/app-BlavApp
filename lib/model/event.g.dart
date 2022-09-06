@@ -16,6 +16,14 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
+      extras: (json['extras'] as List<dynamic>?)
+              ?.map((e) => Extras.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      board: (json['board'] as List<dynamic>?)
+              ?.map((e) => BoardNote.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       dayStart: DateTime.parse(json['dayStart'] as String),
       dayEnd: DateTime.parse(json['dayEnd'] as String),
       routing: Routing.fromJson(json['routing'] as Map<String, dynamic>),
@@ -33,6 +41,8 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'name': instance.name,
       'sDesc': instance.sDesc,
       'desc': instance.desc,
+      'extras': instance.extras,
+      'board': instance.board,
       'dayStart': instance.dayStart.toIso8601String(),
       'dayEnd': instance.dayEnd.toIso8601String(),
       'routing': instance.routing,
@@ -61,4 +71,16 @@ Map<String, dynamic> _$RoutingToJson(Routing instance) => <String, dynamic>{
       'programme': instance.programme,
       'story': instance.story,
       'contacts': instance.contacts,
+    };
+
+BoardNote _$BoardNoteFromJson(Map<String, dynamic> json) => BoardNote(
+      id: json['id'] as String,
+      title: Map<String, String>.from(json['title'] as Map),
+      body: Map<String, String>.from(json['body'] as Map),
+    );
+
+Map<String, dynamic> _$BoardNoteToJson(BoardNote instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'body': instance.body,
     };

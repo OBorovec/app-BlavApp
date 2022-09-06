@@ -8,7 +8,7 @@ abstract class HighlightProgrammeEvent extends Equatable {
 }
 
 class UpdateProgrammeEntries extends HighlightProgrammeEvent {
-  final List<ProgEntry> programmeEntries;
+  final List<ProgrammeEntry> programmeEntries;
 
   const UpdateProgrammeEntries({
     required this.programmeEntries,

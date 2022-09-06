@@ -3,7 +3,9 @@ import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/page_content/data_error_page.dart';
 import 'package:blavapp/components/page_content/data_loading_page.dart';
 import 'package:blavapp/components/pages/page_root.dart';
+import 'package:blavapp/components/views/collapsable_text_section.dart';
 import 'package:blavapp/components/views/title_divider.dart';
+import 'package:blavapp/model/common.dart';
 import 'package:blavapp/model/story.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/app_heros.dart';
@@ -23,6 +25,7 @@ class StoryPage extends StatefulWidget {
 class _StoryPageState extends State<StoryPage> {
   // Note: If this becomes more complikaced, consider using a bloc
   bool showFullStoryText = false;
+  List<bool> showFullExtrasText = [];
   final ScrollController _mainController = ScrollController();
 
   void _scrollDown() {
@@ -45,6 +48,12 @@ class _StoryPageState extends State<StoryPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<StoryBloc, StoryState>(
       builder: (context, state) {
+        if (showFullExtrasText.isEmpty) {
+          showFullExtrasText = List<bool>.filled(
+            state.story.extras.length,
+            false,
+          );
+        }
         switch (state.status) {
           case DataStatus.loaded:
             return Builder(builder: (context) {
@@ -68,6 +77,20 @@ class _StoryPageState extends State<StoryPage> {
                                       showFullStoryText = !showFullStoryText;
                                     })),
                               ),
+                            ...state.story.extras.map(
+                              (Extras e) {
+                                int index = state.story.extras.indexOf(e);
+                                return CollapsableTextSection(
+                                  title: t(e.title, context),
+                                  body: t(e.body, context),
+                                  isExpanded: showFullExtrasText[index],
+                                  onToggle: () => setState(() {
+                                    showFullExtrasText[index] =
+                                        !showFullExtrasText[index];
+                                  }),
+                                );
+                              },
+                            ).toList(),
                             if (state.story.factions.isNotEmpty)
                               _StoryGroupList(state: state),
                             _StoryUpdates(
@@ -82,12 +105,16 @@ class _StoryPageState extends State<StoryPage> {
                   ),
                 ),
                 actions: [
-                  if (showFullStoryText)
+                  if (showFullStoryText || showFullExtrasText.contains(true))
                     IconButton(
                       icon: const Icon(Icons.keyboard_arrow_up),
                       onPressed: () {
                         setState(() {
                           showFullStoryText = false;
+                          showFullExtrasText = List<bool>.filled(
+                            state.story.extras.length,
+                            false,
+                          );
                         });
                       },
                     ),

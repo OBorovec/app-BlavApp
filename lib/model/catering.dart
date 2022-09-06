@@ -1,3 +1,4 @@
+import 'package:blavapp/model/common.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,6 +11,7 @@ class Catering extends Equatable {
   final Map<String, BeverageItem> beverages;
   final Map<String, CaterPlace> places;
   final List<CaterNotification> notifications;
+  final List<Extras> extras;
 
   const Catering({
     this.desc,
@@ -17,10 +19,11 @@ class Catering extends Equatable {
     this.beverages = const {},
     this.places = const {},
     this.notifications = const [],
+    this.extras = const [],
   });
 
   @override
-  List<Object?> get props => [meals, beverages, places, notifications];
+  List<Object?> get props => [meals, beverages, places, notifications, extras];
 
   factory Catering.fromJson(Map<String, Object?> json) =>
       _$CateringFromJson(json);

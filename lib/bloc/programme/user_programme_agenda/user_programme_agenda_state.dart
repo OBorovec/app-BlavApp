@@ -2,7 +2,7 @@ part of 'user_programme_agenda_bloc.dart';
 
 class UserProgrammeAgendaState extends Equatable {
   // Bloc data
-  final List<ProgEntry> programmeEntries;
+  final List<ProgrammeEntry> programmeEntries;
   final Set<String> myProgrammeEntryIds;
   final Event event;
   // View
@@ -10,13 +10,13 @@ class UserProgrammeAgendaState extends Equatable {
   final DateTime minDate;
   final int dayCount;
   final List<int> nonEventDays;
-  final List<ProgEntry> agendaData;
+  final List<ProgrammeEntry> agendaData;
 
   UserProgrammeAgendaState({
-    this.programmeEntries = const <ProgEntry>[],
+    this.programmeEntries = const <ProgrammeEntry>[],
     this.myProgrammeEntryIds = const <String>{},
     required this.event,
-    this.agendaData = const <ProgEntry>[],
+    this.agendaData = const <ProgrammeEntry>[],
   })  : maxDate = event.dayEnd,
         minDate = event.dayStart,
         dayCount = event.dayEnd.difference(event.dayStart).inDays + 1,
@@ -48,10 +48,14 @@ class UserProgrammeAgendaState extends Equatable {
       ];
 
   UserProgrammeAgendaState copyWith({
-    List<ProgEntry>? programmeEntries,
+    List<ProgrammeEntry>? programmeEntries,
     Set<String>? myProgrammeEntryIds,
     Event? event,
-    List<ProgEntry>? agendaData,
+    DateTime? maxDate,
+    DateTime? minDate,
+    int? dayCount,
+    List<int>? nonEventDays,
+    List<ProgrammeEntry>? agendaData,
   }) {
     return UserProgrammeAgendaState(
       programmeEntries: programmeEntries ?? this.programmeEntries,

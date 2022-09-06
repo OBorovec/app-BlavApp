@@ -21,40 +21,37 @@ Programme _$ProgrammeFromJson(Map<String, dynamic> json) => Programme(
               ?.map((e) => ProgNotification.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      extras: (json['extras'] as List<dynamic>?)
+              ?.map((e) => Extras.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$ProgrammeToJson(Programme instance) => <String, dynamic>{
       'entries': instance.entries,
       'places': instance.places,
       'notifications': instance.notifications,
+      'extras': instance.extras,
     };
 
 ProgEntry _$ProgEntryFromJson(Map<String, dynamic> json) => ProgEntry(
-      id: json['id'] as String,
       name: Map<String, String>.from(json['name'] as Map),
+      subTitle: (json['subTitle'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       type: $enumDecode(_$ProgEntryTypeEnumMap, json['type']),
+      entryRuns: (json['entryRuns'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, ProgEntryRun.fromJson(e as Map<String, dynamic>)),
+      ),
+      lang: $enumDecodeNullable(_$ProgEntryLangEnumMap, json['lang']) ??
+          ProgEntryLang.cs,
       placeRef: json['placeRef'] as String?,
-      timestamp: DateTime.parse(json['timestamp'] as String),
-      duration: json['duration'] as int,
       desc: (json['desc'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      sDesc: (json['sDesc'] as Map<String, dynamic>?)?.map(
+      acting: (json['acting'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      allDayEntry: json['allDayEntry'] as bool? ?? false,
-      price: json['price'] as int?,
-      performing: json['performing'] as String?,
-      organizer: json['organizer'] as String?,
-      sponsor: (json['sponsor'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      contactPageID: json['contactPageID'] as String?,
-      requireSignUp: json['requireSignUp'] as bool? ?? false,
-      capacity: json['capacity'] as int?,
-      occupancy: json['occupancy'] as int?,
-      vipOnly: json['vipOnly'] as bool? ?? false,
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -68,24 +65,14 @@ ProgEntry _$ProgEntryFromJson(Map<String, dynamic> json) => ProgEntry(
     );
 
 Map<String, dynamic> _$ProgEntryToJson(ProgEntry instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
+      'subTitle': instance.subTitle,
       'type': _$ProgEntryTypeEnumMap[instance.type]!,
+      'entryRuns': instance.entryRuns,
+      'lang': _$ProgEntryLangEnumMap[instance.lang]!,
       'placeRef': instance.placeRef,
-      'timestamp': instance.timestamp.toIso8601String(),
-      'duration': instance.duration,
       'desc': instance.desc,
-      'sDesc': instance.sDesc,
-      'allDayEntry': instance.allDayEntry,
-      'price': instance.price,
-      'performing': instance.performing,
-      'organizer': instance.organizer,
-      'sponsor': instance.sponsor,
-      'contactPageID': instance.contactPageID,
-      'requireSignUp': instance.requireSignUp,
-      'capacity': instance.capacity,
-      'occupancy': instance.occupancy,
-      'vipOnly': instance.vipOnly,
+      'acting': instance.acting,
       'images': instance.images,
       'tags': instance.tags.toList(),
       'notifications': instance.notifications,
@@ -104,6 +91,42 @@ const _$ProgEntryTypeEnumMap = {
   ProgEntryType.cosplay: 'cosplay',
   ProgEntryType.other: 'other',
 };
+
+const _$ProgEntryLangEnumMap = {
+  ProgEntryLang.cs: 'cs',
+  ProgEntryLang.en: 'en',
+};
+
+ProgEntryRun _$ProgEntryRunFromJson(Map<String, dynamic> json) => ProgEntryRun(
+      id: json['id'] as String,
+      timestamp: DateTime.parse(json['timestamp'] as String),
+      duration: json['duration'] as int,
+      lang: $enumDecodeNullable(_$ProgEntryLangEnumMap, json['lang']),
+      placeRef: json['placeRef'] as String?,
+      acting: (json['acting'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      requireSignUp: json['requireSignUp'] as bool? ?? false,
+      price: json['price'] as int?,
+      capacity: json['capacity'] as int?,
+      occupancy: json['occupancy'] as int?,
+      vipOnly: json['vipOnly'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$ProgEntryRunToJson(ProgEntryRun instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'timestamp': instance.timestamp.toIso8601String(),
+      'duration': instance.duration,
+      'lang': _$ProgEntryLangEnumMap[instance.lang],
+      'placeRef': instance.placeRef,
+      'acting': instance.acting,
+      'requireSignUp': instance.requireSignUp,
+      'price': instance.price,
+      'capacity': instance.capacity,
+      'occupancy': instance.occupancy,
+      'vipOnly': instance.vipOnly,
+    };
 
 ProgPlace _$ProgPlaceFromJson(Map<String, dynamic> json) => ProgPlace(
       name: Map<String, String>.from(json['name'] as Map),

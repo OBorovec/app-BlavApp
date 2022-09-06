@@ -16,7 +16,7 @@ String eventImgHeroTag(Event event) {
   return 'event-img-title-${event.id}';
 }
 
-String programmeEntryImgHeroTag(ProgEntry entry) {
+String programmeEntryImgHeroTag(ProgrammeEntry entry) {
   return 'prog-img-title-${entry.id}';
 }
 

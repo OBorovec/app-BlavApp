@@ -1,5 +1,8 @@
+import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
 import 'package:blavapp/bloc/programme/highlight_programme/highlight_programme_bloc.dart';
+import 'package:blavapp/components/views/collapsable_text_section.dart';
 import 'package:blavapp/components/views/title_divider.dart';
+import 'package:blavapp/model/common.dart';
 import 'package:blavapp/model/programme.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/datetime_formatter.dart';
@@ -9,22 +12,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ProgrammeHighlight extends StatelessWidget {
+class ProgrammeHighlight extends StatefulWidget {
   const ProgrammeHighlight({Key? key}) : super(key: key);
 
+  @override
+  State<ProgrammeHighlight> createState() => _ProgrammeHighlightState();
+}
+
+class _ProgrammeHighlightState extends State<ProgrammeHighlight> {
+  List<bool> showFullExtrasText = [];
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<HighlightProgrammeBloc>(context)
         .add(const UpdateViewData());
+    List<Extras> extras =
+        BlocProvider.of<ProgrammeBloc>(context).state.programme.extras;
+    if (showFullExtrasText.isEmpty) {
+      showFullExtrasText = List<bool>.filled(
+        extras.length,
+        false,
+      );
+    }
     return BlocBuilder<HighlightProgrammeBloc, HighlightProgrammeState>(
       builder: (context, state) {
         return SingleChildScrollView(
-          child: Column(
-            children: [
-              _ProgrammeHighlightOnGoing(state: state),
-              _ProgrammeHighlightUpComing(state: state),
-              _ProgrammeHighlightMyUpComing(state: state),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                _ProgrammeHighlightOnGoing(state: state),
+                _ProgrammeHighlightUpComing(state: state),
+                _ProgrammeHighlightMyUpComing(state: state),
+                const SizedBox(height: 8),
+                ...extras.map(
+                  (Extras e) {
+                    int index = extras.indexOf(e);
+                    return CollapsableTextSection(
+                      title: t(e.title, context),
+                      body: t(e.body, context),
+                      isExpanded: showFullExtrasText[index],
+                      onToggle: () => setState(() {
+                        showFullExtrasText[index] = !showFullExtrasText[index];
+                      }),
+                    );
+                  },
+                ).toList(),
+                const SizedBox(height: 64),
+              ],
+            ),
           ),
         );
       },
@@ -146,7 +181,7 @@ class _HighlightEmpty extends StatelessWidget {
 }
 
 class _HorizontalHighlightEntryList extends StatelessWidget {
-  final List<ProgEntry> entries;
+  final List<ProgrammeEntry> entries;
 
   const _HorizontalHighlightEntryList({
     Key? key,
@@ -159,7 +194,7 @@ class _HorizontalHighlightEntryList extends StatelessWidget {
       child: Row(
         children: entries
             .map(
-              (ProgEntry entry) => _HorizontalEntryCard(entry: entry),
+              (ProgrammeEntry entry) => _HorizontalEntryCard(entry: entry),
             )
             .toList(),
       ),
@@ -168,7 +203,7 @@ class _HorizontalHighlightEntryList extends StatelessWidget {
 }
 
 class _HorizontalEntryCard extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
   const _HorizontalEntryCard({
     Key? key,
     required this.entry,
@@ -194,7 +229,7 @@ class _HorizontalEntryCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(
-                tProgEntryType(entry.type, context),
+                tProgrammeEntryType(entry.type, context),
                 style: Theme.of(context).textTheme.subtitle2,
               ),
               Text(
@@ -210,7 +245,7 @@ class _HorizontalEntryCard extends StatelessWidget {
 }
 
 class _VerticalHighlightEntryList extends StatelessWidget {
-  final List<ProgEntry> entries;
+  final List<ProgrammeEntry> entries;
 
   const _VerticalHighlightEntryList({
     Key? key,
@@ -222,7 +257,7 @@ class _VerticalHighlightEntryList extends StatelessWidget {
       child: Column(
         children: entries
             .map(
-              (ProgEntry entry) => _VerticalEntryCard(entry: entry),
+              (ProgrammeEntry entry) => _VerticalEntryCard(entry: entry),
             )
             .toList(),
       ),
@@ -231,7 +266,7 @@ class _VerticalHighlightEntryList extends StatelessWidget {
 }
 
 class _VerticalEntryCard extends StatelessWidget {
-  final ProgEntry entry;
+  final ProgrammeEntry entry;
   const _VerticalEntryCard({
     Key? key,
     required this.entry,

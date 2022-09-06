@@ -18,7 +18,7 @@ String t(Map<String, String> modelItem, BuildContext context) {
   return modelItem[langKey] ?? modelItem['@cs'] ?? 'Loc. missing';
 }
 
-String tProgEntryType(ProgEntryType type, BuildContext context) {
+String tProgrammeEntryType(ProgEntryType type, BuildContext context) {
   switch (type) {
     case ProgEntryType.concert:
       return AppLocalizations.of(context)!.modelProgrammeTypeConcert;

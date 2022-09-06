@@ -1,3 +1,4 @@
+import 'package:blavapp/model/common.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,6 +11,8 @@ class Event extends Equatable {
   final Map<String, String> name;
   final Map<String, String>? sDesc;
   final Map<String, String>? desc;
+  final List<Extras> extras;
+  final List<BoardNote> board;
   final DateTime dayStart;
   final DateTime dayEnd;
   final Routing routing;
@@ -23,6 +26,8 @@ class Event extends Equatable {
     required this.name,
     required this.sDesc,
     required this.desc,
+    this.extras = const [],
+    this.board = const [],
     required this.dayStart,
     required this.dayEnd,
     required this.routing,
@@ -38,6 +43,8 @@ class Event extends Equatable {
         name,
         sDesc,
         desc,
+        extras,
+        board,
         dayStart,
         dayEnd,
         images,
@@ -73,7 +80,6 @@ class Routing extends Equatable {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         catering,
         cosplay,
@@ -87,4 +93,24 @@ class Routing extends Equatable {
   factory Routing.fromJson(Map<String, dynamic> json) =>
       _$RoutingFromJson(json);
   Map<String, dynamic> toJson() => _$RoutingToJson(this);
+}
+
+@JsonSerializable()
+class BoardNote extends Equatable {
+  final String id;
+  final Map<String, String> title;
+  final Map<String, String> body;
+
+  const BoardNote({
+    required this.id,
+    required this.title,
+    required this.body,
+  });
+
+  @override
+  List<Object?> get props => [id, title, body];
+
+  factory BoardNote.fromJson(Map<String, dynamic> json) =>
+      _$BoardNoteFromJson(json);
+  Map<String, dynamic> toJson() => _$BoardNoteToJson(this);
 }

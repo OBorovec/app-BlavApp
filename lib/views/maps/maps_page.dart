@@ -63,7 +63,8 @@ class _MapsMainContent extends StatelessWidget {
                   SliverGrid(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                      crossAxisCount: 2,
+                    ),
                     delegate: SliverChildListDelegate(
                       state.mapRecords.entries
                           .map(
@@ -119,40 +120,43 @@ class _MapRecordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: SizedBox(
-        height: 150,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: mapRecord.image.startsWith('assets')
-                    ? Image.asset(
-                        mapRecord.image,
-                        fit: BoxFit.cover,
-                      )
-                    : AppNetworkImage(
-                        url: mapRecord.image,
-                        asCover: true,
-                      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 150,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: mapRecord.image.startsWith('assets')
+                      ? Image.asset(
+                          mapRecord.image,
+                          fit: BoxFit.cover,
+                        )
+                      : AppNetworkImage(
+                          url: mapRecord.image,
+                          asCover: true,
+                        ),
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    t(mapRecord.name, context),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      t(mapRecord.name, context),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

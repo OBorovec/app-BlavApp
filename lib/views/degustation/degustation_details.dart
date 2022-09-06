@@ -15,7 +15,6 @@ import 'package:blavapp/views/maps/map_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DegustationDetails extends StatelessWidget {
@@ -28,7 +27,8 @@ class DegustationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidePage(
-      titleText: t(item.name, context),
+      // titleText: t(item.name, context),
+      titleText: AppLocalizations.of(context)!.contDegustationDetailTitle,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -98,28 +98,31 @@ class _DegustationItemBaseInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            Text(
-              t(item.name, context),
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            _buildInfoLine(
-              Icons.category_outlined,
-              tDegusAlcoholType(item.type, context),
-              context,
-            ),
-            if (item.subType != null)
+        Expanded(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                t(item.name, context),
+                style: Theme.of(context).textTheme.headline5,
+                maxLines: 2,
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+              ),
               _buildInfoLine(
-                Icons.subject_outlined,
-                t(item.subType!, context),
+                Icons.category_outlined,
+                tDegusAlcoholType(item.type, context),
                 context,
               ),
-          ],
+              if (item.subType != null)
+                _buildInfoLine(
+                  Icons.subject_outlined,
+                  t(item.subType!, context),
+                  context,
+                ),
+            ],
+          ),
         ),
         Column(
           children: [
@@ -144,7 +147,6 @@ class _DegustationItemBaseInfo extends StatelessWidget {
   ) {
     return IntrinsicHeight(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Icon(
             iconData,
