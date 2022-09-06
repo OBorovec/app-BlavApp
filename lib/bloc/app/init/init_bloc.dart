@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
 import 'package:blavapp/bloc/app/event/event_bloc.dart';
-import 'package:blavapp/model/event.dart';
 import 'package:blavapp/services/data_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

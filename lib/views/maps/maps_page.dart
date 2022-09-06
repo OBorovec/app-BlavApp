@@ -3,6 +3,7 @@ import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/components/pages/page_root.dart';
 import 'package:blavapp/components/page_content/data_error_page.dart';
 import 'package:blavapp/components/page_content/data_loading_page.dart';
+import 'package:blavapp/components/views/title_divider.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/route_generator.dart';
 import 'package:blavapp/utils/model_localization.dart';
@@ -86,21 +87,7 @@ class _MapsMainContent extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(),
-          Text(
-            AppLocalizations.of(context)!.contMapsRealWorldHeader,
-            style: Theme.of(context).textTheme.headline5,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          ),
-          ...state.realWorldRecords.map((e) => _RealWorldRecordCard(
-                realWorldRecord: e,
-                onTap: () => MapsLauncher.launchCoordinates(
-                  e.lat,
-                  e.long,
-                  t(e.name, context),
-                ),
-              )),
+          _RealWorldPlaceList(state: state),
         ],
       ),
     );
@@ -159,6 +146,36 @@ class _MapRecordCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _RealWorldPlaceList extends StatelessWidget {
+  const _RealWorldPlaceList({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  final MapsState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TitleDivider(
+          title: AppLocalizations.of(context)!.contMapsRealWorldHeader,
+        ),
+        ...state.realWorldRecords.map(
+          (e) => _RealWorldRecordCard(
+            realWorldRecord: e,
+            onTap: () => MapsLauncher.launchCoordinates(
+              e.lat,
+              e.long,
+              t(e.name, context),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

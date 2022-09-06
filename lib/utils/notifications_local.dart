@@ -23,16 +23,6 @@ void localNotificationToggle(bool? value, BuildContext context) {
       localPrefs: BlocProvider.of<UserLocalPrefsBloc>(context).state,
       context: context,
     );
-    Toasting.notifyToast(
-      context,
-      AppLocalizations.of(context)!.toastingProgrammeNotificationIntervalSet,
-    );
-  } else {
-    Toasting.notifyToast(
-      context,
-      AppLocalizations.of(context)!
-          .toastingProgrammeNotificationIntervalRemoved,
-    );
   }
 }
 

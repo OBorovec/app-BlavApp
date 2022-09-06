@@ -16,11 +16,17 @@ Maps _$MapsFromJson(Map<String, dynamic> json) => Maps(
               ?.map((e) => RealWorldRecord.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      shops: (json['shops'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ShopPlace.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$MapsToJson(Maps instance) => <String, dynamic>{
       'mapRecords': instance.mapRecords,
       'realWorldRecords': instance.realWorldRecords,
+      'shops': instance.shops,
     };
 
 MapRecord _$MapRecordFromJson(Map<String, dynamic> json) => MapRecord(
@@ -94,4 +100,34 @@ Map<String, dynamic> _$RealWorldRecordToJson(RealWorldRecord instance) =>
       'long': instance.long,
       'desc': instance.desc,
       'image': instance.image,
+    };
+
+ShopPlace _$ShopPlaceFromJson(Map<String, dynamic> json) => ShopPlace(
+      name: Map<String, String>.from(json['name'] as Map),
+      desc: (json['desc'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
+      mail: json['mail'] as String?,
+      tel: json['tel'] as String?,
+      web: json['web'] as String?,
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$ShopPlaceToJson(ShopPlace instance) => <String, dynamic>{
+      'name': instance.name,
+      'desc': instance.desc,
+      'mail': instance.mail,
+      'tel': instance.tel,
+      'web': instance.web,
+      'image': instance.image,
+    };
+
+PlaceLoc _$PlaceLocFromJson(Map<String, dynamic> json) => PlaceLoc(
+      mapRef: json['mapRef'] as String,
+      pointRef: json['pointRef'] as String,
+    );
+
+Map<String, dynamic> _$PlaceLocToJson(PlaceLoc instance) => <String, dynamic>{
+      'mapRef': instance.mapRef,
+      'pointRef': instance.pointRef,
     };

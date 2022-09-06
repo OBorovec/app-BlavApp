@@ -13,8 +13,9 @@ final Map<AppLang, String?> modelAppLang = {
 };
 
 String t(Map<String, String> modelItem, BuildContext context) {
-  final AppLang lang = BlocProvider.of<LocalizationBloc>(context).state.appLang;
-  final String? langKey = modelAppLang[lang];
+  // final AppLang lang = BlocProvider.of<LocalizationBloc>(context).state.appLang;
+  // final String? langKey = modelAppLang[lang];
+  final String langKey = AppLocalizations.of(context)!.sysLang;
   return modelItem[langKey] ?? modelItem['@cs'] ?? 'Loc. missing';
 }
 

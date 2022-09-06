@@ -7,10 +7,12 @@ part 'maps.g.dart';
 class Maps extends Equatable {
   final Map<String, MapRecord> mapRecords;
   final List<RealWorldRecord> realWorldRecords;
+  final Map<String, ShopPlace> shops;
 
   const Maps({
     this.mapRecords = const {},
     this.realWorldRecords = const [],
+    this.shops = const {},
   });
 
   @override
@@ -104,4 +106,56 @@ class RealWorldRecord extends Equatable {
   factory RealWorldRecord.fromJson(Map<String, Object?> json) =>
       _$RealWorldRecordFromJson(json);
   Map<String, Object?> toJson() => _$RealWorldRecordToJson(this);
+}
+
+@JsonSerializable()
+class ShopPlace extends Equatable {
+  final Map<String, String> name;
+  final Map<String, String>? desc;
+  final String? mail;
+  final String? tel;
+  final String? web;
+  final String? image;
+
+  const ShopPlace({
+    required this.name,
+    this.desc,
+    this.mail,
+    this.tel,
+    this.web,
+    this.image,
+  });
+
+  @override
+  List<Object?> get props => [
+        name,
+        desc,
+        mail,
+        tel,
+        web,
+        image,
+      ];
+
+  factory ShopPlace.fromJson(Map<String, Object?> json) =>
+      _$ShopPlaceFromJson(json);
+  Map<String, Object?> toJson() => _$ShopPlaceToJson(this);
+}
+
+@JsonSerializable()
+class PlaceLoc extends Equatable {
+  final String mapRef;
+  final String pointRef;
+
+  const PlaceLoc({
+    required this.mapRef,
+    required this.pointRef,
+  });
+
+  @override
+  List<Object?> get props => [mapRef, pointRef];
+
+  factory PlaceLoc.fromJson(Map<String, Object?> json) =>
+      _$PlaceLocFromJson(json);
+
+  Map<String, Object?> toJson() => _$PlaceLocToJson(this);
 }

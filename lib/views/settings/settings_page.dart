@@ -235,6 +235,18 @@ class _UserNotificationIntervals extends StatelessWidget {
                               BlocProvider.of<UserLocalPrefsBloc>(context)
                                   .add(const Toggle10minNotification());
                               localNotificationToggle(true, context);
+                              // TODO: make this notification more logical
+                              if (state.notify10min) {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalRemoved);
+                              } else {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalSet);
+                              }
                             }),
                           ),
                         ),
@@ -248,6 +260,18 @@ class _UserNotificationIntervals extends StatelessWidget {
                               BlocProvider.of<UserLocalPrefsBloc>(context)
                                   .add(const Toggle30minNotification());
                               localNotificationToggle(true, context);
+                              // TODO: make this notification more logical
+                              if (state.notify30min) {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalRemoved);
+                              } else {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalSet);
+                              }
                             }),
                           ),
                         ),
@@ -261,6 +285,18 @@ class _UserNotificationIntervals extends StatelessWidget {
                               BlocProvider.of<UserLocalPrefsBloc>(context)
                                   .add(const Toggle60minNotification());
                               localNotificationToggle(true, context);
+                              // TODO: make this notification more logical
+                              if (state.notify60min) {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalRemoved);
+                              } else {
+                                Toasting.notifyToast(
+                                    context,
+                                    AppLocalizations.of(context)!
+                                        .toastingProgrammeNotificationIntervalSet);
+                              }
                             }),
                           ),
                         ),

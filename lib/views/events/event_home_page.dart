@@ -382,11 +382,11 @@ class _EventDates extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Začíná: ${datetimeDayDate(startDate, context)}',
+          '${AppLocalizations.of(context)!.genStarts}: ${datetimeDayDate(startDate, context)}',
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Text(
-          'Končí: ${datetimeDayDate(endDate, context)}',
+          '${AppLocalizations.of(context)!.genEnds}: ${datetimeDayDate(endDate, context)}',
           style: Theme.of(context).textTheme.subtitle1,
         ),
       ],
