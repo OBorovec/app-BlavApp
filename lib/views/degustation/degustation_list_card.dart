@@ -71,21 +71,33 @@ class _DegusItemInfo extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(
-                    t(item.name, context),
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline6,
+                  child: Column(
+                    children: [
+                      Text(
+                        t(item.name, context),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      if (item.rating != -1)
+                        AppRatingIndicator(
+                          rating: item.rating,
+                        ),
+                    ],
                   ),
                 ),
-                DegustationFavoriteSwitch(
-                  itemRef: item.id,
+                Column(
+                  children: [
+                    DegustationTastedSwitch(
+                      itemRef: item.id,
+                    ),
+                    DegustationFavoriteSwitch(
+                      itemRef: item.id,
+                    ),
+                  ],
                 ),
               ],
             ),
-            if (item.rating != -1)
-              AppRatingIndicator(
-                rating: item.rating,
-              ),
             if (item.desc != null) ...[
               const Divider(),
               Text(

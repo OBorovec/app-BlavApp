@@ -7,7 +7,16 @@ class LocalUserDataState extends Equatable {
   });
 
   Set<String> get hiddenBoardNotes => userDataLocal.hiddenBoardNotes;
+  Set<String> get tastedDegustations => userDataLocal.tastedDegustations;
 
   @override
   List<Object> get props => [userDataLocal];
+
+  LocalUserDataState copyWith({
+    UserDataLocal? userDataLocal,
+  }) {
+    return LocalUserDataState(
+      userDataLocal: userDataLocal ?? this.userDataLocal,
+    );
+  }
 }

@@ -23,8 +23,20 @@ class UpdateMyFavoriteItemRefs extends FilterDegustationEvent {
   });
 }
 
+class UpdateTastedItemRefs extends FilterDegustationEvent {
+  final Set<String> tastedItemRefs;
+
+  const UpdateTastedItemRefs({
+    required this.tastedItemRefs,
+  });
+}
+
 class ToggleSearch extends FilterDegustationEvent {
   const ToggleSearch();
+}
+
+class ToggleExplore extends FilterDegustationEvent {
+  const ToggleExplore();
 }
 
 class SetAvailableFilters extends FilterDegustationEvent {

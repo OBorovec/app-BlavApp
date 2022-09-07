@@ -1,6 +1,7 @@
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/filter_degustation/filter_degustation_bloc.dart';
 import 'package:blavapp/bloc/degustation/highlight_degustation/highlight_degustation_bloc.dart';
+import 'package:blavapp/bloc/user_data/local_user_data/local_user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/components/pages/aspects/bottom_navigation.dart';
 import 'package:blavapp/components/pages/page_root.dart';
@@ -96,6 +97,7 @@ class _DegustationPageState extends State<DegustationPage> {
                   create: (context) => FilterDegustationBloc(
                     degustationBloc: context.read<DegustationBloc>(),
                     userDataBloc: context.read<UserDataBloc>(),
+                    localUserDataBloc: context.read<LocalUserDataBloc>(),
                   ),
                 ),
               ],
@@ -142,6 +144,17 @@ class _DegustationPageState extends State<DegustationPage> {
       case DegustationPageContent.list:
       case DegustationPageContent.favoriteList:
         return [
+          BlocBuilder<FilterDegustationBloc, FilterDegustationState>(
+            builder: (context, state) {
+              return ExploreSwitch(
+                isOn: state.exploreMode,
+                onPressed: () {
+                  BlocProvider.of<FilterDegustationBloc>(context)
+                      .add(const ToggleExplore());
+                },
+              );
+            },
+          ),
           BlocBuilder<FilterDegustationBloc, FilterDegustationState>(
             builder: (context, state) {
               return SearchSwitch(

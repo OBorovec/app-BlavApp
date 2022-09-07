@@ -25,3 +25,14 @@ class HideBoardNote extends LocalUserDataEvent {
 class ResetBoardNotes extends LocalUserDataEvent {
   const ResetBoardNotes();
 }
+
+class LocalToggleDegustationSample extends LocalUserDataEvent {
+  final String itemRef;
+
+  const LocalToggleDegustationSample({
+    required this.itemRef,
+  });
+
+  @override
+  List<Object> get props => [itemRef];
+}

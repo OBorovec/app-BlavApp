@@ -12,9 +12,14 @@ UserDataLocal _$UserDataLocalFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toSet() ??
           const {},
+      tastedDegustations: (json['tastedDegustations'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toSet() ??
+          const {},
     );
 
 Map<String, dynamic> _$UserDataLocalToJson(UserDataLocal instance) =>
     <String, dynamic>{
       'hiddenBoardNotes': instance.hiddenBoardNotes.toList(),
+      'tastedDegustations': instance.tastedDegustations.toList(),
     };

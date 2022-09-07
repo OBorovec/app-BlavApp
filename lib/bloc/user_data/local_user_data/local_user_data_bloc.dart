@@ -21,6 +21,7 @@ class LocalUserDataBloc extends Bloc<LocalUserDataEvent, LocalUserDataState> {
     on<LocalUserDataInit>(_initLocalUserData);
     on<HideBoardNote>(_hideBoardNote);
     on<ResetBoardNotes>(_resetBoardNotes);
+    on<LocalToggleDegustationSample>(_toggleDegustationSample);
     // Init
     add(const LocalUserDataInit());
   }
@@ -61,9 +62,27 @@ class LocalUserDataBloc extends Bloc<LocalUserDataEvent, LocalUserDataState> {
     );
     _prefs.saveUserDataLocal(userDataLocal);
     emit(
-      LocalUserDataState(
-        userDataLocal: userDataLocal,
-      ),
+      LocalUserDataState(userDataLocal: userDataLocal),
+    );
+  }
+
+  FutureOr<void> _toggleDegustationSample(
+    LocalToggleDegustationSample event,
+    Emitter<LocalUserDataState> emit,
+  ) {
+    Set<String> tastedDegustations =
+        Set<String>.from(state.userDataLocal.tastedDegustations);
+    if (tastedDegustations.contains(event.itemRef)) {
+      tastedDegustations.remove(event.itemRef);
+    } else {
+      tastedDegustations.add(event.itemRef);
+    }
+    final UserDataLocal userDataLocal = state.userDataLocal.copyWith(
+      tastedDegustations: tastedDegustations,
+    );
+    _prefs.saveUserDataLocal(userDataLocal);
+    emit(
+      LocalUserDataState(userDataLocal: userDataLocal),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
+import 'package:blavapp/bloc/user_data/local_user_data/local_user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:diacritic/diacritic.dart';
@@ -14,14 +15,19 @@ class FilterDegustationBloc
     extends Bloc<FilterDegustationEvent, FilterDegustationState> {
   late final StreamSubscription<DegustationState> _degustationBlocSubscription;
   late final StreamSubscription<UserDataState> _userDataBlocSubscription;
+  late final StreamSubscription<LocalUserDataState>
+      _localUserDataBlocSubscription;
 
   FilterDegustationBloc({
     required DegustationBloc degustationBloc,
     required UserDataBloc userDataBloc,
+    required LocalUserDataBloc localUserDataBloc,
   }) : super(FilterDegustationState(
           degusItems: degustationBloc.state.degustationItems,
           myFavoriteItemRefs: userDataBloc.state.userData.favoriteSamples,
           degusItemsFiltered: degustationBloc.state.degustationItems,
+          tastedItemRefs:
+              localUserDataBloc.state.userDataLocal.tastedDegustations,
         )) {
     _degustationBlocSubscription = degustationBloc.stream.listen(
       (DegustationState state) {
@@ -39,13 +45,22 @@ class FilterDegustationBloc
         ),
       ),
     );
+    _localUserDataBlocSubscription = localUserDataBloc.stream.listen(
+      (LocalUserDataState state) => add(
+        UpdateTastedItemRefs(
+          tastedItemRefs: state.tastedDegustations,
+        ),
+      ),
+    );
     // Event listeners
     on<UpdateDegusItems>(_updateDegusItems);
     on<UpdateMyFavoriteItemRefs>(_updateMyFavoriteItemRefs);
+    on<UpdateTastedItemRefs>(_updateTastedItemRefs);
     on<ToggleSearch>(_toggleSearch);
     on<SetAvailableFilters>(_setAvailableFilters);
     on<ApplyDegusFilters>(_applyAllFilters);
     on<ResetDegusFilters>(_resetAllFilters);
+    on<ToggleExplore>(_toggleExplore);
     on<UseMyFavoriteFilter>(_useMyFavoriteFilter);
     on<DegusAlcoholTypeFilter>(_updateAlcoholTypeFilter);
     on<DegusOriginFilter>(_updateOriginFilter);
@@ -75,6 +90,38 @@ class FilterDegustationBloc
     emit(
       state.copyWith(
         myFavoriteItemRefs: event.myFavoriteItemRefs,
+      ),
+    );
+    add(const ApplyDegusFilters());
+  }
+
+  FutureOr<void> _updateTastedItemRefs(
+    UpdateTastedItemRefs event,
+    Emitter<FilterDegustationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        tastedItemRefs: event.tastedItemRefs,
+      ),
+    );
+    add(const ApplyDegusFilters());
+  }
+
+  @override
+  Future<void> close() {
+    _degustationBlocSubscription.cancel();
+    _userDataBlocSubscription.cancel();
+    _localUserDataBlocSubscription.cancel();
+    return super.close();
+  }
+
+  FutureOr<void> _toggleExplore(
+    ToggleExplore event,
+    Emitter<FilterDegustationState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        exploreMode: !state.exploreMode,
       ),
     );
     add(const ApplyDegusFilters());
@@ -118,6 +165,11 @@ class FilterDegustationBloc
     Emitter<FilterDegustationState> emit,
   ) {
     Iterable<DegusItem> itemFiltering = state.degusItems;
+    if (state.exploreMode) {
+      itemFiltering = itemFiltering.where(
+        (DegusItem item) => !state.tastedItemRefs.contains(item.id),
+      );
+    }
     if (state.onlyMyFavorite) {
       itemFiltering = itemFiltering.where(
         (DegusItem item) => state.myFavoriteItemRefs.contains(item.id),
@@ -268,12 +320,5 @@ class FilterDegustationBloc
       ),
     );
     add(const ApplyDegusFilters());
-  }
-
-  @override
-  Future<void> close() {
-    _degustationBlocSubscription.cancel();
-    _userDataBlocSubscription.cancel();
-    return super.close();
   }
 }

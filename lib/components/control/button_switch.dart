@@ -182,3 +182,69 @@ class FavoriteSwitch extends ButtonSwitch {
           constraints: constraints,
         );
 }
+
+class CheckBoxSwitch extends ButtonSwitch {
+  const CheckBoxSwitch({
+    Key? key,
+    required bool isOn,
+    Color? onColor,
+    required Function() onPressed,
+    double? iconSize,
+    EdgeInsetsGeometry? padding,
+    BoxConstraints? constraints,
+  }) : super(
+          key: key,
+          isOn: isOn,
+          onColor: onColor,
+          onPressed: onPressed,
+          onIconData: Icons.check_box_rounded,
+          offIconData: Icons.check_box_outline_blank_rounded,
+          iconSize: iconSize,
+          padding: padding,
+          constraints: constraints,
+        );
+}
+
+class AddBoxSwitch extends ButtonSwitch {
+  const AddBoxSwitch({
+    Key? key,
+    required bool isOn,
+    Color? onColor,
+    required Function() onPressed,
+    double? iconSize,
+    EdgeInsetsGeometry? padding,
+    BoxConstraints? constraints,
+  }) : super(
+          key: key,
+          isOn: isOn,
+          onColor: onColor,
+          onPressed: onPressed,
+          onIconData: Icons.add_box_outlined,
+          offIconData: Icons.add_box,
+          iconSize: iconSize,
+          padding: padding,
+          constraints: constraints,
+        );
+}
+
+class ExploreSwitch extends ButtonSwitch {
+  const ExploreSwitch({
+    Key? key,
+    required bool isOn,
+    Color? onColor,
+    required Function() onPressed,
+    double? iconSize,
+    EdgeInsetsGeometry? padding,
+    BoxConstraints? constraints,
+  }) : super(
+          key: key,
+          isOn: isOn,
+          onColor: onColor,
+          onPressed: onPressed,
+          onIconData: Icons.explore,
+          offIconData: Icons.explore_off,
+          iconSize: iconSize,
+          padding: padding,
+          constraints: constraints,
+        );
+}
