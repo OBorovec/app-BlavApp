@@ -16,9 +16,9 @@ Color colorProgEntryType(ProgEntryType type, BuildContext context) {
     case ProgEntryType.show:
       return Colors.cyan.shade400;
     case ProgEntryType.degustation:
-      return Colors.amber.shade400;
+      return Colors.green.shade700;
     case ProgEntryType.discussion:
-      return Colors.yellow.shade400;
+      return Colors.blue.shade700;
     case ProgEntryType.gaming:
       return Colors.greenAccent.shade400;
     case ProgEntryType.cosplay:

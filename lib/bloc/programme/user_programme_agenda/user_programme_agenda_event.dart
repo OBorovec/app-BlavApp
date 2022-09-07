@@ -23,6 +23,16 @@ class UpdateMyProgrammeEntryIds extends UserProgrammeAgendaEvent {
   });
 }
 
-class UpdateAgendaData extends UserProgrammeAgendaEvent {
-  const UpdateAgendaData();
+class UserAgendaScopeDate extends UserProgrammeAgendaEvent {
+  final DateTime date;
+
+  const UserAgendaScopeDate(this.date);
+}
+
+class UserAgendaResetView extends UserProgrammeAgendaEvent {
+  const UserAgendaResetView();
+}
+
+class UserAgendaShowAllToggle extends UserProgrammeAgendaEvent {
+  const UserAgendaShowAllToggle();
 }

@@ -19,7 +19,7 @@ class UserProfileDeletePage extends StatelessWidget {
       ),
       child: BlocListener<UserDeleteBloc, UserDeleteState>(
         listenWhen: (previous, current) => previous.status != current.status,
-        listener: userDeleteistener,
+        listener: userDeleteListener,
         child: SidePage(
           titleText: AppLocalizations.of(context)!.contProfileDeleteTitle,
           body: Center(
@@ -44,7 +44,7 @@ class UserProfileDeletePage extends StatelessWidget {
     );
   }
 
-  void userDeleteistener(
+  void userDeleteListener(
     BuildContext context,
     UserDeleteState state,
   ) {

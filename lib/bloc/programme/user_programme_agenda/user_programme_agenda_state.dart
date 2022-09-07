@@ -1,49 +1,63 @@
 part of 'user_programme_agenda_bloc.dart';
 
+class AgendaData {
+  ProgrammeEntry entry;
+  bool colored;
+
+  AgendaData({
+    required this.entry,
+    required this.colored,
+  });
+}
+
 class UserProgrammeAgendaState extends Equatable {
   // Bloc data
   final List<ProgrammeEntry> programmeEntries;
   final Set<String> myProgrammeEntryIds;
   final Event event;
+  //State data
+  final bool singleDayMod;
+  final DateTime? singleDay;
+  final bool showAll;
   // View
-  final DateTime maxDate;
-  final DateTime minDate;
-  final int dayCount;
-  final List<int> nonEventDays;
-  final List<ProgrammeEntry> agendaData;
+  final DateTime? maxDate;
+  final DateTime? minDate;
+  final double minHour;
+  final double maxHour;
+  final int? dayCount;
+  final List<int>? nonEventDays;
+  final List<AgendaData> agendaData;
 
-  UserProgrammeAgendaState({
+  const UserProgrammeAgendaState({
     this.programmeEntries = const <ProgrammeEntry>[],
     this.myProgrammeEntryIds = const <String>{},
     required this.event,
-    this.agendaData = const <ProgrammeEntry>[],
-  })  : maxDate = event.dayEnd,
-        minDate = event.dayStart,
-        dayCount = event.dayEnd.difference(event.dayStart).inDays + 1,
-        nonEventDays = List<int>.generate(7, (i) => i)
-            .toSet()
-            .difference(List<int>.generate(
-              event.dayEnd.difference(event.dayStart).inDays + 1,
-              (i) => (event.dayStart.weekday + i) % 7,
-            ).toSet())
-            .toList();
-
-  // Explonation of the above:
-  // final DateTime maxDate = state.event.dayEnd;
-  // final DateTime minDate = state.event.dayStart;
-  // final Set<int> allDays = List<int>.generate(7, (i) => i).toSet();
-  // final int dayCount = maxDate.difference(minDate).inDays + 1;
-  // final Set<int> eventDays = List<int>.generate(
-  //   dayCount,
-  //   (i) => (minDate.weekday + i) % 7,
-  // ).toSet();
-  // final List<int> nonEventDays = allDays.difference(eventDays).toList();
+    this.singleDayMod = false,
+    this.singleDay,
+    this.showAll = false,
+    this.maxDate,
+    this.minDate,
+    this.minHour = 8,
+    this.maxHour = 24,
+    this.dayCount,
+    this.nonEventDays,
+    this.agendaData = const [],
+  });
 
   @override
   List<Object> get props => [
         programmeEntries,
         myProgrammeEntryIds,
         event,
+        singleDayMod,
+        singleDay ?? '',
+        showAll,
+        maxDate ?? '',
+        minDate ?? '',
+        minHour,
+        maxHour,
+        dayCount ?? '',
+        nonEventDays ?? '',
         agendaData,
       ];
 
@@ -51,17 +65,36 @@ class UserProgrammeAgendaState extends Equatable {
     List<ProgrammeEntry>? programmeEntries,
     Set<String>? myProgrammeEntryIds,
     Event? event,
+    bool? singleDayMod,
+    DateTime? singleDay,
+    bool? showAll,
     DateTime? maxDate,
     DateTime? minDate,
+    double? minHour,
+    double? maxHour,
     int? dayCount,
     List<int>? nonEventDays,
-    List<ProgrammeEntry>? agendaData,
+    List<AgendaData>? agendaData,
   }) {
     return UserProgrammeAgendaState(
       programmeEntries: programmeEntries ?? this.programmeEntries,
       myProgrammeEntryIds: myProgrammeEntryIds ?? this.myProgrammeEntryIds,
       event: event ?? this.event,
+      singleDayMod: singleDayMod ?? this.singleDayMod,
+      singleDay: singleDay ?? this.singleDay,
+      showAll: showAll ?? this.showAll,
+      maxDate: maxDate ?? this.maxDate,
+      minDate: minDate ?? this.minDate,
+      minHour: minHour ?? this.minHour,
+      maxHour: maxHour ?? this.maxHour,
+      dayCount: dayCount ?? this.dayCount,
+      nonEventDays: nonEventDays ?? this.nonEventDays,
       agendaData: agendaData ?? this.agendaData,
     );
+  }
+
+  @override
+  String toString() {
+    return 'UserProgrammeAgendaState(programmeEntries: ${programmeEntries.length}, myProgrammeEntryIds: ${myProgrammeEntryIds.length}, event: ${event.id}, singleDay: $singleDay, maxDate: $maxDate, minDate: $minDate, minHour: $minHour, maxHour: $maxHour,dayCount: $dayCount, nonEventDays: $nonEventDays, agendaData: $agendaData)';
   }
 }

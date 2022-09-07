@@ -173,6 +173,39 @@ class _ProgrammePageState extends State<ProgrammePage> {
             },
           ),
         ];
+      case ProgrammePageContent.agenda:
+        return [
+          BlocBuilder<UserProgrammeAgendaBloc, UserProgrammeAgendaState>(
+            builder: (context, state) {
+              return state.singleDayMod
+                  ? IconButton(
+                      onPressed: () =>
+                          BlocProvider.of<UserProgrammeAgendaBloc>(context)
+                              .add(const UserAgendaShowAllToggle()),
+                      icon: state.showAll
+                          ? const Icon(Icons.remove_red_eye)
+                          : const Icon(Icons.remove_red_eye_outlined),
+                    )
+                  : SizedBox(
+                      width: 1,
+                    );
+            },
+          ),
+          BlocBuilder<UserProgrammeAgendaBloc, UserProgrammeAgendaState>(
+            builder: (context, state) {
+              return state.singleDayMod
+                  ? IconButton(
+                      onPressed: () =>
+                          BlocProvider.of<UserProgrammeAgendaBloc>(context)
+                              .add(const UserAgendaResetView()),
+                      icon: const Icon(Icons.refresh),
+                    )
+                  : SizedBox(
+                      width: 1,
+                    );
+            },
+          ),
+        ];
       default:
         return [];
     }

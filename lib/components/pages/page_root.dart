@@ -37,6 +37,7 @@ class _RootPageState extends State<RootPage> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
+          centerTitle: true,
           title: Text(widget.titleText),
           elevation: 0,
           actions: widget.actions,
