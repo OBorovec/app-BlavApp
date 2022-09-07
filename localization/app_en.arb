@@ -223,6 +223,7 @@
   "genPassword": "Password",
   "genProcessing": "Processing",
   "genRequest": "Request",
+  "genSearch": "Searching...",
   "genSend": "Send",
   "genShowLess": "Show less",
   "genShowMore": "Show more",

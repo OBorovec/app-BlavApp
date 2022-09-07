@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:blavapp/components/images/app_network_image.dart';
 import 'package:blavapp/model/maps.dart';
 import 'package:blavapp/utils/model_icons.dart';
 import 'package:blavapp/utils/model_localization.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
+// TODO: icon size scaling with zoom
 
 class CustomMap extends StatefulWidget {
   final double screenHeight;
@@ -31,10 +35,12 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
   Animation<Matrix4> _mapMatrixAnimation =
       AlwaysStoppedAnimation(Matrix4.identity());
   late final AnimationController _mapAnimationController;
-  bool animate = true;
 
   final CarouselController _carouselController = CarouselController();
-  int _carouselIndex = 0;
+
+  double _currentScale = 1.0;
+  bool _isAnimating = false;
+  int _displayIndex = 0;
 
   @override
   void initState() {
@@ -43,7 +49,7 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
     super.initState();
     _mapAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
     )..addListener(_mapAnimationListener);
     if (widget.pointRefZoom != null) {
       List<MapPoint> points = widget.mapRecord.points
@@ -53,15 +59,12 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
         MapPoint point = points.first;
         final int index = widget.mapRecord.points.indexOf(point);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          // Center
           _animateMove(point);
-          // Set carousel
           _carouselController.animateToPage(
             index,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 500),
           );
-          _carouselIndex = index;
+          _displayIndex = index;
         });
       }
     }
@@ -79,14 +82,38 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
         -point.y + widget.screenHeight / 2,
         0,
       ),
-    )
-        .chain(CurveTween(curve: Curves.decelerate))
-        .animate(_mapAnimationController);
+    ).animate(_mapAnimationController);
     await _mapAnimationController.forward(from: 0);
+  }
+
+  Future<void> onPointTap(int index, MapPoint point) async {
+    _animateMove(widget.mapRecord.points[index]);
+    setState(() {
+      _isAnimating = true;
+      _displayIndex = index;
+    });
+    await _carouselController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+    setState(() {
+      _isAnimating = false;
+    });
+  }
+
+  void onCarouselChange(index, reason) {
+    if (!_isAnimating) {
+      _animateMove(widget.mapRecord.points[index]);
+      setState(() {
+        _displayIndex = index;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    MapPoint highlightPoint = widget.mapRecord.points[_displayIndex];
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -94,6 +121,9 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
           transformationController: _mapTransformationController,
           constrained: false,
           minScale: widget.initVerticalScale,
+          // onInteractionUpdate: (ScaleUpdateDetails details) {
+          //   _currentScale = details.scale;
+          // },
           child: Stack(
             children: [
               widget.mapRecord.image.startsWith('assets')
@@ -109,25 +139,22 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
                     top: p.y.toDouble() - _MapMarker.offset,
                     child: _MapMarker(
                       mapPoint: p,
-                      onTap: () {
-                        _animateMove(widget.mapRecord.points[index]);
-                        setState(() {
-                          animate = false;
-                        });
-                        _carouselController.animateToPage(
-                          index,
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                        );
-                        setState(() {
-                          animate = true;
-                        });
-                      },
-                      isSelected: _carouselIndex == index,
+                      onTap: () => onPointTap(index, p),
+                      isSelected: _displayIndex == index,
                     ),
                   );
                 },
-              )
+              ),
+              Positioned(
+                left: highlightPoint.x.toDouble() - _MapMarker.offset,
+                top: highlightPoint.y.toDouble() - _MapMarker.offset,
+                child: _MapMarker(
+                  mapPoint: highlightPoint,
+                  onTap: () => onPointTap(_displayIndex, highlightPoint),
+                  isSelected: true,
+                  scale: max(1, 2 - _currentScale),
+                ),
+              ),
             ],
           ),
         ),
@@ -145,16 +172,12 @@ class _CustomMapState extends State<CustomMap> with TickerProviderStateMixin {
                   )
                   .toList(),
               options: CarouselOptions(
-                  height: widget.screenHeight * 0.1,
-                  enlargeCenterPage: true,
-                  // aspectRatio: 6.0,
-                  viewportFraction: 0.7,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _animateMove(widget.mapRecord.points[index]);
-                      _carouselIndex = index;
-                    });
-                  }),
+                height: widget.screenHeight * 0.1,
+                enlargeCenterPage: true,
+                // aspectRatio: 6.0,
+                viewportFraction: 0.7,
+                onPageChanged: onCarouselChange,
+              ),
             ),
           ),
         ),
@@ -174,14 +197,16 @@ class _MapMarker extends StatelessWidget {
   final MapPoint mapPoint;
   final Function() onTap;
   final bool isSelected;
+  final double scale;
 
-  static double offset = 30;
+  static double offset = 50;
 
   const _MapMarker({
     Key? key,
     required this.mapPoint,
     required this.onTap,
     required this.isSelected,
+    this.scale = 1.0,
   }) : super(key: key);
 
   @override
@@ -191,8 +216,8 @@ class _MapMarker extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: _MapMarker.offset * 2,
-            height: _MapMarker.offset * 2,
+            width: scale * _MapMarker.offset * 2,
+            height: scale * _MapMarker.offset * 2,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Theme.of(context)
@@ -208,8 +233,9 @@ class _MapMarker extends StatelessWidget {
                 mapPointTypeIcon(mapPoint.type),
                 color:
                     isSelected ? Theme.of(context).colorScheme.secondary : null,
-                size:
-                    isSelected ? _MapMarker.offset * 2 - 2 : _MapMarker.offset,
+                size: isSelected
+                    ? scale * _MapMarker.offset * 2 - 4
+                    : scale * _MapMarker.offset - 2,
               ),
             ),
           ),

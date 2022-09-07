@@ -117,3 +117,28 @@ class NickTextField extends StatelessWidget {
     );
   }
 }
+
+class SearchTextField extends StatelessWidget {
+  final Function(String) onChange;
+  const SearchTextField({
+    Key? key,
+    required this.onChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      autocorrect: false,
+      enableSuggestions: false,
+      onChanged: onChange,
+      decoration: InputDecoration(
+        hintText: AppLocalizations.of(context)!.genSearch,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 15.0,
+          horizontal: 10.0,
+        ),
+        suffixIcon: const Icon(Icons.search),
+      ),
+    );
+  }
+}

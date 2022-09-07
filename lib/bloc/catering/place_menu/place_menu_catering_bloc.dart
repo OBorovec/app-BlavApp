@@ -24,7 +24,6 @@ const List<BeverageItemType> beverageOrder = [
   BeverageItemType.spirit,
   BeverageItemType.mix,
   BeverageItemType.tea,
-  BeverageItemType.mix,
   BeverageItemType.coffee,
   BeverageItemType.other,
 ];
