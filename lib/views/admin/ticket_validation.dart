@@ -121,11 +121,10 @@ class _QRScanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MobileScanner(
-      allowDuplicates: false,
-      onDetect: (barcode, args) {
+      onDetect: (barcode) {
         context
             .read<TicketCheckerBloc>()
-            .add(TicketScanned(barcodeValue: barcode.rawValue));
+            .add(TicketScanned(barcodeValue: barcode.toString()));
       },
     );
   }

@@ -91,6 +91,7 @@ class _DegustationPageState extends State<DegustationPage> {
                   create: (context) => HighlightDegustationBloc(
                     degustationBloc: context.read<DegustationBloc>(),
                     userDataBloc: context.read<UserDataBloc>(),
+                    localUserDataBloc: context.read<LocalUserDataBloc>(),
                   ),
                 ),
                 BlocProvider(

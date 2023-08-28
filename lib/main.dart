@@ -1,16 +1,27 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
 import 'package:blavapp/bloc/admin/voting_data/voting_data_bloc.dart';
 import 'package:blavapp/bloc/app/auth/auth_bloc.dart';
+import 'package:blavapp/bloc/app/event/event_bloc.dart';
+import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
+import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/catering/data_catering/catering_bloc.dart';
 import 'package:blavapp/bloc/contacts/data_contacts/contacts_bloc.dart';
 import 'package:blavapp/bloc/cosplay/data_cospaly/cosplay_bloc.dart';
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
 import 'package:blavapp/bloc/maps/data_maps/maps_bloc.dart';
 import 'package:blavapp/bloc/programme/data_programme/programme_bloc.dart';
-import 'package:blavapp/bloc/app/event/event_bloc.dart';
-import 'package:blavapp/bloc/app/localization/localization_bloc.dart';
-import 'package:blavapp/bloc/app/theme/theme_bloc.dart';
 import 'package:blavapp/bloc/story/bloc/story_bloc.dart';
 import 'package:blavapp/bloc/user_data/local_user_data/local_user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
@@ -24,16 +35,6 @@ import 'package:blavapp/services/local_notification_service.dart';
 import 'package:blavapp/services/prefs_repo.dart';
 import 'package:blavapp/services/push_notification_service.dart';
 import 'package:blavapp/services/storage_repo.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 import 'firebase_options.dart';
 
@@ -58,13 +59,13 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    // print(change);
+    debugPrint(change.toString());
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    // print(transition);
+    debugPrint(transition.toString());
   }
 }
 

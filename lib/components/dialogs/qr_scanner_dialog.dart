@@ -27,9 +27,8 @@ class QRScannerDialog extends StatelessWidget {
             width: width,
             height: width,
             child: MobileScanner(
-              allowDuplicates: false,
-              onDetect: (barcode, args) {
-                print(barcode);
+              onDetect: (barcode) {
+                debugPrint(barcode.toString());
               },
             ),
           ),

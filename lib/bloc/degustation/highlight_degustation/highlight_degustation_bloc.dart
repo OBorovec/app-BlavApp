@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blavapp/bloc/degustation/data_degustation/degustation_bloc.dart';
+import 'package:blavapp/bloc/user_data/local_user_data/local_user_data_bloc.dart';
 import 'package:blavapp/bloc/user_data/user_data/user_data_bloc.dart';
 import 'package:blavapp/model/degustation.dart';
 import 'package:blavapp/utils/model_helper.dart';
@@ -14,21 +15,25 @@ class HighlightDegustationBloc
     extends Bloc<HighlightDegustationEvent, HighlightDegustationState> {
   late final StreamSubscription<DegustationState> _degustationBlocSubscription;
   late final StreamSubscription<UserDataState> _userDataBlocSubscription;
+  late final StreamSubscription<LocalUserDataState>
+      _localUserDataBlocSubscription;
   HighlightDegustationBloc({
     required DegustationBloc degustationBloc,
     required UserDataBloc userDataBloc,
+    required LocalUserDataBloc localUserDataBloc,
   }) : super(HighlightDegustationState(
           headerText: degustationBloc.state.degustation.desc,
           degustationItems: degustationBloc.state.degustationItems,
           degustationPlaces: degustationBloc.state.degustationPlaces,
-          myFavorite: userDataBloc.state.myFavorite,
-          myRatings: userDataBloc.state.myRatings,
+          userFavorite: userDataBloc.state.myFavorite,
+          userRatings: userDataBloc.state.myRatings,
+          userTasted: localUserDataBloc.state.tastedDegustations,
         )) {
     _degustationBlocSubscription = degustationBloc.stream.listen(
       (DegustationState state) {
         add(
           UpdateDegustation(
-            desc: state.degustation.desc,
+            headerText: state.degustation.desc,
             degustationItems: state.degustationItems,
             degustationPlaces: state.degustationPlaces,
           ),
@@ -38,23 +43,32 @@ class HighlightDegustationBloc
     _userDataBlocSubscription = userDataBloc.stream.listen(
       (UserDataState state) => add(
         UpdateUserData(
-          myFavorite: state.myFavorite,
-          myRatings: state.myRatings,
+          userFavorite: state.myFavorite,
+          userRatings: state.myRatings,
+        ),
+      ),
+    );
+    _localUserDataBlocSubscription = localUserDataBloc.stream.listen(
+      (LocalUserDataState state) => add(
+        UpdateLocalUserData(
+          userTasted: state.tastedDegustations,
         ),
       ),
     );
     // Event listeners
     on<UpdateDegustation>(_updateDegustation);
     on<UpdateUserData>(_updateUserData);
-    on<UpdateViewData>(_updateViewData);
+    on<UpdateLocalUserData>(_updateLocalUserData);
+    on<CalculateViewData>(_calculateViewData);
     // Initialise view data
-    add(const UpdateViewData());
+    add(const CalculateViewData());
   }
 
   @override
   Future<void> close() {
     _degustationBlocSubscription.cancel();
     _userDataBlocSubscription.cancel();
+    _localUserDataBlocSubscription.cancel();
     return super.close();
   }
 
@@ -65,9 +79,9 @@ class HighlightDegustationBloc
     emit(state.copyWith(
       degustationItems: event.degustationItems,
       degustationPlaces: event.degustationPlaces,
-      headerText: event.desc,
+      headerText: event.headerText,
     ));
-    add(const UpdateViewData());
+    add(const CalculateViewData());
   }
 
   FutureOr<void> _updateUserData(
@@ -75,28 +89,43 @@ class HighlightDegustationBloc
     Emitter<HighlightDegustationState> emit,
   ) {
     emit(state.copyWith(
-      myFavorite: event.myFavorite,
-      myRatings: event.myRatings,
+      userFavorite: event.userFavorite,
+      userRatings: event.userRatings,
     ));
-    add(const UpdateViewData());
+    add(const CalculateViewData());
   }
 
-  FutureOr<void> _updateViewData(
-    UpdateViewData event,
+  FutureOr<void> _updateLocalUserData(
+    UpdateLocalUserData event,
     Emitter<HighlightDegustationState> emit,
   ) {
-    // Set of all degustation item IDs
-    final Set<String> degustationRefs =
+    emit(state.copyWith(
+      userTasted: event.userTasted,
+    ));
+    add(const CalculateViewData());
+  }
+
+  FutureOr<void> _calculateViewData(
+    CalculateViewData event,
+    Emitter<HighlightDegustationState> emit,
+  ) {
+    // Get all degustation item IDs
+    final Set<String> itemRefs =
         state.degustationItems.map((DegusItem item) => item.id).toSet();
-    // Set of user favorite degustation item IDs
-    final Set<String> myDegustationFavorite = Set.from(state.myFavorite);
-    myDegustationFavorite.retainWhere(
-      (String id) => degustationRefs.contains(id),
+    // Get relevant user tasted degustation item IDs
+    final Set<String> userTasted = Set.from(state.userTasted);
+    userTasted.retainWhere(
+      (String id) => itemRefs.contains(id),
+    );
+    // Get user favorite degustation item IDs
+    final Set<String> userFavorite = Set.from(state.userFavorite);
+    userFavorite.retainWhere(
+      (String id) => itemRefs.contains(id),
     );
     // Subset of user relevant rating
-    final Map<String, double> myDegustationRatings = Map.from(state.myRatings);
-    myDegustationRatings.removeWhere(
-      (String id, double? rating) => !degustationRefs.contains(id),
+    final Map<String, double> userRatings = Map.from(state.userRatings);
+    userRatings.removeWhere(
+      (String id, double? rating) => !itemRefs.contains(id),
     );
     // Data for degustation place highlights
     final List<HighlightPlaceCardData> placeCardData = [];
@@ -116,7 +145,7 @@ class HighlightDegustationBloc
     );
     final List<DegusItem> myFavoriteItems = state.degustationItems
         .where(
-          (DegusItem item) => state.myFavorite.contains(item.id),
+          (DegusItem item) => state.userFavorite.contains(item.id),
         )
         .toList();
     final Set<DegusItem> similarToLikedItems = {};
@@ -125,7 +154,7 @@ class HighlightDegustationBloc
         try {
           final DegusItem simItem = state.degustationItems
               .where((DegusItem i) =>
-                  i.id == simItemRef && !state.myFavorite.contains(i.id))
+                  i.id == simItemRef && !state.userFavorite.contains(i.id))
               .first;
           similarToLikedItems.add(simItem);
         } catch (e) {
@@ -137,11 +166,12 @@ class HighlightDegustationBloc
         similarToLikedItems.toList();
     similarToLikedItemsList.shuffle();
     emit(state.copyWith(
-      myDegustationFavorite: myDegustationFavorite,
-      myDegustationRatings: myDegustationRatings,
+      myDegustationFavorite: userFavorite,
+      myDegustationRatings: userRatings,
       totalSamples: state.degustationItems.length,
-      totalFavorites: myDegustationFavorite.length,
-      totalRated: myDegustationRatings.length,
+      totalTasted: userTasted.length,
+      totalFavorites: userFavorite.length,
+      totalRated: userRatings.length,
       placeCardData: placeCardData,
       bestRated: sortedDegustationItems.take(5).toList(),
       similarToLiked: similarToLikedItemsList.take(5).toList(),

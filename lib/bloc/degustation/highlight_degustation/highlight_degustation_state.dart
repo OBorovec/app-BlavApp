@@ -14,14 +14,16 @@ class HighlightDegustationState extends Equatable {
   // Bloc data
   final List<DegusItem> degustationItems;
   final Map<String, DegusPlace> degustationPlaces;
-  final Set<String> myFavorite;
-  final Map<String, double?> myRatings;
+  final Set<String> userTasted;
+  final Set<String> userFavorite;
+  final Map<String, double?> userRatings;
   // Computed data
   final Set<String> myDegustationFavorite;
   final Map<String, double?> myDegustationRatings;
   // View Data
   final Map<String, String>? headerText;
   final int totalSamples;
+  final int totalTasted;
   final int totalFavorites;
   final int totalRated;
   final List<HighlightPlaceCardData> placeCardData;
@@ -30,31 +32,35 @@ class HighlightDegustationState extends Equatable {
   final List<DegusItem> recommendations;
 
   const HighlightDegustationState({
-    this.degustationItems = const <DegusItem>[],
-    this.degustationPlaces = const <String, DegusPlace>{},
-    this.myFavorite = const <String>{},
-    this.myRatings = const <String, double>{},
-    this.myDegustationFavorite = const <String>{},
-    this.myDegustationRatings = const <String, double>{},
+    this.degustationItems = const [],
+    this.degustationPlaces = const {},
+    this.userTasted = const {},
+    this.userFavorite = const {},
+    this.userRatings = const {},
+    this.myDegustationFavorite = const {},
+    this.myDegustationRatings = const {},
     this.headerText,
     this.totalSamples = 0,
+    this.totalTasted = 0,
     this.totalFavorites = 0,
     this.totalRated = 0,
-    this.placeCardData = const <HighlightPlaceCardData>[],
-    this.bestRated = const <DegusItem>[],
-    this.similarToLiked = const <DegusItem>[],
-    this.recommendations = const <DegusItem>[],
+    this.placeCardData = const [],
+    this.bestRated = const [],
+    this.similarToLiked = const [],
+    this.recommendations = const [],
   });
 
   @override
   List<Object> get props => [
         degustationItems,
         degustationPlaces,
-        myFavorite,
-        myRatings,
+        userTasted,
+        userFavorite,
+        userRatings,
         myDegustationFavorite,
         myDegustationRatings,
         totalSamples,
+        totalTasted,
         totalFavorites,
         totalRated,
         placeCardData,
@@ -66,12 +72,14 @@ class HighlightDegustationState extends Equatable {
   HighlightDegustationState copyWith({
     List<DegusItem>? degustationItems,
     Map<String, DegusPlace>? degustationPlaces,
-    Set<String>? myFavorite,
-    Map<String, double?>? myRatings,
+    Set<String>? userTasted,
+    Set<String>? userFavorite,
+    Map<String, double?>? userRatings,
     Set<String>? myDegustationFavorite,
     Map<String, double?>? myDegustationRatings,
     Map<String, String>? headerText,
     int? totalSamples,
+    int? totalTasted,
     int? totalFavorites,
     int? totalRated,
     List<HighlightPlaceCardData>? placeCardData,
@@ -82,13 +90,15 @@ class HighlightDegustationState extends Equatable {
     return HighlightDegustationState(
       degustationItems: degustationItems ?? this.degustationItems,
       degustationPlaces: degustationPlaces ?? this.degustationPlaces,
-      myFavorite: myFavorite ?? this.myFavorite,
-      myRatings: myRatings ?? this.myRatings,
+      userTasted: userTasted ?? this.userTasted,
+      userFavorite: userFavorite ?? this.userFavorite,
+      userRatings: userRatings ?? this.userRatings,
       myDegustationFavorite:
           myDegustationFavorite ?? this.myDegustationFavorite,
       myDegustationRatings: myDegustationRatings ?? this.myDegustationRatings,
       headerText: headerText ?? this.headerText,
       totalSamples: totalSamples ?? this.totalSamples,
+      totalTasted: totalTasted ?? this.totalTasted,
       totalFavorites: totalFavorites ?? this.totalFavorites,
       totalRated: totalRated ?? this.totalRated,
       placeCardData: placeCardData ?? this.placeCardData,

@@ -8,27 +8,35 @@ abstract class HighlightDegustationEvent extends Equatable {
 }
 
 class UpdateDegustation extends HighlightDegustationEvent {
-  final Map<String, String>? desc;
+  final Map<String, String>? headerText;
   final List<DegusItem> degustationItems;
   final Map<String, DegusPlace> degustationPlaces;
 
   const UpdateDegustation({
-    this.desc,
+    this.headerText,
     required this.degustationItems,
     required this.degustationPlaces,
   });
 }
 
 class UpdateUserData extends HighlightDegustationEvent {
-  final Map<String, double?> myRatings;
-  final Set<String> myFavorite;
+  final Map<String, double?> userRatings;
+  final Set<String> userFavorite;
 
   const UpdateUserData({
-    required this.myFavorite,
-    required this.myRatings,
+    required this.userFavorite,
+    required this.userRatings,
   });
 }
 
-class UpdateViewData extends HighlightDegustationEvent {
-  const UpdateViewData();
+class UpdateLocalUserData extends HighlightDegustationEvent {
+  final Set<String> userTasted;
+
+  const UpdateLocalUserData({
+    required this.userTasted,
+  });
+}
+
+class CalculateViewData extends HighlightDegustationEvent {
+  const CalculateViewData();
 }

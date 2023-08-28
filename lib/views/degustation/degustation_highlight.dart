@@ -126,6 +126,11 @@ class _DegustaionNumbers extends StatelessWidget {
               state.totalSamples,
               context,
             ),
+            _buildLine(
+              AppLocalizations.of(context)!.contDegustationHighlightTasted,
+              state.totalTasted,
+              context,
+            ),
             const SizedBox(height: 8),
             _buildLine(
               AppLocalizations.of(context)!.contDegustationHighlightLiked,
